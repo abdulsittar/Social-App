@@ -52,7 +52,7 @@ function Register({classes}) {
 						<p className={classes.text}>already have an account? <Link to='/login'>log in now</Link></p><p className={classes.disclaimor}>DISCLAIMOR:  This app was developed within a research project and it is used to collect data about user behaviour and interaction, 
 					such as who reacts on which posts and how. Generally, you should not use this app unless you want to donate data to the project. If you use this app, 
 					but you change your mind later and want your data to be deleted, please contact us at krisztian.antal.buza@ijs.si . This app is not intended as a service 
-					to the general public.</p>
+					to the general public. </p>
 						<Avatar alt='choose avatar' src="" className={classes.avatar}/>
             <TextField 
 							className={classes.textField}						
