@@ -36,10 +36,7 @@ function Login({ classes }) {
 				>
 					<h1 className={classes.header}>Log In</h1>
 					<p className={classes.text}>new to this app? <Link to='/register'>sign up for free</Link></p>
-					<p className={classes.disclaimor}>DISCLAIMOR: This app was developed within a research project and it is used to collect data about user behaviour and interaction, 
-					such as who reacts on which posts and how. Generally, you should not use this app unless you want to donate data to the project. If you use this app, 
-					but you change your mind later and want your data to be deleted, please contact us at krisztian.antal.buza@ijs.si . This app is not intended as a service 
-					to the general public.</p> 
+					<p className={classes.disclaimor}>DISCLAIMER: This application was developed as part of a research project and is designed to gather data on user behavior and interactions, including post reactions and patterns. It is recommended that you refrain from using this application unless you willingly wish to contribute data to the project. In the event that you initially use the application but later decide to have your data removed, kindly contact us at krisztian.antal.buza@ijs.si. Please note that this application is not intended for public use and does not serve as a general service.</p> 
 					<TextField 
 						className={classes.textField}						
 						id='email' 
