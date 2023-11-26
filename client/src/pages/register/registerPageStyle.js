@@ -1,8 +1,6 @@
 export const styles = {
     register: {
-		height: '100%',
-		width: '100%',
-		position: 'relative',
+		width: '90%',
 		display: 'flex',
 		justifyContent: 'center',
 		alignItems: 'center',

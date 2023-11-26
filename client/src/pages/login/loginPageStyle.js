@@ -2,9 +2,7 @@
 
 export const styles = {
     login: {
-		height: '100vh',
 		width: '100%',
-		position: 'relative',
 		display: 'flex',
 		justifyContent: 'center',
 		alignItems: 'center',
