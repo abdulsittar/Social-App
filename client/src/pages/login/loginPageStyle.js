@@ -2,12 +2,14 @@
 
 export const styles = {
     login: {
+		height: '150vh',
 		width: '100%',
 		display: 'flex',
 		justifyContent: 'center',
 		alignItems: 'center',
 		background: '#f1f1f1',
-		color: '#444'
+		color: '#444',
+		overflow: 'auto',
     },
 	disclaimor:{
 		fontSize: '14px',

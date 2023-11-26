@@ -6,7 +6,6 @@ import {styles} from './registerPageStyle'
 import Avatar from '@material-ui/core/Avatar';
 import TextField from '@material-ui/core/TextField';
 import axios from "axios";
-import InfiniteScroll from 'react-infinite-scroller-component';
 
 function Register({classes}) {
   const history = useHistory();

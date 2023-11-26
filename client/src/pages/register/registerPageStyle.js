@@ -1,9 +1,13 @@
 export const styles = {
     register: {
-		width: '90%',
+		height: '200vh',
+		width: '100%',
+		position: 'relative',
 		display: 'flex',
 		justifyContent: 'center',
 		alignItems: 'center',
+		overflow: 'auto',
+		scrollY:'auto'
     },
     form: {
         width: '400px',
