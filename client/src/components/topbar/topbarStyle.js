@@ -1,11 +1,9 @@
 /* #ff458a' */
-
 export const styles = {
   'topbarContainer': {
     'height': '80px',
     'width': '100%',
     'backgroundColor': '#3e3f40',
-    'display': 'flex',
     'alignItems': 'center',
     'position': 'sticky',
     'top': '0',
@@ -48,8 +46,6 @@ export const styles = {
     }
   },
   'topbarRight': {
-    'flex': '4',
-    'display': 'flex',
     'alignItems': 'center',
     'justifyContent': 'space-around',
     'color': '#d0d3db'
@@ -61,7 +57,7 @@ export const styles = {
   },
   'topbarLink2': {
     'marginRight': '10px',
-    'fontSize': '14px',
+    'fontSize': '12px',
     'cursor': 'pointer'
   },
   'topbarIcons': {
