@@ -3,6 +3,80 @@ const Post = require('../models/Post');
 const User = require('../models/User');
 const Comment = require('../models/Comment');
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Post:
+ *       type: object
+ *       required:
+ *         - userId
+ *         - desc
+ *       properties:
+ *         id:
+ *           type: string
+ *           description: The auto-generated id of the post
+ *         userId:
+ *           type: string
+ *           description: The userid of user who is creating the post 
+ *         desc:
+ *           type: string
+ *           description: The text of the post
+ *         likes:
+ *           type: string
+ *           description: The likes of the user
+ *         comments:
+ *           type: string
+ *           format: email
+ *           description: The comments of the user
+ *         password:
+ *           type: string
+ *           description: The password of the user
+ *       example:
+ *         email: XYZ@gmail.com
+ *         password: 123456
+ */
+
+/**
+ * @swagger
+ * tags:
+ *   name: Posts
+ *   description: The posts managing APIs
+ * /:
+ *   post:
+ *     summary: Create a new post
+ *     tags: [Posts]
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: user id
+ *       - in: path
+ *         name: desc
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: text of the post
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Post'
+ *     responses:
+ *       200:
+ *         description: The post is created!
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       500:
+ *         description: Some server error!
+ */
+
+
 // create a post
 router.post('/', async(req, res) => {
     const newPost = new Post(req.body);
@@ -45,6 +119,45 @@ router.delete('/:id', async(req, res) =>{
 })
 
 
+/**
+ * @swagger
+ * tags:
+ *   name: Posts
+ *   description: The posts managing APIs
+ * /:id/like:
+ *   put:
+ *     summary: Like or dislike a post
+ *     tags: [Posts]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: post id
+ *       - in: path
+ *         name: userId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: user id
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Post'
+ *     responses:
+ *       200:
+ *         description: The post is liked or disliked by you!
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Post'
+ *       500:
+ *         description: Some server error!
+ */
+
 // like a post
 router.put('/:id/like', async(req, res) =>{
     try {
@@ -52,16 +165,50 @@ router.put('/:id/like', async(req, res) =>{
         const post = await Post.findById(req.params.id);
         if(!post.likes.includes(req.body.userId)) {
             await post.updateOne({$push: { likes: req.body.userId } });
-            res.status(200).json('The post has been liked');
+            res.status(200).json('The post has been liked!');
         } else {
             // Dislike a post
             await post.updateOne({$pull: { likes: req.body.userId } });
-            res.status(403).json('Post disliked!');
+            res.status(403).json('The post has been disliked!');
         }
     } catch(err) {
         res.status(500).json(err);
     }
 })
+
+
+/**
+ * @swagger
+ * tags:
+ *   name: Posts
+ *   description: The posts managing APIs
+ * /:id:
+ *   get:
+ *     summary: Fetch a post
+ *     tags: [Posts]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: post id
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Post'
+ *     responses:
+ *       200:
+ *         description: Here is the post
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Post'
+ *       500:
+ *         description: Some server error!
+ */
 
 // get a post
 router.get('/:id', async(req, res) =>{
@@ -72,6 +219,40 @@ router.get('/:id', async(req, res) =>{
         res.status(500).json(err);
     }
 })
+
+/**
+ * @swagger
+ * tags:
+ *   name: Posts
+ *   description: The posts managing APIs
+ * /timeline2/:userId:
+ *   get:
+ *     summary: Fetch posts of a user and his/her followings
+ *     tags: [Posts]
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: user id
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Post'
+ *     responses:
+ *       200:
+ *         description: The post is created!
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       500:
+ *         description: Some server error!
+ */
+
 
 // get all posts
 router.get('/timeline2/:userId', async(req, res) =>{
@@ -107,6 +288,38 @@ router.get('/timeline/:userId', async (req, res) => {
     }
 });
 
+/**
+ * @swagger
+ * tags:
+ *   name: Posts
+ *   description: The posts managing APIs
+ * /onlyFollowers/:userId:
+ *   get:
+ *     summary: Fetch posts of only followers!
+ *     tags: [Posts]
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: user id
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Post'
+ *     responses:
+ *       200:
+ *         description: Here are the posts by your followers!
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       500:
+ *         description: Some server error!
+ */
 
 // post of only follower
 router.get('/onlyFollowers/:userId', async (req, res) => {
@@ -127,6 +340,38 @@ router.get('/onlyFollowers/:userId', async (req, res) => {
     }
 });
 
+/**
+ * @swagger
+ * tags:
+ *   name: Posts
+ *   description: The posts managing APIs
+ * /onlyFollowings/:userId:
+ *   get:
+ *     summary: Fetch posts of only followings!
+ *     tags: [Posts]
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: user id
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Post'
+ *     responses:
+ *       200:
+ *         description: Here are the posts by your followings!
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       500:
+ *         description: Some server error!
+ */
 
 // posts of only followings
 router.get('/onlyFollowings/:userId', async (req, res) => {
@@ -145,6 +390,41 @@ router.get('/onlyFollowings/:userId', async (req, res) => {
         res.status(500).json(err);
     }
 });
+
+
+
+/**
+ * @swagger
+ * tags:
+ *   name: Posts
+ *   description: The posts managing APIs
+ * /onlyFollowings/:userId:
+ *   get:
+ *     summary: Fetch all of your posts!
+ *     tags: [Posts]
+ *     parameters:
+ *       - in: path
+ *         name: username
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: username
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Post'
+ *     responses:
+ *       200:
+ *         description: Here is the list of your posts!
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       500:
+ *         description: Some server error!
+ */
 
 // get all posts of a user
 router.get('/profile/:username', async(req, res) =>{

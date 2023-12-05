@@ -1,32 +1,6 @@
 const User = require('../models/User');
 const router = require('express').Router();
 const bcrypt = require('bcrypt');
-/**
- * @swagger
- * tags:
- *   name: Users
- *   description: The user managing APIs
- * /Users:
- *   post:
- *     summary: Create a new user
- *     tags: [Users]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/User'
- *     responses:
- *       200:
- *         description: The created user.
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/User'
- *       500:
- *         description: Some server error
- */
-
 
 // update user
 router.put("/:id", async (req, res) => {
@@ -56,7 +30,7 @@ router.put("/:id", async (req, res) => {
  * tags:
  *   name: Users
  *   description: Remove the user APIs
- * /Users:
+ * /:id:
  *   delete:
  *     summary: Remove the user by id
  *     tags: [Users]
@@ -92,10 +66,10 @@ router.delete("/:id", async (req, res) => {
  * @swagger
  * tags:
  *   name: Users
- *   description: Get a user APIs
- * /Users:
+ *   description: Fetch a user APIs
+ * /:
  *   get:
- *     summary: Get a user API
+ *     summary: Fetch a user
  *     tags: [Users]
  *     parameters:
  *       - in: path
@@ -104,6 +78,12 @@ router.delete("/:id", async (req, res) => {
  *           type: string
  *         required: true
  *         description: The user id
+ *       - in: path
+ *         name: username
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The username
  *     responses:
  *       200:
  *         description: Here is the user.
@@ -135,9 +115,9 @@ router.get('/', async (req, res) => {
  * tags:
  *   name: Users
  *   description: Follow a user APIs
- * /Users:
+ * /:id/follow:
  *   put:
- *     summary: Follow a user API
+ *     summary: Follow a user
  *     tags: [Users]
  *     parameters:
  *       - in: path
@@ -145,13 +125,13 @@ router.get('/', async (req, res) => {
  *         schema:
  *           type: string
  *         required: true
- *         description: The user id
+ *         description: The current user id!
  *       - in: path
  *         name: id2
  *         schema:
  *           type: string
  *         required: true
- *         description: The user id
+ *         description: The id of the user who is going to be followed!
  *     requestBody:
  *       required: true
  *       content:
@@ -196,9 +176,9 @@ router.put('/:id/follow', async (req, res) => {
  * tags:
  *   name: Users
  *   description: Unfollow a user API
- * /Users:
+ * /:id/unfollow:
  *   put:
- *     summary: Unfollow a user API
+ *     summary: Unfollow a user
  *     tags: [Users]
  *     parameters:
  *       - in: path
@@ -206,7 +186,13 @@ router.put('/:id/follow', async (req, res) => {
  *         schema:
  *           type: string
  *         required: true
- *         description: The user id
+ *         description: The current user id!
+ *       - in: path
+ *         name: id2
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The id of the user who is going to be unfollowed!
  *     requestBody:
  *       required: true
  *       content:
@@ -251,17 +237,10 @@ router.put('/:id/unfollow', async (req, res) => {
  * tags:
  *   name: Users
  *   description: Get all users API
- * /Users:
+ * /usersList2:
  *   get:
- *     summary: Get all users API
+ *     summary: Get all users
  *     tags: [Users]
- *     parameters:
- *       - in: path
- *         name: id
- *         schema:
- *           type: string
- *         required: true
- *         description: The user id
  *     responses:
  *       200:
  *         description: The list of the users
@@ -274,6 +253,7 @@ router.put('/:id/unfollow', async (req, res) => {
  *       500:
  *         description: Some server error
  */
+
 
 // all users
 router.get('/usersList2', function(req, res) {
@@ -308,6 +288,34 @@ router.get('/usersList/:userId', async (req, res) => {
     }
 });
 
+/**
+ * @swagger
+ * tags:
+ *   name: Users
+ *   description: Get all the followings API
+ * /followings/:userId:
+ *   get:
+ *     summary: Get all the followings
+ *     tags: [Users]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The user id
+ *     responses:
+ *       200:
+ *         description: The list of the users
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/User'
+ *       500:
+ *         description: Some server error
+ */
 
 //get friends
 router.get("/followings/:userId", async (req, res) => {
@@ -329,6 +337,34 @@ router.get("/followings/:userId", async (req, res) => {
     }
   });
 
+/**
+ * @swagger
+ * tags:
+ *   name: Users
+ *   description: Get all the followers API
+ * /followers/:userId:
+ *   get:
+ *     summary: Get all the followers
+ *     tags: [Users]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The user id
+ *     responses:
+ *       200:
+ *         description: The list of the users
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/User'
+ *       500:
+ *         description: Some server error
+ */
 
 //get friends
 router.get("/followers/:userId", async (req, res) => {

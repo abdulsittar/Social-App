@@ -9,25 +9,84 @@ const bcrypt = require('bcrypt');
  *     User:
  *       type: object
  *       required:
+ *         - username
  *         - email
  *         - password
  *       properties:
  *         id:
  *           type: string
- *           description: The auto-generated id of the book
+ *           description: The auto-generated id of the user
+ *         profilePicture:
+ *           type: string
+ *           description: Currently, empty string
+ *         coverPicture:
+ *           type: string
+ *           description: Currently, empty string
+ *         followers:
+ *           type: string
+ *           description: The followers of the user
+ *         followings:
+ *           type: string
+ *           description: The followings of the user
  *         username:
  *           type: string
- *           description: The username of the book
+ *           description: The username of the user
  *         email:
  *           type: string
  *           format: email
- *           description: The email address of the book
+ *           description: The email address of the user
  *         password:
  *           type: string
  *           description: The password of the user
  *       example:
+ *         username: XYZ
  *         email: XYZ@gmail.com
  *         password: 123456
+ */
+
+/**
+ * @swagger
+ * tags:
+ *   name: Users
+ *   description: The user managing APIs
+ * /register:
+ *   post:
+ *     summary: Create a new user
+ *     tags: [Users]
+ *     parameters:
+ *       - in: path
+ *         name: username
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: username
+ *       - in: path
+ *         name: email
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: email
+ *       - in: path
+ *         name: password
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: password (minimum 6 alpha-numerics)
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/User'
+ *     responses:
+ *       200:
+ *         description: The created user.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       500:
+ *         description: Some server error
  */
 
 // REGISTER USER
@@ -55,6 +114,45 @@ router.post('/register', async (req, res) => {
         res.status(500).json(err);
     }
 });
+
+/**
+ * @swagger
+ * tags:
+ *   name: Users
+ *   description: The user managing APIs
+ * /login:
+ *   post:
+ *     summary: Login
+ *     tags: [Users]
+ *     parameters:
+ *       - in: path
+ *         name: email
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: email
+ *       - in: path
+ *         name: password
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: password (minimum 6 alpha-numerics)
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/User'
+ *     responses:
+ *       200:
+ *         description: You are logged-In.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       500:
+ *         description: Some server error
+ */
 
 // LOGIN
 router.post('/login', async (req, res) => {

@@ -107,10 +107,10 @@ const storage = multer.diskStorage({
     }
   });*/
 
-  //app.use(express.static(path.join(__dirname, 'public/images')));
+  app.use(express.static(path.join(__dirname, 'public/images')));
 
 // Serve frontend
- /*if (process.env.NODE_ENV === 'production') {
+ if (process.env.NODE_ENV === 'production') {
 	console.log("Production!");
  
 	app.use(express.static(path.join(__dirname, '../client/build')));
@@ -128,35 +128,6 @@ const storage = multer.diskStorage({
   console.log("Development!");
 
 }
-
-
-const options = {
-  definition: {
-    openapi: "3.1.0",
-    info: {
-      title: "LogRocket Express API with Swagger",
-      version: "0.1.0",
-      description:
-        "This is a simple CRUD API application made with Express and documented with Swagger",
-      license: {
-        name: "MIT",
-        url: "https://spdx.org/licenses/MIT.html",
-      },
-      contact: {
-        name: "LogRocket",
-        url: "https://logrocket.com",
-        email: "info@email.com",
-      },
-    },
-    servers: [
-      {
-        url: "http://localhost:3000",
-      },
-    ],
-  },
-  apis: ["./routes/*.js"],
-};
-*/
 
 const options = {
   definition: {
