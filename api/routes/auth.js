@@ -2,6 +2,34 @@ const router = require('express').Router();
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     User:
+ *       type: object
+ *       required:
+ *         - email
+ *         - password
+ *       properties:
+ *         id:
+ *           type: string
+ *           description: The auto-generated id of the book
+ *         username:
+ *           type: string
+ *           description: The username of the book
+ *         email:
+ *           type: string
+ *           format: email
+ *           description: The email address of the book
+ *         password:
+ *           type: string
+ *           description: The password of the user
+ *       example:
+ *         email: XYZ@gmail.com
+ *         password: 123456
+ */
+
 // REGISTER USER
 router.post('/register', async (req, res) => {
     try{
