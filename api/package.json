@@ -16,17 +16,28 @@
   "author": "Costin Gheorghe",
   "license": "ISC",
   "dependencies": {
-    "bcrypt": "^5.1.0",
-    "dotenv": "^10.0.0",
+    "cookie-parser": "^1.4.4",
+    "cors": "^2.8.5",
+    "bcrypt": "^5.1.1",
+  
+    "dotenv": "^16.3.1",
+    "ejs": "^2.6.1",
     "express": "^4.18.2",
+    "express-fileupload": "^1.1.4",
+    "express-flash-messages": "^0.1.1",
+    "express-session": "^1.16.1",
     "express-sslify": "^1.2.0",
     "helmet": "^4.6.0",
     "http-proxy-middleware": "^2.0.6",
+    "express-validator": "^5.3.1",
+    "moment": "^2.24.0",
     "mongodb": "^5.5.0",
     "mongoose": "^5.12.14",
     "morgan": "^1.10.0",
     "multer": "^1.4.2",
     "nodemon": "^2.0.7",
+    "pug": "^2.0.3",
+    "request": "^2.88.0",
     "path": "^0.12.7",
     "react-infinite-scroller": "^1.2.6",
     "react-redux": "^8.0.7",
@@ -34,6 +45,8 @@
     "util": "^0.12.5"
   },
   "devDependencies": {
+    "file-loader": "^6.2.0",
+    "url-loader": "^4.1.1",
     "webpack": "^5.85.1",
     "webpack-cli": "^5.1.3"
   }

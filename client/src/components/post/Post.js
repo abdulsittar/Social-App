@@ -28,6 +28,9 @@ function Post({ post, classes }) {
   const { user: currentUser } = useContext(AuthContext);
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
 
+  console.log("here is the url")
+  console.log(PF)
+
   useEffect(() => {
     setIsLiked(post.likes.includes(currentUser._id));
     setIsLikedByOne(post.likes.length == 1)
