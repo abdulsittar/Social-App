@@ -17,19 +17,11 @@ function App() {
   return (
     <Router>
     <Switch>
-		<Route exact path="/">
-			{user ? <Home /> : <Register />}
-		</Route>
+		<Route exact path="/">{user ? <Home /> : <Login />}</Route>
 		<Route path="/login"><Login /></Route>
-		<Route path="/register">
-			<Register />
-		</Route>
-		<Route path="/messenger">
-			{!user ? <Login /> : <Messenger />}
-		</Route>
-		<Route path="/profile/:username">
-			<Profile />
-		</Route>
+		<Route path="/register"><Register /></Route>
+		<Route path="/messenger">{!user ? <Login /> : <Messenger />}</Route>
+		<Route path="/profile/:username"><Profile /></Route>
     </Switch>
   </Router>
   );

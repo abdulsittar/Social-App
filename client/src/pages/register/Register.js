@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { useContext } from 'react';
+import { AuthContext } from '../../context/AuthContext';
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
 import { withStyles } from '@material-ui/core/styles';
@@ -9,7 +11,9 @@ import axios from "axios";
 
 function Register({classes}) {
   const history = useHistory();
+  const {user, isFetching, error, dispatch} = useContext(AuthContext);
   const [passwordErr, setPasswordErr] = useState('');
+  
 
   const handleClick = async (e) => {
     e.preventDefault();
@@ -21,9 +25,8 @@ function Register({classes}) {
     if (passwordAgain !== password) {
       setPasswordErr("Passwords don't match!");
 
-      setTimeout(() => {
-        setPasswordErr('');
-      }, 5000)
+      setTimeout(() => { setPasswordErr(''); }, 5000) 
+    
     } else {
 
       const user = {
@@ -33,10 +36,17 @@ function Register({classes}) {
       };
       
       try {
-        await axios.post("/auth/register", user);
-        history.push("/login");
+        const res = await axios.post("/auth/register", user);
+        dispatch({ type: "LOGIN_SUCCESS", payload: res.data });
+        history.push("/");
       } catch (err) {
+        setPasswordErr("A user with this name/email already exists. Use a different name/email.");
         console.log(err);
+        console.log(err["name"]);
+        console.log(err["driver"]);
+        console.log(err["keyPattern"]);
+        console.log(err["keyValue"]);
+
       }
     }
   };
