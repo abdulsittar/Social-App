@@ -16,7 +16,10 @@
   const messageRoute = require('./routes/messages');
   const path = require('path');
   const fs = require('fs');
-  const port = process.env.PORT || 1077;
+  const proPort = 1077
+  const devPort = 3000
+
+  const port = process.env.PORT || proPort;
   dotenv.config();
   // SocialApp
   // Admin
@@ -28,8 +31,10 @@
   const cors = require('cors');
   var apiRouter = require('./routes/api');
   global.connectPool = require('./config/db.js'); 
-  global.nodeSiteUrl = 'http://127.0.0.1:1077'; // node  
-  global.nodeAdminUrl = 'http://127.0.0.1:1077/admin'; // node  
+  global.nodeSiteUrl  = 'https://socialapp.ijs.si'; // node  
+  global.nodeAdminUrl = 'https://socialapp.ijs.si/admin'; // node  
+  //global.nodeSiteUrl  = 'https://127.0.0.1'; // node  
+  //global.nodeAdminUrl = 'https://127.0.0.1/admin'; // node  
   global.siteTitle = 'TWON Admin';
   global.successStatus = 200;
   global.failStatus = 401; 
@@ -110,7 +115,7 @@
     )
   })*/
 
-  //app.use(bodyParser.json());
+  app.use(bodyParser.json());
 
   //app.use(helmet({
   //  contentSecurityPolicy: false,
