@@ -56,7 +56,7 @@ function Login({ classes }) {
 						minLength="6"
 					/>
 					{ <p className={classes.errorMessage}>{passwordErr}</p>}
-					<button type="submit" className={classes.button}>"Log In"</button>
+					<button type="submit" className={classes.button}>Log In</button>
 				</form>
 		</div>
 
