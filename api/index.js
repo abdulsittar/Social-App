@@ -16,8 +16,7 @@
   const messageRoute = require('./routes/messages');
   const path = require('path');
   const fs = require('fs');
-  const proPort = 1077
-  const devPort = 3000
+  const proPort = 1077 //8080  
 
   const port = process.env.PORT || proPort;
   dotenv.config();
