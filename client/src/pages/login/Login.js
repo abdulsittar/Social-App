@@ -1,4 +1,5 @@
 import { useContext } from 'react';
+import { useState, useEffect } from 'react';
 import {loginCall} from '../../apiCalls';
 import { useHistory } from "react-router";
 import { AuthContext } from '../../context/AuthContext';
@@ -7,24 +8,36 @@ import { withStyles } from '@material-ui/core/styles';
 import {styles} from './loginPageStyle'
 import { Link } from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
+import axios from "axios";
 
 function Login({ classes }) {
   const {user, isFetching, error, dispatch} = useContext(AuthContext);
   const history = useHistory();
+  const [passwordErr, setPasswordErr] = useState('');
   
-  const handleClick = (e) => {
+  const handleClick = async (e) => {
 	e.preventDefault();
 	const email = document.getElementById('email').value;
 	const password = document.getElementById('password').value;
 
-    loginCall(
-      { email: email, password: password },
-      dispatch
-	);
-	
-	history.push("/");
-	
-  }
+	console.log(email)	
+	console.log(password)
+
+	const loUser = {
+        email: email,
+        password: password,
+      };
+
+//    loginCall(loUser, dispatch);
+
+	try {
+        await axios.post("/auth/login", loUser);
+        history.push("/");
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
   
     return (
 		  <div className={classes.login} >
@@ -45,28 +58,18 @@ function Login({ classes }) {
 						required 	
 						type="email"
 					/>
-					{/* <p className={classes.errorMessage}>err email</p> */}
+					{ <p className={classes.errorMessage}>err email</p> }
 					<TextField
 						className={classes.textField}
 						id="password"
 						label="Password"
 						type="password"
-						autoComplete="current-password"
+						//autoComplete="current-password"
 						required
 						minLength="6"
 					/>
-					{/* <p className={classes.errorMessage}>eroare pass</p> */}
-					<button
-						type="submit"
-						className={classes.button}
-						disabled={isFetching}
-					>
-						{isFetching ? (
-							<CircularProgress color="primary" size="20px" />
-							) : (
-							"Log In"
-							)}
-					</button>
+					{ <p className={classes.errorMessage}>eroare pass</p> }
+					<button type="submit" className={classes.button}>"Log In"</button>
 				</form>
 		</div>
 

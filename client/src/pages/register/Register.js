@@ -31,6 +31,7 @@ function Register({classes}) {
         email: email,
         password: password,
       };
+      
       try {
         await axios.post("/auth/register", user);
         history.push("/login");
