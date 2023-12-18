@@ -58,7 +58,7 @@ function Login({ classes }) {
 						required 	
 						type="email"
 					/>
-					{ <p className={classes.errorMessage}>err email</p> }
+					{ /*<p className={classes.errorMessage}>err email</p>*/ }
 					<TextField
 						className={classes.textField}
 						id="password"
@@ -68,7 +68,7 @@ function Login({ classes }) {
 						required
 						minLength="6"
 					/>
-					{ <p className={classes.errorMessage}>eroare pass</p> }
+					{ /*<p className={classes.errorMessage}>eroare pass</p>*/ }
 					<button type="submit" className={classes.button}>"Log In"</button>
 				</form>
 		</div>
