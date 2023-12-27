@@ -1,6 +1,31 @@
 const User = require('../models/User');
 const router = require('express').Router();
+const mongoose = require('mongoose');
+require('dotenv').config()
+const { MongoClient, ServerApiVersion } = require('mongodb');
+const Grid = require('gridfs-stream');
+const crypto = require('crypto');
 const bcrypt = require('bcrypt');
+const path = require('path');
+const fs = require("fs");
+const multer = require('multer');
+const {v4: uuidv4} = require('uuid');
+var uniqueId = uuidv4();
+const { Readable } = require('stream');
+
+const conn = mongoose.createConnection(process.env.DB_URL);
+
+let gfs;
+
+conn.once('open', () => {
+  gfs = Grid(conn.db, mongoose.mongo);
+  gfs.collection('uploads');
+});
+
+
+
+
+
 
 // update user
 router.put("/:id", async (req, res) => {
@@ -24,6 +49,7 @@ router.put("/:id", async (req, res) => {
         return res.status(403).json('You can update only your account!')
     }
 })
+
 
 /**
  * @swagger

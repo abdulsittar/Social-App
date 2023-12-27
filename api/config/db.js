@@ -12,7 +12,6 @@ mongoose.connect(url, {
 }).catch(err => {
     console.log('Could not connect to the database. Exiting now...', err);
     process.exit();
-    
 });
 
 /*MONGODB_URI = "mongodb+srv://abdulsittar72:2106010991As@cluster0.gsnbbwq.mongodb.net/?retryWrites=true&w=majority"
