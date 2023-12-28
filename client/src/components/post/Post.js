@@ -132,7 +132,7 @@ function Post({ post, classes }) {
           </div>
         </div>
         <div className={classes.postCenter}>
-          <span className={classes.postText}>{post?.desc}</span>
+          <div className={classes.postText}>{post?.desc}</div>
           <img src={PF + post.img} alt="" className={classes.postImg} />
         </div>
         <div className={classes.postBottom}>

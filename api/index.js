@@ -61,10 +61,11 @@
   const upload2 = multer({
     storage: multer.diskStorage({
       destination(req, file, cb) {
-        cb(null, './uploads');
+        cb(null, path.join(__dirname, "../../client/public/uploads"));
       },
       filename(req, file, cb) {
-        cb(null, `${new Date().getTime()}_${file.originalname}`);
+        //cb(null, `${new Date().getTime()}_${file.originalname}`);
+        cb(null,Date.now() + '-' + file.originalname);
       }
     }),
     limits: {
@@ -85,7 +86,7 @@
 
   const storage = multer.diskStorage({
     destination: (req, file, cd) => {
-      cd(null, 'uploads')
+      cd(null, path.join(__dirname, "../api/public/images"));
     },
     filename: (req, file, cd) => {
       cd(null, Date.now() + '-' + file.originalname)
@@ -98,10 +99,13 @@
 
 // update user
   userRoute.put("/:id/updateProfile", upload.single('profilePicture'),  async (req, res) => {
-  const id = req.params.id;
+  const id = req.body.id;
   console.log("Here is the requst")
+  console.log(req.body);
+  console.log(req.params);
   console.log(req.file.path);
-  const updatedData = { $set: { "desc": req.body.desc , "city": "testing", "profilePicture": req.file.path}}
+  console.log(getLastPart(req.file.path));
+  const updatedData = { $set: { "desc": req.body.desc , "city": "testing", "profilePicture": getLastPart(req.file.path)}}
   console.log(updatedData);
   console.log(id);
   //const updatedData = {_id: id, desc: req.params.desc , city: req.params.city, profilePicture: {
@@ -118,7 +122,7 @@
 });
 
 // Route for handling image upload
-app.post('/uploads', upload.single('profilePicture'), (req, res) => {
+app.post('/images', upload.single('profilePicture'), (req, res) => {
   if (!req.file) {
     return res.status(400).send('No file uploaded.');
   }
@@ -148,6 +152,10 @@ app.post('/uploads', upload.single('profilePicture'), (req, res) => {
   });
 });
 
+function getLastPart(url) {
+  const parts = url.split('/');
+  return parts.at(-1);
+}
 
 
 
@@ -214,6 +222,7 @@ app.post('/uploads', upload.single('profilePicture'), (req, res) => {
   //}));
 
   // SocialApp
+  app.use("/images", express.static("images"));
   app.use(express.static('dist'));
   app.use('/users', userRoute);
   app.use('/auth',  authRoute);
@@ -298,7 +307,7 @@ app.post('/uploads', upload.single('profilePicture'), (req, res) => {
 
   //app.use(express.static(path.join(__dirname, 'public/images')));
 
-  app.listen(port, () => console.log(`Server started on port ${port}`));
+  app.listen(port, () => console.log(`Server started on port ${port} and ${nodeSiteUrl}`));
   // Admin
   //var server = app.listen(1077, function () { 
   //  console.log("Example app listening at http://127.0.0.1:%s", server.address().port);

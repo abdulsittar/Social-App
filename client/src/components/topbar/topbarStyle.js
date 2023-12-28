@@ -10,7 +10,10 @@ export const styles = {
     'zIndex': '999'
   },
   'topbarLeft': {
-    'flex': '3'
+    'backgroundColor': '#3e3f40',
+    'flex': '3',
+    'margin-top': '0px',
+    'margin-bottom': '10px'
   },
   'logo': {
     'fontSize': '24px',

@@ -81,6 +81,7 @@ function Topbar({ classes, setSelectedValue }) {
                  </div>
                 }
             </div>
+            {isMobileDevice || isTabletDevice && 
             <div className={classes.topbarRight} style={{ 'margin': '0', 'backgroundColor': '#3e3f40', 'margin-top': (isMobileDevice || isTabletDevice) && '20px', 'display':  'flex', 'flex':  '4', 'flex-direction':  'row' }}>
                 <FormControl row={true} style={{ 'margin-left': '0', "fontSize": "10px" }}>
                     <FormLabel id="demo-radio-buttons-group-label" style={{ text: 'white', 'margin': '0' }}></FormLabel>
@@ -91,6 +92,7 @@ function Topbar({ classes, setSelectedValue }) {
                     </RadioGroup>
                 </FormControl>
             </div>
+        }
             {(isMobileDevice || isTabletDevice) &&
             <div className={classes.topbarRight} >
                 <div className={classes.userInfo} style={{ alignItems: 'flex-end', 'flex-direction': !isMobileDevice && !isTabletDevice && 'column' }}>
