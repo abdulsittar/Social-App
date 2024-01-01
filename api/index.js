@@ -19,9 +19,7 @@
   const fs = require('fs');
   const Grid = require('gridfs-stream');
   const crypto = require('crypto');
-  const proPort = 8080 //1077 //8080  
-  
-
+  //const proPort =  1077 //8080  
   const port = process.env.PORT || proPort;
   dotenv.config();
   // SocialApp
