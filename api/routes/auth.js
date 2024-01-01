@@ -94,8 +94,8 @@ router.post('/register', async (req, res) => {
     try{
         // encrypt password
         const salt = await bcrypt.genSalt(10);
-        console.log(req.body.password)
-        console.log(salt)
+        //console.log(req.body.password)
+        //console.log(salt)
         const hashedPassword = await bcrypt.hash(req.body.password, salt);
         
         // create new user
@@ -110,7 +110,7 @@ router.post('/register', async (req, res) => {
         res.status(200).json(user);
 
     } catch (err) {
-		console.log(err)
+		//console.log(err)
         res.status(500).json(err);
     }
 });
@@ -171,7 +171,7 @@ router.post('/login', async (req, res) => {
         res.status(200).json(user);
 
     } catch(err) {
-    console.log(err)
+    //console.log(err)
       res.status(500).json(err);
     }
 })

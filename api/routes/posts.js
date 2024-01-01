@@ -277,13 +277,13 @@ router.get('/timeline/:userId', async (req, res) => {
 	try {
 	let postList = [];
 	Post.find({}, function(err, posts) {
-	console.log(posts.length)
+	//console.log(posts.length)
     //res.send(userMap);
     res.status(200).json(posts)
   }).populate('comments').exec();
 	}
   catch (err) {
-  console.log(err)
+  //console.log(err)
       res.status(500).json(err);
     }
 });
@@ -332,7 +332,7 @@ router.get('/onlyFollowers/:userId', async (req, res) => {
                 return Post.find({ userId: friendId });
             })
         );
-        console.log(friendPosts.length)
+        //console.log(friendPosts.length)
 
         res.status(200).json(userPosts.concat(...friendPosts));
     } catch(err) {
@@ -384,7 +384,7 @@ router.get('/onlyFollowings/:userId', async (req, res) => {
                 return Post.find({ userId: friendId }).populate('Comment').exec();
             })
         );
-        console.log(friendPosts.length)      
+        //console.log(friendPosts.length)      
         res.status(200).json(userPosts.concat(...friendPosts));
     } catch(err) {
         res.status(500).json(err);
@@ -457,7 +457,7 @@ router.post('/:id/comment', async(req, res) => {
             res.status(200).json('The comment has been added');
         
         } catch(err) {
-            console.log(res.status(500).json(err));
+            //console.log(res.status(500).json(err));
         }
     // create a comment
    /* console.log(req.body.postId)

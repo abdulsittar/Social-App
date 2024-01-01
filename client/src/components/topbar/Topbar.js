@@ -10,12 +10,18 @@ import { useMediaQuery } from 'react-responsive';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import SimplePopover from '../popover/SimplePopover';
 
-function Topbar({ classes, setSelectedValue }) {
+function Topbar({ classes, setSelectedValue, isProfile }) {
     const [fv, setFv] = useState(0);
     const { user } = useContext(AuthContext);
     const PF = process.env.REACT_APP_PUBLIC_FOLDER;
     const [anchorEl, setAnchorEl] = useState(null);
     const { user: currentUser, dispatch } = useContext(AuthContext);
+
+    useEffect(() => {
+        //console.log("is Profile value");
+        //console.log(isProfile);
+      }, []);
+
 
     const isMobileDevice = useMediaQuery({ query: "(min-device-width: 480px)", });
     const isTabletDevice = useMediaQuery({ query: "(min-device-width: 768px)", });
@@ -25,11 +31,11 @@ function Topbar({ classes, setSelectedValue }) {
 
     const timeLineClick = (event) => {
 
-        console.log('Clicked ' + event.currentTarget)
+        //console.log('Clicked ' + event.currentTarget)
     };
 
     const openProfileDetails = (event) => {
-        console.log('Clicked ' + event.currentTarget)
+        //console.log('Clicked ' + event.currentTarget)
         setAnchorEl(event.currentTarget);
     };
 
@@ -39,8 +45,8 @@ function Topbar({ classes, setSelectedValue }) {
 
     const onRadioChanged = e => {
 
-        console.log("radio avlues")
-        console.log(e.target.value)
+        //console.log("radio avlues")
+        //console.log(e.target.value)
         setSelectedValue(e.target.value)
 
 
@@ -81,7 +87,7 @@ function Topbar({ classes, setSelectedValue }) {
                  </div>
                 }
             </div>
-            {isMobileDevice || isTabletDevice && 
+            {!isProfile?
             <div className={classes.topbarRight} style={{ 'margin': '0', 'backgroundColor': '#3e3f40', 'margin-top': (isMobileDevice || isTabletDevice) && '20px', 'display':  'flex', 'flex':  '4', 'flex-direction':  'row' }}>
                 <FormControl row={true} style={{ 'margin-left': '0', "fontSize": "10px" }}>
                     <FormLabel id="demo-radio-buttons-group-label" style={{ text: 'white', 'margin': '0' }}></FormLabel>
@@ -91,8 +97,8 @@ function Topbar({ classes, setSelectedValue }) {
                         <FormControlLabel value="2" control={<Radio />} label={<span style={{ "fontSize": !isMobileDevice && !isTabletDevice && "12px"}}>{"Followings"}</span>} />
                     </RadioGroup>
                 </FormControl>
-            </div>
-        }
+            </div> : <div></div>
+            }
             {(isMobileDevice || isTabletDevice) &&
             <div className={classes.topbarRight} >
                 <div className={classes.userInfo} style={{ alignItems: 'flex-end', 'flex-direction': !isMobileDevice && !isTabletDevice && 'column' }}>

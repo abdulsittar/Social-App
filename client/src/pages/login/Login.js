@@ -26,7 +26,7 @@ function Login({ classes }) {
 	if(error == true){
 		setPasswordErr("Check you password and email again!");
 	}
-	console.log(error);
+	//console.log(error);
 	if(error == false){history.push("/");}
 	
   };

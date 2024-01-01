@@ -16,10 +16,10 @@ export const styles = {
   },
   "shareProfileImg": {
     "width": "50px",
-    "height": "50px",
+    "height": "40px",
     "borderRadius": "50%",
     "objectFit": "cover",
-    "marginRight": "30px"
+    "marginRight": "10px"
   },
   "shareInput": {
     "border": "none",

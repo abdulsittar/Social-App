@@ -8,6 +8,8 @@ import { useParams } from 'react-router';
 import { withStyles } from '@material-ui/core/styles';
 import {styles} from './profileStyle';
 import { useMediaQuery } from 'react-responsive';
+import TextField from '@material-ui/core/TextField'
+import { colors } from '@material-ui/core';
 //import User from '../../../../api/models/User';
 
 function Profile({ classes }) {
@@ -28,18 +30,18 @@ function Profile({ classes }) {
         };
 
         fetchUser();
-        console.log("picture url:");
-        console.log(user.profilePicture);
+        //console.log("picture url:");
+        //console.log(user.profilePicture);
         setSelectedImage(user.profilePicture);
         setPreImage(user.profilePicture);
     }, [username])
 
 
   const handleImageInputChange = (e) => {
-    console.log("handleImageInputChange");
+    //console.log("handleImageInputChange");
     const file = e.target.files[0];
-    console.log('Selected image:', e.target.name);
-    console.log('Selected image:', file);
+    //console.log('Selected image:', e.target.name);
+    //console.log('Selected image:', file);
     // Validate file type if needed
     user.profilePicture = file;
     setSelectedImage(file);
@@ -47,7 +49,7 @@ function Profile({ classes }) {
   };
 
   const handleUploadFromGallery = () => {
-    console.log("handleUploadFromGallery");
+    //console.log("handleUploadFromGallery");
     const input = document.createElement('input');
     input.type = 'file';
     input.accept = 'image/*'; // Allow only image files
@@ -55,9 +57,9 @@ function Profile({ classes }) {
 
       const file = e.target.files[0];
       // Validate file type if needed
-      console.log('Selected image:', file);
-      console.log("selected file");
-      console.log(file);
+      //console.log('Selected image:', file);
+      //console.log("selected file");
+      //console.log(file);
       setSelectedImage(file);
       //user.profilePicture = file;
       setPreImage(URL.createObjectURL(file));
@@ -65,13 +67,13 @@ function Profile({ classes }) {
     input.click();
   };
   const handleUpload = async () => {
-    console.log("handleUpload");
+    //console.log("handleUpload");
     // Handle the selected image and perform upload logic
     if (selectedImage) {
       // Implement your upload logic here (e.g., send the image to the server)
-      console.log('Selected image:', selectedImage);
+      //console.log('Selected image:', selectedImage);
       const ext = selectedImage.type.split('/')
-      console.log(ext);
+      //console.log(ext);
       const formData = new FormData();
       formData.append('profilePicture', selectedImage);
       formData.append('id', user._id);
@@ -83,7 +85,7 @@ function Profile({ classes }) {
             'Content-Type': 'multipart/form-data',
           },
         });
-        console.log('Image uploaded successfully.');
+        //console.log('Image uploaded successfully.');
         // Handle success or any other actions after successful upload
       } catch (error) {
         console.error('Error uploading image:', error);
@@ -95,7 +97,7 @@ function Profile({ classes }) {
   };
     return (
         <>
-        <Topbar />
+        <Topbar isProfile="true"/>
         <div className={classes.profile}>
           <div className={classes.profileRight}>
             <div className={classes.profileRightTop}>
@@ -119,10 +121,10 @@ function Profile({ classes }) {
               </div>
               <div className={classes.profileInfo}>
                 <h4 className={classes.profileInfoName}>{user.username} </h4>
-                <span className={classes.profileInfoDesc}>{user.desc? `~ ${user.desc} ~`: 'No description available'}</span>
-                <span className={classes.profileInfoDesc}>City: {user.city}</span>
-                <span className={classes.profileInfoDesc}>From: {user.from}</span>
-                <span className={classes.profileInfoDesc}>Relationship: {user.relationship}</span>
+                <TextField className={classes.profileInfoDesc} style={{color:'white'}} id="outlined-basic" label="Bio" variant="outlined" value={user.desc? `${user.desc}`: 'No description available'}/>
+                <TextField className={classes.profileInfoDesc} style={{color:'white'}} id="outlined-basic" label="City" variant="outlined" value={user.city? "" : "City: " + `${user.city}`}/>
+                <TextField className={classes.profileInfoDesc} style={{color:'white'}} id="outlined-basic" label="From" variant="outlined" value={user.from? "" : "From: " + `${user.from}`}/>
+                <TextField className={classes.profileInfoDesc} style={{color:'white'}} id="outlined-basic" label="Relationship" variant="outlined" value={user.relationship? "" : "Relationship: " + `${user.relationship}`}/>
               </div>
             </div>
           <div className={classes.profileRightBottom}>

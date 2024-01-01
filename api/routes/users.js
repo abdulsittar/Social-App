@@ -299,7 +299,7 @@ router.get('/usersList/:userId', async (req, res) => {
 	try {
 	let friendList = [];
 	User.find({}, function(err, users) {
-	    console.log(users.length)
+	    //console.log(users.length)
     users.map((friend) => {
         const { _id, username, profilePicture } = friend;
         friendList.push({ _id, username, profilePicture });
@@ -309,7 +309,7 @@ router.get('/usersList/:userId', async (req, res) => {
   });
 	}
   catch (err) {
-  console.log(err)
+  //console.log(err)
       res.status(500).json(err);
     }
 });

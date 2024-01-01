@@ -100,14 +100,14 @@
 // update user
   userRoute.put("/:id/updateProfile", upload.single('profilePicture'),  async (req, res) => {
   const id = req.body.id;
-  console.log("Here is the requst")
-  console.log(req.body);
-  console.log(req.params);
-  console.log(req.file.path);
-  console.log(getLastPart(req.file.path));
+  //console.log("Here is the requst")
+  //console.log(req.body);
+  //console.log(req.params);
+  //console.log(req.file.path);
+  //console.log(getLastPart(req.file.path));
   const updatedData = { $set: { "desc": req.body.desc , "city": "testing", "profilePicture": getLastPart(req.file.path)}}
-  console.log(updatedData);
-  console.log(id);
+  //console.log(updatedData);
+  //console.log(id);
   //const updatedData = {_id: id, desc: req.params.desc , city: req.params.city, profilePicture: {
   //    data: fs.readFileSync(path.join("/home/adbuls/TWON-development/api/" + '/uploads/' + req.file.filename)),
   //    contentType: 'image/png'
@@ -115,8 +115,8 @@
   try {
     await User.updateOne({"_id": id}, updatedData);
   } catch(err) {
-    console.log("Error updating profile image");
-    console.log(err);
+    //console.log("Error updating profile image");
+    //console.log(err);
     return res.status(500).json(err);
   }
 });
@@ -233,7 +233,7 @@ function getLastPart(url) {
 
   app._router.stack.forEach(function(r){
     if (r.route && r.route.path){
-      console.log(r.route.path)
+      //console.log(r.route.path)
     }
   })
   
