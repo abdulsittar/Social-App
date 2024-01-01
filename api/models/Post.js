@@ -24,11 +24,7 @@ const PostSchema = new mongoose.Schema({
     postedBy: {
             type: mongoose.Schema.Types.ObjectId, 
             ref: 'User'
-        },
-    created: {
-        type: Date,
-        default: Date.now
-    }},
+        }},
 {timestamps: true}
 );
 

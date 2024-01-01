@@ -36,7 +36,7 @@ function Login({ classes }) {
 				<form className={classes.form} noValidate autoComplete="off" onSubmit={handleClick}>
 					<h1 className={classes.header}>Log In</h1>
 					<p className={classes.text}>new to this app? <Link to='/register'>sign up for free</Link></p>
-					<p className={classes.disclaimor}>DISCLAIMER: This application was developed as part of a research project and is designed to gather data on user behavior and interactions, including post reactions and patterns. It is recommended that you refrain from using this application unless you willingly wish to contribute data to the project. In the event that you initially use the application but later decide to have your data removed, kindly contact us at krisztian.antal.buza@ijs.si. Please note that this application is not intended for public use and does not serve as a general service.</p> 
+					<p className={classes.disclaimor}>DISCLAIMER: This application was developed as part of a research project and is designed to gather data on user behavior and interactions, including post reactions and patterns. It is recommended that you refrain from using this application unless you willingly wish to contribute data to the project. In the event that you initially use the application but later decide to have your data removed, kindly contact us at alenka.gucek@ijs.si. Please note that this application is not intended for public use and does not serve as a general service.</p> 
 					<TextField 
 						className={classes.textField}						
 						id='email' 
