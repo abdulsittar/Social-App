@@ -19,7 +19,7 @@ function ChatOnline({ classes, onlineUsers, currentId, setCurrentChat }) {
 
     useEffect(() => {
         setOnlineFriends(friends.filter((f) => onlineUsers.includes(f._id)));
-        console.log(onlineFriends);
+        //console.log(onlineFriends);
     }, [friends, onlineUsers]);
 
     const handleClick = async (user) => {

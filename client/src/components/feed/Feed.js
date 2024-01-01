@@ -14,14 +14,14 @@ function Feed({username, classes, selectedValue}) {
         //currentUser.followings.includes(user?.id)
       );
 
-      console.log("selected radio avlues");
-      console.log(selectedValue);
+      //console.log("selected radio avlues");
+      //console.log(selectedValue);
       
 
       const fetchPosts = async () => {
 
-        console.log("fetchpost")
-        console.log(user.feedValue)
+        //console.log("fetchpost")
+        //console.log(user.feedValue)
         var whPosts = "/posts/timeline/";
 
         if(selectedValue == 0){
@@ -43,7 +43,7 @@ function Feed({username, classes, selectedValue}) {
     };
 
     useEffect(() => {
-        console.log("selected radio avlues")
+        //console.log("selected radio avlues")
         if (selectedValue !=10){
          fetchPosts();
         }

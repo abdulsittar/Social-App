@@ -7,6 +7,7 @@ import Avatar from '../avatar/Avatar';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { Link } from 'react-router-dom'; 
 import { useHistory } from "react-router";
+import { useMediaQuery } from 'react-responsive';
 
 const useStyles = makeStyles((theme) => ({
 	typography: {
@@ -43,6 +44,8 @@ export default function SimplePopover({anchorEl, handleClose}) {
   const id = open ? 'simple-popover' : undefined;
   const { user } = useContext(AuthContext);
   const history = useHistory();
+  const isMobileDevice = useMediaQuery({ query: "(min-device-width: 480px)", });
+  const isTabletDevice = useMediaQuery({ query: "(min-device-width: 768px)", });
 
   const logOut = () => {
 	localStorage.removeItem("user");
@@ -73,6 +76,22 @@ export default function SimplePopover({anchorEl, handleClose}) {
 				<Typography className={classes.typography + ' ' + classes.desc}>Profile details</Typography>
 			</Link>
 		</div>
+		{ (!isMobileDevice || !isTabletDevice)?  
+		<div>
+		<div className={classes.flex}>
+			<Avatar/>
+			<Link to={`/followingspage/${"Followings"}`} style={{textDecoration:'none', color: '#111'}}>
+				<Typography className={classes.typography + ' ' + classes.desc}>Followings</Typography>
+			</Link>
+		</div>
+		<div className={classes.flex}>
+			<Avatar/>
+			<Link to={`/followerspage/${"Followers"}`} style={{textDecoration:'none', color: '#111'}}>
+				<Typography className={classes.typography + ' ' + classes.desc}>Followers</Typography>
+			</Link>
+		</div>
+		</div>: <div></div>
+		}
 		<div className={classes.flex}>
 			<ExitToAppIcon className={classes.icon} />
 			<Typography className={classes.typography} onClick={logOut}>Log out</Typography>

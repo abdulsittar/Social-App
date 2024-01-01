@@ -1,6 +1,7 @@
   // SocialApp
   const express = require('express');
   const bodyParser = require("body-parser")
+  const User = require('./models/User');
   const swaggerJsdoc = require("swagger-jsdoc")
   const swaggerUi = require("swagger-ui-express")
   const mongoose = require('mongoose');
@@ -16,8 +17,9 @@
   const messageRoute = require('./routes/messages');
   const path = require('path');
   const fs = require('fs');
-  const proPort = 1077 //8080  
-
+  const Grid = require('gridfs-stream');
+  const crypto = require('crypto');
+  //const proPort =  1077 //8080  
   const port = process.env.PORT || proPort;
   dotenv.config();
   // SocialApp
@@ -32,8 +34,8 @@
   global.connectPool = require('./config/db.js'); 
   global.nodeSiteUrl  = 'https://socialapp.ijs.si'; // node  
   global.nodeAdminUrl = 'https://socialapp.ijs.si/admin'; // node  
-  //global.nodeSiteUrl  = 'https://127.0.0.1'; // node  
-  //global.nodeAdminUrl = 'https://127.0.0.1/admin'; // node  
+  global.nodeSiteUrl  = 'https://127.0.0.1'; // node  
+  global.nodeAdminUrl = 'https://127.0.0.1/admin'; // node  
   global.siteTitle = 'TWON Admin';
   global.successStatus = 200;
   global.failStatus = 401; 
@@ -54,7 +56,104 @@
   const specs = swaggerJsdoc(options);
   //Swagger
 
+  const upload2 = multer({
+    storage: multer.diskStorage({
+      destination(req, file, cb) {
+        cb(null, path.join(__dirname, "../../client/public/uploads"));
+      },
+      filename(req, file, cb) {
+        //cb(null, `${new Date().getTime()}_${file.originalname}`);
+        cb(null,Date.now() + '-' + file.originalname);
+      }
+    }),
+    limits: {
+      fileSize: 1000000 // max file size 1MB = 1000000 bytes
+    },
+    fileFilter(req, file, cb) {
+      if (!file.originalname.match(/\.(jpeg|jpg|png)$/)) {
+        return cb(
+          new Error(
+            'only upload files with jpg, jpeg, png, pdf, doc, docx, xslx, xls format.'
+          )
+        );
+      }
+      cb(undefined, true); // continue with upload
+    }
+  });
+  
 
+  const storage = multer.diskStorage({
+    destination: (req, file, cd) => {
+      cd(null, path.join(__dirname, "../api/public/images"));
+    },
+    filename: (req, file, cd) => {
+      cd(null, Date.now() + '-' + file.originalname)
+    },
+  })
+  
+  const upload = multer({ storage: storage })
+
+//app.use(upload.single('profilePicture'));
+
+// update user
+  userRoute.put("/:id/updateProfile", upload.single('profilePicture'),  async (req, res) => {
+  const id = req.body.id;
+  //console.log("Here is the requst")
+  //console.log(req.body);
+  //console.log(req.params);
+  //console.log(req.file.path);
+  //console.log(getLastPart(req.file.path));
+  const updatedData = { $set: { "desc": req.body.desc , "city": "testing", "profilePicture": getLastPart(req.file.path)}}
+  //console.log(updatedData);
+  //console.log(id);
+  //const updatedData = {_id: id, desc: req.params.desc , city: req.params.city, profilePicture: {
+  //    data: fs.readFileSync(path.join("/home/adbuls/TWON-development/api/" + '/uploads/' + req.file.filename)),
+  //    contentType: 'image/png'
+  //    }  }
+  try {
+    await User.updateOne({"_id": id}, updatedData);
+  } catch(err) {
+    //console.log("Error updating profile image");
+    //console.log(err);
+    return res.status(500).json(err);
+  }
+});
+
+// Route for handling image upload
+app.post('/images', upload.single('profilePicture'), (req, res) => {
+  if (!req.file) {
+    return res.status(400).send('No file uploaded.');
+  }
+
+  // Create a write stream to store the file in GridFS
+  const writestream = gfs.createWriteStream({
+    filename: req.file.filename,
+  });
+  
+  // Read the file and pipe it to GridFS
+  const readStream = fs.createReadStream(req.file.path);
+  readStream.pipe(writestream);
+
+  readStream.on('end', () => {
+    // Remove the temporary file after upload
+    fs.unlink(req.file.path, (err) => {
+      if (err) {
+        console.error(err);
+      }
+    });
+    res.send('File uploaded successfully.');
+  });
+
+  writestream.on('error', (err) => {
+    console.error(err);
+    res.status(500).send('Error uploading file.');
+  });
+});
+
+function getLastPart(url) {
+  const parts = url.split('/');
+  return parts.at(-1);
+}
 
 
 
@@ -121,6 +220,7 @@
   //}));
 
   // SocialApp
+  app.use("/images", express.static("images"));
   app.use(express.static('dist'));
   app.use('/users', userRoute);
   app.use('/auth',  authRoute);
@@ -131,7 +231,7 @@
 
   app._router.stack.forEach(function(r){
     if (r.route && r.route.path){
-      console.log(r.route.path)
+      //console.log(r.route.path)
     }
   })
   
@@ -205,7 +305,7 @@
 
   //app.use(express.static(path.join(__dirname, 'public/images')));
 
-  app.listen(port, () => console.log(`Server started on port ${port}`));
+  app.listen(port, () => console.log(`Server started on port ${port} and ${nodeSiteUrl}`));
   // Admin
   //var server = app.listen(1077, function () { 
   //  console.log("Example app listening at http://127.0.0.1:%s", server.address().port);

@@ -23,7 +23,7 @@ async function list(req, res) {
     action = 'list'; 
     //const allRecord = await Users.findAll();   
     allRecord = await Posts.find({}); 
-    console.log("all posts")
+    //console.log("all posts")
     res.set('content-type' , 'text/html; charset=mycharset'); 
     //console.log(allRecord)
     //res.redirect(nodeAdminUrl+'/Users/add');
@@ -58,7 +58,7 @@ async function edit(req, res) {
         if (req.method == "POST") {  
             var input = JSON.parse(JSON.stringify(req.body)); 
             
-            console.log(input); console.log('Here');  
+            //console.log(input); console.log('Here');  
             req.checkBody('userId', 'User ID is required').notEmpty();
             req.checkBody('desc', 'Post text is required').notEmpty();  
             var errors = req.validationErrors();    
@@ -81,7 +81,7 @@ async function edit(req, res) {
                     input.profile_pic =   filename; 
                     profile_pic.mv('public/upload/'+filename, function(err) {
                         if (err){    
-                            console.log(err);    
+                            //console.log(err);    
                             req.flash('error', 'Could not upload image. Please try again!')  
                             res.locals.message = req.flash();   
                             return res.redirect(nodeAdminUrl+'/Users/'+action); 
@@ -121,7 +121,7 @@ async function add(req, res) {
     var data = {};  
     var action = 'add'; 
     var errorData = {};    
-    console.log("I am here");
+    //console.log("I am here");
     if (req.method == "POST") { 
         var input = JSON.parse(JSON.stringify(req.body));  
         req.checkBody('userId', 'User ID is required').notEmpty();
@@ -131,7 +131,7 @@ async function add(req, res) {
             if(errors.length > 0){
                 errors.forEach(function (errors1) {
                     var field1 = String(errors1.param); 
-                    console.log(errors1);
+                    //console.log(errors1);
                     var msg = errors1.msg; 
                     errorData[field1] = msg;   
                     data.field1 = req.field1; 
@@ -148,7 +148,7 @@ async function add(req, res) {
                 input.profile_pic =   filename; 
                 profile_pic.mv('public/upload/'+filename, function(err) { 
                     if (err){    
-                        console.log(err);    
+                        //console.log(err);    
                         req.flash('error', 'Could not upload image. Please try again!')  
                         res.locals.message = req.flash();   
                         return res.redirect(nodeAdminUrl+'/Users/add'); 
@@ -164,18 +164,18 @@ async function add(req, res) {
             
             //const SaveData = new Users(input);
             //var saveResult=   await SaveData.save();   
-            console.log(SaveData);
-            console.log("Result");
+            //console.log(SaveData);
+            //console.log("Result");
             if(SaveData){    
                 req.flash('success', controller+' added successfully.');  
                 res.locals.message = req.flash();  
                 res.set('content-type' , 'text/html; charset=mycharset');  
                 return res.redirect(nodeAdminUrl+'/'+controller+'/list');  
-                console.log("Success");  
+                //console.log("Success");  
             }else{
                 req.flash('error', 'Could not save record. Please try again')  
                 res.locals.message = req.flash(); 
-                console.log("Fail"); 
+                //console.log("Fail"); 
             }      
         } 
     }   

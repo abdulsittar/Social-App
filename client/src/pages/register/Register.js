@@ -41,11 +41,11 @@ function Register({classes}) {
         history.push("/");
       } catch (err) {
         setPasswordErr("A user with this name/email already exists. Use a different name/email.");
-        console.log(err);
-        console.log(err["name"]);
-        console.log(err["driver"]);
-        console.log(err["keyPattern"]);
-        console.log(err["keyValue"]);
+        //console.log(err);
+        //console.log(err["name"]);
+        //console.log(err["driver"]);
+        //console.log(err["keyPattern"]);
+        //console.log(err["keyValue"]);
 
       }
     }

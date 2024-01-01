@@ -86,11 +86,7 @@ function Rightbar({ user, classes }) {
           <div className={classes.rightbarInfoItem}>
             <span className={classes.rightbarInfoKey}>Relationship:</span>
             <span className={classes.rightbarInfoValue}>
-              {user.relationship === 1
-                ? "Single"
-                : user.relationship === 1
-                ? "Married"
-                : "-"}
+            {user.relationship}
             </span>
           </div>
         </div>

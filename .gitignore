@@ -1,3 +1,4 @@
 client/node_modules/
 api/node_modules/
 socket/node_modules/
+client/build/

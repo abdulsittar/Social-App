@@ -4,12 +4,15 @@ import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
 import { withStyles } from '@material-ui/core/styles';
 import {styles} from './shareStyle';
+import { useMediaQuery } from 'react-responsive';
 
 function Share({classes}) {
     const { user } = useContext(AuthContext);
     const PF = process.env.REACT_APP_PUBLIC_FOLDER;
     const desc = useRef();
     const [file, setFile] = useState(null);
+    const isMobileDevice = useMediaQuery({ query: "(min-device-width: 480px)", });
+    const isTabletDevice = useMediaQuery({ query: "(min-device-width: 768px)", });
 
     // submit a post
     const submitHandler = async (e) => {
@@ -24,7 +27,7 @@ function Share({classes}) {
           data.append("name", fileName);
           data.append("file", file);
           newPost.img = fileName;
-          console.log(newPost);
+          //console.log(newPost);
           try {
             await axios.post("/upload", data);
           } catch (err) {}
@@ -44,6 +47,7 @@ function Share({classes}) {
                 <div className={classes.shareTop}>
                     <img
                         className={classes.shareProfileImg}
+                        style={{height : (!isMobileDevice && !isTabletDevice)? '40px' : '50px' }}
                         src={
                         user.profilePicture
                             ? PF + user.profilePicture

@@ -28,8 +28,8 @@ function Post({ post, classes }) {
   const { user: currentUser } = useContext(AuthContext);
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
 
-  console.log("here is the url")
-  console.log(PF)
+  //console.log("here is the url")
+  //console.log(PF)
 
   useEffect(() => {
     setIsLiked(post.likes.includes(currentUser._id));
@@ -41,7 +41,7 @@ function Post({ post, classes }) {
       const res = await axios.get(`/users?userId=${post.userId}`)
       setUser(res.data);
     };
-    console.log(post.comments.length)
+    //console.log(post.comments.length)
     fetchUser();
 
   }, [post.userId])
@@ -92,12 +92,12 @@ function Post({ post, classes }) {
   }
 
   const commentBody = item => {
-    console.log(item)
-    console.log(item.userId)
-    console.log(item.body)
-    console.log(item.username)
-    console.log(item.postId)
-    console.log(item.createdAt)
+    //console.log(item)
+    //console.log(item.userId)
+    //console.log(item.body)
+    //console.log(item.username)
+    //console.log(item.postId)
+    //console.log(item.createdAt)
     return (
       <p className={classes.commentText}>
         <Link to={"/user/" + item.userId}>{item.username}</Link>
@@ -132,7 +132,7 @@ function Post({ post, classes }) {
           </div>
         </div>
         <div className={classes.postCenter}>
-          <span className={classes.postText}>{post?.desc}</span>
+          <div className={classes.postText}>{post?.desc}</div>
           <img src={PF + post.img} alt="" className={classes.postImg} />
         </div>
         <div className={classes.postBottom}>
@@ -157,8 +157,8 @@ function Post({ post, classes }) {
             <button className={classes.sendButton} type="submit" >Send</button>
             </div>
             {post.comments.map((item, i) => {
-              console.log(item)
-              console.log(i)
+              //console.log(item)
+              //console.log(i)
 
               return <CardHeader
                 avatar={<Avatar className={classes.smallAvatar} src={'/api/users/photo/' + item.postId} />}

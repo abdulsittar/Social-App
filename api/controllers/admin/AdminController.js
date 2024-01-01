@@ -42,8 +42,8 @@ async function login(req , res){
         //req.checkBody('device_token', 'device_token is required').notEmpty(); 
         //req.checkBody('device_type', 'device_type is required').notEmpty();  
         var errors = req.validationErrors();   
-        console.log("errors")
-        console.log(errors) 
+        //console.log("errors")
+        //console.log(errors) 
         if(errors){	  
 
             if(errors.length > 0){

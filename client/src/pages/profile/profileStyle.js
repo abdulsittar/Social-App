@@ -27,9 +27,17 @@ export const styles = {
       "margin": "auto",
       "top": "150px",
     },
+    "photosInfo": {
+      "display": "flex",
+      padding: '0px 0px',
+      "flexDirection": "row",
+      "alignItems": "center",
+      "justifyContent": "center",
+      background: '#1b2439'
+    },
     "profileInfo": {
       "display": "flex",
-      padding: '15px 0px',
+      padding: '30px 0px',
       "flexDirection": "column",
       "alignItems": "center",
       "justifyContent": "center",
