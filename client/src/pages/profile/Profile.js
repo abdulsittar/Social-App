@@ -16,8 +16,10 @@ function Profile({ classes }) {
     const [user, setUser] = useState({});
     const [selectedImage, setSelectedImage] = useState(null);
     const [preImage, setPreImage] = useState(null);
-    const [desc, setDesc] = useState("");
+    const [bio, setBio] = useState("");
     const [city, setCity] = useState("");
+    const [country, setCountry] = useState("");
+    const [relationship, setRelationship] = useState("");
     const username = useParams().username;
     const PF = process.env.REACT_APP_PUBLIC_FOLDER;
     const isMobileDevice = useMediaQuery({ query: "(min-device-width: 480px)", });
@@ -30,7 +32,10 @@ function Profile({ classes }) {
         };
 
         fetchUser();
-        //console.log("picture url:");
+        setBio(user.desc);
+        setCity(user.city);
+        setCountry(user.from);
+        setRelationship(user.relationship);
         //console.log(user.profilePicture);
         setSelectedImage(user.profilePicture);
         setPreImage(user.profilePicture);
@@ -46,6 +51,24 @@ function Profile({ classes }) {
     user.profilePicture = file;
     setSelectedImage(file);
     setPreImage(URL.createObjectURL(file));
+  };
+
+  const handleDescription = (e) => {
+    setBio(e.target.value);
+  };
+
+  const handleCity = (e) => {
+    setCity(e.target.value);
+  };
+
+  const handleCountry = (e) => {
+    setCountry(e.target.value);
+    console.log("country value");
+    console.log(country);
+  };
+
+  const handleRelationship = (e) => {
+    setRelationship(e.target.value);
   };
 
   const handleUploadFromGallery = () => {
@@ -69,31 +92,50 @@ function Profile({ classes }) {
   const handleUpload = async () => {
     //console.log("handleUpload");
     // Handle the selected image and perform upload logic
-    if (selectedImage) {
+    
       // Implement your upload logic here (e.g., send the image to the server)
       //console.log('Selected image:', selectedImage);
-      const ext = selectedImage.type.split('/')
-      //console.log(ext);
+
+      const profData = {
+        userId: user._id,
+        desc: bio,
+        city: city,
+        from: country,
+        relationship: relationship,
+      };
+
       const formData = new FormData();
-      formData.append('profilePicture', selectedImage);
       formData.append('id', user._id);
-      formData.append('desc', desc);
+      formData.append('desc', bio);
       formData.append('city', city);
+      formData.append('relationship', relationship);
+      formData.append('from', country);
       try {
-        await axios.put(`/users/${user._id}/updateProfile`, formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
+        
+        if (selectedImage) {
+          formData.append('profilePicture', selectedImage);
+          await axios.put(`/users/${user._id}/updateProfile`, formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
         });
+      } 
+      else 
+      {
+        console.log(formData);
+          await axios.post(`/users/${user._id}/updateProfile2`, profData);
+      }
         //console.log('Image uploaded successfully.');
         // Handle success or any other actions after successful upload
       } catch (error) {
         console.error('Error uploading image:', error);
         // Handle error
       }
-    } else {
-      console.error('No image selected.');
-    }
+      const fetchUser = async () => {
+        const res = await axios.get(`/users?username=${username}`)
+        setUser(res.data);
+    };
+    fetchUser()
   };
     return (
         <>
@@ -121,10 +163,10 @@ function Profile({ classes }) {
               </div>
               <div className={classes.profileInfo}>
                 <h4 className={classes.profileInfoName}>{user.username} </h4>
-                <TextField className={classes.profileInfoDesc} style={{color:'white'}} id="outlined-basic" label="Bio" variant="outlined" value={user.desc? `${user.desc}`: 'No description available'}/>
-                <TextField className={classes.profileInfoDesc} style={{color:'white'}} id="outlined-basic" label="City" variant="outlined" value={user.city? "" : "City: " + `${user.city}`}/>
-                <TextField className={classes.profileInfoDesc} style={{color:'white'}} id="outlined-basic" label="From" variant="outlined" value={user.from? "" : "From: " + `${user.from}`}/>
-                <TextField className={classes.profileInfoDesc} style={{color:'white'}} id="outlined-basic" label="Relationship" variant="outlined" value={user.relationship? "" : "Relationship: " + `${user.relationship}`}/>
+                <input placeholder={user.desc? user.desc: "Enter your biography"} className={classes.shareInput} onChange={handleDescription}  value={bio} />
+                <input placeholder={user.city? user.city:"Enter the name of your City"} className={classes.shareInput} onChange={handleCity}  value={city} />
+                <input placeholder={user.from? user.from:"Enter the name of your Country"} className={classes.shareInput} onChange={handleCountry}    value={country} />
+                <input placeholder={user.relationship? user.relationship:"Whats is the status of your relationship?"} className={classes.shareInput} onChange={handleRelationship}    value={relationship} />
               </div>
             </div>
           <div className={classes.profileRightBottom}>

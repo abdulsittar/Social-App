@@ -32,10 +32,17 @@
   const cors = require('cors');
   var apiRouter = require('./routes/api');
   global.connectPool = require('./config/db.js'); 
-  global.nodeSiteUrl  = 'https://socialapp.ijs.si'; // node  
-  global.nodeAdminUrl = 'https://socialapp.ijs.si/admin'; // node  
-  global.nodeSiteUrl  = 'https://127.0.0.1'; // node  
-  global.nodeAdminUrl = 'https://127.0.0.1/admin'; // node  
+  if (process.env.NODE_ENV === 'development') {
+    global.nodeSiteUrl  = 'https://127.0.0.1'; // node  
+    global.nodeAdminUrl = 'https://127.0.0.1/admin'; // node
+
+  } else if (process.env.NODE_ENV === 'production') {
+    global.nodeSiteUrl  = 'https://socialapp.ijs.si'; // node  
+    global.nodeAdminUrl = 'https://socialapp.ijs.si/admin'; // node 
+
+  }
+ 
+    
   global.siteTitle = 'TWON Admin';
   global.successStatus = 200;
   global.failStatus = 401; 
@@ -98,26 +105,48 @@
 // update user
   userRoute.put("/:id/updateProfile", upload.single('profilePicture'),  async (req, res) => {
   const id = req.body.id;
-  //console.log("Here is the requst")
-  //console.log(req.body);
-  //console.log(req.params);
-  //console.log(req.file.path);
-  //console.log(getLastPart(req.file.path));
-  const updatedData = { $set: { "desc": req.body.desc , "city": "testing", "profilePicture": getLastPart(req.file.path)}}
-  //console.log(updatedData);
-  //console.log(id);
-  //const updatedData = {_id: id, desc: req.params.desc , city: req.params.city, profilePicture: {
-  //    data: fs.readFileSync(path.join("/home/adbuls/TWON-development/api/" + '/uploads/' + req.file.filename)),
-  //    contentType: 'image/png'
-  //    }  }
+  let diction = {}
+
+  if(req.body.desc && req.body.desc!= "undefined"){diction["desc"] = req.body.desc}
+  if(req.body.city && req.body.city!= "undefined"){diction["city"] = req.body.city}
+  if(req.body.from && req.body.from!= "undefined"){diction["from"] = req.body.from}
+  if(req.body.relationship && req.body.relationship!= "undefined"){diction["relationship"] = req.body.relationship}
+  diction["profilePicture"] = getLastPart(req.file.path)
+
+  const updatedData = { $set: diction}
+  console.log(updatedData);
   try {
     await User.updateOne({"_id": id}, updatedData);
   } catch(err) {
-    //console.log("Error updating profile image");
+    console.log("Error updating profile image");
+    return res.status(500).json(err);
+  }
+});
+
+// update user
+userRoute.post("/:id/updateProfile2",  async (req, res) => {
+  const id = req.params.id;
+  console.log("Here is the requst")
+  console.log(req.body);
+  console.log(req.params);
+  let diction = {}
+
+  if(req.body.desc){diction["desc"] = req.body.desc}
+  if(req.body.city){diction["city"] = req.body.city}
+  if(req.body.from){diction["from"] = req.body.from}
+  if(req.body.relationship){diction["relationship"] = req.body.relationship}
+
+  const updatedData = { $set: diction}
+  console.log(updatedData);
+  try {
+    await User.findByIdAndUpdate({"_id": id}, updatedData);
+  } catch(err) {
+    console.log("Error updating profile");
     //console.log(err);
     return res.status(500).json(err);
   }
 });
+
 
 // Route for handling image upload
 app.post('/images', upload.single('profilePicture'), (req, res) => {
@@ -214,6 +243,7 @@ function getLastPart(url) {
   })*/
 
   app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({ extended: true }));
 
   //app.use(helmet({
   //  contentSecurityPolicy: false,

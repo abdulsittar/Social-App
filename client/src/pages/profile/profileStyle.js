@@ -16,6 +16,18 @@ export const styles = {
       "height": "100%",
       "objectFit": "cover"
     },
+    "shareInput": {
+      "border": "none",
+      "width": "100%",
+      backgroundColor: '#273047',
+      lineHeight:'16px',
+      padding:'15px 10px',
+      color:'#d0d3db',
+      fontSize:'16px',
+      '&:focus': {
+          outline: 'none',
+      }
+    },
     "profileUserImg": {
       "width": "150px",
       "height": "150px",
