@@ -1,10 +1,12 @@
-import {useState, useEffect} from 'react';
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../../context/AuthContext";
 import Topbar from "../../components/topbar/Topbar";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Feed from "../../components/feed/Feed";
 import Rightbar from "../../components/rightbar/Rightbar";
 import axios from "axios";
 import { useParams } from 'react-router';
+import { Add, Remove } from "@material-ui/icons";
 import { withStyles } from '@material-ui/core/styles';
 import {styles} from './profileStyle';
 import { useMediaQuery } from 'react-responsive';
@@ -13,10 +15,12 @@ import { colors } from '@material-ui/core';
 //import User from '../../../../api/models/User';
 
 function Profile({ classes }) {
-    const [user, setUser] = useState({});
+    
     const [selectedImage, setSelectedImage] = useState(null);
     const [preImage, setPreImage] = useState(null);
+    const { user: currentUser, dispatch } = useContext(AuthContext);
     const [bio, setBio] = useState("");
+    const [usr, setUsr] = useState({});
     const [city, setCity] = useState("");
     const [country, setCountry] = useState("");
     const [relationship, setRelationship] = useState("");
@@ -24,21 +28,28 @@ function Profile({ classes }) {
     const PF = process.env.REACT_APP_PUBLIC_FOLDER;
     const isMobileDevice = useMediaQuery({ query: "(min-device-width: 480px)", });
     const isTabletDevice = useMediaQuery({ query: "(min-device-width: 768px)", });
+    const [followed, setFollowed] = useState([]);
+
+
+    useEffect(() => {
+      setFollowed(currentUser.followings.includes(usr._id));
+    }, [currentUser.followings, usr]);
+
 
     useEffect(() => {
         const fetchUser = async () => {
             const res = await axios.get(`/users?username=${username}`)
-            setUser(res.data);
+            setUsr(res.data);
         };
 
         fetchUser();
-        setBio(user.desc);
-        setCity(user.city);
-        setCountry(user.from);
-        setRelationship(user.relationship);
-        //console.log(user.profilePicture);
-        setSelectedImage(user.profilePicture);
-        setPreImage(user.profilePicture);
+        setBio(usr.desc);
+        setCity(usr.city);
+        setCountry(usr.from);
+        setRelationship(usr.relationship);
+        //console.log(usr.profilePicture);
+        setSelectedImage(usr.profilePicture);
+        setPreImage(usr.profilePicture);
     }, [username])
 
 
@@ -48,7 +59,7 @@ function Profile({ classes }) {
     //console.log('Selected image:', e.target.name);
     //console.log('Selected image:', file);
     // Validate file type if needed
-    user.profilePicture = file;
+    usr.profilePicture = file;
     setSelectedImage(file);
     setPreImage(URL.createObjectURL(file));
   };
@@ -84,11 +95,30 @@ function Profile({ classes }) {
       //console.log("selected file");
       //console.log(file);
       setSelectedImage(file);
-      //user.profilePicture = file;
+      //usr.profilePicture = file;
       setPreImage(URL.createObjectURL(file));
     };
     input.click();
   };
+
+  const handleClick = async () => {
+    try {
+      if (followed) {
+        await axios.put(`/users/${usr._id}/unfollow`, {
+          userId: currentUser._id,
+        });
+        dispatch({ type: "UNFOLLOW", payload: usr._id });
+      } else {
+        await axios.put(`/users/${usr._id}/follow`, {
+          userId: currentUser._id,
+        });
+        dispatch({ type: "FOLLOW", payload: usr._id });
+      }
+      setFollowed(!followed);
+    } catch (err) {
+    }
+  };
+
   const handleUpload = async () => {
     //console.log("handleUpload");
     // Handle the selected image and perform upload logic
@@ -97,7 +127,7 @@ function Profile({ classes }) {
       //console.log('Selected image:', selectedImage);
 
       const profData = {
-        userId: user._id,
+        userId: usr._id,
         desc: bio,
         city: city,
         from: country,
@@ -105,7 +135,7 @@ function Profile({ classes }) {
       };
 
       const formData = new FormData();
-      formData.append('id', user._id);
+      formData.append('id', usr._id);
       formData.append('desc', bio);
       formData.append('city', city);
       formData.append('relationship', relationship);
@@ -114,7 +144,7 @@ function Profile({ classes }) {
         
         if (selectedImage) {
           formData.append('profilePicture', selectedImage);
-          await axios.put(`/users/${user._id}/updateProfile`, formData, {
+          await axios.put(`/users/${usr._id}/updateProfile`, formData, {
             headers: {
               'Content-Type': 'multipart/form-data',
             },
@@ -123,7 +153,7 @@ function Profile({ classes }) {
       else 
       {
         console.log(formData);
-          await axios.post(`/users/${user._id}/updateProfile2`, profData);
+          await axios.post(`/users/${usr._id}/updateProfile2`, profData);
       }
         //console.log('Image uploaded successfully.');
         // Handle success or any other actions after successful upload
@@ -133,7 +163,7 @@ function Profile({ classes }) {
       }
       const fetchUser = async () => {
         const res = await axios.get(`/users?username=${username}`)
-        setUser(res.data);
+        setUsr(res.data);
     };
     fetchUser()
   };
@@ -146,32 +176,40 @@ function Profile({ classes }) {
               <div className={classes.profileCover}>
                 <img
                   className={classes.profileCoverImg}
-                  src={user.coverPicture ? PF+user.coverPicture : PF+"person/noCover.png"}
+                  src={usr.coverPicture ? PF+usr.coverPicture : PF+"person/noCover.png"}
                   alt=""
                 />
+                {username == currentUser.username && (
                 <div className={classes.photosInfo}>
                   <button onClick={handleUploadFromGallery}>Select from Gallery</button>
                   <input accept="image/*" type="file" onChange={handleImageInputChange} style={{ display: 'none' }} />
                   <button onClick={handleUpload}>Save profile</button>
                 </div>
+                )}
                 <img
                   id='profileImg'
                   className={classes.profileUserImg}
-                  src={user.profilePicture ? PF + user.profilePicture : PF+"person/noAvatar.png"}
+                  src={usr.profilePicture ? PF + usr.profilePicture : PF+"person/noAvatar.png"}
                   alt=""
                 />
               </div>
               <div className={classes.profileInfo}>
-                <h4 className={classes.profileInfoName}>{user.username} </h4>
-                <input placeholder={user.desc? user.desc: "Enter your biography"} className={classes.shareInput} onChange={handleDescription}  value={bio} />
-                <input placeholder={user.city? user.city:"Enter the name of your City"} className={classes.shareInput} onChange={handleCity}  value={city} />
-                <input placeholder={user.from? user.from:"Enter the name of your Country"} className={classes.shareInput} onChange={handleCountry}    value={country} />
-                <input placeholder={user.relationship? user.relationship:"Whats is the status of your relationship?"} className={classes.shareInput} onChange={handleRelationship}    value={relationship} />
+              {usr.username !== currentUser.username && (
+          <button className={classes.rightbarFollowButton} onClick={handleClick}>
+            {followed ? "Unfollow" : "Follow"}
+            {followed ? <Remove /> : <Add />}
+          </button>
+        )}
+                <h4 className={classes.profileInfoName}>{usr.username} </h4>
+                <input placeholder={usr.desc? usr.desc: "Enter your biography"} className={classes.shareInput} onChange={handleDescription}  value={bio} />
+                <input placeholder={usr.city? usr.city:"Enter the name of your City"} className={classes.shareInput} onChange={handleCity}  value={city} />
+                <input placeholder={usr.from? usr.from:"Enter the name of your Country"} className={classes.shareInput} onChange={handleCountry}    value={country} />
+                <input placeholder={usr.relationship? usr.relationship:"Whats is the status of your relationship?"} className={classes.shareInput} onChange={handleRelationship}    value={relationship} />
               </div>
             </div>
           <div className={classes.profileRightBottom}>
               <Feed username={username} />
-              { isMobileDevice && isTabletDevice && <Rightbar  user={user}/>}
+              { isMobileDevice && isTabletDevice && <Rightbar  user={usr}/>}
             </div>
         </div>
         </div>

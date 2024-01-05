@@ -2,6 +2,29 @@ export const styles = {
     "profile": {
       "display": "flex",
     },
+    "rightbarFollowButton": {
+      "marginTop": "30px",
+      "marginBottom": "10px",
+      "border": "1px solid #ff458a",
+      "backgroundColor": "#ff458a",
+      transition: 'all .3s ease',
+      textTransform: 'uppercase',
+      "color": "#111",
+      "borderRadius": "10px",
+      "padding": "8px 25px",
+      "display": "flex",
+      "alignItems": "center",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "cursor": "pointer",
+      '&:focus': {
+        outline: 'none',
+      },
+      '&:hover': {
+          background: 'transparent',
+          color: '#d0d1ca'
+      }
+    },
     "profileRight": {
       "flex": "9",
       background: '#1b2439',
