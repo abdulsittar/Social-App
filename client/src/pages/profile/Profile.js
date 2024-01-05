@@ -30,7 +30,6 @@ function Profile({ classes }) {
     const isTabletDevice = useMediaQuery({ query: "(min-device-width: 768px)", });
     const [followed, setFollowed] = useState([]);
 
-
     useEffect(() => {
       setFollowed(currentUser.followings.includes(usr._id));
     }, [currentUser.followings, usr]);
@@ -84,11 +83,12 @@ function Profile({ classes }) {
 
   const handleUploadFromGallery = () => {
     //console.log("handleUploadFromGallery");
+    document.getElementById('fileSeleID').innerHTML = "Select from Gallery";
     const input = document.createElement('input');
     input.type = 'file';
     input.accept = 'image/*'; // Allow only image files
     input.onchange = (e) => {
-
+      document.getElementById('fileSeleID').innerHTML = "File is selected!";
       const file = e.target.files[0];
       // Validate file type if needed
       //console.log('Selected image:', file);
@@ -181,13 +181,12 @@ function Profile({ classes }) {
                 />
                 {username == currentUser.username && (
                 <div className={classes.photosInfo}>
-                  <button onClick={handleUploadFromGallery}>Select from Gallery</button>
+                  <button id="fileSeleID" onClick={handleUploadFromGallery}>{"Select from Gallery"}</button>
                   <input accept="image/*" type="file" onChange={handleImageInputChange} style={{ display: 'none' }} />
                   <button onClick={handleUpload}>Save profile</button>
                 </div>
                 )}
-                <img
-                  id='profileImg'
+                <img id='profileImg'
                   className={classes.profileUserImg}
                   src={usr.profilePicture ? PF + usr.profilePicture : PF+"person/noAvatar.png"}
                   alt=""
