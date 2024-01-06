@@ -100,7 +100,7 @@ function Post({ post, classes }) {
     //console.log(item.createdAt)
     return (
       <p className={classes.commentText}>
-        <Link to={"/user/" + item.userId}>{item.username}</Link>
+        <Link to={`/profile/${user.username}`}>{item.username}</Link>
         <br />
         {item.body}{'   '}
         <span className={classes.postDate}>
@@ -142,7 +142,7 @@ function Post({ post, classes }) {
             {isLiked ? <span className={classes.postLikeCounter}>{isLikedByOne ? "you only " : "you and " + (like - 1).toString() + " others"} liked it</span>  :  <span className={classes.postLikeCounter}>{like} liked it</span>} 
           </div>
           <div className={classes.postBottomRight}>
-            <div className={classes.postCommentText} onClick={(e) => { e.stopPropagation(); setIsVisible(!isVisible);}} >{post.comment} comments</div>
+            <div className={classes.postCommentText} onClick={(e) => { e.stopPropagation(); setIsVisible(!isVisible);}} >{post.comments.length} comments</div>
           </div>
         </div>
         <div ref={ref} className={classes.commentsWrapper}  style={{ display: isVisible ? "block" : "none" }}>

@@ -200,10 +200,10 @@ function Profile({ classes }) {
           </button>
         )}
                 <h4 className={classes.profileInfoName}>{usr.username} </h4>
-                <input placeholder={usr.desc? usr.desc: "Enter your biography"} className={classes.shareInput} onChange={handleDescription}  value={bio} />
-                <input placeholder={usr.city? usr.city:"Enter the name of your City"} className={classes.shareInput} onChange={handleCity}  value={city} />
-                <input placeholder={usr.from? usr.from:"Enter the name of your Country"} className={classes.shareInput} onChange={handleCountry}    value={country} />
-                <input placeholder={usr.relationship? usr.relationship:"Whats is the status of your relationship?"} className={classes.shareInput} onChange={handleRelationship}    value={relationship} />
+                <input readOnly={!(usr.username == currentUser.username)}  placeholder={usr.desc? usr.desc: "Enter your biography"} className={classes.shareInput} onChange={handleDescription}  value={bio} />
+                <input readOnly={!(usr.username == currentUser.username)} placeholder={usr.city? usr.city:"Enter the name of your City"} className={classes.shareInput} onChange={handleCity}  value={city} />
+                <input readOnly={!(usr.username == currentUser.username)} placeholder={usr.from? usr.from:"Enter the name of your Country"} className={classes.shareInput} onChange={handleCountry}    value={country} />
+                <input readOnly={!(usr.username == currentUser.username)} placeholder={usr.relationship? usr.relationship:"Whats is the status of your relationship?"} className={classes.shareInput} onChange={handleRelationship}    value={relationship} />
               </div>
             </div>
           <div className={classes.profileRightBottom}>
