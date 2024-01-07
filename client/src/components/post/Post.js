@@ -11,7 +11,8 @@ import CardHeader from '@material-ui/core/CardHeader'
 import TextField from '@material-ui/core/TextField'
 import Avatar from '@material-ui/core/Avatar'
 import CommentSA from '../comment/commentSA';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
+import Linkify from 'react-linkify';
 
 function Post({ post, classes }) {
   const [like, setLike] = useState(post.likes.length);
@@ -132,7 +133,7 @@ function Post({ post, classes }) {
           </div>
         </div>
         <div className={classes.postCenter}>
-          <div className={classes.postText}>{post?.desc}</div>
+        <Linkify><div className={classes.postText}>{post?.desc}</div></Linkify>
           <img src={PF + post.img} alt="" className={classes.postImg} />
         </div>
         <div className={classes.postBottom}>
@@ -160,11 +161,11 @@ function Post({ post, classes }) {
               //console.log(item)
               //console.log(i)
 
-              return <CardHeader
+              return <Linkify><CardHeader
                 avatar={<Avatar className={classes.smallAvatar} src={'/api/users/photo/' + item.postId} />}
                 title={commentBody(item)}
                 className={classes.cardHeader2}
-                key={i} />
+                key={i} /></Linkify>
             })
             }
          

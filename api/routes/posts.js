@@ -272,6 +272,38 @@ router.get('/timeline2/:userId', async(req, res) =>{
     }
 })
 
+// get pagination posts
+router.get('/timelinePag/:userId', async(req, res) =>{
+    console.log("hereherehereh");
+    console.log(req.query.page);
+    try {
+        let page = req.query.page //starts from 0
+        let posts= await getPostsPaginated(page)
+        if (posts && posts.length > 0) {
+            res.status(200).json(posts)
+        } else {
+            res.status(200).json(err);
+            console.log(res);
+        }
+
+    } catch(err) {
+        res.status(500).json(err);
+    }
+})
+
+
+//service
+const getPostsPaginated = async (page) => {
+    let resultsPerPage = 10
+  
+    return await Post.find({}).populate('Comment')
+      .sort({ createdAt: 'descending' })
+      .lean()
+      .limit(resultsPerPage)
+      .skip(page * resultsPerPage)
+  }
+
+
 // all users
 router.get('/timeline/:userId', async (req, res) => {
 	try {
