@@ -283,7 +283,7 @@ router.get('/timelinePag/:userId', async(req, res) =>{
             res.status(200).json(posts)
         } else {
             res.status(200).json(err);
-            console.log(res);
+            //console.log(res);
         }
 
     } catch(err) {
@@ -296,13 +296,14 @@ router.get('/timelinePag/:userId', async(req, res) =>{
 const getPostsPaginated = async (page) => {
     let resultsPerPage = 10
   
-    return await Post.find({}).populate('Comment')
+    return await Post.find({})
+      .populate({path : 'comments', populate:{path : "userId", model: "User"}})
       .sort({ createdAt: 'descending' })
-      .lean()
-      .limit(resultsPerPage)
+      //.lean()
       .skip(page * resultsPerPage)
+      .limit(resultsPerPage)
+      .exec()
   }
-
 
 // all users
 router.get('/timeline/:userId', async (req, res) => {
@@ -372,6 +373,50 @@ router.get('/onlyFollowers/:userId', async (req, res) => {
     }
 });
 
+//service
+const getPostsPaginatedFollowers = async (page, req) => {
+    let resultsPerPage = 10
+    const currentUser = await User.findById(req.params.userId);
+    //const userPosts = await Post.find({ userId: currentUser._id }).populate('Comment').exec();
+    let userPosts = []
+    const friendPosts = await Promise.all(
+        currentUser.followers.map((friendId) => {
+            return Post.find({ userId: friendId })
+            .populate({path : 'comments', populate:{path : "userId", model: "User"}})
+      .sort({ createdAt: 'descending' })
+      //.lean()
+      .skip(page * resultsPerPage)
+      .limit(resultsPerPage)
+      .exec()
+        }))
+
+    //console.log([].concat(...friendPosts))
+    //const filtPost =  follPosts.sort({ createdAt: 'descending' }).lean().limit(resultsPerPage).skip(page * resultsPerPage)
+    return [].concat(...friendPosts)
+  }
+
+// post of only follower
+router.get('/onlyFollowersPag/:userId', async (req, res) => {
+    console.log("hereherehereh");
+    console.log(req.query.page);
+
+    try {
+        let page = req.query.page //starts from 0
+        let posts= await getPostsPaginatedFollowers(page, req)
+
+        if (posts && posts.length > 0) {
+            res.status(200).json(posts)
+        } else {
+            res.status(200).json(posts);
+            //console.log(res);
+        }
+
+    } catch(err) {
+        //console.log(err);
+        res.status(500).json(err);
+    }
+});
+
 /**
  * @swagger
  * tags:
@@ -405,8 +450,66 @@ router.get('/onlyFollowers/:userId', async (req, res) => {
  *         description: Some server error!
  */
 
+//service
+const getPostsPaginatedFollowings = async (page, req) => {
+    let resultsPerPage = 10
+    const currentUser = await User.findById(req.params.userId);
+    //const userPosts = await Post.find({ userId: currentUser._id }).populate('Comment').exec();
+
+    const friendPosts = await Promise.all(
+        currentUser.followings.map((friendId) => {
+            return Post.find({ userId: friendId })
+            .populate({path : 'comments', populate:{path : "userId", model: "User"}})
+      .sort({ createdAt: 'descending' })
+      //.lean()
+      .skip(page * resultsPerPage)
+      .limit(resultsPerPage)
+      .exec()
+        }))
+    let userPosts = []
+    userPosts.concat(...friendPosts)
+    //console.log([].concat(...friendPosts));
+    //const filtPost =  follPosts.sort({ createdAt: 'descending' }).lean().limit(resultsPerPage).skip(page * resultsPerPage)
+    return [].concat(...friendPosts)
+  }
+
+// posts of only followings
+router.get('/onlyFollowingsPag/:userId', async (req, res) => {
+	try {
+        let page = req.query.page 
+        const currentUser = await User.findById(req.params.userId);
+        let posts= await getPostsPaginatedFollowings(page, req)
+        if (posts && posts.length > 0) {
+            res.status(200).json(posts)
+        } else {
+            res.status(200).json(posts);
+            //console.log(res);
+        }
+
+    } catch(err) {
+        //console.log(err);
+        res.status(500).json(err);
+    }
+});
+
 // posts of only followings
 router.get('/onlyFollowings/:userId', async (req, res) => {
+
+    try {
+        let page = req.query.page //starts from 0
+        let posts= await getPostsPaginatedFollowings(page)
+        if (posts && posts.length > 0) {
+            res.status(200).json(posts)
+        } else {
+            //res.status(200).json("error");
+            console.log(res);
+        }
+
+    } catch(err) {
+        res.status(500).json(err);
+    }
+
+
 	try {
         const currentUser = await User.findById(req.params.userId);
         const userPosts = await Post.find({ userId: currentUser._id }).populate('Comment').exec();
@@ -422,6 +525,9 @@ router.get('/onlyFollowings/:userId', async (req, res) => {
         res.status(500).json(err);
     }
 });
+
+
+
 
 
 
@@ -461,11 +567,19 @@ router.get('/onlyFollowings/:userId', async (req, res) => {
 // get all posts of a user
 router.get('/profile/:username', async(req, res) =>{
     try {
+        let resultsPerPage = 10
         const user = await User.findOne({username: req.params.username});
-        const posts = await Post.find({userId: user._id}).populate('Comment').exec();
+        const posts = await Post.find({userId: user._id})
+            .populate({path : 'comments', populate:{path : "userId", model: "User"}})
+            .sort({ createdAt: 'descending' })
+            //.lean()
+            //.skip(req.query.page * resultsPerPage)
+            //.limit(resultsPerPage)
+            .exec()
         res.status(200).json(posts);
     } catch(err) {
         res.status(500).json(err);
+        console.log(err);
     }
 });
 

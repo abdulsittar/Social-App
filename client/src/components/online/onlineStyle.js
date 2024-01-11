@@ -15,14 +15,14 @@ export const styles = {
     "objectFit": "cover"
   },
   "rightbarOnline": {
-    "width": "12px",
-    "height": "12px",
-    "borderRadius": "50%",
+    "width": "0px",
+    "height": "0px",
+    "borderRadius": "0%",
     "backgroundColor": "limegreen",
     "position": "absolute",
-    "top": "-2px",
+    "top": "0px",
     "right": "0",
-    "border": "2px solid white"
+    "border": "0px solid white"
   },
   "rightbarUsername": {
     "fontWeight": "500"

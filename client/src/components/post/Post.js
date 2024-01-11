@@ -15,6 +15,7 @@ import PropTypes from 'prop-types';
 import Linkify from 'react-linkify';
 
 function Post({ post, classes }) {
+  //console.log(post);
   const [like, setLike] = useState(post.likes.length);
   const [isLiked, setIsLiked] = useState(false);
   const [isLikedByOne, setIsLikedByOne] = useState(false);
@@ -93,7 +94,7 @@ function Post({ post, classes }) {
   }
 
   const commentBody = item => {
-    //console.log(item)
+    console.log(item)
     //console.log(item.userId)
     //console.log(item.body)
     //console.log(item.username)
@@ -101,7 +102,7 @@ function Post({ post, classes }) {
     //console.log(item.createdAt)
     return (
       <p className={classes.commentText}>
-        <Link to={`/profile/${user.username}`}>{item.username}</Link>
+        <Link to={`/profile/${item.username}`}>{item.username}</Link>
         <br />
         {item.body}{'   '}
         <span className={classes.postDate}>
@@ -151,7 +152,7 @@ function Post({ post, classes }) {
         <form onSubmit={submitHandler} class = "form">
           <div className={classes.txtnButtonRight}>
             <CardHeader
-              avatar={ <Avatar className={classes.smallAvatar} src={'/api/users/photo/' + currentUser._id} />}
+              avatar={ <Avatar className={classes.smallAvatar} src={user.profilePicture? PF + user.profilePicture: PF + "person/noAvatar.png"} />}
               title={<TextField multiline onChange={handleChange} ref={desc} placeholder="Write something ..." className={classes.shareInput} margin="normal"/>}
               className={classes.cardHeader}
             />
@@ -162,7 +163,7 @@ function Post({ post, classes }) {
               //console.log(i)
 
               return <Linkify><CardHeader
-                avatar={<Avatar className={classes.smallAvatar} src={'/api/users/photo/' + item.postId} />}
+                avatar={<Avatar className={classes.smallAvatar} src={item.userId.profilePicture? PF + item.userId.profilePicture: PF + "person/noAvatar.png"} />}
                 title={commentBody(item)}
                 className={classes.cardHeader2}
                 key={i} /></Linkify>

@@ -206,8 +206,8 @@ function Profile({ classes }) {
                 <input readOnly={!(usr.username == currentUser.username)} placeholder={usr.relationship? usr.relationship:"Whats is the status of your relationship?"} className={classes.shareInput} onChange={handleRelationship}    value={relationship} />
               </div>
             </div>
-          <div className={classes.profileRightBottom}>
-              <Feed username={username} />
+          <div className={classes.profileRightBottom} >
+              <Feed username={username}/>
               { isMobileDevice && isTabletDevice && <Rightbar  user={usr}/>}
             </div>
         </div>

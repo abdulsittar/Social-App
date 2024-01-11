@@ -12,8 +12,8 @@ import SimplePopover from '../popover/SimplePopover';
 
 function Topbar({ classes, setSelectedValue, isProfile }) {
     const [fv, setFv] = useState(0);
-    const { user } = useContext(AuthContext);
-    const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+    const { user }    = useContext(AuthContext);
+    const PF          = process.env.REACT_APP_PUBLIC_FOLDER;
     const [anchorEl, setAnchorEl] = useState(null);
     const { user: currentUser, dispatch } = useContext(AuthContext);
 
@@ -22,15 +22,13 @@ function Topbar({ classes, setSelectedValue, isProfile }) {
         //console.log(isProfile);
       }, []);
 
-
     const isMobileDevice = useMediaQuery({ query: "(min-device-width: 480px)", });
     const isTabletDevice = useMediaQuery({ query: "(min-device-width: 768px)", });
-    const isLaptop = useMediaQuery({ query: "(min-device-width: 1024px)", });
-    const isDesktop = useMediaQuery({ query: "(min-device-width: 1200px)", });
-    const isBigScreen = useMediaQuery({ query: "(min-device-width: 1201px )", });
+    const isLaptop       = useMediaQuery({ query: "(min-device-width: 1024px)", });
+    const isDesktop      = useMediaQuery({ query: "(min-device-width: 1200px)", });
+    const isBigScreen    = useMediaQuery({ query: "(min-device-width: 1201px )", });
 
     const timeLineClick = (event) => {
-
         //console.log('Clicked ' + event.currentTarget)
     };
 
@@ -44,17 +42,18 @@ function Topbar({ classes, setSelectedValue, isProfile }) {
     };
 
     const onRadioChanged = e => {
-
         //console.log("radio avlues")
         //console.log(e.target.value)
         setSelectedValue(e.target.value)
-
-
         //setUpdatedPosts(e.target.value)
+        //try {
+        //    console.log("radio avlues")
         //dispatch({ type: "RADIO", payload: e.target.value });
         //this.props.fetchPosts(e.target.value)
+        //} catch (err) {
+        //    console.log(err)
+        //}
     };
-
 
     return (
         <div className={classes.topbarContainer} style={{ 'backgroundColor': '#3e3f40', 'display': (isMobileDevice || isTabletDevice) && 'flex' }}>
@@ -92,14 +91,14 @@ function Topbar({ classes, setSelectedValue, isProfile }) {
                 <FormControl row={true} style={{ 'margin-left': '0', "fontSize": "10px" }}>
                     <FormLabel id="demo-radio-buttons-group-label" style={{ text: 'white', 'margin': '0' }}></FormLabel>
                     <RadioGroup style={{ 'margin': '0', "fontSize": "10px" }} aria-labelledby="demo-radio-buttons-group-label" defaultValue="0" row={true} name="radio-buttons-group" onChange={onRadioChanged}>
-                        <FormControlLabel value="0" control={<Radio />} label={<span style={{ "fontSize": !isMobileDevice && !isTabletDevice && "12px"}}>{"All Posts"}</span>} />
+                        <FormControlLabel value="0" control={<Radio />} label={<span style={{ "fontSize": !isMobileDevice && !isTabletDevice && "12px"}}>{"Recommended"}</span>} />
                         <FormControlLabel value="1" control={<Radio />} label={<span style={{ "fontSize": !isMobileDevice && !isTabletDevice && "12px"}}>{"Followers"}</span>} />
                         <FormControlLabel value="2" control={<Radio />} label={<span style={{ "fontSize": !isMobileDevice && !isTabletDevice && "12px"}}>{"Followings"}</span>} />
                     </RadioGroup>
                 </FormControl>
             </div> : <div></div>
             }
-            {(isMobileDevice || isTabletDevice) &&
+            {(isMobileDevice || isTabletDevice) && 
             <div className={classes.topbarRight} >
                 <div className={classes.userInfo} style={{ alignItems: 'flex-end', 'flex-direction': !isMobileDevice && !isTabletDevice && 'column' }}>
                     <Link to={`/profile/${user.username}`} style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
