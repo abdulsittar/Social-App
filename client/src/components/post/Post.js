@@ -5,6 +5,7 @@ import { AuthContext } from "../../context/AuthContext";
 import Icon from '@material-ui/core/Icon'
 import axios from "axios"
 import { MoreVert } from '@material-ui/icons';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { withStyles } from '@material-ui/core/styles';
 import { styles } from './postStyle'
 import CardHeader from '@material-ui/core/CardHeader'
@@ -84,6 +85,10 @@ function Post({ post, classes }) {
     } catch (err) { }
     setLike(isLiked ? like - 1 : like + 1);
     setIsLiked(!isLiked);
+    if (post.likes.length == 1){
+      setIsLikedByOne(false);
+    }
+    
   };
 
   const showCommentsHandler = () => {
@@ -94,7 +99,7 @@ function Post({ post, classes }) {
   }
 
   const commentBody = item => {
-    console.log(item)
+    //.log(item)
     //console.log(item.userId)
     //console.log(item.body)
     //console.log(item.username)
@@ -130,7 +135,7 @@ function Post({ post, classes }) {
             <span className={classes.postDate}>{format(post.createdAt)}</span>
           </div>
           <div className={classes.postTopRight}>
-            <MoreVert />
+            <ArrowForwardIcon />
           </div>
         </div>
         <div className={classes.postCenter}>
@@ -153,7 +158,10 @@ function Post({ post, classes }) {
           <div className={classes.txtnButtonRight}>
             <CardHeader
               avatar={ <Avatar className={classes.smallAvatar} src={user.profilePicture? PF + user.profilePicture: PF + "person/noAvatar.png"} />}
-              title={<TextField multiline onChange={handleChange} ref={desc} placeholder="Write something ..." className={classes.shareInput} margin="normal"/>}
+              title={<TextField InputProps={{
+                className: classes.multilineColor
+              }}
+              className={classes.shareInput} multiline onChange={handleChange} ref={desc} placeholder="Write something ..."  margin="normal"/>}
               className={classes.cardHeader}
             />
             <button className={classes.sendButton} type="submit" >Send</button>

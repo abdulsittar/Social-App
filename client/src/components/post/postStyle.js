@@ -107,15 +107,15 @@ export const styles = {
         "height": "25px",
         "borderRadius": "50%",
         "objectFit": "cover",
-        "marginRight": "15px"
+        "marginRight": "5px"
       },
     "shareInput": {
         "border": "none",
         "width":"100%",
         backgroundColor: '#273047',
         lineHeight:'20px',
-        padding:'15px 10px',
-        color:'#d0d3db',
+        padding:'5px 10px',
+        color: '#FFFFFF',
         fontSize:'14px',
         '&:focus': {
             outline: 'none',
@@ -126,6 +126,9 @@ export const styles = {
         "alignItems": "center",
         "justifyContent": "space-between",
         padding: '0px 20px'
+    },
+    multilineColor:{
+        color:'white'
     },
     "postBottomLeft": {
         "display": "flex",

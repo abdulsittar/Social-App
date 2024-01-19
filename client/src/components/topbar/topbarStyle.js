@@ -16,8 +16,8 @@ export const styles = {
     'margin-bottom': '10px'
   },
   'logo': {
-    'fontSize': '24px',
-    'marginLeft': '20px',
+    'fontSize': '20px',
+    'marginLeft': '5px',
     'fontWeight': 'bold',
     'color': '#d0d3db',
     'cursor': 'pointer'
@@ -33,9 +33,18 @@ export const styles = {
     'display': 'flex',
     'alignItems': 'center'
   },
+  'titleAndIcon': {
+    'display': 'flex'
+  },
   'searchIcon': {
     'fontSize': '27px !important',
     'marginLeft': '10px'
+  },
+  'homeIcon': {
+    'marginLeft': '10px',
+    'width': '30px',
+    'height': '30px',
+    'color': 'white'
   },
   'searchInput': {
     'border': 'none',

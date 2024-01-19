@@ -6,6 +6,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { withStyles } from '@material-ui/core/styles';
 import { styles } from './topbarStyle';
 import { useMediaQuery } from 'react-responsive';
+import HomeIcon from '@mui/icons-material/Home';
 
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import SimplePopover from '../popover/SimplePopover';
@@ -58,7 +59,8 @@ function Topbar({ classes, setSelectedValue, isProfile }) {
     return (
         <div className={classes.topbarContainer} style={{ 'backgroundColor': '#3e3f40', 'display': (isMobileDevice || isTabletDevice) && 'flex' }}>
             <div className={classes.topbarLeft} style={{ textDecoration: 'none', 'margin-top': (isMobileDevice || isTabletDevice) && '20px' }}>
-                <Link to='/'  >
+                <Link to='/'  className={classes.titleAndIcon}>
+                    <HomeIcon className={classes.homeIcon}/>
                     <span className={classes.logo}>Twin of Online Social Networks</span>
                 </Link>
             </div>

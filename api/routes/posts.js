@@ -573,8 +573,8 @@ router.get('/profile/:username', async(req, res) =>{
             .populate({path : 'comments', populate:{path : "userId", model: "User"}})
             .sort({ createdAt: 'descending' })
             //.lean()
-            //.skip(req.query.page * resultsPerPage)
-            //.limit(resultsPerPage)
+            .skip(req.query.page * resultsPerPage)
+            .limit(resultsPerPage)
             .exec()
         res.status(200).json(posts);
     } catch(err) {

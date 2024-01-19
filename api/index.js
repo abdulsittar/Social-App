@@ -56,7 +56,7 @@
   const options = {
     definition: { openapi: "3.1.0",
       info: {
-        title: "Basic social app - Express APIs with Swagger", version: "0.1.0", description: "", },
+        title: "Twin of Online Social Networks - Express APIs with Swagger", version: "0.1.0", description: "", },
     },
     apis: ["./routes/*.js"],
   };

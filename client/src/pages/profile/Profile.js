@@ -38,14 +38,17 @@ function Profile({ classes }) {
     useEffect(() => {
         const fetchUser = async () => {
             const res = await axios.get(`/users?username=${username}`)
+            console.log("fetch user");
+            console.log(res.data)
             setUsr(res.data);
+            console.log(usr);
         };
 
         fetchUser();
-        setBio(usr.desc);
-        setCity(usr.city);
-        setCountry(usr.from);
-        setRelationship(usr.relationship);
+        //setBio(usr.desc);
+        //setCity(usr.city);
+        //setCountry(usr.from);
+        //setRelationship(usr.relationship);
         //console.log(usr.profilePicture);
         setSelectedImage(usr.profilePicture);
         setPreImage(usr.profilePicture);
@@ -200,10 +203,10 @@ function Profile({ classes }) {
           </button>
         )}
                 <h4 className={classes.profileInfoName}>{usr.username} </h4>
-                <input readOnly={!(usr.username == currentUser.username)}  placeholder={usr.desc? usr.desc: "Enter your biography"} className={classes.shareInput} onChange={handleDescription}  value={bio} />
-                <input readOnly={!(usr.username == currentUser.username)} placeholder={usr.city? usr.city:"Enter the name of your City"} className={classes.shareInput} onChange={handleCity}  value={city} />
-                <input readOnly={!(usr.username == currentUser.username)} placeholder={usr.from? usr.from:"Enter the name of your Country"} className={classes.shareInput} onChange={handleCountry}    value={country} />
-                <input readOnly={!(usr.username == currentUser.username)} placeholder={usr.relationship? usr.relationship:"Whats is the status of your relationship?"} className={classes.shareInput} onChange={handleRelationship}    value={relationship} />
+                <input readOnly={!(usr.username == currentUser.username)}  placeholder={usr.desc? usr.desc: "Enter your biography"} className={classes.shareInput} onChange={handleDescription}  value={usr.desc? usr.desc: bio} />
+                <input readOnly={!(usr.username == currentUser.username)} placeholder={usr.city? usr.city:"Enter the name of your City"} className={classes.shareInput} onChange={handleCity}  value={usr.city? usr.city: city} />
+                <input readOnly={!(usr.username == currentUser.username)} placeholder={usr.from? usr.from:"Enter the name of your Country"} className={classes.shareInput} onChange={handleCountry}    value={usr.from? usr.from: country} />
+                <input readOnly={!(usr.username == currentUser.username)} placeholder={usr.relationship? usr.relationship:"Whats is the status of your relationship?"} className={classes.shareInput} onChange={handleRelationship}    value={usr.relationship? usr.relationship:relationship} />
               </div>
             </div>
           <div className={classes.profileRightBottom} >

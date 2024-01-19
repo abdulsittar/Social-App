@@ -14,7 +14,8 @@ function Feed({username, classes, selectedValue}) {
     const [hasMore, setHasMore] = useState(true);
     const [index, setIndex] = useState(0);
     const [isFiltered, setIsFiltered] = useState(false);
-    const [preFilter, setPreFilter] = useState("/posts/timelinePag/");
+    const [preFilter, setPreFilter] = useState(-1);
+    const [preProfile, setPreProfile] = useState(" ");
 
     const increment  = (pv, iv) => {
         setIndex(pv+iv);
@@ -24,18 +25,66 @@ function Feed({username, classes, selectedValue}) {
     const [followed, setFollowed] = useState([]
         //currentUser.followings.includes(user?.id)
       );
-
       console.log("selected radio avlues");
       console.log(selectedValue);
+      if(preFilter == -1){
+        console.log(preFilter);
+        setPreFilter(selectedValue);
+      } else if(preFilter !== selectedValue){
+        setIndex(0);
+        setPosts([]);
+        setPreFilter(selectedValue);
+        }
+
+    const chek = username ?  true : false;
+    if(chek == true) {
+        console.log(preProfile);
+        console.log("User name1");
+        console.log(username);
+        const ii = (preProfile === username) ? true : false;
+        console.log(ii);
+    if (preProfile === " ") {
+        setPreProfile(username);
+        console.log("User name2");
+        console.log(username);
+        console.log(preProfile);
+        console.log(user.username);
+    } else if(preProfile !== username) {
+        console.log("a NEW User name");
+        console.log(username);
+        setIndex(0);
+        setPosts([]);
+        setPreProfile(username);
+    }
+    }
       const fetchPosts = async (selectedValue) => {
+      console.log("fetchpost")
+      const chek = username ?  true : false;
+    if(chek == true) {
+        console.log(preProfile);
+        console.log("User name1");
+        console.log(username);
+        const ii = (preProfile === username) ? true : false;
+        console.log(ii);
+    if (preProfile === " ") {
+        setPreProfile(username);
+        console.log("User name2");
+        console.log(username);
+        console.log(preProfile);
+        console.log(user.username);
+    } else if(preProfile !== username) {
+        console.log("a NEW User name");
+        console.log(username);
+        setIndex(0);
+        setPosts([]);
+        setPreProfile(username);
+    }
+    }
 
-        //console.log("fetchpost")
-        //console.log(user.feedValue)
+      var whPosts = "/posts/timelinePag/";
+
+      if(selectedValue == 0){
         var whPosts = "/posts/timelinePag/";
-
-        if(selectedValue == 0){
-            var whPosts = "/posts/timelinePag/";
-
         }
         else if (selectedValue == 1){
             whPosts = "/posts/onlyFollowersPag/"
@@ -43,17 +92,8 @@ function Feed({username, classes, selectedValue}) {
         else if (selectedValue == 2){
             whPosts = "/posts/onlyFollowingsPag/"
         }
-        
         console.log(preFilter);
         console.log(whPosts);
-        if(preFilter !== whPosts){
-            increment(index, -index);
-            setPosts([]);
-            console.log("Not equal");
-            console.log(index);
-        }else{
-            console.log("equalequal");
-        }
         const res = username ?  await axios.get("/posts/profile/" + username+`?page=${index}`) : await axios.get(whPosts + user._id+`?page=${index}`);
         console.log(res.data)
         console.log("fetch posts")
@@ -65,19 +105,23 @@ function Feed({username, classes, selectedValue}) {
             //setIndex((index) => index + 1);
             increment(index, 1);
         } else {
-            setPosts([]);
+            //setPosts([]);
             //setIndex((index) => 0);
             //increment(index, -index);
         }
 
-        setPreFilter(whPosts);
+        //setPreFilter(whPosts);
         console.log(whPosts);
         //setPosts(res.data.sort((p1,p2) => {return new Date(p2.createdAt) - new Date(p1.createdAt);})); 
     };
 
-    const fetchMoreData = async (selectedValue) => {
+    const fetchMoreData = async () => {
+        if(index == 0){
+            return
+        }
         //console.log("fetchpost")
-        //console.log(user.feedValue)
+        console.log("fetch more  posts");
+        console.log(selectedValue);
         var whPosts = "/posts/timelinePag/";
 
         if(selectedValue == 0){
@@ -90,23 +134,22 @@ function Feed({username, classes, selectedValue}) {
             whPosts = "/posts/onlyFollowingsPag/"
         }
 
-        const res = username ?  await axios.get("/posts/profile/" + username): await axios.get(whPosts + user._id+`?page=${index}`);
+        const res = username ?  await axios.get("/posts/profile/" + username+`?page=${index}`): await axios.get(whPosts + user._id+`?page=${index}`);
         //console.log(res.data);
-        console.log("fetch more  posts");
+        
         if(res.data.length > 0){
             setPosts((prevItems) => [...prevItems, ...res.data
                 //.sort((p1,p2) => {return new Date(p2.createdAt) - new Date(p1.createdAt);})
             ]); 
             res.data.length > 0 ? setHasMore(true) : setHasMore(false);
-            //setIndex((index) => index + 1);
             increment(index, 1);
         }
     };
     
     useEffect(() => {
-        //console.log("selected radio avlues") 
+        console.log("use effects!");
         if (selectedValue !=10){
-         fetchPosts(selectedValue);
+            fetchPosts(selectedValue);
         }
     }, [username, user._id, selectedValue])
 
