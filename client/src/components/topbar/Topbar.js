@@ -53,43 +53,43 @@ function Topbar({ classes, setSelectedValue, isProfile }) {
         //this.props.fetchPosts(e.target.value)
         //} catch (err) {
         //    console.log(err)
-        //}
+        //}<div className={classes.searchbar}>
+        //<Search className={classes.searchIcon} />
+        //<input placeholder="Search" className={classes.searchInput} />
+    //</div>
+
+    //<div className={classes.topbarCenter} style={{ 'backgroundColor': '#3e3f40', 'margin-top': (isMobileDevice || isTabletDevice) && '20px', 'display':  !isMobileDevice && !isTabletDevice && 'flex'}}  >
+    // </div>
+    // (isMobileDevice || isTabletDevice) &&
     };
 
     return (
         <div className={classes.topbarContainer} style={{ 'backgroundColor': '#3e3f40', 'display': (isMobileDevice || isTabletDevice) && 'flex' }}>
-            <div className={classes.topbarLeft} style={{ textDecoration: 'none', 'margin-top': (isMobileDevice || isTabletDevice) && '20px' }}>
-                <Link to='/'  className={classes.titleAndIcon}>
-                    <HomeIcon className={classes.homeIcon}/>
-                    <span className={classes.logo}>Twin of Online Social Networks</span>
+            
+            <div className={classes.topbarLeft} style={{'width' : window.innerWidth, justifyContent: 'space-between'}}>
+
+            <div style={{ alignItems: 'flex-start'}}>
+                <Link  style={{textDecoration: 'none'}} to='/'  className={classes.titleAndIcon}>
+                    <HomeIcon className={classes.homeIcon} style={{'margin-top': !isMobileDevice && !isTabletDevice && '10px' }}/>
+                    {!isMobileDevice && !isTabletDevice && <span className={classes.logo} style={{'margin-top': !isMobileDevice && !isTabletDevice && '10px' }}>TWON</span>}
+                    {isMobileDevice && isTabletDevice && <span className={classes.logo}>Twin of Online Social Networks</span>}
                 </Link>
             </div>
-            <div className={classes.topbarCenter} style={{ 'backgroundColor': '#3e3f40', 'margin-top': (isMobileDevice || isTabletDevice) && '20px', 'display':  !isMobileDevice && !isTabletDevice && 'flex'}}  >
-                <div className={classes.searchbar}>
-                    <Search className={classes.searchIcon} />
-                    <input placeholder="Search" className={classes.searchInput} />
-                </div>
-                {!isMobileDevice && !isTabletDevice &&
-                     <div className={classes.userInfo} style={{ alignItems: 'flex-end', 'flex-direction': 'column' }}>
+
+            {!isMobileDevice && !isTabletDevice && 
+            <div style={{'display': 'flex', alignItems: 'flex-end', 'margin-top': '5px'}}>
                      <Link to={`/profile/${user.username}`} style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
-                         <img
-                             src={
-                                 user.profilePicture
-                                     ? PF + user.profilePicture
-                                     : PF + "person/noAvatar.png"
-                             }
-                             alt=""
-                             className={classes.topbarImg}
-                         />
+                         <img  src={user.profilePicture? PF + user.profilePicture: PF + "person/noAvatar.png"} alt="" className={classes.topbarImg} />
                          <p className={classes.username}>{user.username}</p>
                      </Link>
                      <KeyboardArrowDownIcon className={classes.downArrow} onClick={openProfileDetails} />
                      <SimplePopover anchorEl={anchorEl} handleClose={handleClose} />
-                 </div>
-                }
             </div>
+             }
+            </div>
+
             {!isProfile?
-            <div className={classes.topbarRight} style={{ 'margin': '0', 'backgroundColor': '#3e3f40', 'margin-top': (isMobileDevice || isTabletDevice) && '20px', 'display':  'flex', 'flex':  '4', 'flex-direction':  'row' }}>
+            <div className={classes.topbarRight} style={{ 'margin-top': '-10px', 'backgroundColor': '#3e3f40', 'margin-top': '0px', 'display':  'flex', 'flex':  '4', 'flex-direction':  'row' }}>
                 <FormControl row={true} style={{ 'margin-left': '0', "fontSize": "10px" }}>
                     <FormLabel id="demo-radio-buttons-group-label" style={{ text: 'white', 'margin': '0' }}></FormLabel>
                     <RadioGroup style={{ 'margin': '0', "fontSize": "10px" }} aria-labelledby="demo-radio-buttons-group-label" defaultValue="0" row={true} name="radio-buttons-group" onChange={onRadioChanged}>
@@ -102,24 +102,15 @@ function Topbar({ classes, setSelectedValue, isProfile }) {
             }
             {(isMobileDevice || isTabletDevice) && 
             <div className={classes.topbarRight} >
-                <div className={classes.userInfo} style={{ alignItems: 'flex-end', 'flex-direction': !isMobileDevice && !isTabletDevice && 'column' }}>
+                <div className={classes.userInfo} style={{ alignItems: 'flex-end' }}>
                     <Link to={`/profile/${user.username}`} style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
-                        <img
-                            src={
-                                user.profilePicture
-                                    ? PF + user.profilePicture
-                                    : PF + "person/noAvatar.png"
-                            }
-                            alt=""
-                            className={classes.topbarImg}
-                        />
+                        <img src={ user.profilePicture ? PF + user.profilePicture : PF + "person/noAvatar.png" } alt="" className={classes.topbarImg} />
                         <p className={classes.username}>{user.username}</p>
                     </Link>
                     <KeyboardArrowDownIcon className={classes.downArrow} onClick={openProfileDetails} />
                     <SimplePopover anchorEl={anchorEl} handleClose={handleClose} />
                 </div>
-            </div>
-}
+            </div>}
         </div>
     )
 }

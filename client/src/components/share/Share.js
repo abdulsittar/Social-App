@@ -5,6 +5,8 @@ import axios from "axios";
 import { withStyles } from '@material-ui/core/styles';
 import {styles} from './shareStyle';
 import { useMediaQuery } from 'react-responsive';
+import InputEmoji from "react-input-emoji";
+import SendIcon from '@mui/icons-material/Send';
 
 function Share({classes}) {
     const { user } = useContext(AuthContext);
@@ -55,7 +57,7 @@ function Share({classes}) {
                         }
                         alt=""
                     />
-                    <input
+                    <InputEmoji
                         placeholder={"What's in your mind " + user.username + "?"}
                         className={classes.shareInput}
                         ref={desc}
@@ -94,7 +96,7 @@ function Share({classes}) {
                             <span className={classes.shareOptionText}>Feelings</span>
                         </div>
                     </div>
-                    <button className={classes.shareButton} style={{ align: "right" }} type="submit">Share</button>
+                    <SendIcon style={{ align: "right" }} type="submit"/>
                 </form>
             </div>
         </div>

@@ -1,11 +1,11 @@
 import { useContext, useEffect, useState, useRef } from "react";
 import { format } from 'timeago.js'
-import { Link } from 'react-router-dom';
 import { AuthContext } from "../../context/AuthContext";
 import Icon from '@material-ui/core/Icon'
 import axios from "axios"
 import { MoreVert } from '@material-ui/icons';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import { Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import { styles } from './postStyle'
 import CardHeader from '@material-ui/core/CardHeader'
@@ -14,30 +14,92 @@ import Avatar from '@material-ui/core/Avatar'
 import CommentSA from '../comment/commentSA';
 import PropTypes from 'prop-types';
 import Linkify from 'react-linkify';
+import SendIcon from '@mui/icons-material/Send';
+import { useMediaQuery } from 'react-responsive';
+//import 'emoji-mart/css/emoji-mart.css';
+import InputEmoji from "react-input-emoji";
+import MoodIcon from '@mui/icons-material/Mood';
+import React from 'react';
 
-function Post({ post, classes }) {
+
+function Post({ post, classes, isDetail }) {
+  const inputEl = React.useRef<HTMLInputElement>(null);
   //console.log(post);
   const [like, setLike] = useState(post.likes.length);
+  const [dislike, setDislike] = useState(post.dislikes.length);
   const [isLiked, setIsLiked] = useState(false);
+  const [isDisliked, setIsDisliked] = useState(false);
   const [isLikedByOne, setIsLikedByOne] = useState(false);
+  const [isDislikedByOne, setIsDislikedByOne] = useState(false);
   const [user, setUser] = useState({});
   const [text, setText] = useState('')
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
   const ref = useRef(null);
   const desc = useRef();
+  const isMobileDevice = useMediaQuery({ query: "(min-device-width: 480px)"});
+  const isTabletDevice = useMediaQuery({ query: "(min-device-width: 768px)"});
+
   
   var cover = true;
 
   const { user: currentUser } = useContext(AuthContext);
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+  const [isHovered, setIsHovered] = useState(false);
+  const [isDisHovered, setIsDisHovered] = useState(false);
 
+      const handleMouseEnter = e => {
+        setIsHovered(true);
+      };
+
+      const handleMouseLeave = e => {
+        setIsHovered(false);
+      };
+
+      const handleDisMouseEnter = e => {
+        setIsDisHovered(true);
+      };
+
+      const handleDisMouseLeave = e => {
+        setIsDisHovered(false);
+      };
+      
+      const onButtonClick = () => {
+        // `current` points to the mounted text input element
+        inputEl.current.focus();
+      };
   //console.log("here is the url")
   //console.log(PF)
+    /*const fetchComments = async () => {
+    console.log("fetchComments")
+    const res = await axios.get( + user._id+`?page=${index}`);
+    console.log(res.data)
+    console.log("fetch posts")
+    if(res.data.length > 0){
+      setPosts((prevItems) => [...prevItems, ...res.data
+      //.sort((p1,p2) => {return new Date(p2.createdAt) - new Date(p1.createdAt);})
+      ]); 
+    res.data.length > 0 ? setHasMore(true) : setHasMore(false);
+      //setIndex((index) => index + 1);
+      increment(index, 1);
+    } else {
+      //setPosts([]);
+      //setIndex((index) => 0);
+      //increment(index, -index);
+    }
+
+      //setPreFilter(whPosts);
+      console.log(whPosts);
+      //setPosts(res.data.sort((p1,p2) => {return new Date(p2.createdAt) - new Date(p1.createdAt);})); 
+  };*/
+
 
   useEffect(() => {
     setIsLiked(post.likes.includes(currentUser._id));
     setIsLikedByOne(post.likes.length == 1)
-  }, [currentUser._id, post.likes]);
+    setIsDisliked(post.dislikes.includes(currentUser._id));
+    setIsDislikedByOne(post.dislikes.length == 1)
+
+  }, [currentUser._id, post.likes, post.dislikes]);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -52,7 +114,7 @@ function Post({ post, classes }) {
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (ref.current && !ref.current.contains(event.target)) {
-        setIsVisible(false);
+        setIsVisible(true);
       }
     };
     document.addEventListener("click", handleClickOutside, false);
@@ -64,6 +126,11 @@ function Post({ post, classes }) {
   const handleChange = event => {
     setText(event.target.value)
   }
+
+  // postDetails
+  const postDetailsHandler = async (e) => {
+    e.preventDefault();
+  };
 
   // submit a comment
   const submitHandler = async (e) => {
@@ -88,14 +155,22 @@ function Post({ post, classes }) {
     if (post.likes.length == 1){
       setIsLikedByOne(false);
     }
-    
+  };
+
+  const dislikeHandler = () => {
+    try {
+      axios.put("/posts/" + post._id + "/dislike", { userId: currentUser._id });
+    } catch (err) { }
+    setDislike(isDisliked ? dislike - 1 : dislike + 1);
+    setIsDisliked(!isDisliked);
+    if (post.dislikes.length == 1){
+      setIsDislikedByOne(false);
+    }
   };
 
   const showCommentsHandler = () => {
     var bottomdiv = document.getElementsByClassName("form")
     bottomdiv.style.display="none";
-    
-
   }
 
   const commentBody = item => {
@@ -105,9 +180,12 @@ function Post({ post, classes }) {
     //console.log(item.username)
     //console.log(item.postId)
     //console.log(item.createdAt)
+    //{isLiked ? <span className={classes.postLikeCounter}>{isLikedByOne ? "you only " : "you and " + (like - 1).toString() + " others"} liked it</span>  :  <span className={classes.postLikeCounter}>{like} liked it</span>} 
+    //{isLiked ? <span className={classes.postLikeCounter}>{isDislikedByOne ? "you only " : "you and " + (dislike - 1).toString() + " others"} disliked it</span>  :  <span className={classes.postLikeCounter}>{dislike} disliked it</span>} 
+           //<MoodIcon style={{margin: "20px"}}  onClick={onButtonClick} />
     return (
       <p className={classes.commentText}>
-        <Link to={`/profile/${item.username}`}>{item.username}</Link>
+        <Link  style={{textDecoration: 'none', color: '#FFF'}} to={`/profile/${item.username}`}>{item.username}</Link>
         <br />
         {item.body}{'   '}
         <span className={classes.postDate}>
@@ -120,23 +198,25 @@ function Post({ post, classes }) {
       </p>
     )
   }
-
   return (
     <div className={classes.post}>
       <div className={classes.postWrapper}>
         <div className={classes.postTop}>
           <div className={classes.postTopLeft}>
-            <Link to={`profile/${user.username}`}>
+            <Link  style={{textDecoration: 'none', color: '#FFF'}} to={`profile/${user.username}`}>
               <img src={user.profilePicture ? PF + user.profilePicture : PF + 'person/noAvatar.png'} alt="" className={classes.postProfileImg} />
             </Link>
+            <Link style={{textDecoration: 'none', color: '#FFF'}} to={`profile/${user.username}`}>
             <span className={classes.postUsername}>
               {user.username}
             </span>
+            </Link>
             <span className={classes.postDate}>{format(post.createdAt)}</span>
           </div>
+          { (!isDetail)?
           <div className={classes.postTopRight}>
-            <ArrowForwardIcon />
-          </div>
+          <Link style={{textDecoration: 'none', color: '#FFF'}} to={{pathname:`/postdetail/${user.username}`, state:{myObj: post}}}> <ArrowForwardIcon /></Link></div>: <div></div>
+          }
         </div>
         <div className={classes.postCenter}>
         <Linkify><div className={classes.postText}>{post?.desc}</div></Linkify>
@@ -144,9 +224,12 @@ function Post({ post, classes }) {
         </div>
         <div className={classes.postBottom}>
           <div className={classes.postBottomLeft}>
-            <img src={`${PF}like.png`} alt="" className={classes.likeIcon} style={{ display: "none" }} onClick={likeHandler} />
-            <img src={`${PF}heart.png`} alt="" className={classes.likeIcon} onClick={likeHandler} />
-            {isLiked ? <span className={classes.postLikeCounter}>{isLikedByOne ? "you only " : "you and " + (like - 1).toString() + " others"} liked it</span>  :  <span className={classes.postLikeCounter}>{like} liked it</span>} 
+            <img onMouseOver={handleMouseEnter} onMouseLeave={handleMouseLeave} src={`${PF}like.png`} alt="" className={classes.likeIcon} onClick={likeHandler} />
+            {isHovered && !isMobileDevice && !isTabletDevice ? (isLiked ? <span className={classes.postLikeCounter}>{isLikedByOne ? "you only " : "you and " + (like - 1).toString() + " others"} liked it</span>  :  <span className={classes.postLikeCounter}>{like} liked it</span>): <span className={classes.postLikeCounter}>{like}</span>}
+                  
+            <img onMouseOver={handleDisMouseEnter} onMouseLeave={handleDisMouseLeave} src={`${PF}dislike.png`} alt="" className={classes.likeIcon} onClick={dislikeHandler} />
+            {isDisHovered  && !isMobileDevice && !isTabletDevice? (isLiked ? <span className={classes.postDislikeCounter}>{isDislikedByOne ? "you only " : "you and " + (dislike - 1).toString() + " others"} disliked it</span>  :  <span className={classes.postDislikeCounter}>{dislike} disliked it</span>): <span className={classes.postDislikeCounter}>{dislike}</span>}
+             
           </div>
           <div className={classes.postBottomRight}>
             <div className={classes.postCommentText} onClick={(e) => { e.stopPropagation(); setIsVisible(!isVisible);}} >{post.comments.length} comments</div>
@@ -157,34 +240,41 @@ function Post({ post, classes }) {
         <form onSubmit={submitHandler} class = "form">
           <div className={classes.txtnButtonRight}>
             <CardHeader
-              avatar={ <Avatar className={classes.smallAvatar} src={user.profilePicture? PF + user.profilePicture: PF + "person/noAvatar.png"} />}
-              title={<TextField InputProps={{
-                className: classes.multilineColor
-              }}
-              className={classes.shareInput} multiline onChange={handleChange} ref={desc} placeholder="Write something ..."  margin="normal"/>}
-              className={classes.cardHeader}
-            />
-            <button className={classes.sendButton} type="submit" >Send</button>
+              avatar={<Avatar className={classes.smallAvatar} src={user.profilePicture? PF + user.profilePicture: PF + "person/noAvatar.png"} />}
+              title={<div  style={{ width: (!isMobileDevice && !isTabletDevice)? "100%": "100%"}}>
+                <InputEmoji className={classes.shareInput} multiline onChange={setText}  onEnter={handleChange} placeholder="Write something ..."  margin="normal" /></div>}
+              className={classes.cardHeader}/>
+
+            
+            <SendIcon type="submit" />
+            
             </div>
             {post.comments.map((item, i) => {
               //console.log(item)
-              //console.log(i)
+              console.log(i)
+              if(isDetail===false && i < 2){
+                return <Linkify><CardHeader
+                  avatar={<Avatar className={classes.smallAvatar} src={item.userId.profilePicture? PF + item.userId.profilePicture: PF + "person/noAvatar.png"} />}
+                  title={commentBody(item)}
+                  className={classes.cardHeader2}
+                  key={i} /></Linkify>
 
-              return <Linkify><CardHeader
-                avatar={<Avatar className={classes.smallAvatar} src={item.userId.profilePicture? PF + item.userId.profilePicture: PF + "person/noAvatar.png"} />}
-                title={commentBody(item)}
-                className={classes.cardHeader2}
-                key={i} /></Linkify>
+              } else if(isDetail === true) {
+
+                return <Linkify><CardHeader
+                  avatar={<Avatar className={classes.smallAvatar} src={item.userId.profilePicture? PF + item.userId.profilePicture: PF + "person/noAvatar.png"} />}
+                  title={commentBody(item)}
+                  className={classes.cardHeader2}
+                  key={i} /></Linkify>
+              }
             })
             }
-         
         </form>
         </div>
       </div>
     </div>
   )
 }
-
 
 Post.propTypes = {
   post: PropTypes.object.isRequired,

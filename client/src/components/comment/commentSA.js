@@ -18,7 +18,7 @@ function CommentSA ({post, classes}) {
     const commentBody = item => {
       return (
         <p className={classes.commentText}>
-          <Link to={"/user/" + item.postedBy._id}>{item.postedBy.name}</Link><br/>
+          <Link  style={{textDecoration: 'none'}} to={"/user/" + item.postedBy._id}>{item.postedBy.name}</Link><br/>
           {item.text}
           <span className={classes.commentDate}>
             {(new Date(item.created)).toDateString()} |

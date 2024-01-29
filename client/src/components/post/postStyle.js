@@ -32,7 +32,6 @@ export const styles = {
     },
     "postUsername": {
         "fontSize": "15px",
-        "fontWeight": "400",
         "margin": "0 10px",
         letterSpacing: '.6px'
     },
@@ -85,12 +84,11 @@ export const styles = {
         "border": "none",
         "borderRadius": "8px",
         "fontWeight": "400",
-        "marginRight":"15px",
+        "marginRight":"5px",
         "marginTop":"5px",
         "cursor": "pointer",
         "align": "align-right",
         "float": "right",
-        background: '#ff458a',
         border: '1px solid #ff458a',
         color: '#111',
         transition: 'all .3s ease',
@@ -114,9 +112,9 @@ export const styles = {
         "width":"100%",
         backgroundColor: '#273047',
         lineHeight:'20px',
-        padding:'5px 10px',
+        padding:'0px 10px',
         color: '#FFFFFF',
-        fontSize:'14px',
+        fontSize:'12px',
         '&:focus': {
             outline: 'none',
         }
@@ -137,7 +135,7 @@ export const styles = {
     "likeIcon": {
         "width": "24px",
         "height": "24px",
-        "marginRight": "7px",
+        "margin": "10px",
         "cursor": "pointer",
         transition: 'all 1 ease-in-out',
         '&:hover': {
@@ -147,6 +145,9 @@ export const styles = {
     "postLikeCounter": {
         "fontSize": "15px"
     },
+    "postDislikeCounter": {
+        "fontSize": "15px"
+    },
     "postCommentText": {
         "cursor": "pointer",
         "borderBottom": "1px dashed gray",
@@ -154,7 +155,7 @@ export const styles = {
     },
     "commentText": {
         "backgroundColor": '#273047',
-        "padding": "15px",
+        "padding": "13px",
         "margin": `2px 2px 2px 2px`
       },
     "commentDelete": {

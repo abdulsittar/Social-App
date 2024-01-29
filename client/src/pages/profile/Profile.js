@@ -143,8 +143,8 @@ function Profile({ classes }) {
       formData.append('city', city);
       formData.append('relationship', relationship);
       formData.append('from', country);
+
       try {
-        
         if (selectedImage) {
           formData.append('profilePicture', selectedImage);
           await axios.put(`/users/${usr._id}/updateProfile`, formData, {

@@ -13,6 +13,7 @@ import {
 } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "./context/AuthContext";
+import Postdetail from "./pages/postDetail/Postdetail";
 
 function App() {
   const { user } = useContext(AuthContext);
@@ -26,6 +27,7 @@ function App() {
 		<Route path="/profile/:username"><Profile /></Route>
     <Route path="/followerspage/:username"><FollowersPage /></Route>
     <Route path="/followingspage/:username"><FollowingsPage /></Route>
+    <Route path="/postdetail/:username"><Postdetail /></Route>
     </Switch>
   </Router>
   );

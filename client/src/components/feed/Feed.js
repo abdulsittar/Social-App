@@ -159,7 +159,7 @@ function Feed({username, classes, selectedValue}) {
             <div className={classes.feedWrapper}>
                 {( !username || username === user.username) && <Share/> }
                 {posts.map((p) => {
-                    return <Post key={p._id} post={p}/>
+                    return <Post key={p._id} post={p} isDetail={false}/>
                 })}
             </div>
             </InfiniteScroll>

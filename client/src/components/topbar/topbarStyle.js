@@ -10,10 +10,12 @@ export const styles = {
     'zIndex': '999'
   },
   'topbarLeft': {
+    'display': 'flex',
+    'flex-direction':  'row',
     'backgroundColor': '#3e3f40',
-    'flex': '3',
+    'flex': '4',
     'margin-top': '0px',
-    'margin-bottom': '10px'
+    'margin-bottom': '0px'
   },
   'logo': {
     'fontSize': '20px',

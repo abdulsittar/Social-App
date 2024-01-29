@@ -16,7 +16,7 @@ function Home() {
     return (
         <>
             <Topbar setSelectedValue={setSelectedValue}/>
-            <div className="homeContainer" style={{ 'margin-top': !isMobileDevice && !isTabletDevice && '35px' }}>
+            <div className="homeContainer" style={{ 'margin-top': !isMobileDevice && !isTabletDevice && '0px' }}>
                 { isMobileDevice && isTabletDevice && <Sidebar />}
                 <Feed selectedValue={selectedValue}/>
                 { isMobileDevice && isTabletDevice && <Rightbar2 />}

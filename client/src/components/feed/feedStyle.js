@@ -4,7 +4,7 @@ export const styles = {
         background: '#3e3f40',
     },
     feedWrapper: {
-        padding: '20px',
+        padding: '10px',
         background: '#3e3f40',
         color: '#d0d3db',
     }
