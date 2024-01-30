@@ -9,8 +9,13 @@ export const styles = {
     },
     "postWrapper": {
         "paddingTop": "20px",
-        paddingBottom: '20px'
+        paddingBottom: "20px"
     },
+    "shareBottom": {
+        "display": "flex",
+        "alignItems": "center",
+        "justifyContent": "space-between"
+      },
     "postTop": {
         "display": "flex",
         "alignItems": "center",
@@ -80,6 +85,21 @@ export const styles = {
           color: '#d0d3db'
         }
       },
+      "sendButton2": {
+        "border": "none",
+        "cursor": "pointer",
+        "align": "align-right",
+        "float": "right",
+
+        transition: 'all .3s ease',
+        '&:focus': {
+          outline: 'none'
+        },
+        '&:hover': {
+          background: 'transparent',
+          color: '#d0d3db'
+        }
+      },
     "sendButton": {
         "border": "none",
         "borderRadius": "8px",
@@ -105,14 +125,14 @@ export const styles = {
         "height": "25px",
         "borderRadius": "50%",
         "objectFit": "cover",
-        "marginRight": "5px"
+        "marginRight": "0px"
       },
     "shareInput": {
         "border": "none",
         "width":"100%",
         backgroundColor: '#273047',
         lineHeight:'20px',
-        padding:'0px 10px',
+        padding:'0px 0px',
         color: '#FFFFFF',
         fontSize:'12px',
         '&:focus': {
@@ -155,7 +175,7 @@ export const styles = {
     },
     "commentText": {
         "backgroundColor": '#273047',
-        "padding": "13px",
+        "padding": "2px",
         "margin": `2px 2px 2px 2px`
       },
     "commentDelete": {
@@ -169,16 +189,16 @@ export const styles = {
      
      },
 "commentsWrapper": {
-    "padding": "20px"
+    "padding": "2px"
 },
 "commentText": {
     "backgroundColor": '#273047',
     "color":"white",
-    "padding": "15px",
+    "padding": "2px",
     "margin": `2px 2px 2px 2px`
   },
 "cardHeader": {
-    "width":"100%",
+    "width":"110%",
     "height": "50px",
     "paddingTop": "0px",
     "paddingBottom": "0px",

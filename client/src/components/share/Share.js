@@ -11,6 +11,7 @@ import SendIcon from '@mui/icons-material/Send';
 function Share({classes}) {
     const { user } = useContext(AuthContext);
     const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+    const [text, setText] = useState('')
     const desc = useRef();
     const [file, setFile] = useState(null);
     const isMobileDevice = useMediaQuery({ query: "(min-device-width: 480px)", });
@@ -21,7 +22,7 @@ function Share({classes}) {
         e.preventDefault();
         const newPost = {
           userId: user._id,
-          desc: desc.current.value,
+          desc: text,
         };
         if (file) {
           const data = new FormData();
@@ -43,6 +44,13 @@ function Share({classes}) {
         } catch (err) {}
     };
 
+    function handleChange(text) {
+        setText(text)
+        console.log("enter", text);
+    
+      }
+
+
     return (
         <div className={classes.share}>
             <div className={classes.shareWrapper}>
@@ -60,6 +68,7 @@ function Share({classes}) {
                     <InputEmoji
                         placeholder={"What's in your mind " + user.username + "?"}
                         className={classes.shareInput}
+                        onChange={handleChange}
                         ref={desc}
                     />
                 </div>
@@ -96,7 +105,7 @@ function Share({classes}) {
                             <span className={classes.shareOptionText}>Feelings</span>
                         </div>
                     </div>
-                    <SendIcon style={{ align: "right" }} type="submit"/>
+                    <SendIcon style={{ align: "right" }} type="submit" onClick={submitHandler}/>
                 </form>
             </div>
         </div>

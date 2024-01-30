@@ -1,6 +1,6 @@
 export const styles ={
     "rightbar": {
-      "flex": "3.5",
+      "flex": "2",
       "color": "#d0d3db",
       "backgroundColor": "#3e3f40"
     },

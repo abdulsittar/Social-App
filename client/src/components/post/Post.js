@@ -20,7 +20,7 @@ import { useMediaQuery } from 'react-responsive';
 import InputEmoji from "react-input-emoji";
 import MoodIcon from '@mui/icons-material/Mood';
 import React from 'react';
-
+import { LinkPreview } from '@dhaiwat10/react-link-preview';
 
 function Post({ post, classes, isDetail }) {
   const inputEl = React.useRef<HTMLInputElement>(null);
@@ -33,11 +33,15 @@ function Post({ post, classes, isDetail }) {
   const [isDislikedByOne, setIsDislikedByOne] = useState(false);
   const [user, setUser] = useState({});
   const [text, setText] = useState('')
+  
   const [isVisible, setIsVisible] = useState(true);
   const ref = useRef(null);
   const desc = useRef();
   const isMobileDevice = useMediaQuery({ query: "(min-device-width: 480px)"});
   const isTabletDevice = useMediaQuery({ query: "(min-device-width: 768px)"});
+  const extractUrls = require("extract-urls");
+  let url = extractUrls(post?.desc? post?.desc: "testing teseting");
+  const [urls, setUrls] = useState(url);
 
   
   var cover = true;
@@ -123,8 +127,14 @@ function Post({ post, classes, isDetail }) {
     };
   }, []);
 
-  const handleChange = event => {
-    setText(event.target.value)
+  function handleChange(text) {
+    setText(text)
+    console.log("enter", text);
+
+  }
+
+  function handleOnEnter(text) {
+    console.log("enter", text);
   }
 
   // postDetails
@@ -135,15 +145,15 @@ function Post({ post, classes, isDetail }) {
   // submit a comment
   const submitHandler = async (e) => {
     e.preventDefault();
-    const newComment = {
-      userId: user._id,
-      description: text,
-    };
+    const newComment = { userId: user._id, description: text,};
     try {
       await axios.post("/posts/" + post._id + "/comment", { userId: currentUser._id, username: currentUser.username, txt: text, postId: post._id });
+
       // refresh the page after posting something
       window.location.reload();
-    } catch (err) { console.log(err) }
+    } catch (err) { 
+      console.log("Posted a comment");
+      console.log(err); }
   };
 
   const likeHandler = () => {
@@ -174,15 +184,6 @@ function Post({ post, classes, isDetail }) {
   }
 
   const commentBody = item => {
-    //.log(item)
-    //console.log(item.userId)
-    //console.log(item.body)
-    //console.log(item.username)
-    //console.log(item.postId)
-    //console.log(item.createdAt)
-    //{isLiked ? <span className={classes.postLikeCounter}>{isLikedByOne ? "you only " : "you and " + (like - 1).toString() + " others"} liked it</span>  :  <span className={classes.postLikeCounter}>{like} liked it</span>} 
-    //{isLiked ? <span className={classes.postLikeCounter}>{isDislikedByOne ? "you only " : "you and " + (dislike - 1).toString() + " others"} disliked it</span>  :  <span className={classes.postLikeCounter}>{dislike} disliked it</span>} 
-           //<MoodIcon style={{margin: "20px"}}  onClick={onButtonClick} />
     return (
       <p className={classes.commentText}>
         <Link  style={{textDecoration: 'none', color: '#FFF'}} to={`/profile/${item.username}`}>{item.username}</Link>
@@ -193,6 +194,8 @@ function Post({ post, classes, isDetail }) {
           {currentUser._id === item.userId &&
             <button className={classes.sendButton} type="submit" >Delete</button>
             //<Icon className={classes.dltButton}>Delete</Icon>
+            //<LinkPreview url={urls[0]} />
+            //{true && <LinkPreview url='https://www.express.pk/story/2598089/1/' width='20px' height='20px'/>}
           }
         </span>
       </p>
@@ -221,6 +224,7 @@ function Post({ post, classes, isDetail }) {
         <div className={classes.postCenter}>
         <Linkify><div className={classes.postText}>{post?.desc}</div></Linkify>
           <img src={PF + post.img} alt="" className={classes.postImg} />
+          
         </div>
         <div className={classes.postBottom}>
           <div className={classes.postBottomLeft}>
@@ -237,18 +241,16 @@ function Post({ post, classes, isDetail }) {
         </div>
         <div ref={ref} className={classes.commentsWrapper}  style={{ display: isVisible ? "block" : "none" }}>
         <hr className={classes.shareHr} />
-        <form onSubmit={submitHandler} class = "form">
+        
           <div className={classes.txtnButtonRight}>
             <CardHeader
               avatar={<Avatar className={classes.smallAvatar} src={user.profilePicture? PF + user.profilePicture: PF + "person/noAvatar.png"} />}
-              title={<div  style={{ width: (!isMobileDevice && !isTabletDevice)? "100%": "100%"}}>
-                <InputEmoji className={classes.shareInput} multiline onChange={setText}  onEnter={handleChange} placeholder="Write something ..."  margin="normal" /></div>}
+              title={
+                <InputEmoji className={classes.shareInput} fontSize= "15" height ="30px" multiline onChange={handleChange}  onEnter={handleChange} placeholder="Write something ..." />}
               className={classes.cardHeader}/>
-
-            
-            <SendIcon type="submit" />
-            
             </div>
+            <form onSubmit={submitHandler} class = "form">
+            <SendIcon className={classes.sendButton2} style={{ display:"flex", margin:"20px"}} type="submit" onClick={submitHandler}/>
             {post.comments.map((item, i) => {
               //console.log(item)
               console.log(i)
@@ -267,7 +269,7 @@ function Post({ post, classes, isDetail }) {
                   className={classes.cardHeader2}
                   key={i} /></Linkify>
               }
-            })
+              })
             }
         </form>
         </div>

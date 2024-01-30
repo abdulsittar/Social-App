@@ -8,7 +8,7 @@ export const styles = {
     color:'#d0d3db',
   },
   "shareWrapper": {
-    "padding": "20px"
+    "padding": "20px 5px 20px 5px"
   },
   "shareTop": {
     "display": "flex",

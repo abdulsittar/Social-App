@@ -1,6 +1,6 @@
 export const styles = {
   "sidebar": {
-    "flex": "3",
+    "flex": "2",
     "height": "calc(100vh - 80px)",
     "overflowY": "scroll",
     "position": "sticky",

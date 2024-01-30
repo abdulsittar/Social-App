@@ -16,6 +16,7 @@
   "author": "Costin Gheorghe",
   "license": "ISC",
   "dependencies": {
+    "@dhaiwat10/react-link-preview": "^1.15.0",
     "bcrypt": "^5.1.1",
     "cookie-parser": "^1.4.4",
     "cors": "^2.8.5",
@@ -28,6 +29,7 @@
     "express-session": "^1.16.1",
     "express-sslify": "^1.2.0",
     "express-validator": "^5.3.1",
+    "extract-urls": "^1.4.0",
     "helmet": "^4.6.0",
     "http-proxy-middleware": "^2.0.6",
     "moment": "^2.24.0",
