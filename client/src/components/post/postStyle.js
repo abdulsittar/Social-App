@@ -125,7 +125,8 @@ export const styles = {
         "height": "25px",
         "borderRadius": "50%",
         "objectFit": "cover",
-        "marginRight": "0px"
+        "marginRight": "0px",
+        "alignItems": "flex-start"
       },
     "shareInput": {
         "border": "none",
@@ -162,12 +163,28 @@ export const styles = {
             transform: 'scale(1.4)'
         }
     },
+    "commentLikeIcon": {
+      "width": "24px",
+      "height": "24px",
+      "margin": "10px",
+      "cursor": "pointer",
+      transition: 'all 1 ease-in-out',
+      '&:hover': {
+          transform: 'scale(1.4)'
+      }
+  },
     "postLikeCounter": {
         "fontSize": "15px"
     },
     "postDislikeCounter": {
         "fontSize": "15px"
     },
+    "commentLikeCounter": {
+      "fontSize": "10px"
+  },
+  "commentDislikeCounter": {
+      "fontSize": "10px"
+  },
     "postCommentText": {
         "cursor": "pointer",
         "borderBottom": "1px dashed gray",
@@ -185,8 +202,8 @@ export const styles = {
  },
  "txtnButtonRight": {
      "display": "flex",
-     "alignItems": "center",
-     
+     "flexDirection": "column",
+     "alignItems": "right",
      },
 "commentsWrapper": {
     "padding": "2px"
@@ -198,15 +215,16 @@ export const styles = {
     "margin": `2px 2px 2px 2px`
   },
 "cardHeader": {
-    "width":"110%",
+    "width":"100%",
     "height": "50px",
     "paddingTop": "0px",
-    "paddingBottom": "0px",
+    "paddingBottom": "0px", 
     background: '#273047'
   },
   cardHeader2: {
-    "paddingTop": "5px",
-    "paddingBottom": "5px"
+    "paddingTop": "0px",
+    "alignItems": "flex-start",
+    "paddingBottom": "0px"
   },
 }
 

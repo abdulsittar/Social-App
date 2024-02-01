@@ -8,6 +8,7 @@ import { colors } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useMediaQuery } from 'react-responsive';
+import axios from "axios";
 import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { useHistory } from "react-router";
@@ -24,14 +25,17 @@ function Postdetail({ classes }) {
   const { user: currentUser, dispatch } = useContext(AuthContext);
   const username = useParams().username;
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
-
+  const handleReadChange = () => {
+    axios.put("/users/" + currentUser._id + "/read", { postId: state.myObj._id });
+};
 
   useEffect(() => {
+    handleReadChange();
     }, [username])
 
   return (
     <>
-        <Topbar setSelectedValue={setSelectedValue} style={{ 'margin-top': '-20px' }}/>
+        <Topbar isProfile="true" setSelectedValue={setSelectedValue} style={{ 'margin-top': '-20px' }}/>
         <div className={classes.feed}>
             <div className={classes.feedWrapper}>
             <Link style={{textDecoration: 'none', color: '#FFF'}}><ArrowBackIcon onClick={() => history.goBack()}/></Link>

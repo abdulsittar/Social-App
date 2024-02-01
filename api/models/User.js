@@ -35,6 +35,14 @@ const UserSchema = new mongoose.Schema({
         type: Array,
         default: [],
     },
+    viewedPosts:[{
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'Post'
+        }],
+    readPosts: [{
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'Post'
+    }],
     isAdmin: {
         type: Boolean,
         default: false,

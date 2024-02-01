@@ -14,6 +14,21 @@ export const styles = {
     "display": "flex",
     "alignItems": "center"
   },
+  "sendButton2": {
+    "border": "none",
+    "cursor": "pointer",
+    "align": "align-right",
+    "float": "right",
+
+    transition: 'all .3s ease',
+    '&:focus': {
+      outline: 'none'
+    },
+    '&:hover': {
+      background: 'transparent',
+      color: '#d0d3db'
+    }
+  },
   "shareProfileImg": {
     "width": "50px",
     "height": "40px",

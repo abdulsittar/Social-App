@@ -282,7 +282,6 @@ router.put('/:id/unfollow', async (req, res) => {
  *         description: Some server error
  */
 
-
 // all users
 router.get('/usersList2', function(req, res) {
   User.find({}, function(err, users) {
@@ -414,5 +413,34 @@ router.get("/followers/:userId", async (req, res) => {
     }
   });
 
+// Viewed a post
+// like a post
+router.put('/:id/viewed', async(req, res) =>{
+  try {
+      // Like a post
+      const user = await User.findById(req.params.id);
+      if(!user.viewedPosts.includes(req.body.postId)) {
+          await user.updateOne({$push: { viewedPosts: req.body.postId } });
+          res.status(200).json('The post has been viewed!');
+      } 
+  } catch(err) {
+      res.status(500).json(err);
+  }
+})
+
+// Read a post
+// like a post
+router.put('/:id/read', async(req, res) =>{
+  try {
+      // Like a post
+      const user = await User.findById(req.params.id);
+      if(!user.readPosts.includes(req.body.postId)) {
+          await user.updateOne({$push: { readPosts: req.body.postId } });
+          res.status(200).json('The post has been read!');
+      } 
+  } catch(err) {
+      res.status(500).json(err);
+  }
+})
 
 module.exports = router;

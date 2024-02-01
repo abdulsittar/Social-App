@@ -13,6 +13,7 @@
   const userRoute = require('./routes/users');
   const authRoute = require('./routes/auth');
   const postRoute = require('./routes/posts');
+  const commentRoute = require('./routes/comments');
   const conversationRoute = require('./routes/conversations');
   const messageRoute = require('./routes/messages');
   const path = require('path');
@@ -255,6 +256,7 @@ function getLastPart(url) {
   app.use('/users', userRoute);
   app.use('/auth',  authRoute);
   app.use('/posts', postRoute);
+  app.use('/comments', commentRoute);
   app.use('/conversations', conversationRoute);
   app.use('/messages', messageRoute);
   app.use('/users', apiRouter);  

@@ -1,6 +1,91 @@
-const User = require('../models/Comment');
+const Comment = require('../models/Comment');
 const router = require('express').Router();
 const bcrypt = require('bcrypt');
+
+
+
+/**
+ * @swagger
+ * tags:
+ *   name: Posts
+ *   description: The posts managing APIs
+ * /:id/like:
+ *   put:
+ *     summary: Like or dislike a post
+ *     tags: [Posts]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: post id
+ *       - in: path
+ *         name: userId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: user id
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Post'
+ *     responses:
+ *       200:
+ *         description: The post is liked or disliked by you!
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Post'
+ *       500:
+ *         description: Some server error!
+ */
+
+// like a post
+router.put('/:id/like', async(req, res) =>{
+
+    console.log(req.params.id);
+    console.log("comments testing");
+    try {
+        // Like a post
+        const comment = await Comment.findById(req.params.id);
+        console.log("testing");
+        console.log(comment);
+        if(!comment.likes.includes(req.body.userId)) {
+            await comment.updateOne({$push: { likes: req.body.userId } });
+            res.status(200).json('The comment has been liked!');
+        } else {
+            // Dislike a post
+            await comment.updateOne({$pull: { likes: req.body.userId } });
+            res.status(403).json('The comment has been disliked!');
+        }
+    } catch(err) {
+        res.status(500).json(err);
+    }
+})
+
+// like a post
+router.put('/:id/dislike', async(req, res) =>{
+    try {
+        // Dislike a post
+        const comment = await Comment.findById(req.params.id);
+        console.log("testing");
+        console.log(comment)
+        if(!comment.dislikes.includes(req.body.userId)) {
+            await comment.updateOne({$push: { dislikes: req.body.userId } });
+            res.status(200).json('The comment has been disliked!');
+        } else {
+            // Dislike a post
+            await comment.updateOne({$pull: { dislikes: req.body.userId } });
+            res.status(403).json('The comment has been disliked!');
+        }
+    } catch(err) {
+        res.status(500).json(err);
+    }
+})
+
 
 /**
  * @swagger
@@ -78,7 +163,7 @@ router.post('/:id/comment', async(req, res) => {
     const comment = new Comment({body:req.body.txt, userId:req.body.userId, postId:req.body.postId, username: req.body.username});
     try{
         await comment.save();
-        const post = await Post.findById(req.body.postId);
+        const post = await Comment.findById(req.body.postId);
         await post.updateOne({$push: { comments: comment } });
         //await post.comments.push(comment);
 

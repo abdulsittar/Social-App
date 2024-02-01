@@ -36,6 +36,7 @@
                                                 <th>Description</th>
                                                 <th>Image</th>
                                                 <th>Likes</th>
+                                                <th>Dislikes</th>
                                                 <th>Comments</th>
                                                 <th class="hidden-480">created</th>  
                                                 
@@ -52,6 +53,7 @@
                                                 <td style="width: 15%;"><%=data[i].desc%></td> 
                                                 <td style="width: 15%;"><%=data[i].img%></td> 
                                                 <td style="max-width: 200px; min-width: 150px;word-wrap:break-word;"><%=data[i].likes%></td> 
+                                                <td style="max-width: 200px; min-width: 150px;word-wrap:break-word;"><%=data[i].dislikes%></td> 
                                                 <td style="max-width: 200px; min-width: 150px;word-wrap:break-word;"><%=data[i].comments%></td> 
                                                 <td><%=moment(data[i].createdAt).format('YYYY-MM-DD hh:mm:ss')%></td>   
                                                 <td class="hidden-480">

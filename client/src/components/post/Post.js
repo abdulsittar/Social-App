@@ -21,8 +21,10 @@ import InputEmoji from "react-input-emoji";
 import MoodIcon from '@mui/icons-material/Mood';
 import React from 'react';
 import { LinkPreview } from '@dhaiwat10/react-link-preview';
+import { InView } from 'react-intersection-observer';
 
 function Post({ post, classes, isDetail }) {
+  const [comments, setComments] = useState([]);
   const inputEl = React.useRef<HTMLInputElement>(null);
   //console.log(post);
   const [like, setLike] = useState(post.likes.length);
@@ -42,8 +44,6 @@ function Post({ post, classes, isDetail }) {
   const extractUrls = require("extract-urls");
   let url = extractUrls(post?.desc? post?.desc: "testing teseting");
   const [urls, setUrls] = useState(url);
-
-  
   var cover = true;
 
   const { user: currentUser } = useContext(AuthContext);
@@ -102,6 +102,7 @@ function Post({ post, classes, isDetail }) {
     setIsLikedByOne(post.likes.length == 1)
     setIsDisliked(post.dislikes.includes(currentUser._id));
     setIsDislikedByOne(post.dislikes.length == 1)
+    setComments(post.comments);
 
   }, [currentUser._id, post.likes, post.dislikes]);
 
@@ -112,7 +113,6 @@ function Post({ post, classes, isDetail }) {
     };
     //console.log(post.comments.length)
     fetchUser();
-
   }, [post.userId])
 
   useEffect(() => {
@@ -133,6 +133,18 @@ function Post({ post, classes, isDetail }) {
 
   }
 
+  function handleViewedChange(view) {
+    console.log("view ", view);
+    if(view == true){
+      axios.put("/users/" + currentUser._id + "/viewed", { postId: post._id });
+
+    }
+  }
+
+  const handleReadChange = () => {
+      axios.put("/users/" + currentUser._id + "/read", { postId: post._id });
+  };
+
   function handleOnEnter(text) {
     console.log("enter", text);
   }
@@ -147,10 +159,12 @@ function Post({ post, classes, isDetail }) {
     e.preventDefault();
     const newComment = { userId: user._id, description: text,};
     try {
-      await axios.post("/posts/" + post._id + "/comment", { userId: currentUser._id, username: currentUser.username, txt: text, postId: post._id });
-
+      const lc = await axios.post("/posts/" + post._id + "/comment", { userId: currentUser._id, username: currentUser.username, txt: text, postId: post._id });
+      console.log("Posted a comment");
+      console.log(lc.data)
+      setComments([...comments, lc.data]);
       // refresh the page after posting something
-      window.location.reload();
+      //window.location.reload();
     } catch (err) { 
       console.log("Posted a comment");
       console.log(err); }
@@ -183,26 +197,10 @@ function Post({ post, classes, isDetail }) {
     bottomdiv.style.display="none";
   }
 
-  const commentBody = item => {
-    return (
-      <p className={classes.commentText}>
-        <Link  style={{textDecoration: 'none', color: '#FFF'}} to={`/profile/${item.username}`}>{item.username}</Link>
-        <br />
-        {item.body}{'   '}
-        <span className={classes.postDate}>
-          {format(item.createdAt)} || {'   '}
-          {currentUser._id === item.userId &&
-            <button className={classes.sendButton} type="submit" >Delete</button>
-            //<Icon className={classes.dltButton}>Delete</Icon>
-            //<LinkPreview url={urls[0]} />
-            //{true && <LinkPreview url='https://www.express.pk/story/2598089/1/' width='20px' height='20px'/>}
-          }
-        </span>
-      </p>
-    )
-  }
+
   return (
-    <div className={classes.post}>
+    <InView as="div" onChange={(inView, entry) => handleViewedChange(inView)}>
+    <div className={classes.post} style={{margin: isDetail && "5px 0"}} >
       <div className={classes.postWrapper}>
         <div className={classes.postTop}>
           <div className={classes.postTopLeft}>
@@ -228,15 +226,15 @@ function Post({ post, classes, isDetail }) {
         </div>
         <div className={classes.postBottom}>
           <div className={classes.postBottomLeft}>
-            <img onMouseOver={handleMouseEnter} onMouseLeave={handleMouseLeave} src={`${PF}like.png`} alt="" className={classes.likeIcon} onClick={likeHandler} />
-            {isHovered && !isMobileDevice && !isTabletDevice ? (isLiked ? <span className={classes.postLikeCounter}>{isLikedByOne ? "you only " : "you and " + (like - 1).toString() + " others"} liked it</span>  :  <span className={classes.postLikeCounter}>{like} liked it</span>): <span className={classes.postLikeCounter}>{like}</span>}
+            <img src={`${PF}like.png`} alt="" className={classes.likeIcon} onClick={likeHandler} />
+            <span className={classes.postLikeCounter}>{like}</span>
                   
-            <img onMouseOver={handleDisMouseEnter} onMouseLeave={handleDisMouseLeave} src={`${PF}dislike.png`} alt="" className={classes.likeIcon} onClick={dislikeHandler} />
-            {isDisHovered  && !isMobileDevice && !isTabletDevice? (isLiked ? <span className={classes.postDislikeCounter}>{isDislikedByOne ? "you only " : "you and " + (dislike - 1).toString() + " others"} disliked it</span>  :  <span className={classes.postDislikeCounter}>{dislike} disliked it</span>): <span className={classes.postDislikeCounter}>{dislike}</span>}
+            <img src={`${PF}dislike.png`} alt="" className={classes.likeIcon} onClick={dislikeHandler} />
+            <span className={classes.postDislikeCounter}>{dislike}</span>
              
           </div>
           <div className={classes.postBottomRight}>
-            <div className={classes.postCommentText} onClick={(e) => { e.stopPropagation(); setIsVisible(!isVisible);}} >{post.comments.length} comments</div>
+            <div className={classes.postCommentText} onClick={(e) => { e.stopPropagation(); setIsVisible(!isVisible);}} >{comments.length} comments</div>
           </div>
         </div>
         <div ref={ref} className={classes.commentsWrapper}  style={{ display: isVisible ? "block" : "none" }}>
@@ -245,36 +243,30 @@ function Post({ post, classes, isDetail }) {
           <div className={classes.txtnButtonRight}>
             <CardHeader
               avatar={<Avatar className={classes.smallAvatar} src={user.profilePicture? PF + user.profilePicture: PF + "person/noAvatar.png"} />}
-              title={
-                <InputEmoji className={classes.shareInput} fontSize= "15" height ="30px" multiline onChange={handleChange}  onEnter={handleChange} placeholder="Write something ..." />}
+              title={<InputEmoji className={classes.shareInput} style = {{fontSize: "15", height: "20px"}} onChange={handleChange}  onEnter={handleChange} placeholder="Write something ..." />}
               className={classes.cardHeader}/>
-            </div>
+
             <form onSubmit={submitHandler} class = "form">
-            <SendIcon className={classes.sendButton2} style={{ display:"flex", margin:"20px"}} type="submit" onClick={submitHandler}/>
-            {post.comments.map((item, i) => {
-              //console.log(item)
-              console.log(i)
-              if(isDetail===false && i < 2){
-                return <Linkify><CardHeader
-                  avatar={<Avatar className={classes.smallAvatar} src={item.userId.profilePicture? PF + item.userId.profilePicture: PF + "person/noAvatar.png"} />}
-                  title={commentBody(item)}
-                  className={classes.cardHeader2}
-                  key={i} /></Linkify>
+              <SendIcon className={classes.sendButton2} style={{ display:"flex", margin:"0px 20px"}} type="submit" onClick={submitHandler}/>
+            </form>
+            </div>
+            
+            {comments.slice(0).reverse().map((item, i) => {
+                      //return <CommentSA key={item._id} post={post} comment={item} isDetail={false}/>
+              if(isDetail===false && i < 2) {
+                  return <CommentSA key={item._id} post={post} comment={item} isDetail={false}/>
 
               } else if(isDetail === true) {
-
-                return <Linkify><CardHeader
-                  avatar={<Avatar className={classes.smallAvatar} src={item.userId.profilePicture? PF + item.userId.profilePicture: PF + "person/noAvatar.png"} />}
-                  title={commentBody(item)}
-                  className={classes.cardHeader2}
-                  key={i} /></Linkify>
+                  return <CommentSA key={item._id} post={post} comment={item} isDetail={false}/>
+                  
               }
               })
             }
-        </form>
+        
         </div>
       </div>
     </div>
+    </InView>
   )
 }
 

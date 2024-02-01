@@ -76,7 +76,6 @@ const Comment = require('../models/Comment');
  *         description: Some server error!
  */
 
-
 // create a post
 router.post('/', async(req, res) => {
     const newPost = new Post(req.body);
@@ -610,6 +609,8 @@ router.post('/:id/comment', async(req, res) => {
             await comment.save();
             const post = await Post.findById(req.body.postId);
             await post.updateOne({$push: { comments: comment } });
+            const comm = await Comment.findOne({postId: req.body.postId}).sort({ createdAt: 'descending' })
+            //post.comments.findOne(sort=[('$natural', DESCENDING)]);
             //await post.comments.push(comment);
 
             //await post.save(function(err) {
@@ -618,7 +619,7 @@ router.post('/:id/comment', async(req, res) => {
             //    }
             //    });
             //await post.updateOne({_id:req.body.postId}, {$push: {comments:comment}});
-            res.status(200).json('The comment has been added');
+            res.status(200).json(comm);
         
         } catch(err) {
             //console.log(res.status(500).json(err));

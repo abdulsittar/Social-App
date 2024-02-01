@@ -105,7 +105,7 @@ function Share({classes}) {
                             <span className={classes.shareOptionText}>Feelings</span>
                         </div>
                     </div>
-                    <SendIcon style={{ align: "right" }} type="submit" onClick={submitHandler}/>
+                    <SendIcon className={classes.sendButton2}  style={{ align: "right" }} type="submit" onClick={submitHandler}/>
                 </form>
             </div>
         </div>

@@ -64,7 +64,7 @@ function Topbar({ classes, setSelectedValue, isProfile }) {
     };
 
     return (
-        <div className={classes.topbarContainer} style={{ 'backgroundColor': '#3e3f40', 'display': (isMobileDevice || isTabletDevice) && 'flex' }}>
+        <div className={classes.topbarContainer} style={{ 'backgroundColor': '#3e3f40', 'display': (isMobileDevice || isTabletDevice) && 'flex' , 'height': isProfile && '40px' }}>
             
             <div className={classes.topbarLeft} style={{'width' : window.innerWidth, justifyContent: 'space-between'}}>
 
