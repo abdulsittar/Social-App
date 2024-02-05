@@ -1,3 +1,4 @@
+import React from 'react';
 import {useState, useEffect} from 'react'
 import Feed from "../../components/feed/Feed";
 import Rightbar from "../../components/rightbar/Rightbar";

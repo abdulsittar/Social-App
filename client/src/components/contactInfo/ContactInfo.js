@@ -1,3 +1,6 @@
+import React from 'react'
+import ReactDOM from 'react-dom'
+
 import { withStyles } from "@material-ui/styles";
 import InfoAccordion from "../infoAccordion/InfoAccordion";
 import { styles } from "./contactInfoStyle";

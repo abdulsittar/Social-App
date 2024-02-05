@@ -1,3 +1,6 @@
+import React from 'react'
+import ReactDOM from 'react-dom'
+
 import Message from "../../components/message/Message";
 import Button from "@material-ui/core/Button";
 import SendIcon from "@material-ui/icons/Send";

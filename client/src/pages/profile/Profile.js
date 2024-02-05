@@ -1,3 +1,4 @@
+import React from 'react';
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import Topbar from "../../components/topbar/Topbar";
@@ -12,7 +13,9 @@ import {styles} from './profileStyle';
 import { useMediaQuery } from 'react-responsive';
 import TextField from '@material-ui/core/TextField'
 import { colors } from '@material-ui/core';
-import { ToastProvider, useToasts } from 'react-toast-notifications';
+import { toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
+//import { ToastProvider, useToasts } from 'react-toast-notifications';
 
 //import showToast from "../../components/toastify/toastify";
 
@@ -34,7 +37,7 @@ function Profile({ classes }) {
     const [followed, setFollowed] = useState([]);
     const [isProfileFetched, setIsProfileFetched] = useState(true);
 
-  const YourComponent = () => {
+  /*const YourComponent = () => {
   const { addToast } = useToasts();
 
   const showToast = () => {
@@ -42,7 +45,10 @@ function Profile({ classes }) {
   };
 
   return (<></>);
-};
+  <ToastProvider>
+          <YourComponent/>
+        </ToastProvider>
+};*/
 
 
 useEffect(() => {
@@ -136,7 +142,8 @@ if(isProfileFetched){
     
       // Implement your upload logic here (e.g., send the image to the server)
       //console.log('Selected image:', selectedImage);
-      YourComponent.showToast('Saved Successfully');
+      //YourComponent.addToast('Your message here', { appearance: 'success' });
+      //YourComponent.showToast('Saved Successfully');
       const profData = {
         userId: usr._id,
         desc: bio,
@@ -162,8 +169,8 @@ if(isProfileFetched){
               'Content-Type': 'multipart/form-data',
             },
         });
-        
-        YourComponent.showToast('Saved Successfully');
+        toast.success("Profile Saved")
+        //YourComponent.showToast('Saved Successfully');
       } 
       else 
       {
@@ -171,12 +178,14 @@ if(isProfileFetched){
         const res = await axios.post(`/users/${usr._id}/updateProfile2`, profData);
           //toast.success("Updated");
           //const { addToast } = useToasts();
-          YourComponent.showToast('Saved Successfully');
+          //YourComponent.showToast('Saved Successfully');
+          toast.success("Profile Saved")
           
       }
       } catch (error) {
         console.error('Error uploading image:', error);
-        YourComponent.showToast('Failed to upload the profile');
+        toast.error("Failed to update the profile");
+        //YourComponent.showToast('Failed to upload the profile');
         // Handle error
       }
      // const fetchUser = async () => {
@@ -188,9 +197,7 @@ if(isProfileFetched){
    return (
         <>
         <Topbar isProfile="true"/>
-        <ToastProvider>
-          <YourComponent/>
-        </ToastProvider>
+        <ToastContainer></ToastContainer>
         <div className={classes.profile}>
           <div className={classes.profileRight}>
             <div className={classes.profileRightTop}>

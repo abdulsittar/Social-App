@@ -1,3 +1,4 @@
+import React from 'react';
 import Contact from "../../components/contact/Contact";
 import SearchUser from "../../components/search/SearchUser";
 import { withStyles } from "@material-ui/core/styles";

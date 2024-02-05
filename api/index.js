@@ -117,9 +117,14 @@
   const updatedData = { $set: diction}
   console.log(updatedData);
   try {
-    await User.updateOne({"_id": id}, updatedData);
+    const res2 = await User.updateOne({"_id": id}, updatedData);
+    console.log(res2);
+    return res.status(200).json(res2);
+
   } catch(err) {
+
     console.log("Error updating profile image");
+    console.log(err);
     return res.status(500).json(err);
   }
 });
@@ -140,10 +145,13 @@ userRoute.post("/:id/updateProfile2",  async (req, res) => {
   const updatedData = { $set: diction}
   console.log(updatedData);
   try {
-    await User.findByIdAndUpdate({"_id": id}, updatedData);
+    const res2 = await User.findByIdAndUpdate({"_id": id}, updatedData);
+    console.log(res2);
+    return res.status(200).json(res2);
+
   } catch(err) {
     console.log("Error updating profile");
-    //console.log(err);
+    console.log(err);
     return res.status(500).json(err);
   }
 });

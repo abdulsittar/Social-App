@@ -1,3 +1,4 @@
+import React from 'react';
 import { Users } from "../../dummyData";
 import CloseFriend from "../closeFriend/CloseFriend";
 import { useContext, useEffect, useState } from "react";

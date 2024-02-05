@@ -1,3 +1,4 @@
+import React from 'react';
 import { Search, Person, Chat, Notifications } from '@material-ui/icons';
 import {COLORS} from '../values/colors.js';
 import { FormControl, FormLabel, RadioGroup, FormControlLabel, Radio } from '@material-ui/core';

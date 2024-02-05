@@ -1,3 +1,4 @@
+import React from 'react';
 import { PermMedia, Label, Room, EmojiEmotions, Cancel, Height } from '@material-ui/icons';
 import { useContext, useRef, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";

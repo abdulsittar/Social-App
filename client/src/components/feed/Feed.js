@@ -1,3 +1,4 @@
+import React from 'react';
 import {useState, useEffect} from 'react'
 import Post from '../post/Post'
 import Share from '../share/Share'

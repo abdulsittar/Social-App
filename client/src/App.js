@@ -1,3 +1,4 @@
+import React from 'react';
 import Home from "./pages/home/Home";
 import Login from "./pages/login/Login";
 import Profile from "./pages/profile/Profile";
@@ -15,11 +16,14 @@ import {
 import { useContext } from "react";
 import { AuthContext } from "./context/AuthContext";
 import Postdetail from "./pages/postDetail/Postdetail";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 function App() {
   const { user } = useContext(AuthContext);
   return (
+    
     <Router>
     <Switch>
 		<Route exact path="/">{user ? <Home /> : <Login />}</Route>
@@ -32,6 +36,7 @@ function App() {
     <Route path="/postdetail/:username"><Postdetail /></Route>
     </Switch>
   </Router>
+
   );
 }
 
