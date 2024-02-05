@@ -1,12 +1,13 @@
+import {COLORS} from '../values/colors.js';
 export const styles = {
     feed: {
         flex: '5.5',
-        background: '#3e3f40',
+        background: COLORS.backgroudColor,
     },
     feedWrapper: {
         padding: '10px',
-        background: '#3e3f40',
-        color: '#d0d3db',
+        background: COLORS.backgroudColor,
+        color: COLORS.textColor,
     }
 }
 

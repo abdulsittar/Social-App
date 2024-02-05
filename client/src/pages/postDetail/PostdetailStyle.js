@@ -1,3 +1,4 @@
+import {COLORS} from '../../components/values/colors.js';
 export const styles = {
     "profile": {
       "display": "flex",
@@ -5,8 +6,8 @@ export const styles = {
     "rightbarFollowButton": {
       "marginTop": "30px",
       "marginBottom": "10px",
-      "border": "1px solid #ff458a",
-      "backgroundColor": "#ff458a",
+      "border": "1px solid #4379ed",
+      "backgroundColor": COLORS.blueColor,
       transition: 'all .3s ease',
       textTransform: 'uppercase',
       "color": "#111",
@@ -22,11 +23,11 @@ export const styles = {
       },
       '&:hover': {
           background: 'transparent',
-          color: '#d0d1ca'
+          color: COLORS.textColor
       }
     },
     feed: {
-      background: '#3e3f40',
+      background: COLORS.backgroudColor,
       paddingLeft: '5px',
     paddingRight: '5px',
     paddingBottom: '5px',
@@ -35,12 +36,12 @@ export const styles = {
     paddingLeft: '10px',
     paddingRight: '10px',
     paddingBottom: '10px',
-    background: '#3e3f40',
-    color: '#d0d3db',
+    background: COLORS.backgroudColor,
+    color: COLORS.textColor,
 },
     "profileRight": {
       "flex": "9",
-      background: '#1b2439',
+      background: COLORS.textColor,
       position: 'relative'
     },
     "profileCover": {
@@ -55,10 +56,10 @@ export const styles = {
     "shareInput": {
       "border": "none",
       "width": "100%",
-      backgroundColor: '#273047',
+      backgroundColor: COLORS.postBackgroundColor,
       lineHeight:'16px',
       padding:'15px 10px',
-      color:'#d0d3db',
+      color:COLORS.textColor,
       fontSize:'16px',
       '&:focus': {
           outline: 'none',
@@ -81,7 +82,7 @@ export const styles = {
       "flexDirection": "row",
       "alignItems": "center",
       "justifyContent": "center",
-      background: '#1b2439'
+      background: COLORS.textColor
     },
     "profileInfo": {
       "display": "flex",
@@ -89,16 +90,16 @@ export const styles = {
       "flexDirection": "column",
       "alignItems": "center",
       "justifyContent": "center",
-      background: '#1b2439'
+      background: COLORS.textColor
     },
     "profileInfoName": {
       "fontSize": "24px",
-      color: '#d0d3db'
+      color: COLORS.textColor
     },
     "profileInfoDesc": {
       "fontWeight": "400",
       fontSize: '17px',
-      color: '#d0d1ca',
+      color: COLORS.textColor,
       letterSpacing: '.5px',
       marginTop: '5px'
     },

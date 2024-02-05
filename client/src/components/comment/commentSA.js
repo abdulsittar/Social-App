@@ -13,6 +13,7 @@ import { AuthContext } from "../../context/AuthContext";
 import {styles} from './commentStyle';
 import { useMediaQuery } from 'react-responsive';
 import Linkify from 'react-linkify';
+import { COLORS } from "../values/colors";
 
 function CommentSA ({post, comment, isDetail, classes }) {
   const desc = useRef();
@@ -39,12 +40,12 @@ function CommentSA ({post, comment, isDetail, classes }) {
   }, [currentUser._id, comment.likes, comment.dislikes]);
 
   useEffect(() => {
-    const fetchUser = async () => {
-      const res = await axios.get(`/users?userId=${post.userId}`)
-      setUser(res.data);
-    };
+    //const fetchUser = async () => {
+    //  const res = await axios.get(`/users?userId=${post.userId}`)
+    //  setUser(res.data);
+    //};
     //console.log(post.comments.length)
-    fetchUser();
+    //fetchUser();
 
   }, [post.userId])
 
@@ -81,9 +82,11 @@ function CommentSA ({post, comment, isDetail, classes }) {
   const commentBody = item => {
     return (
       <p className={classes.commentText}>
-        <Link  style={{textDecoration: 'none', color: '#FFF'}} to={`/profile/${item.username}`}>{"@"+item.username}</Link>
+        <div className={classes.comment}>
+        <Link  style={{textDecoration: 'none', color: COLORS.textColor, fontWeight: 'bold'}} to={isDetail? `/postdetail/profile/${item.username}`: `/profile/${item.username}`}>{"@"+item.username}</Link>
         <br />
         {item.body}{'   '}
+        
         <div className={classes.postBottom}>
           <div className={classes.postBottomLeft}>
         <img src={`${PF}clike.png`} alt="" className={classes.commentLikeIcon} onClick={commentLikeHandler} />
@@ -105,16 +108,19 @@ function CommentSA ({post, comment, isDetail, classes }) {
             //{isDisHovered  && !isMobileDevice && !isTabletDevice? (isLiked ? <span className={classes.postDislikeCounter}>{isDislikedByOne ? "you only " : "you and " + (dislike - 1).toString() + " others"} disliked it</span>  :  <span className={classes.postDislikeCounter}>{dislike} disliked it</span>): <span className={classes.postDislikeCounter}>{dislike}</span>}
           }
         </div>
+        </div>
       </p>
     )
   }
 
-    return (<div>
+    return (<div >
         { 
-        <Linkify><CardHeader
-        avatar={<Avatar className={classes.smallAvatar} src={comment.userId.profilePicture? PF + comment.userId.profilePicture: PF + "person/noAvatar.png"} />}
+        <Linkify>
+        <CardHeader
+        avatar={<Link style={{textDecoration: 'none', color: COLORS.textColor}} to={isDetail? `/postdetail/profile/${comment.userId.username}`: `/profile/${comment.userId.username}`}><Avatar className={classes.smallAvatar} src={comment.userId.profilePicture? PF + comment.userId.profilePicture: PF + "person/noAvatar.png"} /></Link>}
         title={commentBody(comment)}
-        className={classes.cardHeader2}/></Linkify>
+        className={classes.cardHeader2}/>
+        </Linkify>
         }
     </div>)
 }

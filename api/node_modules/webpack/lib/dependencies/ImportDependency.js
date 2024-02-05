@@ -13,6 +13,8 @@ const ModuleDependency = require("./ModuleDependency");
 /** @typedef {import("../AsyncDependenciesBlock")} AsyncDependenciesBlock */
 /** @typedef {import("../Dependency").ReferencedExport} ReferencedExport */
 /** @typedef {import("../DependencyTemplate").DependencyTemplateContext} DependencyTemplateContext */
+/** @typedef {import("../Module")} Module */
+/** @typedef {import("../Module").BuildMeta} BuildMeta */
 /** @typedef {import("../ModuleGraph")} ModuleGraph */
 /** @typedef {import("../javascript/JavascriptParser").Range} Range */
 /** @typedef {import("../serialization/ObjectMiddleware").ObjectDeserializerContext} ObjectDeserializerContext */
@@ -23,7 +25,7 @@ class ImportDependency extends ModuleDependency {
 	/**
 	 * @param {string} request the request
 	 * @param {Range} range expression range
-	 * @param {string[][]=} referencedExports list of referenced exports
+	 * @param {(string[][] | null)=} referencedExports list of referenced exports
 	 */
 	constructor(request, range, referencedExports) {
 		super(request);
@@ -46,12 +48,32 @@ class ImportDependency extends ModuleDependency {
 	 * @returns {(string[] | ReferencedExport)[]} referenced exports
 	 */
 	getReferencedExports(moduleGraph, runtime) {
-		return this.referencedExports
-			? this.referencedExports.map(e => ({
-					name: e,
-					canMangle: false
-			  }))
-			: Dependency.EXPORTS_OBJECT_REFERENCED;
+		if (!this.referencedExports) return Dependency.EXPORTS_OBJECT_REFERENCED;
+		const refs = [];
+		for (const referencedExport of this.referencedExports) {
+			if (referencedExport[0] === "default") {
+				const selfModule = moduleGraph.getParentModule(this);
+				const importedModule =
+					/** @type {Module} */
+					(moduleGraph.getModule(this));
+				const exportsType = importedModule.getExportsType(
+					moduleGraph,
+					/** @type {BuildMeta} */
+					(selfModule.buildMeta).strictHarmonyModule
+				);
+				if (
+					exportsType === "default-only" ||
+					exportsType === "default-with-named"
+				) {
+					return Dependency.EXPORTS_OBJECT_REFERENCED;
+				}
+			}
+			refs.push({
+				name: referencedExport,
+				canMangle: false
+			});
+		}
+		return refs;
 	}
 
 	/**
@@ -96,9 +118,9 @@ ImportDependency.Template = class ImportDependencyTemplate extends (
 		const content = runtimeTemplate.moduleNamespacePromise({
 			chunkGraph,
 			block: block,
-			module: moduleGraph.getModule(dep),
+			module: /** @type {Module} */ (moduleGraph.getModule(dep)),
 			request: dep.request,
-			strict: module.buildMeta.strictHarmonyModule,
+			strict: /** @type {BuildMeta} */ (module.buildMeta).strictHarmonyModule,
 			message: "import()",
 			runtimeRequirements
 		});

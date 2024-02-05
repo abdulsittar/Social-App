@@ -1,5 +1,7 @@
 /* #ff458a' */
 
+import { COLORS } from "../../components/values/colors";
+
 export const styles = {
     login: {
 		height: '150vh',
@@ -32,7 +34,7 @@ export const styles = {
 		'& a': {
 			textDecoration: 'none',
 			fontSize: '14px',
-			color: '#ff458a',
+			color: COLORS.blueColor,
 			fontWeight: '500',
 			textTransform: 'uppercase',
 			letterSpacing: '.7px',
@@ -64,7 +66,7 @@ export const styles = {
 		border: 'none',
 		transition: 'all .3s ease-in-out',
 		'&:hover': {
-			backgroundColor: '#ff458a'
+			backgroundColor: COLORS.blueColor
 		}
 	},
 	errorMessage: {

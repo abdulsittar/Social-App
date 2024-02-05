@@ -1,3 +1,4 @@
+import {COLORS} from '../values/colors.js';
 export const styles = {
   "sidebar": {
     "flex": "2",
@@ -5,17 +6,18 @@ export const styles = {
     "overflowY": "scroll",
     "position": "sticky",
     "top": "50px",
-    background: '#3e3f40',
+    background: COLORS.backgroudColor,
   },
   "rightbarTitle": {
       "fontSize": "18px",
       textTransform: 'uppercase',
       "fontWeight": "500",
-      "margin": "30px 0px"
+      "margin": "30px 0px",
+      'fontWeight': 'bold'
     },
   "sidebarWrapper": {
-    background: '#3e3f40',
-    color: '#d0d3db',
+    background: COLORS.backgroudColor,
+    color: COLORS.textColor,
     "padding": "20px",
   },
   "sidebarList": {
@@ -30,7 +32,7 @@ export const styles = {
   },
   "sidebarIcon": {
     "marginRight": "15px",
-    color: '#ff458a'
+    color: COLORS.blueColor
   },
   "sidebarButton": {
     "width": "150px",
@@ -41,18 +43,18 @@ export const styles = {
     fontSize: '13px',
     textTransform: 'uppercase',
     letterSpacing: '.4px',
-    background: '#ff458a',
+    background: COLORS.blueColor,
     cursor: 'pointer',
-    border: '1px solid #ff458a',
+    border: '1px solid #4379ed',
     transition: 'all .3s ease',
     '&:hover': {
       background: 'transparent',
-      color: '#d0d3db',
+      color: COLORS.textColor,
     }
   },
   "sidebarHr": {
     "margin": "20px 0",
-    backgroundColor: '#ff458a',
+    backgroundColor: COLORS.blueColor,
     height: '1px'
   },
   "sidebarFriendList": {

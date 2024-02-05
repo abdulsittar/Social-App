@@ -1,24 +1,25 @@
+import {COLORS} from '../../components/values/colors.js';
 export const styles ={
     "rightbar": {
       "flex": "3.5",
-      "color": "#d0d3db",
-      "backgroundColor": "#3e3f40"
+      "color": COLORS.textColor,
+      "backgroundColor": COLORS.backgroudColor
     },
     "followingPageTop": {
-        "flex": "3",
-        "height": "calc(100vh - 80px)",
-        "overflowY": "scroll",
-        "position": "sticky",
-        "top": "50px",
-        background: '#3e3f40',
-      },
-    "followingPageWrapper": {
-        background: '#3e3f40',
-        color: '#d0d3db',
-        "padding": "5px",
-      },
+      "flex": "9",
+      "height": "calc(100vh - 80px)",
+      "overflowY": "scroll",
+      "position": "sticky",
+      "top": "20px",
+      background: COLORS.backgroudColor,
+    },
+  "followingPageWrapper": {
+      background: COLORS.backgroudColor,
+      color: COLORS.textColor,
+      "padding": "5px",
+    },
     "rightbarWrapper": {
-      "padding": "20px 20px 0 0"
+      "padding": "20px"
     },
     "birthdayContainer": {
       "display": "flex",
@@ -96,7 +97,7 @@ export const styles ={
       "display": "flex",
       "flexWrap": "wrap",
       "justifyContent": "space-between",
-      "backgroundColor": "#3e3f40"
+      "backgroundColor": COLORS.backgroudColor
     },
     "rightbarFollowing": {
       "display": "flex",
@@ -117,8 +118,8 @@ export const styles ={
     "rightbarFollowButton": {
       "marginTop": "30px",
       "marginBottom": "10px",
-      "border": "1px solid #ff458a",
-      "backgroundColor": "#ff458a",
+      "border": "1px solid #4379ed",
+      "backgroundColor": COLORS.blueColor,
       transition: 'all .3s ease',
       textTransform: 'uppercase',
       "color": "#111",
@@ -149,7 +150,7 @@ export const styles ={
         fontSize: '16px',
         transition: 'all .3s ease',
         '&:hover': {
-            color: '#ff458a'
+            color: COLORS.blueColor
         }
     }
   } 

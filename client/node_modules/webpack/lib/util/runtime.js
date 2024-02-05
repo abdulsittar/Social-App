@@ -53,11 +53,11 @@ exports.getEntryRuntime = (compilation, name, options) => {
 
 /**
  * @param {RuntimeSpec} runtime runtime
- * @param {function(string): void} fn functor
+ * @param {function(string | undefined): void} fn functor
  * @param {boolean} deterministicOrder enforce a deterministic order
  * @returns {void}
  */
-exports.forEachRuntime = (runtime, fn, deterministicOrder = false) => {
+const forEachRuntime = (runtime, fn, deterministicOrder = false) => {
 	if (runtime === undefined) {
 		fn(undefined);
 	} else if (typeof runtime === "string") {
@@ -69,7 +69,13 @@ exports.forEachRuntime = (runtime, fn, deterministicOrder = false) => {
 		}
 	}
 };
+exports.forEachRuntime = forEachRuntime;
 
+/**
+ * @template T
+ * @param {SortableSet<T>} set set
+ * @returns {string} runtime key
+ */
 const getRuntimesKey = set => {
 	set.sort();
 	return Array.from(set).join("\n");
@@ -98,6 +104,11 @@ const keyToRuntime = key => {
 };
 exports.keyToRuntime = keyToRuntime;
 
+/**
+ * @template T
+ * @param {SortableSet<T>} set set
+ * @returns {string} runtime string
+ */
 const getRuntimesString = set => {
 	set.sort();
 	return Array.from(set).join("+");
@@ -217,6 +228,22 @@ const mergeRuntime = (a, b) => {
 	}
 };
 exports.mergeRuntime = mergeRuntime;
+
+/**
+ * @param {RuntimeSpec[]} runtimes first
+ * @param {RuntimeSpec} runtime second
+ * @returns {RuntimeSpec} merged
+ */
+exports.deepMergeRuntime = (runtimes, runtime) => {
+	if (!Array.isArray(runtimes)) {
+		return runtime;
+	}
+	let merged = runtime;
+	for (const r of runtimes) {
+		merged = mergeRuntime(runtime, r);
+	}
+	return merged;
+};
 
 /**
  * @param {RuntimeCondition} a first
@@ -417,6 +444,11 @@ exports.filterRuntime = (runtime, filter) => {
 
 /**
  * @template T
+ * @typedef {Map<string, T>} RuntimeSpecMapInnerMap
+ * */
+
+/**
+ * @template T
  */
 class RuntimeSpecMap {
 	/**
@@ -426,9 +458,9 @@ class RuntimeSpecMap {
 		this._mode = clone ? clone._mode : 0; // 0 = empty, 1 = single entry, 2 = map
 		/** @type {RuntimeSpec} */
 		this._singleRuntime = clone ? clone._singleRuntime : undefined;
-		/** @type {T} */
+		/** @type {T | undefined} */
 		this._singleValue = clone ? clone._singleValue : undefined;
-		/** @type {Map<string, T> | undefined} */
+		/** @type {RuntimeSpecMapInnerMap<T> | undefined} */
 		this._map = clone && clone._map ? new Map(clone._map) : undefined;
 	}
 
@@ -445,7 +477,9 @@ class RuntimeSpecMap {
 					? this._singleValue
 					: undefined;
 			default:
-				return this._map.get(getRuntimeKey(runtime));
+				return /** @type {RuntimeSpecMapInnerMap<T>} */ (this._map).get(
+					getRuntimeKey(runtime)
+				);
 		}
 	}
 
@@ -460,10 +494,16 @@ class RuntimeSpecMap {
 			case 1:
 				return runtimeEqual(this._singleRuntime, runtime);
 			default:
-				return this._map.has(getRuntimeKey(runtime));
+				return /** @type {RuntimeSpecMapInnerMap<T>} */ (this._map).has(
+					getRuntimeKey(runtime)
+				);
 		}
 	}
 
+	/**
+	 * @param {RuntimeSpec} runtime the runtimes
+	 * @param {T} value the value
+	 */
 	set(runtime, value) {
 		switch (this._mode) {
 			case 0:
@@ -478,15 +518,24 @@ class RuntimeSpecMap {
 				}
 				this._mode = 2;
 				this._map = new Map();
-				this._map.set(getRuntimeKey(this._singleRuntime), this._singleValue);
+				this._map.set(
+					getRuntimeKey(this._singleRuntime),
+					/** @type {T} */ (this._singleValue)
+				);
 				this._singleRuntime = undefined;
 				this._singleValue = undefined;
 			/* falls through */
 			default:
-				this._map.set(getRuntimeKey(runtime), value);
+				/** @type {RuntimeSpecMapInnerMap<T>} */
+				(this._map).set(getRuntimeKey(runtime), value);
 		}
 	}
 
+	/**
+	 * @param {RuntimeSpec} runtime the runtimes
+	 * @param {() => TODO} computer function to compute the value
+	 * @returns {TODO} true, when the runtime was deleted
+	 */
 	provide(runtime, computer) {
 		switch (this._mode) {
 			case 0:
@@ -495,11 +544,14 @@ class RuntimeSpecMap {
 				return (this._singleValue = computer());
 			case 1: {
 				if (runtimeEqual(this._singleRuntime, runtime)) {
-					return this._singleValue;
+					return /** @type {T} */ (this._singleValue);
 				}
 				this._mode = 2;
 				this._map = new Map();
-				this._map.set(getRuntimeKey(this._singleRuntime), this._singleValue);
+				this._map.set(
+					getRuntimeKey(this._singleRuntime),
+					/** @type {T} */ (this._singleValue)
+				);
 				this._singleRuntime = undefined;
 				this._singleValue = undefined;
 				const newValue = computer();
@@ -508,10 +560,11 @@ class RuntimeSpecMap {
 			}
 			default: {
 				const key = getRuntimeKey(runtime);
-				const value = this._map.get(key);
+				const value = /** @type {Map<string, T>} */ (this._map).get(key);
 				if (value !== undefined) return value;
 				const newValue = computer();
-				this._map.set(key, newValue);
+				/** @type {Map<string, T>} */
+				(this._map).set(key, newValue);
 				return newValue;
 			}
 		}
@@ -532,10 +585,15 @@ class RuntimeSpecMap {
 				}
 				return;
 			default:
-				this._map.delete(getRuntimeKey(runtime));
+				/** @type {RuntimeSpecMapInnerMap<T>} */
+				(this._map).delete(getRuntimeKey(runtime));
 		}
 	}
 
+	/**
+	 * @param {RuntimeSpec} runtime the runtimes
+	 * @param {function(T | undefined): T} fn function to update the value
+	 */
 	update(runtime, fn) {
 		switch (this._mode) {
 			case 0:
@@ -549,7 +607,10 @@ class RuntimeSpecMap {
 				if (newValue !== undefined) {
 					this._mode = 2;
 					this._map = new Map();
-					this._map.set(getRuntimeKey(this._singleRuntime), this._singleValue);
+					this._map.set(
+						getRuntimeKey(this._singleRuntime),
+						/** @type {T} */ (this._singleValue)
+					);
 					this._singleRuntime = undefined;
 					this._singleValue = undefined;
 					this._map.set(getRuntimeKey(runtime), newValue);
@@ -558,9 +619,11 @@ class RuntimeSpecMap {
 			}
 			default: {
 				const key = getRuntimeKey(runtime);
-				const oldValue = this._map.get(key);
+				const oldValue = /** @type {Map<string, T>} */ (this._map).get(key);
 				const newValue = fn(oldValue);
-				if (newValue !== oldValue) this._map.set(key, newValue);
+				if (newValue !== oldValue)
+					/** @type {RuntimeSpecMapInnerMap<T>} */
+					(this._map).set(key, newValue);
 			}
 		}
 	}
@@ -572,7 +635,11 @@ class RuntimeSpecMap {
 			case 1:
 				return [this._singleRuntime];
 			default:
-				return Array.from(this._map.keys(), keyToRuntime);
+				return Array.from(
+					/** @type {RuntimeSpecMapInnerMap<T>} */
+					(this._map).keys(),
+					keyToRuntime
+				);
 		}
 	}
 
@@ -581,15 +648,15 @@ class RuntimeSpecMap {
 			case 0:
 				return [][Symbol.iterator]();
 			case 1:
-				return [this._singleValue][Symbol.iterator]();
+				return [/** @type {T} */ (this._singleValue)][Symbol.iterator]();
 			default:
-				return this._map.values();
+				return /** @type {Map<string, T>} */ (this._map).values();
 		}
 	}
 
 	get size() {
-		if (this._mode <= 1) return this._mode;
-		return this._map.size;
+		if (/** @type {number} */ (this._mode) <= 1) return this._mode;
+		return /** @type {Map<string, T>} */ (this._map).size;
 	}
 }
 

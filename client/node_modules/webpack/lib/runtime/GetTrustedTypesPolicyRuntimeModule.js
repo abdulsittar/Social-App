@@ -20,7 +20,7 @@ class GetTrustedTypesPolicyRuntimeModule extends HelperRuntimeModule {
 	}
 
 	/**
-	 * @returns {string} runtime code
+	 * @returns {string | null} runtime code
 	 */
 	generate() {
 		const compilation = /** @type {Compilation} */ (this.compilation);
@@ -46,7 +46,7 @@ class GetTrustedTypesPolicyRuntimeModule extends HelperRuntimeModule {
 											"script",
 											"script"
 										)}`
-								  ]
+									]
 								: []),
 							...(this.runtimeRequirements.has(RuntimeGlobals.createScriptUrl)
 								? [
@@ -54,7 +54,7 @@ class GetTrustedTypesPolicyRuntimeModule extends HelperRuntimeModule {
 											"url",
 											"url"
 										)}`
-								  ]
+									]
 								: [])
 						].join(",\n")
 					),
@@ -80,11 +80,11 @@ class GetTrustedTypesPolicyRuntimeModule extends HelperRuntimeModule {
 													)}');`
 												]),
 												"}"
-										  ]
+											]
 										: [])
 								]),
 								"}"
-						  ]
+							]
 						: [])
 				]),
 				"}",

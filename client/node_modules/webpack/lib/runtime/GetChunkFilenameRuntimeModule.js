@@ -35,7 +35,7 @@ class GetChunkFilenameRuntimeModule extends RuntimeModule {
 	}
 
 	/**
-	 * @returns {string} runtime code
+	 * @returns {string | null} runtime code
 	 */
 	generate() {
 		const { global, contentType, getFilenameForChunk, allChunks } = this;
@@ -152,7 +152,7 @@ class GetChunkFilenameRuntimeModule extends RuntimeModule {
 								chunk: c,
 								contentHashType: contentType
 							})
-					  )
+						)
 					: JSON.stringify(chunkFilename);
 			const staticChunkFilename = compilation.getPath(chunkFilenameValue, {
 				hash: `" + ${RuntimeGlobals.getFullHash}() + "`,
@@ -219,7 +219,7 @@ class GetChunkFilenameRuntimeModule extends RuntimeModule {
 				return useId
 					? `(chunkId === ${JSON.stringify(lastKey)} ? ${JSON.stringify(
 							obj[/** @type {number | string} */ (lastKey)]
-					  )} : chunkId)`
+						)} : chunkId)`
 					: JSON.stringify(obj[/** @type {number | string} */ (lastKey)]);
 			}
 			return useId
@@ -285,13 +285,13 @@ class GetChunkFilenameRuntimeModule extends RuntimeModule {
 											: `{${Array.from(
 													ids,
 													id => `${JSON.stringify(id)}:1`
-											  ).join(",")}}[chunkId]`;
+												).join(",")}}[chunkId]`;
 									return `if (${condition}) return ${url};`;
 								})
 							),
 							"// return url for filenames based on template",
 							`return ${url};`
-					  ]
+						]
 					: ["// return url for filenames based on template", `return ${url};`]
 			)};`
 		]);

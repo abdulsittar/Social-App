@@ -1,9 +1,10 @@
 /* #ff458a' */
+import {COLORS} from '../values/colors.js';
 export const styles = {
   'topbarContainer': {
     'height': '80px',
     'width': '100%',
-    'backgroundColor': '#3e3f40',
+    'backgroundColor': COLORS.backgroudColor,
     'alignItems': 'center',
     'position': 'sticky',
     'top': '0',
@@ -12,7 +13,7 @@ export const styles = {
   'topbarLeft': {
     'display': 'flex',
     'flex-direction':  'row',
-    'backgroundColor': '#3e3f40',
+    'backgroundColor': COLORS.backgroudColor,
     'flex': '4',
     'margin-top': '0px',
     'margin-bottom': '0px'
@@ -21,7 +22,7 @@ export const styles = {
     'fontSize': '20px',
     'marginLeft': '5px',
     'fontWeight': 'bold',
-    'color': '#d0d3db',
+    'color': COLORS.textColor,
     'cursor': 'pointer'
   },
   'topbarCenter': {
@@ -30,7 +31,7 @@ export const styles = {
   'searchbar': {
     'width': '100%',
     'height': '45px',
-    'backgroundColor': '#273047',
+    'backgroundColor': COLORS.postBackgroundColor,
     'borderRadius': '30px',
     'display': 'flex',
     'alignItems': 'center'
@@ -53,7 +54,7 @@ export const styles = {
     'width': '100%',
     'height': '95%',
     'borderRadius': '30px',
-    'background': '#273047',
+    'background': COLORS.postBackgroundColor,
     color: '#d0d3db !important',
     '&:focus': {
         outline: 'none'
@@ -62,7 +63,7 @@ export const styles = {
   'topbarRight': {
     'alignItems': 'center',
     'justifyContent': 'space-around',
-    'color': '#d0d3db'
+    'color': COLORS.textColor
   },
   'topbarLink': {
     'marginRight': '15px',
@@ -111,11 +112,11 @@ export const styles = {
   username: {
       fontSize: '17px',
       marginRight: '5px',
-      color: '#d0d3db'
+      color: COLORS.textColor
   },
   downArrow: {
       fontSize: '28px',
-      color: '#d0d3db',
+      color: COLORS.textColor,
       cursor: 'pointer'
   },
   '@media screen and (max-width: 768px)': {

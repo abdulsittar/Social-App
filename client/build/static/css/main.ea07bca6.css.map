@@ -1,1 +1,0 @@
-{"version":3,"file":"static/css/main.ea07bca6.css","mappings":"AAAA,eAGI,wBAAyB,CAFzB,YAAa,CACb,UAEJ","sources":["pages/home/home.css"],"sourcesContent":[".homeContainer{\n    display: flex;\n    width: 100%;\n    background-color: #3e3f40;\n}"],"names":[],"sourceRoot":""}

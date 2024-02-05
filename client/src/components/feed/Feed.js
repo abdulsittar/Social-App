@@ -16,6 +16,8 @@ function Feed({username, classes, selectedValue}) {
     const [isFiltered, setIsFiltered] = useState(false);
     const [preFilter, setPreFilter] = useState(-1);
     const [preProfile, setPreProfile] = useState(" ");
+    const [viewedPosts, setViewedPosts] = useState([]);
+    const { user: currentUser } = useContext(AuthContext);
 
     const increment  = (pv, iv) => {
         setIndex(pv+iv);
@@ -115,6 +117,18 @@ function Feed({username, classes, selectedValue}) {
         //setPosts(res.data.sort((p1,p2) => {return new Date(p2.createdAt) - new Date(p1.createdAt);})); 
     };
 
+    function updateViewdPosts( post) {
+        const oldViewed = [...viewedPosts, post];
+        setViewedPosts(oldViewed);
+        console.log("array  ", viewedPosts);
+        console.log("post id  ", post);
+        console.log("viewed length ", viewedPosts.length);
+        if(viewedPosts.length == 10){
+            axios.put("/users/" + currentUser._id + "/viewed", { postId: post });
+            setViewedPosts([]);
+        }
+      }
+
     const fetchMoreData = async () => {
         if(index == 0){
             return
@@ -159,7 +173,7 @@ function Feed({username, classes, selectedValue}) {
             <div className={classes.feedWrapper}>
                 {( !username || username === user.username) && <Share/> }
                 {posts.map((p) => {
-                    return <Post key={p._id} post={p} isDetail={false}/>
+                    return <Post onScrolling={updateViewdPosts} key={p._id} post={p} isDetail={false}/>
                 })}
             </div>
             </InfiniteScroll>

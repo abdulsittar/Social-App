@@ -1,14 +1,15 @@
+import {COLORS} from '../values/colors.js';
 export const styles = ({
     root: {
       width: '100%',
       borderRadius: '10px',
     },
     header: {
-      background: '#1b2439',
+      background: COLORS.backgroudColor,
       color: '#cdd1d9',
     },
     inner: {
-      background: '#1b2439',
+      background: COLORS.backgroudColor,
       color: '#a4a7b3',
       display: 'block'
     },

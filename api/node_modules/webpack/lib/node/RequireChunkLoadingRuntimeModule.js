@@ -16,6 +16,8 @@ const compileBooleanMatcher = require("../util/compileBooleanMatcher");
 const { getUndoPath } = require("../util/identifier");
 
 /** @typedef {import("../Chunk")} Chunk */
+/** @typedef {import("../ChunkGraph")} ChunkGraph */
+/** @typedef {import("../Compilation")} Compilation */
 
 class RequireChunkLoadingRuntimeModule extends RuntimeModule {
 	/**
@@ -46,11 +48,13 @@ class RequireChunkLoadingRuntimeModule extends RuntimeModule {
 	}
 
 	/**
-	 * @returns {string} runtime code
+	 * @returns {string | null} runtime code
 	 */
 	generate() {
-		const { chunkGraph, chunk } = this;
-		const { runtimeTemplate } = this.compilation;
+		const compilation = /** @type {Compilation} */ (this.compilation);
+		const chunkGraph = /** @type {ChunkGraph} */ (this.chunkGraph);
+		const chunk = /** @type {Chunk} */ (this.chunk);
+		const { runtimeTemplate } = compilation;
 		const fn = RuntimeGlobals.ensureChunkHandlers;
 		const withBaseURI = this.runtimeRequirements.has(RuntimeGlobals.baseURI);
 		const withExternalInstallChunk = this.runtimeRequirements.has(
@@ -72,8 +76,8 @@ class RequireChunkLoadingRuntimeModule extends RuntimeModule {
 		const hasJsMatcher = compileBooleanMatcher(conditionMap);
 		const initialChunkIds = getInitialChunkIds(chunk, chunkGraph, chunkHasJs);
 
-		const outputName = this.compilation.getPath(
-			getChunkFilenameTemplate(chunk, this.compilation.outputOptions),
+		const outputName = compilation.getPath(
+			getChunkFilenameTemplate(chunk, compilation.outputOptions),
 			{
 				chunk,
 				contentHashType: "javascript"
@@ -81,7 +85,7 @@ class RequireChunkLoadingRuntimeModule extends RuntimeModule {
 		);
 		const rootOutputDir = getUndoPath(
 			outputName,
-			/** @type {string} */ (this.compilation.outputOptions.path),
+			/** @type {string} */ (compilation.outputOptions.path),
 			true
 		);
 
@@ -109,10 +113,10 @@ class RequireChunkLoadingRuntimeModule extends RuntimeModule {
 			withOnChunkLoad
 				? `${
 						RuntimeGlobals.onChunksLoaded
-				  }.require = ${runtimeTemplate.returningFunction(
+					}.require = ${runtimeTemplate.returningFunction(
 						"installedChunks[chunkId]",
 						"chunkId"
-				  )};`
+					)};`
 				: "// no on chunks loaded",
 			"",
 			withLoading || withExternalInstallChunk
@@ -131,7 +135,7 @@ class RequireChunkLoadingRuntimeModule extends RuntimeModule {
 						"for(var i = 0; i < chunkIds.length; i++)",
 						Template.indent("installedChunks[chunkIds[i]] = 1;"),
 						withOnChunkLoad ? `${RuntimeGlobals.onChunksLoaded}();` : ""
-				  ])};`
+					])};`
 				: "// no chunk install function needed",
 			"",
 			withLoading
@@ -158,17 +162,17 @@ class RequireChunkLoadingRuntimeModule extends RuntimeModule {
 											""
 										]),
 										"}"
-								  ]
+									]
 								: "installedChunks[chunkId] = 1;"
 						)};`
-				  ])
+					])
 				: "// no chunk loading",
 			"",
 			withExternalInstallChunk
 				? Template.asString([
 						`module.exports = ${RuntimeGlobals.require};`,
 						`${RuntimeGlobals.externalInstallChunk} = installChunk;`
-				  ])
+					])
 				: "// no external install chunk",
 			"",
 			withHmr
@@ -216,7 +220,7 @@ class RequireChunkLoadingRuntimeModule extends RuntimeModule {
 								/\$hmrInvalidateModuleHandlers\$/g,
 								RuntimeGlobals.hmrInvalidateModuleHandlers
 							)
-				  ])
+					])
 				: "// no HMR",
 			"",
 			withHmrManifest
@@ -232,7 +236,7 @@ class RequireChunkLoadingRuntimeModule extends RuntimeModule {
 							"})['catch'](function(err) { if(err.code !== 'MODULE_NOT_FOUND') throw err; });"
 						]),
 						"}"
-				  ])
+					])
 				: "// no HMR manifest"
 		]);
 	}

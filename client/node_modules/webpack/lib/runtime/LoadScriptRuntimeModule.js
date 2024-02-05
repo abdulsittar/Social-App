@@ -53,7 +53,7 @@ class LoadScriptRuntimeModule extends HelperRuntimeModule {
 	}
 
 	/**
-	 * @returns {string} runtime code
+	 * @returns {string | null} runtime code
 	 */
 	generate() {
 		const compilation = /** @type {Compilation} */ (this.compilation);
@@ -90,7 +90,7 @@ class LoadScriptRuntimeModule extends HelperRuntimeModule {
 							'script.setAttribute("fetchpriority", fetchPriority);'
 						),
 						"}"
-				  ])
+					])
 				: "",
 			`script.src = ${
 				this._withCreateScriptUrl
@@ -106,7 +106,7 @@ class LoadScriptRuntimeModule extends HelperRuntimeModule {
 								`script.crossOrigin = ${JSON.stringify(crossOriginLoading)};`
 							),
 							"}"
-					  ])
+						])
 				: ""
 		]);
 

@@ -1,11 +1,25 @@
+import {COLORS} from '../values/colors.js';
 export const styles ={
+  "sidebar": {
+    "flex": "2",
+    "height": "calc(100vh - 80px)",
+    "overflowY": "scroll",
+    "position": "sticky",
+    "top": "50px",
+    background: COLORS.backgroudColor,
+  },
+  "sidebarWrapper": {
+    background: COLORS.backgroudColor,
+    color: COLORS.textColor,
+    "padding": "20px",
+  },
     "rightbar": {
       "flex": "2",
-      "color": "#d0d3db",
-      "backgroundColor": "#3e3f40"
+      "color": COLORS.textColor,
+      "backgroundColor": COLORS.backgroudColor
     },
     "rightbarWrapper": {
-      "padding": "20px 20px 0 0"
+      "padding": "20px 20px 20px 20px"
     },
     "birthdayContainer": {
       "display": "flex",
@@ -27,8 +41,9 @@ export const styles ={
     },
     "rightbarTitle": {
       "fontSize": "18px",
-      textTransform: 'uppercase',
       "fontWeight": "500",
+      textTransform: 'uppercase',
+      'fontWeight': 'bold',
       "margin": "30px 0px"
     },
     "rightbarFriendList": {
@@ -59,7 +74,7 @@ export const styles ={
       "position": "absolute",
       "top": "-2px",
       "right": "0",
-      "border": "2px solid #fff"
+      "border": "2px solid #000000"
     },
     "rightbarUsername": {
       "fontWeight": "500"
@@ -74,10 +89,11 @@ export const styles ={
       "fontWeight": "500",
       "marginRight": "19px",
       letterSpacing: '.5px',
-      "color": "#d0d1ca"
+      "color": COLORS.textColor
     },
     "rightbarInfoValue": {
       "fontWeight": "300",
+      "color": COLORS.textColor
     },
     "rightbarFollowings": {
       "display": "flex",
@@ -103,8 +119,8 @@ export const styles ={
     "rightbarFollowButton": {
       "marginTop": "30px",
       "marginBottom": "10px",
-      "border": "1px solid #ff458a",
-      "backgroundColor": "#ff458a",
+      "border": "1px solid #4379ed",
+      "backgroundColor": COLORS.blueColor,
       transition: 'all .3s ease',
       textTransform: 'uppercase',
       "color": "#111",
@@ -120,12 +136,12 @@ export const styles ={
       },
       '&:hover': {
           background: 'transparent',
-          color: '#d0d1ca'
+          color: COLORS.textColor
       }
     },
     linkToFriendProfile: {
         textDecoration: "none", 
-        color: '#d0d1ca', 
+        color: COLORS.textColor, 
         textAlign: 'center',
     },
     rightbarFollowingName: {
@@ -135,7 +151,7 @@ export const styles ={
         fontSize: '16px',
         transition: 'all .3s ease',
         '&:hover': {
-            color: '#ff458a'
+            color: COLORS.blueColor
         }
     }
   } 

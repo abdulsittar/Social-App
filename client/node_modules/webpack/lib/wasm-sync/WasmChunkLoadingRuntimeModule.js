@@ -226,7 +226,7 @@ class WasmChunkLoadingRuntimeModule extends RuntimeModule {
 	}
 
 	/**
-	 * @returns {string} runtime code
+	 * @returns {string | null} runtime code
 	 */
 	generate() {
 		const fn = RuntimeGlobals.ensureChunkHandlers;
@@ -354,7 +354,7 @@ class WasmChunkLoadingRuntimeModule extends RuntimeModule {
 											"importObject"
 										)});`
 									])
-							  ])
+								])
 							: Template.asString([
 									"if(importObject && typeof importObject.then === 'function') {",
 									Template.indent([
@@ -372,7 +372,7 @@ class WasmChunkLoadingRuntimeModule extends RuntimeModule {
 										]),
 										"});"
 									])
-							  ]),
+								]),
 						"} else {",
 						Template.indent([
 							"var bytesPromise = req.then(function(x) { return x.arrayBuffer(); });",

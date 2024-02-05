@@ -1,4 +1,13 @@
+import {COLORS} from '../values/colors.js';
 export const styles = {
+  "comment": {
+    "width": "100%",
+    "borderRadius": "10px",
+    "WebkitBoxShadow": "0px 0px 16px -8px rgba(0, 0, 0, 0.68)",
+    "boxShadow": "0px 0px 16px -8px rgba(0, 0, 0, 0.68)",
+    "margin": "0px 0",
+    background: COLORS.commentsBackgroundColor
+},
     cardHeader: {
       "paddingTop": "5px",
       "paddingBottom": "5px"
@@ -20,7 +29,8 @@ export const styles = {
   "fontSize": "10px"
 },
 "postDate": {
-  "fontSize": "12px"
+  "fontSize": "12px",
+  "textColor": COLORS.textColor
 },
 "commentLikeIcon": {
   "width": "24px",
@@ -41,10 +51,8 @@ export const styles = {
       "alignItems": "flex-start"
     },
     "commentText": {
-      "backgroundColor": '#273047',
-      "color":"white",
-      "padding": "2px",
-      "margin": `2px 2px 2px 2px`
+      "backgroundColor": COLORS.postBackgroundColor,
+      textColor:COLORS.textColor,
     },
     commentDate: {
       "display": 'block',
@@ -52,9 +60,12 @@ export const styles = {
       "fontSize": '0.8em'
    },
    cardHeader2: {
+    "marginTop": "10px",
     "paddingTop": "0px",
     "alignItems": "flex-start",
-    "paddingBottom": "0px"
+    "paddingBottom": "0px",
+    "display": "flex",
+    "alignItems": "flex-start",
   },
    commentDelete: {
      "fontSize": '1.6em',

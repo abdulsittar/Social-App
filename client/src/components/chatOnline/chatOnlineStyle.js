@@ -1,3 +1,5 @@
+
+import {COLORS} from '../values/colors.js';
 export const styles = {
   chatOnline: {
     padding: '20px 75px',
@@ -14,11 +16,11 @@ export const styles = {
       fontSize: "15px",
       fontWeight: 400,
       padding: '10px 15px',
-      background: '#1b2439',
+      background: COLORS.backgroudColor,
       borderRadius: '7px',
       transition: 'all .3s ease',
       '&:hover': {
-          color: '#1b2439',
+          color: COLORS.backgroudColor,
           background: '#ff458a'
       }
   },

@@ -63,7 +63,7 @@ const makeSerializable = require("./util/makeSerializable");
  * @property {RawChunkGroupOptions=} groupOptions
  * @property {string=} typePrefix
  * @property {string=} category
- * @property {string[][]=} referencedExports exports referenced from modules (won't be mangled)
+ * @property {(string[][] | null)=} referencedExports exports referenced from modules (won't be mangled)
  * @property {string=} layer
  */
 
@@ -230,6 +230,9 @@ class ContextModule extends Module {
 			identifier += "|strict namespace object";
 		} else if (this.options.namespaceObject) {
 			identifier += "|namespace object";
+		}
+		if (this.layer) {
+			identifier += `|layer: ${this.layer}`;
 		}
 
 		return identifier;
@@ -506,8 +509,8 @@ class ContextModule extends Module {
 				this.context
 					? [this.context]
 					: typeof this.options.resource === "string"
-					? [this.options.resource]
-					: /** @type {string[]} */ (this.options.resource),
+						? [this.options.resource]
+						: /** @type {string[]} */ (this.options.resource),
 				null,
 				SNAPSHOT_OPTIONS,
 				(err, snapshot) => {
@@ -944,8 +947,8 @@ module.exports = webpackAsyncContext;`;
 		const requestPrefix = hasNoChunk
 			? "Promise.resolve()"
 			: hasMultipleOrNoChunks
-			? `Promise.all(ids.slice(${chunksStartPosition}).map(${RuntimeGlobals.ensureChunk}))`
-			: `${RuntimeGlobals.ensureChunk}(ids[${chunksStartPosition}])`;
+				? `Promise.all(ids.slice(${chunksStartPosition}).map(${RuntimeGlobals.ensureChunk}))`
+				: `${RuntimeGlobals.ensureChunk}(ids[${chunksStartPosition}])`;
 		const returnModuleObject = this.getReturnModuleObjectSource(
 			fakeMap,
 			true,

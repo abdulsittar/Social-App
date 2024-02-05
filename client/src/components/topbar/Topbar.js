@@ -1,4 +1,5 @@
 import { Search, Person, Chat, Notifications } from '@material-ui/icons';
+import {COLORS} from '../values/colors.js';
 import { FormControl, FormLabel, RadioGroup, FormControlLabel, Radio } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import { useContext, useEffect, useState } from "react";
@@ -7,6 +8,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { styles } from './topbarStyle';
 import { useMediaQuery } from 'react-responsive';
 import HomeIcon from '@mui/icons-material/Home';
+
 
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import SimplePopover from '../popover/SimplePopover';
@@ -64,13 +66,13 @@ function Topbar({ classes, setSelectedValue, isProfile }) {
     };
 
     return (
-        <div className={classes.topbarContainer} style={{ 'backgroundColor': '#3e3f40', 'display': (isMobileDevice || isTabletDevice) && 'flex' , 'height': isProfile && '40px' }}>
+        <div className={classes.topbarContainer} style={{ 'backgroundColor': COLORS.backgroudColor, 'display': (isMobileDevice || isTabletDevice) && 'flex' , 'height': isProfile && '40px' }}>
             
             <div className={classes.topbarLeft} style={{'width' : window.innerWidth, justifyContent: 'space-between'}}>
 
             <div style={{ alignItems: 'flex-start'}}>
                 <Link  style={{textDecoration: 'none'}} to='/'  className={classes.titleAndIcon}>
-                    <HomeIcon className={classes.homeIcon} style={{'margin-top': !isMobileDevice && !isTabletDevice && '10px' }}/>
+                    <HomeIcon className={classes.homeIcon} sx={{ color: COLORS.homeIconColor}} style={{'margin-top': !isMobileDevice && !isTabletDevice && '10px' }}/>
                     {!isMobileDevice && !isTabletDevice && <span className={classes.logo} style={{'margin-top': !isMobileDevice && !isTabletDevice && '10px' }}>TWON</span>}
                     {isMobileDevice && isTabletDevice && <span className={classes.logo}>Twin of Online Social Networks</span>}
                 </Link>
@@ -89,7 +91,7 @@ function Topbar({ classes, setSelectedValue, isProfile }) {
             </div>
 
             {!isProfile?
-            <div className={classes.topbarRight} style={{ 'margin-top': '-10px', 'backgroundColor': '#3e3f40', 'margin-top': '0px', 'display':  'flex', 'flex':  '4', 'flex-direction':  'row' }}>
+            <div className={classes.topbarRight} style={{ 'margin-top': '-10px', 'backgroundColor': COLORS.backgroudColor, 'margin-top': '0px', 'display':  'flex', 'flex':  '4', 'flex-direction':  'row' }}>
                 <FormControl row={true} style={{ 'margin-left': '0', "fontSize": "10px" }}>
                     <FormLabel id="demo-radio-buttons-group-label" style={{ text: 'white', 'margin': '0' }}></FormLabel>
                     <RadioGroup style={{ 'margin': '0', "fontSize": "10px" }} aria-labelledby="demo-radio-buttons-group-label" defaultValue="0" row={true} name="radio-buttons-group" onChange={onRadioChanged}>

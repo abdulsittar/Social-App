@@ -11,6 +11,7 @@ import { withStyles } from '@material-ui/core/styles';
 import {styles} from './followersPageStyle';
 import { useMediaQuery } from 'react-responsive';
 //import User from '../../../../api/models/User';
+import {COLORS} from '../../components/values/colors.js';
 
 function FollowersPage({ username, classes }) {
     const [user, setUser] = useState({});
@@ -35,7 +36,7 @@ function FollowersPage({ username, classes }) {
     return (
         <>
         <Topbar isProfile="true"/>
-        <div className={classes.followingPageTop} style={{'backgroundColor': '#3e3f40'}}>
+        <div className={classes.followingPageTop} style={{'backgroundColor': COLORS.backgroudColor}}>
         <div className={classes.followingPageWrapper}>
         <h4 className={classes.rightbarTitle}>FOLLOWERS</h4>
         <div className={classes.rightbarFollowings}>

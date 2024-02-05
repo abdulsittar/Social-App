@@ -12,8 +12,11 @@ import {styles} from './profileStyle';
 import { useMediaQuery } from 'react-responsive';
 import TextField from '@material-ui/core/TextField'
 import { colors } from '@material-ui/core';
-//import User from '../../../../api/models/User';
+import { ToastProvider, useToasts } from 'react-toast-notifications';
 
+//import showToast from "../../components/toastify/toastify";
+
+//import User from '../../../../api/models/User';
 function Profile({ classes }) {
     
     const [selectedImage, setSelectedImage] = useState(null);
@@ -29,39 +32,43 @@ function Profile({ classes }) {
     const isMobileDevice = useMediaQuery({ query: "(min-device-width: 480px)", });
     const isTabletDevice = useMediaQuery({ query: "(min-device-width: 768px)", });
     const [followed, setFollowed] = useState([]);
+    const [isProfileFetched, setIsProfileFetched] = useState(true);
+
+  const YourComponent = () => {
+  const { addToast } = useToasts();
+
+  const showToast = () => {
+    addToast('Your message here', { appearance: 'success' });
+  };
+
+  return (<></>);
+};
+
+
+useEffect(() => {
+  const fetchUser = async () => {
+    const res = await axios.get(`/users?username=${username}`)
+    console.log("fetch user");
+    console.log(res.data)
+    setUsr(res.data);
+    console.log(usr);
+};
+if(isProfileFetched){
+  fetchUser();
+  setIsProfileFetched(false);
+}
+}, [username]);
 
     useEffect(() => {
       setFollowed(currentUser.followings.includes(usr._id));
+        //setSelectedImage(usr.profilePicture);
+        setPreImage(usr.profilePicture);
     }, [currentUser.followings, usr]);
 
-
-    useEffect(() => {
-        const fetchUser = async () => {
-            const res = await axios.get(`/users?username=${username}`)
-            console.log("fetch user");
-            console.log(res.data)
-            setUsr(res.data);
-            console.log(usr);
-        };
-
-        fetchUser();
-        //setBio(usr.desc);
-        //setCity(usr.city);
-        //setCountry(usr.from);
-        //setRelationship(usr.relationship);
-        //console.log(usr.profilePicture);
-        setSelectedImage(usr.profilePicture);
-        setPreImage(usr.profilePicture);
-    }, [username])
-
-
   const handleImageInputChange = (e) => {
-    //console.log("handleImageInputChange");
     const file = e.target.files[0];
-    //console.log('Selected image:', e.target.name);
-    //console.log('Selected image:', file);
-    // Validate file type if needed
     usr.profilePicture = file;
+    
     setSelectedImage(file);
     setPreImage(URL.createObjectURL(file));
   };
@@ -99,6 +106,7 @@ function Profile({ classes }) {
       //console.log(file);
       setSelectedImage(file);
       //usr.profilePicture = file;
+      ////<input accept="image/*" type="file" onChange={handleImageInputChange} style={{ display: 'none' }} />
       setPreImage(URL.createObjectURL(file));
     };
     input.click();
@@ -123,12 +131,12 @@ function Profile({ classes }) {
   };
 
   const handleUpload = async () => {
-    //console.log("handleUpload");
+    console.log("handleUpload");
     // Handle the selected image and perform upload logic
     
       // Implement your upload logic here (e.g., send the image to the server)
       //console.log('Selected image:', selectedImage);
-
+      YourComponent.showToast('Saved Successfully');
       const profData = {
         userId: usr._id,
         desc: bio,
@@ -145,34 +153,44 @@ function Profile({ classes }) {
       formData.append('from', country);
 
       try {
-        if (selectedImage) {
+        if (selectedImage != null) {
+          console.log("selectedImage");
+          console.log(selectedImage);
           formData.append('profilePicture', selectedImage);
-          await axios.put(`/users/${usr._id}/updateProfile`, formData, {
+          const res = await axios.put(`/users/${usr._id}/updateProfile`, formData, {
             headers: {
               'Content-Type': 'multipart/form-data',
             },
         });
+        
+        YourComponent.showToast('Saved Successfully');
       } 
       else 
       {
         console.log(formData);
-          await axios.post(`/users/${usr._id}/updateProfile2`, profData);
+        const res = await axios.post(`/users/${usr._id}/updateProfile2`, profData);
+          //toast.success("Updated");
+          //const { addToast } = useToasts();
+          YourComponent.showToast('Saved Successfully');
+          
       }
-        //console.log('Image uploaded successfully.');
-        // Handle success or any other actions after successful upload
       } catch (error) {
         console.error('Error uploading image:', error);
+        YourComponent.showToast('Failed to upload the profile');
         // Handle error
       }
-      const fetchUser = async () => {
-        const res = await axios.get(`/users?username=${username}`)
-        setUsr(res.data);
-    };
-    fetchUser()
+     // const fetchUser = async () => {
+     //   const res = await axios.get(`/users?username=${username}`)
+     //   setUsr(res.data);
+    //};
+    //fetchUser()
   };
-    return (
+   return (
         <>
         <Topbar isProfile="true"/>
+        <ToastProvider>
+          <YourComponent/>
+        </ToastProvider>
         <div className={classes.profile}>
           <div className={classes.profileRight}>
             <div className={classes.profileRightTop}>
@@ -185,7 +203,7 @@ function Profile({ classes }) {
                 {username == currentUser.username && (
                 <div className={classes.photosInfo}>
                   <button id="fileSeleID" onClick={handleUploadFromGallery}>{"Select from Gallery"}</button>
-                  <input accept="image/*" type="file" onChange={handleImageInputChange} style={{ display: 'none' }} />
+                  
                   <button onClick={handleUpload}>Save profile</button>
                 </div>
                 )}
@@ -203,10 +221,10 @@ function Profile({ classes }) {
           </button>
         )}
                 <h4 className={classes.profileInfoName}>{usr.username} </h4>
-                <input readOnly={!(usr.username == currentUser.username)}  placeholder={usr.desc? usr.desc: "Enter your biography"} className={classes.shareInput} onChange={handleDescription}  value={usr.desc? usr.desc: bio} />
-                <input readOnly={!(usr.username == currentUser.username)} placeholder={usr.city? usr.city:"Enter the name of your City"} className={classes.shareInput} onChange={handleCity}  value={usr.city? usr.city: city} />
-                <input readOnly={!(usr.username == currentUser.username)} placeholder={usr.from? usr.from:"Enter the name of your Country"} className={classes.shareInput} onChange={handleCountry}    value={usr.from? usr.from: country} />
-                <input readOnly={!(usr.username == currentUser.username)} placeholder={usr.relationship? usr.relationship:"Whats is the status of your relationship?"} className={classes.shareInput} onChange={handleRelationship}    value={usr.relationship? usr.relationship:relationship} />
+                <input readOnly={!(usr.username == currentUser.username)} placeholder={usr.desc? usr.desc: "Enter your biography"} className={classes.shareInput} onChange={handleDescription}  />
+                <input readOnly={!(usr.username == currentUser.username)} placeholder={usr.city? usr.city:"Enter the name of your City"} className={classes.shareInput} onChange={handleCity}   />
+                <input readOnly={!(usr.username == currentUser.username)} placeholder={usr.from? usr.from:"Enter the name of your Country"} className={classes.shareInput} onChange={handleCountry}  />
+                <input readOnly={!(usr.username == currentUser.username)} placeholder={usr.relationship? usr.relationship:"Whats is the status of your relationship?"} className={classes.shareInput} onChange={handleRelationship}  />
               </div>
             </div>
           <div className={classes.profileRightBottom} >
@@ -216,7 +234,10 @@ function Profile({ classes }) {
         </div>
         </div>
       </>
-    )
-}
+    );
+
+
+
+  }
 
 export default withStyles(styles)(Profile);

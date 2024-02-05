@@ -1,3 +1,4 @@
+import {COLORS} from '../values/colors.js';
 export const styles = {
     "post": {
         "width": "100%",
@@ -5,7 +6,12 @@ export const styles = {
         "WebkitBoxShadow": "0px 0px 16px -8px rgba(0, 0, 0, 0.68)",
         "boxShadow": "0px 0px 16px -8px rgba(0, 0, 0, 0.68)",
         "margin": "30px 0",
-        background: '#273047'
+        background: COLORS.postBackgroundColor
+    },
+    "commentTop": {
+      "display": "flex",
+      "flexDirection": "column",
+      padding: '0px 0px'
     },
     "postWrapper": {
         "paddingTop": "20px",
@@ -27,7 +33,7 @@ export const styles = {
         "alignItems": "center"
     },
     "shareHr": {
-        "margin": "20px"
+        "margin": "2px 20px 2px 20px"
     },
     "postProfileImg": {
         "width": "32px",
@@ -38,6 +44,7 @@ export const styles = {
     "postUsername": {
         "fontSize": "15px",
         "margin": "0 10px",
+        'fontWeight': 'bold',
         letterSpacing: '.6px'
     },
     "postDate": {
@@ -46,7 +53,7 @@ export const styles = {
     postText: {
         padding: '0px 20px',
         margin: '0px 20px',
-        color: '#FFFFFF'
+        color: COLORS.textColor
 
     },
     "postCenter": {
@@ -73,8 +80,8 @@ export const styles = {
         "cursor": "pointer",
         "align": "align-right",
         "float": "right",
-        background: '#ff458a',
-        border: '1px solid #ff458a',
+        background: COLORS.blueColor,
+        border: '1px solid #4379ed',
         color: '#111',
         transition: 'all .3s ease',
         '&:focus': {
@@ -82,7 +89,7 @@ export const styles = {
         },
         '&:hover': {
           background: 'transparent',
-          color: '#d0d3db'
+          color: COLORS.textColor
         }
       },
       "sendButton2": {
@@ -97,7 +104,7 @@ export const styles = {
         },
         '&:hover': {
           background: 'transparent',
-          color: '#d0d3db'
+          color: COLORS.textColor
         }
       },
     "sendButton": {
@@ -109,7 +116,7 @@ export const styles = {
         "cursor": "pointer",
         "align": "align-right",
         "float": "right",
-        border: '1px solid #ff458a',
+        border: '1px solid #4379ed',
         color: '#111',
         transition: 'all .3s ease',
         '&:focus': {
@@ -117,7 +124,7 @@ export const styles = {
         },
         '&:hover': {
           background: 'transparent',
-          color: '#d0d3db'
+          color: COLORS.textColor
         }
       },
       "smallAvatar": {
@@ -131,10 +138,10 @@ export const styles = {
     "shareInput": {
         "border": "none",
         "width":"100%",
-        backgroundColor: '#273047',
+        backgroundColor: COLORS.postBackgroundColor,
         lineHeight:'20px',
         padding:'0px 0px',
-        color: '#FFFFFF',
+        color: COLORS.textColor,
         fontSize:'12px',
         '&:focus': {
             outline: 'none',
@@ -188,10 +195,12 @@ export const styles = {
     "postCommentText": {
         "cursor": "pointer",
         "borderBottom": "1px dashed gray",
-        "fontSize": "15px"
+        "fontSize": "15px",
+        'fontWeight': 'bold',
+
     },
     "commentText": {
-        "backgroundColor": '#273047',
+        "backgroundColor": COLORS.postBackgroundColor,
         "padding": "2px",
         "margin": `2px 2px 2px 2px`
       },
@@ -206,10 +215,11 @@ export const styles = {
      "alignItems": "right",
      },
 "commentsWrapper": {
-    "padding": "2px"
+    "padding": "2px",
+    backgroundColor: COLORS.commentsBackgroundColor
 },
 "commentText": {
-    "backgroundColor": '#273047',
+    "backgroundColor": COLORS.postBackgroundColor,
     "color":"white",
     "padding": "2px",
     "margin": `2px 2px 2px 2px`
@@ -219,7 +229,7 @@ export const styles = {
     "height": "50px",
     "paddingTop": "0px",
     "paddingBottom": "0px", 
-    background: '#273047'
+    background: COLORS.postBackgroundColor
   },
   cardHeader2: {
     "paddingTop": "0px",

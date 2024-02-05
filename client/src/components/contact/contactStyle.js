@@ -1,8 +1,9 @@
+import {COLORS} from '../values/colors.js';
 export const styles = {
     contact: {
         width: '95%',
         height: '60px',
-        background: '#1b2439',
+        background: COLORS.backgroudColor,
         padding: '40px 10px',
         margin: '20px auto',
         borderRadius: '5px',
@@ -14,13 +15,13 @@ export const styles = {
         '&:hover': {
             background: '#ff458a',
             '& h1': {
-                color: '#1b2439'
+                color: COLORS.backgroudColor
             },
             '& p': {
                 color: '#202a41'
             },
             '& svg': {
-                color: '#1b2439'
+                color: COLORS.backgroudColor
             }
         }
     },
@@ -37,13 +38,13 @@ export const styles = {
         cursor: 'pointer',
         transition: 'all .2s ease-in-out',
         '& h1': {
-            color: '#1b2439' + ' !important'
+            color: COLORS.backgroudColor + ' !important'
         },
         '& p': {
             color: '#202a41' + ' !important'
         },
         '& svg': {
-            color: '#1b2439' + ' !important'
+            color: COLORS.backgroudColor + ' !important'
         },
     },
     left: {

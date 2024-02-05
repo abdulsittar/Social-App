@@ -22,8 +22,9 @@ import MoodIcon from '@mui/icons-material/Mood';
 import React from 'react';
 import { LinkPreview } from '@dhaiwat10/react-link-preview';
 import { InView } from 'react-intersection-observer';
+import { COLORS } from "../values/colors";
 
-function Post({ post, classes, isDetail }) {
+function Post({onScrolling,  post, classes, isDetail }) {
   const [comments, setComments] = useState([]);
   const inputEl = React.useRef<HTMLInputElement>(null);
   //console.log(post);
@@ -34,7 +35,7 @@ function Post({ post, classes, isDetail }) {
   const [isLikedByOne, setIsLikedByOne] = useState(false);
   const [isDislikedByOne, setIsDislikedByOne] = useState(false);
   const [user, setUser] = useState({});
-  const [text, setText] = useState('')
+  const [text, setText] = useState('');
   
   const [isVisible, setIsVisible] = useState(true);
   const ref = useRef(null);
@@ -45,6 +46,8 @@ function Post({ post, classes, isDetail }) {
   let url = extractUrls(post?.desc? post?.desc: "testing teseting");
   const [urls, setUrls] = useState(url);
   var cover = true;
+
+ 
 
   const { user: currentUser } = useContext(AuthContext);
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
@@ -133,13 +136,7 @@ function Post({ post, classes, isDetail }) {
 
   }
 
-  function handleViewedChange(view) {
-    console.log("view ", view);
-    if(view == true){
-      axios.put("/users/" + currentUser._id + "/viewed", { postId: post._id });
-
-    }
-  }
+ 
 
   const handleReadChange = () => {
       axios.put("/users/" + currentUser._id + "/read", { postId: post._id });
@@ -197,17 +194,25 @@ function Post({ post, classes, isDetail }) {
     bottomdiv.style.display="none";
   }
 
+  function handleViewedChange(view, post) {
+    if(view == true){
+    console.log("view ", view);
+    onScrolling(post._id);
+    }
+  }
+  //<img src={PF + post.img} alt="" className={classes.postImg} />
+
 
   return (
-    <InView as="div" onChange={(inView, entry) => handleViewedChange(inView)}>
+    <InView as="div" onChange={(inView, entry) => handleViewedChange(inView, post)}>
     <div className={classes.post} style={{margin: isDetail && "5px 0"}} >
       <div className={classes.postWrapper}>
         <div className={classes.postTop}>
           <div className={classes.postTopLeft}>
-            <Link  style={{textDecoration: 'none', color: '#FFF'}} to={`profile/${user.username}`}>
+            <Link  style={{textDecoration: 'none', color: COLORS.textColor}} to={isDetail? `/postdetail/profile/${user.username}`: `/profile/${user.username}` }>
               <img src={user.profilePicture ? PF + user.profilePicture : PF + 'person/noAvatar.png'} alt="" className={classes.postProfileImg} />
             </Link>
-            <Link style={{textDecoration: 'none', color: '#FFF'}} to={`profile/${user.username}`}>
+            <Link style={{textDecoration: 'none', color: COLORS.textColor}} to={isDetail? `/postdetail/profile/${user.username}`: `/profile/${user.username}`}>
             <span className={classes.postUsername}>
               {user.username}
             </span>
@@ -216,20 +221,20 @@ function Post({ post, classes, isDetail }) {
           </div>
           { (!isDetail)?
           <div className={classes.postTopRight}>
-          <Link style={{textDecoration: 'none', color: '#FFF'}} to={{pathname:`/postdetail/${user.username}`, state:{myObj: post}}}> <ArrowForwardIcon /></Link></div>: <div></div>
+          <Link style={{textDecoration: 'none', color: COLORS.textColor}} to={{pathname:`/postdetail/${user.username}`, state:{myObj: post}}}> <ArrowForwardIcon /></Link></div>: <div></div>
           }
         </div>
         <div className={classes.postCenter}>
         <Linkify><div className={classes.postText}>{post?.desc}</div></Linkify>
-          <img src={PF + post.img} alt="" className={classes.postImg} />
+          
           
         </div>
         <div className={classes.postBottom}>
           <div className={classes.postBottomLeft}>
-            <img src={`${PF}like.png`} alt="" className={classes.likeIcon} onClick={likeHandler} />
+            <img src={`${PF}clike.png`} alt="" className={classes.likeIcon} onClick={likeHandler} />
             <span className={classes.postLikeCounter}>{like}</span>
                   
-            <img src={`${PF}dislike.png`} alt="" className={classes.likeIcon} onClick={dislikeHandler} />
+            <img src={`${PF}cdislike.png`} alt="" className={classes.likeIcon} onClick={dislikeHandler} />
             <span className={classes.postDislikeCounter}>{dislike}</span>
              
           </div>
@@ -250,10 +255,10 @@ function Post({ post, classes, isDetail }) {
               <SendIcon className={classes.sendButton2} style={{ display:"flex", margin:"0px 20px"}} type="submit" onClick={submitHandler}/>
             </form>
             </div>
-            
+            <div className={classes.commentTop}>
             {comments.slice(0).reverse().map((item, i) => {
                       //return <CommentSA key={item._id} post={post} comment={item} isDetail={false}/>
-              if(isDetail===false && i < 2) {
+              if(isDetail===false && i < 1) {
                   return <CommentSA key={item._id} post={post} comment={item} isDetail={false}/>
 
               } else if(isDetail === true) {
@@ -262,7 +267,7 @@ function Post({ post, classes, isDetail }) {
               }
               })
             }
-        
+        </div>
         </div>
       </div>
     </div>

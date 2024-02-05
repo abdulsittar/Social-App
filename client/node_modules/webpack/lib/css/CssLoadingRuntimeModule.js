@@ -56,7 +56,7 @@ class CssLoadingRuntimeModule extends RuntimeModule {
 	}
 
 	/**
-	 * @returns {string} runtime code
+	 * @returns {string | null} runtime code
 	 */
 	generate() {
 		const { compilation, chunk, _runtimeRequirements } = this;
@@ -129,12 +129,20 @@ class CssLoadingRuntimeModule extends RuntimeModule {
 								`link.crossOrigin = ${JSON.stringify(crossOriginLoading)};`
 							),
 							"}"
-					  ])
+						])
 				: ""
 		]);
 
 		/** @type {(str: string) => number} */
 		const cc = str => str.charCodeAt(0);
+		const name = uniqueName
+			? runtimeTemplate.concatenation(
+					"--webpack-",
+					{ expr: "uniqueName" },
+					"-",
+					{ expr: "chunkId" }
+				)
+			: runtimeTemplate.concatenation("--webpack-", { expr: "chunkId" });
 
 		return Template.asString([
 			"// object to store loaded and loading chunks",
@@ -150,25 +158,34 @@ class CssLoadingRuntimeModule extends RuntimeModule {
 			uniqueName
 				? `var uniqueName = ${JSON.stringify(
 						runtimeTemplate.outputOptions.uniqueName
-				  )};`
+					)};`
 				: "// data-webpack is not used as build has no uniqueName",
 			`var loadCssChunkData = ${runtimeTemplate.basicFunction(
 				"target, link, chunkId",
 				[
 					`var data, token = "", token2, exports = {}, exportsWithId = [], exportsWithDashes = [], ${
 						withHmr ? "moduleIds = [], " : ""
-					}i = 0, cc = 1;`,
-					"try { if(!link) link = loadStylesheet(chunkId); data = link.sheet.cssRules; data = data[data.length - 1].style; } catch(e) { data = getComputedStyle(document.head); }",
-					`data = data.getPropertyValue(${
-						uniqueName
-							? runtimeTemplate.concatenation(
-									"--webpack-",
-									{ expr: "uniqueName" },
-									"-",
-									{ expr: "chunkId" }
-							  )
-							: runtimeTemplate.concatenation("--webpack-", { expr: "chunkId" })
-					});`,
+					}name = ${name}, i = 0, cc = 1;`,
+					"try {",
+					Template.indent([
+						"if(!link) link = loadStylesheet(chunkId);",
+						// `link.sheet.rules` for legacy browsers
+						"var cssRules = link.sheet.cssRules || link.sheet.rules;",
+						"var j = cssRules.length - 1;",
+						"while(j > -1 && !data) {",
+						Template.indent([
+							"var style = cssRules[j--].style;",
+							"if(!style) continue;",
+							`data = style.getPropertyValue(name);`
+						]),
+						"}"
+					]),
+					"}catch(e){}",
+					"if(!data) {",
+					Template.indent([
+						"data = getComputedStyle(document.head).getPropertyValue(name);"
+					]),
+					"}",
 					"if(!data) return [];",
 					"for(; cc; i++) {",
 					Template.indent([
@@ -193,10 +210,10 @@ class CssLoadingRuntimeModule extends RuntimeModule {
 											{ expr: "token" },
 											"-",
 											{ expr: "exports[x]" }
-									  )
+										)
 									: runtimeTemplate.concatenation({ expr: "token" }, "-", {
 											expr: "exports[x]"
-									  })
+										})
 							}`,
 							"x"
 						)}); exportsWithDashes.forEach(${runtimeTemplate.expressionFunction(
@@ -275,18 +292,18 @@ class CssLoadingRuntimeModule extends RuntimeModule {
 			initialChunkIdsWithCss.size > 2
 				? `${JSON.stringify(
 						Array.from(initialChunkIdsWithCss)
-				  )}.forEach(loadCssChunkData.bind(null, ${
+					)}.forEach(loadCssChunkData.bind(null, ${
 						RuntimeGlobals.moduleFactories
-				  }, 0));`
+					}, 0));`
 				: initialChunkIdsWithCss.size > 0
-				? `${Array.from(
-						initialChunkIdsWithCss,
-						id =>
-							`loadCssChunkData(${
-								RuntimeGlobals.moduleFactories
-							}, 0, ${JSON.stringify(id)});`
-				  ).join("")}`
-				: "// no initial css",
+					? `${Array.from(
+							initialChunkIdsWithCss,
+							id =>
+								`loadCssChunkData(${
+									RuntimeGlobals.moduleFactories
+								}, 0, ${JSON.stringify(id)});`
+						).join("")}`
+					: "// no initial css",
 			"",
 			withLoading
 				? Template.asString([
@@ -328,11 +345,11 @@ class CssLoadingRuntimeModule extends RuntimeModule {
 														'if(event.type !== "load") {',
 														Template.indent([
 															"var errorType = event && event.type;",
-															"var realSrc = event && event.target && event.target.src;",
-															"error.message = 'Loading css chunk ' + chunkId + ' failed.\\n(' + errorType + ': ' + realSrc + ')';",
+															"var realHref = event && event.target && event.target.href;",
+															"error.message = 'Loading css chunk ' + chunkId + ' failed.\\n(' + errorType + ': ' + realHref + ')';",
 															"error.name = 'ChunkLoadError';",
 															"error.type = errorType;",
-															"error.request = realSrc;",
+															"error.request = realHref;",
 															"installedChunkData[1](error);"
 														]),
 														"} else {",
@@ -355,7 +372,7 @@ class CssLoadingRuntimeModule extends RuntimeModule {
 							]),
 							"}"
 						])};`
-				  ])
+					])
 				: "// no chunk loading",
 			"",
 			withHmr
@@ -418,11 +435,11 @@ class CssLoadingRuntimeModule extends RuntimeModule {
 													'if(event.type !== "load") {',
 													Template.indent([
 														"var errorType = event && event.type;",
-														"var realSrc = event && event.target && event.target.src;",
-														"error.message = 'Loading css hot update chunk ' + chunkId + ' failed.\\n(' + errorType + ': ' + realSrc + ')';",
+														"var realHref = event && event.target && event.target.href;",
+														"error.message = 'Loading css hot update chunk ' + chunkId + ' failed.\\n(' + errorType + ': ' + realHref + ')';",
 														"error.name = 'ChunkLoadError';",
 														"error.type = errorType;",
-														"error.request = realSrc;",
+														"error.request = realHref;",
 														"reject(error);"
 													]),
 													"} else {",
@@ -447,7 +464,7 @@ class CssLoadingRuntimeModule extends RuntimeModule {
 								])});`
 							]
 						)}`
-				  ])
+					])
 				: "// no hmr"
 		]);
 	}

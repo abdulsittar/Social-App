@@ -59,7 +59,8 @@ const makeSerializable = require("./util/makeSerializable");
  * @property {RuntimeTemplate} runtimeTemplate the runtime template
  * @property {ModuleGraph} moduleGraph the module graph
  * @property {ChunkGraph} chunkGraph the chunk graph
- * @property {RuntimeSpec} runtime the runtimes code should be generated for
+ * @property {RuntimeSpec} runtime the runtime code should be generated for
+ * @property {RuntimeSpec[]} [runtimes] the runtimes code should be generated for
  * @property {ConcatenationScope=} concatenationScope when in concatenated module, information about other concatenated modules
  * @property {CodeGenerationResults} codeGenerationResults code generation results of other modules (need to have a codeGenerationDependency to use that)
  * @property {Compilation=} compilation the compilation
@@ -108,6 +109,11 @@ const makeSerializable = require("./util/makeSerializable");
 
 /** @typedef {KnownBuildMeta & Record<string, any>} BuildMeta */
 /** @typedef {Record<string, any>} BuildInfo */
+
+/**
+ * @typedef {Object} FactoryMeta
+ * @property {boolean=} sideEffectFree
+ */
 
 const EMPTY_RESOLVE_OPTIONS = {};
 
@@ -159,7 +165,7 @@ class Module extends DependenciesBlock {
 		// Info from Factory
 		/** @type {ResolveOptions | undefined} */
 		this.resolveOptions = EMPTY_RESOLVE_OPTIONS;
-		/** @type {object | undefined} */
+		/** @type {FactoryMeta | undefined} */
 		this.factoryMeta = undefined;
 		// TODO refactor this -> options object filled from Factory
 		// TODO webpack 6: use an enum
@@ -439,7 +445,7 @@ class Module extends DependenciesBlock {
 
 	/**
 	 * @param {ModuleGraph} moduleGraph the module graph
-	 * @param {boolean} strict the importing module is strict
+	 * @param {boolean | undefined} strict the importing module is strict
 	 * @returns {"namespace" | "default-only" | "default-with-named" | "dynamic"} export type
 	 * "namespace": Exports is already a namespace object. namespace = exports.
 	 * "dynamic": Check at runtime if __esModule is set. When set: namespace = { ...exports, default: exports }. When not set: namespace = { default: exports }.

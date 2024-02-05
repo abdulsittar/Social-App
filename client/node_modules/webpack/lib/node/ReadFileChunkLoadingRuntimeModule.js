@@ -16,6 +16,8 @@ const compileBooleanMatcher = require("../util/compileBooleanMatcher");
 const { getUndoPath } = require("../util/identifier");
 
 /** @typedef {import("../Chunk")} Chunk */
+/** @typedef {import("../ChunkGraph")} ChunkGraph */
+/** @typedef {import("../Compilation")} Compilation */
 
 class ReadFileChunkLoadingRuntimeModule extends RuntimeModule {
 	/**
@@ -46,11 +48,13 @@ class ReadFileChunkLoadingRuntimeModule extends RuntimeModule {
 	}
 
 	/**
-	 * @returns {string} runtime code
+	 * @returns {string | null} runtime code
 	 */
 	generate() {
-		const { chunkGraph, chunk } = this;
-		const { runtimeTemplate } = this.compilation;
+		const compilation = /** @type {Compilation} */ (this.compilation);
+		const chunkGraph = /** @type {ChunkGraph} */ (this.chunkGraph);
+		const chunk = /** @type {Chunk} */ (this.chunk);
+		const { runtimeTemplate } = compilation;
 		const fn = RuntimeGlobals.ensureChunkHandlers;
 		const withBaseURI = this.runtimeRequirements.has(RuntimeGlobals.baseURI);
 		const withExternalInstallChunk = this.runtimeRequirements.has(
@@ -72,8 +76,8 @@ class ReadFileChunkLoadingRuntimeModule extends RuntimeModule {
 		const hasJsMatcher = compileBooleanMatcher(conditionMap);
 		const initialChunkIds = getInitialChunkIds(chunk, chunkGraph, chunkHasJs);
 
-		const outputName = this.compilation.getPath(
-			getChunkFilenameTemplate(chunk, this.compilation.outputOptions),
+		const outputName = compilation.getPath(
+			getChunkFilenameTemplate(chunk, compilation.outputOptions),
 			{
 				chunk,
 				contentHashType: "javascript"
@@ -81,7 +85,7 @@ class ReadFileChunkLoadingRuntimeModule extends RuntimeModule {
 		);
 		const rootOutputDir = getUndoPath(
 			outputName,
-			/** @type {string} */ (this.compilation.outputOptions.path),
+			/** @type {string} */ (compilation.outputOptions.path),
 			false
 		);
 
@@ -109,10 +113,10 @@ class ReadFileChunkLoadingRuntimeModule extends RuntimeModule {
 			withOnChunkLoad
 				? `${
 						RuntimeGlobals.onChunksLoaded
-				  }.readFileVm = ${runtimeTemplate.returningFunction(
+					}.readFileVm = ${runtimeTemplate.returningFunction(
 						"installedChunks[chunkId] === 0",
 						"chunkId"
-				  )};`
+					)};`
 				: "// no on chunks loaded",
 			"",
 			withLoading || withExternalInstallChunk
@@ -137,7 +141,7 @@ class ReadFileChunkLoadingRuntimeModule extends RuntimeModule {
 						]),
 						"}",
 						withOnChunkLoad ? `${RuntimeGlobals.onChunksLoaded}();` : ""
-				  ])};`
+					])};`
 				: "// no chunk install function needed",
 			"",
 			withLoading
@@ -188,17 +192,17 @@ class ReadFileChunkLoadingRuntimeModule extends RuntimeModule {
 										"}"
 									]),
 									"}"
-							  ])
+								])
 							: Template.indent(["installedChunks[chunkId] = 0;"]),
 						"};"
-				  ])
+					])
 				: "// no chunk loading",
 			"",
 			withExternalInstallChunk
 				? Template.asString([
 						`module.exports = ${RuntimeGlobals.require};`,
 						`${RuntimeGlobals.externalInstallChunk} = installChunk;`
-				  ])
+					])
 				: "// no external install chunk",
 			"",
 			withHmr
@@ -259,7 +263,7 @@ class ReadFileChunkLoadingRuntimeModule extends RuntimeModule {
 								/\$hmrInvalidateModuleHandlers\$/g,
 								RuntimeGlobals.hmrInvalidateModuleHandlers
 							)
-				  ])
+					])
 				: "// no HMR",
 			"",
 			withHmrManifest
@@ -287,7 +291,7 @@ class ReadFileChunkLoadingRuntimeModule extends RuntimeModule {
 							"});"
 						]),
 						"}"
-				  ])
+					])
 				: "// no HMR manifest"
 		]);
 	}

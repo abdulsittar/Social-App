@@ -10,6 +10,7 @@ import { useParams } from 'react-router';
 import { withStyles } from '@material-ui/core/styles';
 import {styles} from './followingsPageStyle';
 import { useMediaQuery } from 'react-responsive';
+import {COLORS} from '../../components/values/colors.js';
 //import User from '../../../../api/models/User';
 
 function FollowingsPage({ username, classes }) {
@@ -36,7 +37,7 @@ function FollowingsPage({ username, classes }) {
     return (
         <>
         <Topbar isProfile="true"/>
-        <div className={classes.followingPageTop} style={{'backgroundColor': '#3e3f40'}}>
+        <div className={classes.followingPageTop} style={{'backgroundColor': COLORS.backgroudColor}}>
            <div className={classes.followingPageWrapper}>
         <h4 className={classes.rightbarTitle}>FOLLOWINGS</h4>
         <div className={classes.rightbarFollowings}>

@@ -208,7 +208,7 @@ class Compiler {
 		this.root = this;
 		/** @type {string} */
 		this.outputPath = "";
-		/** @type {Watching} */
+		/** @type {Watching | undefined} */
 		this.watching = undefined;
 
 		/** @type {OutputFileSystem} */
@@ -228,17 +228,19 @@ class Compiler {
 		/** @type {Set<string | RegExp>} */
 		this.managedPaths = new Set();
 		/** @type {Set<string | RegExp>} */
+		this.unmanagedPaths = new Set();
+		/** @type {Set<string | RegExp>} */
 		this.immutablePaths = new Set();
 
-		/** @type {ReadonlySet<string>} */
+		/** @type {ReadonlySet<string> | undefined} */
 		this.modifiedFiles = undefined;
-		/** @type {ReadonlySet<string>} */
+		/** @type {ReadonlySet<string> | undefined} */
 		this.removedFiles = undefined;
-		/** @type {ReadonlyMap<string, FileSystemInfoEntry | "ignore" | null>} */
+		/** @type {ReadonlyMap<string, FileSystemInfoEntry | "ignore" | null> | undefined} */
 		this.fileTimestamps = undefined;
-		/** @type {ReadonlyMap<string, FileSystemInfoEntry | "ignore" | null>} */
+		/** @type {ReadonlyMap<string, FileSystemInfoEntry | "ignore" | null> | undefined} */
 		this.contextTimestamps = undefined;
-		/** @type {number} */
+		/** @type {number | undefined} */
 		this.fsStartTime = undefined;
 
 		/** @type {ResolverFactory} */
@@ -381,6 +383,17 @@ class Compiler {
 	// e.g. move compilation specific info from Modules into ModuleGraph
 	_cleanupLastCompilation() {
 		if (this._lastCompilation !== undefined) {
+			for (const childCompilation of this._lastCompilation.children) {
+				for (const module of childCompilation.modules) {
+					ChunkGraph.clearChunkGraphForModule(module);
+					ModuleGraph.clearModuleGraphForModule(module);
+					module.cleanupForCache();
+				}
+				for (const chunk of childCompilation.chunks) {
+					ChunkGraph.clearChunkGraphForChunk(chunk);
+				}
+			}
+
 			for (const module of this._lastCompilation.modules) {
 				ChunkGraph.clearChunkGraphForModule(module);
 				ModuleGraph.clearModuleGraphForModule(module);

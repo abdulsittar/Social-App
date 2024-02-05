@@ -1,6 +1,7 @@
 import { withStyles } from "@material-ui/styles";
 import InfoAccordion from "../infoAccordion/InfoAccordion";
 import { styles } from "./contactInfoStyle";
+import {COLORS} from '../values/colors.js';
 
 function ContactInfo({ classes, contact }) {
     const PF = process.env.REACT_APP_PUBLIC_FOLDER;

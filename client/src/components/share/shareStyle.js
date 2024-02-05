@@ -1,11 +1,12 @@
+import {COLORS} from '../values/colors.js';
 export const styles = {
   "share": {
     "width": "100%",
     "borderRadius": "10px",
     "WebkitBoxShadow": "0px 0px 16px -8px rgba(0, 0, 0, 0.68)",
     "boxShadow": "0px 0px 16px -8px rgba(0, 0, 0, 0.68)",
-    background: '#273047',
-    color:'#d0d3db',
+    background: COLORS.postBackgroundColor,
+    color:COLORS.textColor,
   },
   "shareWrapper": {
     "padding": "20px 5px 20px 5px"
@@ -26,7 +27,7 @@ export const styles = {
     },
     '&:hover': {
       background: 'transparent',
-      color: '#d0d3db'
+      color: COLORS.textColor
     }
   },
   "shareProfileImg": {
@@ -39,10 +40,10 @@ export const styles = {
   "shareInput": {
     "border": "none",
     "width": "100%",
-    backgroundColor: '#273047',
+    backgroundColor: COLORS.postBackgroundColor,
     lineHeight:'20px',
     padding:'15px 10px',
-    color:'#d0d3db',
+    color:COLORS.textColor,
     fontSize:'20px',
     '&:focus': {
         outline: 'none',
@@ -81,8 +82,8 @@ export const styles = {
     "fontWeight": "400",
     "marginRight": "20px",
     "cursor": "pointer",
-    background: '#ff458a',
-    border: '1px solid #ff458a',
+    background: COLORS.blueColor,
+    border: '1px solid #4379ed',
     color: '#111',
     transition: 'all .3s ease',
     '&:focus': {
@@ -90,7 +91,7 @@ export const styles = {
     },
     '&:hover': {
       background: 'transparent',
-      color: '#d0d3db'
+      color: COLORS.textColor
     }
   },
   "shareImgContainer": {

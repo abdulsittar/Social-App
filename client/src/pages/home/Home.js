@@ -6,6 +6,7 @@ import Sidebar from "../../components/sidebar/Sidebar";
 import Topbar from "../../components/topbar/Topbar";
 import { useMediaQuery } from 'react-responsive';
 import './home.css';
+import { ToastProvider, useToasts } from 'react-toast-notifications';
 
 function Home() {
     const [selectedValue, setSelectedValue] = useState('0');
@@ -16,11 +17,13 @@ function Home() {
     return (
         <>
             <Topbar setSelectedValue={setSelectedValue}/>
+            <ToastProvider>
             <div className="homeContainer" style={{ 'margin-top': !isMobileDevice && !isTabletDevice && '0px' }}>
                 { isMobileDevice && isTabletDevice && <Sidebar />}
                 <Feed selectedValue={selectedValue}/>
                 { isMobileDevice && isTabletDevice && <Rightbar2 />}
             </div>
+            </ToastProvider>
         </>
     )
 }

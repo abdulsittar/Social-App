@@ -25,24 +25,15 @@ function Rightbar2({ classes }) {
     getFriends();
   }, [currentUser]);
 
-
-  const HomeRightbar = () => {
-    return (
-      <>
-        <h4 className={classes.rightbarTitle}>Followers</h4>
+  return (
+    <div className={classes.sidebar}>
+      <div className={classes.sidebarWrapper}>
+      <h4 className={classes.rightbarTitle}>Followers</h4>
         <ul className={classes.rightbarFriendList}>
           {friends.map((u) => (
             <Online key={u.id} user={u} />
           ))}
         </ul>
-      </>
-    );
-  };
-
-  return (
-    <div className={classes.rightbar}>
-      <div className={classes.rightbarWrapper}>
-        {<HomeRightbar />}
       </div>
     </div>
   );

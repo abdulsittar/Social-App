@@ -1,3 +1,4 @@
+import {COLORS} from '../values/colors.js';
 export const styles = {
     "chatBox": {
       "flex": "4",
@@ -63,7 +64,7 @@ export const styles = {
     input: {
         height: '100%',
         width: '100%',
-        background: '#1b2439',
+        background: COLORS.backgroudColor,
         appearance: 'none !important',
         outline: 'none',
         border: 'none',

@@ -1,3 +1,4 @@
+import {COLORS} from '../../components/values/colors.js';
 export const styles = {
     register: {
 		height: '200vh',
@@ -35,7 +36,7 @@ export const styles = {
 		'& a': {
 			textDecoration: 'none',
 			fontSize: '14px',
-			color: '#ff458a',
+			color: COLORS.blueColor,
 			fontWeight: '500',
 			textTransform: 'uppercase',
 			letterSpacing: '.7px',
@@ -68,7 +69,7 @@ export const styles = {
 		border: 'none',
 		transition: 'all .3s ease-in-out',
 		'&:hover': {
-			backgroundColor: '#ff458a'
+			backgroundColor: COLORS.blueColor
 		}
 	},
 	errorMessage: {
@@ -98,7 +99,7 @@ export const styles = {
 		background: '#EEE'
 	},
 	successText: {
-		color: '#fff',
+		color: COLORS.textColor,
 		fontSize: '23px',
 		letterSpacing: '1.3px',
 		marginTop: '15px',

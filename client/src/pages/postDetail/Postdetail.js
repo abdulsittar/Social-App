@@ -12,6 +12,7 @@ import axios from "axios";
 import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { useHistory } from "react-router";
+import {COLORS} from '../../components/values/colors.js';
 //import User from '../../../../api/models/User';
 
 function Postdetail({ classes }) {
@@ -38,7 +39,7 @@ function Postdetail({ classes }) {
         <Topbar isProfile="true" setSelectedValue={setSelectedValue} style={{ 'margin-top': '-20px' }}/>
         <div className={classes.feed}>
             <div className={classes.feedWrapper}>
-            <Link style={{textDecoration: 'none', color: '#FFF'}}><ArrowBackIcon onClick={() => history.goBack()}/></Link>
+            <Link style={{textDecoration: 'none', color: COLORS.textColor}}><ArrowBackIcon onClick={() => history.goBack()}/></Link>
               <Post key={state.myObj._id} post={state.myObj} isDetail={true}/>
             </div>
         </div>

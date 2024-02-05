@@ -1,4 +1,5 @@
 
+import {COLORS} from '../values/colors.js';
 export const styles = ({
     messageContainerLeft: {
         margin: '15px 5px',
@@ -27,7 +28,7 @@ export const styles = ({
           fontWeight: '300',
           marginTop: '40px',
           borderBottomLeftRadius: '0px',
-          background: '#1b2439',
+          background: COLORS.backgroudColor,
           color: '#a4a7b3',
           marginLeft: '20px'
         }
@@ -60,7 +61,7 @@ export const styles = ({
         marginTop: '40px',
         borderBottomRightRadius: '0px',
         background: '#ff458a',
-        color: '#1b2439',
+        color: COLORS.backgroudColor,
         textShadow: '.2px .2px#1b2439',
         marginRight: '20px'
       }

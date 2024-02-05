@@ -1,3 +1,4 @@
+import {COLORS} from '../values/colors.js';
 export const styles = ({
     inner: {
         width: '100%',

@@ -5,6 +5,7 @@ import Register from "./pages/register/Register";
 import FollowersPage from "./pages/Followers/FollowersPage";
 import FollowingsPage from "./pages/Followings/FollowingsPage";
 import Messenger from './pages/messenger/Messenger';
+
 import {
   BrowserRouter as Router,
   Switch,
@@ -14,6 +15,7 @@ import {
 import { useContext } from "react";
 import { AuthContext } from "./context/AuthContext";
 import Postdetail from "./pages/postDetail/Postdetail";
+
 
 function App() {
   const { user } = useContext(AuthContext);

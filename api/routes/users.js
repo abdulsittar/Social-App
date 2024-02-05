@@ -23,10 +23,6 @@ conn.once('open', () => {
 });
 
 
-
-
-
-
 // update user
 router.put("/:id", async (req, res) => {
     if(req.body.userId === req.params.id || req.body.isAdmin) {
@@ -49,9 +45,6 @@ router.put("/:id", async (req, res) => {
         return res.status(403).json('You can update only your account!')
     }
 })
-
-
-
 
 /**
  * @swagger
@@ -419,10 +412,16 @@ router.put('/:id/viewed', async(req, res) =>{
   try {
       // Like a post
       const user = await User.findById(req.params.id);
-      if(!user.viewedPosts.includes(req.body.postId)) {
+      const viewedPosts = req.body.postId;
+      for (let i = 0; i < viewedPosts.length; i++) { 
+        const post = viewedPosts[i];
+
+        if(!user.viewedPosts.includes(post)) {
           await user.updateOne({$push: { viewedPosts: req.body.postId } });
           res.status(200).json('The post has been viewed!');
-      } 
+      }
+      
+    }
   } catch(err) {
       res.status(500).json(err);
   }

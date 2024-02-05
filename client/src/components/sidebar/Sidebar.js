@@ -3,6 +3,7 @@ import CloseFriend from "../closeFriend/CloseFriend";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
+import Online from "../online/Online";
 import { Link } from "react-router-dom";
 import { withStyles } from '@material-ui/core/styles';
 import {styles} from './sidebarStyle'
@@ -33,7 +34,7 @@ function Sidebar({ user, classes }) {
 
                 <ul className={classes.sidebarFriendList}>
                     {friends.map((u) => (
-                        <CloseFriend key={u.id} user={u} />
+                        <Online key={u.id} user={u} />
                     ))}
                 </ul>
             </div>
