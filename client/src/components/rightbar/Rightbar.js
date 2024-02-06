@@ -95,9 +95,11 @@ function Rightbar({ user, classes }) {
         <div className={classes.rightbarFollowings}>
           {friends.map((friend) => (
             <Link
+            reloadDocument={true}
               key={friend._id}
               to={"/profile/" + friend.username}
               className={classes.linkToFriendProfile}
+              
             >
               <div className={classes.rightbarFollowing}>
                 <img

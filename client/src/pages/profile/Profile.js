@@ -36,6 +36,7 @@ function Profile({ classes }) {
     const isTabletDevice = useMediaQuery({ query: "(min-device-width: 768px)", });
     const [followed, setFollowed] = useState([]);
     const [isProfileFetched, setIsProfileFetched] = useState(true);
+    const [prevUN, setPrevUN] = useState("");
 
   /*const YourComponent = () => {
   const { addToast } = useToasts();
@@ -58,11 +59,12 @@ useEffect(() => {
     console.log(res.data)
     setUsr(res.data);
     console.log(usr);
+    setPrevUN(username);
 };
-if(isProfileFetched){
+//if(isProfileFetched){
   fetchUser();
   setIsProfileFetched(false);
-}
+//}
 }, [username]);
 
     useEffect(() => {
@@ -236,7 +238,7 @@ if(isProfileFetched){
             </div>
           <div className={classes.profileRightBottom} >
               <Feed username={username}/>
-              { isMobileDevice && isTabletDevice && <Rightbar  user={usr}/>}
+              { isMobileDevice && isTabletDevice && <Rightbar  user={usr} username={username}/>}
             </div>
         </div>
         </div>
