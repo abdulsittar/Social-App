@@ -196,7 +196,7 @@ async function deleteRecord(req, res) {
     var categoryDetail = {}; 
     if(req.params.id){ 
         categoryDetail = await Posts.findByIdAndRemove(req.params.id);     
-        if(categoryDetail){      
+        if(!categoryDetail){      
             req.flash('error', 'Invalid url')  
             return res.redirect(nodeAdminUrl+'/'+controller+'/list'); 
         }else{

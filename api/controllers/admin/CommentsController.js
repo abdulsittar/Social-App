@@ -53,7 +53,7 @@ async function edit(req, res) {
         const entityDetail = await Comments.findById({_id:id});    
         if(entityDetail == 0){     
             req.flash('error', 'Invalid url')  
-            return res.redirect(nodeAdminUrl+'/Comments/list');  
+            return res.redirect(nodeAdminUrl+'/Comment/list');  
         }     
         if (req.method == "POST") {  
             var input = JSON.parse(JSON.stringify(req.body)); 
@@ -86,7 +86,7 @@ async function edit(req, res) {
                             //console.log(err);    
                             req.flash('error', 'Could not upload image. Please try again!')  
                             res.locals.message = req.flash();   
-                            return res.redirect(nodeAdminUrl+'/Comments/'+action); 
+                            return res.redirect(nodeAdminUrl+'/Comment/'+action); 
                         }     
                     });  
                 }   
@@ -155,7 +155,7 @@ async function add(req, res) {
                         //console.log(err);    
                         req.flash('error', 'Could not upload image. Please try again!')  
                         res.locals.message = req.flash();   
-                        return res.redirect(nodeAdminUrl+'/Comments/add'); 
+                        return res.redirect(nodeAdminUrl+'/Comment/add'); 
                     }     
                 }); 
             }   
@@ -200,16 +200,16 @@ async function deleteRecord(req, res) {
     var categoryDetail = {}; 
     if(req.params.id){ 
         categoryDetail = await Comments.findByIdAndRemove(req.params.id);     
-        if(categoryDetail){      
+        if(!categoryDetail){      
             req.flash('error', 'Invalid url')  
-            return res.redirect(nodeAdminUrl+'/'+controller+'/list'); 
+            return res.redirect(nodeAdminUrl+'/'+'/Comment/list'); 
         }else{
             req.flash('success', 'Record deleted succesfully.');    
-            return res.redirect(nodeAdminUrl+'/'+controller+'/list');  
+            return res.redirect(nodeAdminUrl+'/'+'/Comment/list');  
         }    
     }else{  
         req.flash('error', 'Invalid url.');   
-        return res.redirect(nodeAdminUrl+'/'+controller+'/list');      
+        return res.redirect(nodeAdminUrl+'/'+'/Comment/list');      
     }    
 };          
 exports.deleteRecord = deleteRecord;  

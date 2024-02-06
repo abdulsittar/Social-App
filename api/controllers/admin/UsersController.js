@@ -48,6 +48,14 @@ async function edit(req, res) {
     var action = 'edit';
     var entityDetail = {}; 
     var errorData = {};
+    console.log("Editing a post");
+    console.log(req.files);
+    console.log(req.params);
+    console.log(req.body);
+
+    if(req.body.readPosts == ''){ req.body.readPosts = [] }
+    if(req.body.viewedPosts == ''){ req.body.viewedPosts = [] }
+
     if(req.params.id){
         var id =  req.params.id; 
         const entityDetail = await Users.findById({_id:id});    
@@ -58,11 +66,11 @@ async function edit(req, res) {
         if (req.method == "POST") {  
             var input = JSON.parse(JSON.stringify(req.body)); 
             
-            //console.log(input); console.log('Here');  
-            req.checkBody('first_name', 'First name is required').notEmpty();
-            req.checkBody('last_name', 'Last name is required').notEmpty();  
-            req.checkBody('contact_number', 'Mobile number is required').notEmpty();  
-            var errors = req.validationErrors();    
+            console.log(input); console.log('Here');  
+            req.checkBody('username', 'Username is required').notEmpty();
+            req.checkBody('email', 'email is required').notEmpty(); 
+            var errors = req.validationErrors();   
+            console.log(errors); 
             if(errors){	   
                 if(errors.length > 0){
                     errors.forEach(function (errors1) {
@@ -72,34 +80,40 @@ async function edit(req, res) {
                         entityDetail.field1 = req.field1;
                     }); 
                 }    
-            }else{  
+            } else {  
                 var saveResult = '';  
                 // Upload Image  
-                if (req.files && req.files.profile_pic !== "undefined") { 
-                    let profile_pic = req.files.profile_pic;  
+                if (req.files && req.files.profilePicture !== "undefined") { 
+                    let profile_pic = req.files.profilePicture;  
                     var timestamp = new Date().getTime();   
-                    filename = timestamp+'-'+profile_pic.name;   
-                    input.profile_pic =   filename; 
+                    filename = timestamp+'-'+profile_pic.name;  
+                    console.log(filename);
+                    input.profilePicture =   filename; 
+                    console.log('Editing and uploading picture'); 
                     profile_pic.mv('public/upload/'+filename, function(err) {
                         if (err){    
-                            //console.log(err);    
+                            console.log(err);    
                             req.flash('error', 'Could not upload image. Please try again!')  
                             res.locals.message = req.flash();   
                             return res.redirect(nodeAdminUrl+'/Users/'+action); 
                         }     
                     });  
                 }   
+                console.log('Editing and uploading other content'); 
                 var msg =  controller+' updated successfully.';  
-                var saveResult = await Users.findByIdAndUpdate(req.params.id, {$set: input});  
+                var saveResult = await Users.findByIdAndUpdate({"_id": req.params.id}, {$set: input});
+                console.log(saveResult); 
                 req.flash('success', msg)    
                 res.locals.message = req.flash(); 
+                console.log("saving edited username");
+                console.log(saveResult);
                 if(saveResult){     
                     return res.redirect(nodeAdminUrl+'/'+controller+'/list');     
                 }        
             }  
         }  
         res.render('admin/'+controller+'/edit',{page_title:" Edit",data:entityDetail,errorData:errorData,controller:controller,action:action});  
-    }else{ 
+    } else { 
         req.flash('error', 'Invalid url.');  
         return res.redirect(nodeAdminUrl+'/'+controller+'/list');     
     }   
@@ -133,7 +147,7 @@ async function add(req, res) {
             if(errors.length > 0){
                 errors.forEach(function (errors1) {
                     var field1 = String(errors1.param); 
-                    //console.log(errors1);
+                    console.log(errors1);
                     var msg = errors1.msg; 
                     errorData[field1] = msg;   
                     data.field1 = req.field1; 
@@ -142,8 +156,8 @@ async function add(req, res) {
             data = input;   
         }else{ 
             // Upload Image 
-            if (req.files && req.files.profile_pic !== "undefined") { 
-                let profile_pic = req.files.profile_pic;  
+            if (req.files && req.files.profilePicture !== "undefined") { 
+                let profile_pic = req.files.profilePicture;  
                 var timestamp = new Date().getTime(); 
                 var imagePath = '';   
                 filename = timestamp+'-'+profile_pic.name;   
@@ -201,8 +215,9 @@ async function deleteRecord(req, res) {
    
     var categoryDetail = {}; 
     if(req.params.id){ 
-        categoryDetail = await Users.findByIdAndRemove(req.params.id);     
-        if(categoryDetail){      
+        categoryDetail = await Users.findByIdAndRemove(req.params.id);    
+        console.log(categoryDetail) ;
+        if(!categoryDetail){      
             req.flash('error', 'Invalid url')  
             return res.redirect(nodeAdminUrl+'/'+controller+'/list'); 
         }else{

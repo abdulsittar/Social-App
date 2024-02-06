@@ -68,7 +68,7 @@ async function login(req , res){
            // console.log(password);  
             console.log(email); 
             console.log("Users"); 
-            console.log(user);
+            //console.log(user);
             if (user.isAdmin == true){
                 if (user && bcrypt.compareSync(password, user.password)) { 
                     req.session.LoginUser = user;  

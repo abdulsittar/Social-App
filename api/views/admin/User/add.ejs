@@ -49,14 +49,14 @@
                                         <span class="error"><%=errorData.password%></span>   
                                     </div>  <br> 
                                     
-                                    <div>
+                                   <!--  <div>
                                         <label for="form-field-select-1"> Profile Picture </label> 
                                         <input type="file" name="profilePicture" id="form-field-select-1" class="form-control">  
                                         <span class="error"><%=errorData.profilePicture%></span>  
                                         <% if(data.profilePicture){  %>
                                             <img style="width: 150px;" src="<%=nodeSiteUrl%>/upload/<%=data.profilePicture%>">  
                                         <% } %>
-                                    </div>  <br> 
+                                    </div>  <br> -->
 
                                     <div>
                                         <label for="form-field-select-1">Followers</label> 
@@ -70,6 +70,17 @@
                                         <span class="error"><%=errorData.followings%></span> 
                                     </div>  <br>
 
+                                    <div>
+                                        <label for="form-field-select-1">Viewed Posts</label> 
+                                        <input type="text" name="viewedPosts" value="<%=data.viewedPosts%>" id="form-field-select-1" placeholder="Posts-Viewed" class="form-control">  
+                                        <span class="error"><%=errorData.viewedPosts%></span> 
+                                    </div>  <br>
+
+                                    <div>
+                                        <label for="form-field-select-1">Read Posts</label> 
+                                        <input type="text" name="readPosts" value="<%=data.readPosts%>" id="form-field-select-1" placeholder="readPosts" class="form-control">  
+                                        <span class="error"><%=errorData.readPosts%></span> 
+                                    </div>  <br>
 
                                     <br><br>     
                                     <div> 

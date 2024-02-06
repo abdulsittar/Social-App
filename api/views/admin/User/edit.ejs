@@ -100,36 +100,49 @@
                                 <div class="widget-main">  
 
                                     <div>
-                                        <label for="form-field-select-1">Username</label> 
-                                        <input type="text" name="username" value="<%=data.username%>" id="form-field-select-1" placeholder="username" class="form-control">  
+                                        <label for="form-field-select-11">Username</label> 
+                                        <input type="text" name="username" value="<%=data.username%>" id="form-field-select-11" placeholder="username" class="form-control" autocomplete="off">  
                                         <span class="error"><%=errorData.username%></span> 
                                     </div>  <br> 
  
                                     <div>
-                                        <label for="form-field-select-1">Email</label> 
-                                        <input type="text" name="email" value="<%=data.email%>" id="form-field-select-1" placeholder="email" class="form-control">  
+                                        <label for="form-field-select-12">Email</label> 
+                                        <input type="text" name="email" value="<%=data.email%>" id="form-field-select-12" placeholder="email" class="form-control" autocomplete="off">  
                                         <span class="error"><%=errorData.email%></span> 
-                                    </div>  <br>
+                                    </div>  <br> 
 
-                                    <div>
-                                        <label for="form-field-select-1"> Profile Picture </label> 
-                                        <input type="file" name="profilePicture" id="form-field-select-1" class="form-control">  
+                                   <!-- <div>
+                                        <label for="form-field-select-13"> Profile Picture </label> 
+                                        <input type="file" name="profilePicture" id="form-field-select-13" class="form-control" autocomplete="off">  
                                         <span class="error"><%=errorData.profilePicture%></span>  
                                         <% if(data.profilePicture){  %>
                                             <img style="width: 150px;" src="<%=nodeSiteUrl%>/upload/<%=data.profilePicture%>">  
                                         <% } %>
                                     </div>  <br> 
+                                -->
 
                                     <div>
-                                        <label for="form-field-select-1">Followers</label> 
-                                        <input type="text" name="followers" value="<%=data.followers%>" id="form-field-select-1" placeholder="followers" class="form-control">  
+                                        <label for="form-field-select-14">Followers</label> 
+                                        <input type="text" name="followers" value="<%=data.followers%>" id="form-field-select-14" placeholder="followers" class="form-control" autocomplete="off">  
                                         <span class="error"><%=errorData.followers%></span> 
                                     </div>  <br>
 
                                     <div>
-                                        <label for="form-field-select-1">Followings</label> 
-                                        <input type="text" name="followings" value="<%=data.followings%>" id="form-field-select-1" placeholder="followings" class="form-control">  
+                                        <label for="form-field-select-15">Followings</label> 
+                                        <input type="text" name="followings" value="<%=data.followings%>" id="form-field-select-15" placeholder="followings" class="form-control" autocomplete="off">  
                                         <span class="error"><%=errorData.followings%></span> 
+                                    </div>  <br>
+
+                                    <div>
+                                        <label for="form-field-select-16">Viewed Posts</label> 
+                                        <input type="text" name="viewedPosts" value="<%=data.viewedPosts%>" id="form-field-select-16" placeholder="Posts-Viewed" class="form-control" autocomplete="off">  
+                                        <span class="error"><%=errorData.viewedPosts%></span> 
+                                    </div>  <br>
+
+                                    <div>
+                                        <label for="form-field-select-17">Read Posts</label> 
+                                        <input type="text" name="readPosts" value="<%=data.readPosts%>" id="form-field-select-17" placeholder="readPosts" class="form-control" autocomplete="off">  
+                                        <span class="error"><%=errorData.readPosts%></span> 
                                     </div>  <br>
 
                                     <!-- <div>
@@ -156,7 +169,7 @@
                                     <div> 
                                         <div class="row">
                                             <div class="col-md-offset-3 col-md-9">
-                                                <button class="btn btn-info" type="submit"> <i class="ace-icon fa fa-check bigger-110"></i>  Submit </button>  
+                                                <button class="btn btn-info" type="submit"> <i class="ace-icon fa fa-check bigger-110"></i> Submit </button>  
                                                 &nbsp; &nbsp; &nbsp;
                                                 <a href="<%=nodeAdminUrl%>/<%=controller%>/list%>"> <button class="btn" type="button"> Cancel </button></a>   
                                             </div>   
