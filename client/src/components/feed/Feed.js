@@ -9,6 +9,8 @@ import { withStyles } from '@material-ui/core/styles';
 import {styles} from './feedStyle';
 import InfiniteScroll from "react-infinite-scroll-component";
 import Loader from "../loader/loader";
+import { useMediaQuery } from 'react-responsive';
+import {useRef} from 'react';
 
 function Feed({username, classes, selectedValue}) {
     const [posts, setPosts] = useState([]);
@@ -19,6 +21,10 @@ function Feed({username, classes, selectedValue}) {
     const [preProfile, setPreProfile] = useState(" ");
     const [viewedPosts, setViewedPosts] = useState([]);
     const { user: currentUser } = useContext(AuthContext);
+    const isMobileDevice = useMediaQuery({ query: "(min-device-width: 480px)", });
+    const isTabletDevice = useMediaQuery({ query: "(min-device-width: 768px)", });
+
+    const [windowSize, setWindowSize] = useState(getWindowSize());
 
     const increment  = (pv, iv) => {
         setIndex(pv+iv);
@@ -161,17 +167,34 @@ function Feed({username, classes, selectedValue}) {
         }
     };
     
+    function getWindowSize() {
+        const {innerWidth, innerHeight} = window;
+        return {innerWidth, innerHeight};
+      };
+
     useEffect(() => {
         console.log("use effects!");
         if (selectedValue !=10){
             fetchPosts(selectedValue);
         }
+
+        function handleWindowResize() {
+            setWindowSize(getWindowSize());
+          }
+      
+          window.addEventListener('resize', handleWindowResize);
+      
+          return () => {
+            window.removeEventListener('resize', handleWindowResize);
+          };
+
+
     }, [username, user._id, selectedValue])
 
     return (
         <div className={classes.feed}>
             <InfiniteScroll dataLength={posts.length} next={fetchMoreData} hasMore={hasMore} loader={<Loader />} >
-            <div className={classes.feedWrapper}>
+            <div className={classes.feedWrapper} style={{"width": (!isMobileDevice && !isTabletDevice) && (windowSize.innerWidth-10)+"px"}}>
                 {( !username || username === user.username) && <Share/> }
                 {posts.map((p) => {
                     return <Post onScrolling={updateViewdPosts} key={p._id} post={p} isDetail={false}/>

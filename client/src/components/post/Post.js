@@ -24,6 +24,7 @@ import React from 'react';
 import { LinkPreview } from '@dhaiwat10/react-link-preview';
 import { InView } from 'react-intersection-observer';
 import { COLORS } from "../values/colors";
+import linkifyit from 'linkify-it';
 
 function Post({onScrolling,  post, classes, isDetail }) {
   const [comments, setComments] = useState([]);
@@ -37,6 +38,7 @@ function Post({onScrolling,  post, classes, isDetail }) {
   const [isDislikedByOne, setIsDislikedByOne] = useState(false);
   const [user, setUser] = useState({});
   const [text, setText] = useState('');
+  const linkify = linkifyit();
   
   const [isVisible, setIsVisible] = useState(true);
   const ref = useRef(null);
@@ -226,7 +228,16 @@ function Post({onScrolling,  post, classes, isDetail }) {
           }
         </div>
         <div className={classes.postCenter}>
-        <Linkify><div className={classes.postText}>{post?.desc}</div></Linkify>
+        <Linkify componentDecorator={(decoratedHref, decoratedText, key) => (
+         <a
+           target="blank"
+           rel="noopener noreferrer"
+           href={decoratedHref}
+           key={key}
+         >
+           {decoratedText}
+         </a>
+       )}><div className={classes.postText}>{post?.desc}</div></Linkify>
           
           
         </div>

@@ -111,6 +111,14 @@
                                         <span class="error"><%=errorData.email%></span> 
                                     </div>  <br> 
 
+                                    <div>
+                                        <label for="form-field-select-1">Pool A/B</label> 
+                                        <select class="filter-multi-select" name="pool" id="pool">
+                                            <option value="A">A</option>  
+                                            <option value="B">B</option>
+                                        </select>
+                                    </div>  <br> 
+
                                    <!-- <div>
                                         <label for="form-field-select-13"> Profile Picture </label> 
                                         <input type="file" name="profilePicture" id="form-field-select-13" class="form-control" autocomplete="off">  
@@ -119,8 +127,91 @@
                                             <img style="width: 150px;" src="<%=nodeSiteUrl%>/upload/<%=data.profilePicture%>">  
                                         <% } %>
                                     </div>  <br> 
+                                    
                                 -->
 
+                                <div>
+                                    <label for="form-field-select-1">Followers</label> 
+                                    <select class="filter-multi-select" multiple name="followers" id="followers">
+
+                                        <% if(allUsers){ %>
+                                            <%  for(var i=0; i<allUsers.length; i++) {  %>
+                                                    <option value=<%=allUsers[i]._id%>><%=allUsers[i].username%></option> 
+                                            <% }}%>  
+                                    </select>
+
+                                </div> <br> 
+
+                                <div>
+                                    <label for="form-field-select-1">Followings</label> 
+                                    <select class="filter-multi-select" multiple name="followings" id="followings">
+                                        <% if(allUsers){if(allUsers.length){ 
+                                            for(var i = 0;i < allUsers.length;i++) {  %>
+                                                <option value=<%=allUsers[i]._id%>><%=allUsers[i].username%></option>  
+                                            <% }%>
+                                                ... more options here ...
+                                                <%} else{ %>
+                                                    
+                                            <% }} %>   
+                                    </select>
+
+                                    <!--<input type="text" name="followings" value="<%=data.followings%>" id="form-field-select-1" placeholder="followings" class="form-control">  
+                                    <span class="error"><%=errorData.followings%></span> -->
+                                </div>  <br>
+
+                                <div >
+                                    <label for="form-field-select-1">Viewed Posts</label> 
+                                    <select  class="filter-multi-select" multiple name="viewedPosts" id="viewedPosts">
+                                        <% if(errorData){  if(errorData.length){  
+                                            for(var i = 0;i < errorData.length;i++) {  %>
+                                                <option value=<%=errorData[i]._id%>><%=errorData[i].desc%></option>  
+                                            <% }%>
+                                                ... more options here ...
+                                                <%} else{ %>
+                                                    
+                                            <% }} %>   
+                                    </select>
+
+                                    <!--<input type="text" name="viewedPosts" value="<%=data.viewedPosts%>" id="form-field-select-1" placeholder="Posts-Viewed" class="form-control">  
+                                    <span class="error"><%=errorData.viewedPosts%></span> -->
+                                </div>  <br>
+
+                                <div>
+                                    <label for="form-field-select-1">Read Posts</label> 
+                                    <select class="filter-multi-select" multiple name="readPosts" id="readPosts">
+                                        <% if(errorData){  if(errorData.length){  
+                                            for(var i = 0;i < errorData.length;i++) {  %>
+                                                <option value=<%=errorData[i]._id%>><%=errorData[i].desc%></option>  
+                                            <% }%>
+                                                ... more options here ...
+                                                <%} else{ %>
+                                                    
+                                            <% }} %>  
+                                    </select>
+                                    <script> 
+                                        $('#followers > option').text(function(i, text) {
+                                            if (text.length > 50) {
+                                            return text.substr(0, 50) + '...';  
+                                            }
+                                    });
+                                    $('#followings > option').text(function(i, text) {
+                                            if (text.length > 50) {
+                                            return text.substr(0, 50) + '...';  
+                                            }
+                                    });
+                                    $('#viewedPosts > option').text(function(i, text) {
+                                            if (text.length > 50) {
+                                            return text.substr(0, 50) + '...';  
+                                            }
+                                    });
+                                    $('#readPosts > option').text(function(i, text) {
+                                            if (text.length > 50) {
+                                            return text.substr(0, 50) + '...';  
+                                            }
+                                    });
+                                    </script>
+
+<!--
                                     <div>
                                         <label for="form-field-select-14">Followers</label> 
                                         <input type="text" name="followers" value="<%=data.followers%>" id="form-field-select-14" placeholder="followers" class="form-control" autocomplete="off">  

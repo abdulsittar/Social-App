@@ -27,14 +27,14 @@ const UserSchema = new mongoose.Schema({
         type: String,
         default: '',
     },
-    followers: {
-        type: Array,
-        default: [],
-    },
-    followings: {
-        type: Array,
-        default: [],
-    },
+    followers: [{
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'User'
+        }],
+    followings: [{
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'User'
+        }],
     viewedPosts:[{
         type: mongoose.Schema.Types.ObjectId, 
         ref: 'Post'
@@ -46,6 +46,10 @@ const UserSchema = new mongoose.Schema({
     isAdmin: {
         type: Boolean,
         default: false,
+    },
+    pool: {
+        type: String,
+        default: "A"
     },
     feedValue: {
         type: String,

@@ -58,7 +58,7 @@ function Share({classes}) {
                 <div className={classes.shareTop}>
                     <img
                         className={classes.shareProfileImg}
-                        style={{height : (!isMobileDevice && !isTabletDevice)? '40px' : '50px' }}
+                        style={{height : (!isMobileDevice && !isTabletDevice)? '50px' : '50px' }}
                         src={
                         user.profilePicture
                             ? PF + user.profilePicture

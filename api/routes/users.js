@@ -340,18 +340,18 @@ router.get('/usersList/:userId', async (req, res) => {
 //get friends
 router.get("/followings/:userId", async (req, res) => {
     try {
-      const user = await User.findById(req.params.userId);
-      const friends = await Promise.all(
-        user.followings.map((friendId) => {
-          return User.findById(friendId);
-        })
-      );
-      let friendList = [];
-      friends.map((friend) => {
-        const { _id, username, profilePicture } = friend;
-        friendList.push({ _id, username, profilePicture });
-      });
-      res.status(200).json(friendList)
+      const user = await User.findById(req.params.userId).populate({path : "followings", model: "User"}).exec();
+      //const friends = await Promise.all(
+        //user.followings.map((friendId) => {
+         // return User.findById(friendId);
+        //})
+      //);
+      // friendList = [];
+      //friends.map((friend) => {
+       // const { _id, username, profilePicture } = friend;
+        //friendList.push({ _id, username, profilePicture });
+      //});
+      res.status(200).json(user.followings)
     } catch (err) {
       res.status(500).json(err);
     }
@@ -389,18 +389,8 @@ router.get("/followings/:userId", async (req, res) => {
 //get friends
 router.get("/followers/:userId", async (req, res) => {
     try {
-      const user = await User.findById(req.params.userId);
-      const friends = await Promise.all(
-        user.followers.map((friendId) => {
-          return User.findById(friendId);
-        })
-      );
-      let friendList = [];
-      friends.map((friend) => {
-        const { _id, username, profilePicture } = friend;
-        friendList.push({ _id, username, profilePicture });
-      });
-      res.status(200).json(friendList)
+      const user = await User.findById(req.params.userId).populate({path : "followers", model: "User"}).exec();
+      res.status(200).json(user.followers)
     } catch (err) {
       res.status(500).json(err);
     }

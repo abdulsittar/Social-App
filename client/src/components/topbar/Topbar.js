@@ -11,6 +11,7 @@ import { useMediaQuery } from 'react-responsive';
 import HomeIcon from '@mui/icons-material/Home';
 
 
+
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import SimplePopover from '../popover/SimplePopover';
 
@@ -20,6 +21,8 @@ function Topbar({ classes, setSelectedValue, isProfile }) {
     const PF          = process.env.REACT_APP_PUBLIC_FOLDER;
     const [anchorEl, setAnchorEl] = useState(null);
     const { user: currentUser, dispatch } = useContext(AuthContext);
+    
+
 
     useEffect(() => {
         //console.log("is Profile value");
@@ -80,7 +83,7 @@ function Topbar({ classes, setSelectedValue, isProfile }) {
             </div>
 
             {!isMobileDevice && !isTabletDevice && 
-            <div style={{'display': 'flex', alignItems: 'flex-end', 'margin-top': '5px'}}>
+            <div style={{'display': 'flex', alignItems: 'flex-end', 'margin': '5px 5px'}}>
                      <Link to={`/profile/${user.username}`} style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
                          <img  src={user.profilePicture? PF + user.profilePicture: PF + "person/noAvatar.png"} alt="" className={classes.topbarImg} />
                          <p className={classes.username}>{user.username}</p>

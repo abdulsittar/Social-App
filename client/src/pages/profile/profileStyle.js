@@ -41,7 +41,6 @@ export const styles = {
       "objectFit": "cover"
     },
     "shareInput": {
-      "border": "none",
       "width": "100%",
       backgroundColor: COLORS.postBackgroundColor,
       lineHeight:'16px',
@@ -50,7 +49,9 @@ export const styles = {
       fontSize:'16px',
       '&:focus': {
           outline: 'none',
-      }
+      },
+      marginBottom: '10px',
+      borderWidth: '1px'
     },
     "profileUserImg": {
       "width": "150px",

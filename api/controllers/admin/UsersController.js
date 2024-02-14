@@ -1,6 +1,7 @@
 var Request = require("request");      
 //var Categories = require.main.require('./models/Categories');   
 var Users = require.main.require('./models/User');   
+var Posts = require.main.require('./models/Post');
 const controller = 'User'; 
 const module_name = 'User'; 
 const bcrypt = require('bcrypt');
@@ -58,15 +59,17 @@ async function edit(req, res) {
 
     if(req.params.id){
         var id =  req.params.id; 
-        const entityDetail = await Users.findById({_id:id});    
-        if(entityDetail == 0){     
+        const selectedUser = await Users.findById(id).populate([{path : "followers", model: "User"},{path : "followings", model: "User"},{path : "viewedPosts", model: "Post"},{path : "readPosts", model: "Post"} ]).exec(); 
+
+        console.log(selectedUser)
+        if(selectedUser == 0){     
             req.flash('error', 'Invalid url')  
             return res.redirect(nodeAdminUrl+'/Users/list');  
         }     
         if (req.method == "POST") {  
             var input = JSON.parse(JSON.stringify(req.body)); 
             
-            console.log(input); console.log('Here');  
+            console.log(req.body); console.log('Here');  
             req.checkBody('username', 'Username is required').notEmpty();
             req.checkBody('email', 'email is required').notEmpty(); 
             var errors = req.validationErrors();   
@@ -100,19 +103,25 @@ async function edit(req, res) {
                     });  
                 }   
                 console.log('Editing and uploading other content'); 
-                var msg =  controller+' updated successfully.';  
+                var msg =  controller+' updated successfully.'; 
+                console.log(input); 
                 var saveResult = await Users.findByIdAndUpdate({"_id": req.params.id}, {$set: input});
-                console.log(saveResult); 
+                //console.log(saveResult); 
                 req.flash('success', msg)    
                 res.locals.message = req.flash(); 
                 console.log("saving edited username");
-                console.log(saveResult);
+                //console.log(saveResult);
                 if(saveResult){     
                     return res.redirect(nodeAdminUrl+'/'+controller+'/list');     
                 }        
             }  
-        }  
-        res.render('admin/'+controller+'/edit',{page_title:" Edit",data:entityDetail,errorData:errorData,controller:controller,action:action});  
+        }
+        var postData = {};
+        postData = await Posts.find({}); 
+        allUsers = await Users.find({});  
+        console.log(selectedUser.followers.length);
+        console.log(postData.length);
+        res.render('admin/'+controller+'/edit',{page_title:" Edit",data:selectedUser, errorData:postData, allUsers:allUsers, controller:controller, action:action});  
     } else { 
         req.flash('error', 'Invalid url.');  
         return res.redirect(nodeAdminUrl+'/'+controller+'/list');     
@@ -134,6 +143,12 @@ async function add(req, res) {
     var page_title = 'Add'; 
     var errorData = {}; 
     var data = {};  
+    allUsers = {};  
+    allPosts = {};
+    allPosts = await Posts.find({}); 
+    allUsers = await Users.find({}); 
+    
+
     var action = 'add'; 
     var errorData = {};    
     //console.log("I am here");
@@ -180,6 +195,9 @@ async function add(req, res) {
             const newUser = new Users({username: input.username, email: input.email, password: password, });
 
             // save user and send response
+
+
+
             const SaveData = await newUser.save();
             
             //const SaveData = new Users(input);
@@ -199,7 +217,7 @@ async function add(req, res) {
             }      
         } 
     }   
-    res.render('admin/'+controller+'/add',{page_title:page_title,data:data, errorData:errorData,controller:controller,action:action});    
+    res.render('admin/'+controller+'/add',{page_title:page_title, data:allUsers, errorData:allPosts, controller:controller, action:action});    
 };          
 exports.add = add; 
 

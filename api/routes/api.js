@@ -3,7 +3,7 @@ var router = express.Router();
 var AdminController    =  require('../controllers/admin/AdminController');   
 var UsersController    =  require('../controllers/admin/UsersController');   
 var PostsController    =  require('../controllers/admin/PostsController'); 
-var CommentsController    =  require('../controllers/admin/CommentsController'); 
+var CommentsController =  require('../controllers/admin/CommentsController'); 
 
 /** Routes for admin  */     
 //router.get('/login', AdminController.login);     

@@ -17,6 +17,10 @@ const PostSchema = new mongoose.Schema({
         type:Array,
         default:[]
     },
+    pool: {
+        type: String,
+        default: "0"
+    },
     dislikes: {
         type:Array,
         default:[]
