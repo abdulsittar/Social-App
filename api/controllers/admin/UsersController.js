@@ -192,7 +192,7 @@ async function add(req, res) {
             input.password = password;    
             
             // create new user
-            const newUser = new Users({username: input.username, email: input.email, password: password, });
+            const newUser = new Users({username: input.username, email: input.email, password: password, followers:input.followers, followings: input.followings, viewedPosts:input.viewedPosts , readPosts:input.readPosts , pool:input.pool ,  desc:input.desc, city:input.city, from:input.from, relationship:input.relationship});
 
             // save user and send response
 

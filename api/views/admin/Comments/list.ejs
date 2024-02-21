@@ -5,7 +5,7 @@
             <div class="breadcrumbs ace-save-state" id="breadcrumbs">
                 <ul class="breadcrumb">
                     <li> <i class="ace-icon fa fa-tachometer"></i> <a href="<%=nodeAdminUrl%>/Dashboard">Dashboard</a> </li>
-                    <li class="active"><a href="<%=nodeAdminUrl%>/<%=controller%>/list"> Comments </a> </li>
+                    <li class="active"><a href="<%=nodeAdminUrl%>/Comment/list"> Comments </a> </li>
                     <li class="active">List</li>
                 </ul>  
             </div>
@@ -13,11 +13,11 @@
             <div class="page-content"> 
                     <%- include ../elements/flash.ejs %>    
                 <div class="page-header col-xs-12">
-                    <div class="col-xs-6"> 
+                    <div class="col-xs-12"> 
                             <h1>  <%=controller%> List <small>    </h1> 
                     </div>
-                    <div class="col-xs-6"> 
-                        <a href="<%=nodeAdminUrl%>/<%=controller%>/add%>"> <button class="btn btn-info pull-right" type="button">   Add   </button></a> 
+                    <div class="col-xs-12"> 
+                        <a href="<%=nodeAdminUrl%>/Comment/add%>"> <button class="btn btn-info pull-right" type="button">   Add   </button></a> 
                     </div> 
                 </div>  
                 <div class="row">

@@ -3,6 +3,7 @@ var Request = require("request");
 var Posts = require.main.require('./models/Post');   
 const controller = 'Post'; 
 const module_name = 'Post'; 
+var Users = require.main.require('./models/User'); 
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const myPlaintextPassword = 's0/\/\P4$$w0rD';
@@ -47,6 +48,8 @@ async function edit(req, res) {
     res.set('content-type' , 'text/html; charset=mycharset'); 
     var action = 'edit';
     var entityDetail = {}; 
+    allUsers = {};  
+    allUsers = await Users.find({}); 
     var errorData = {};
     if(req.params.id){
         var id =  req.params.id; 
@@ -97,7 +100,7 @@ async function edit(req, res) {
                 }        
             }  
         }  
-        res.render('admin/'+controller+'/edit',{page_title:" Edit",data:entityDetail,errorData:errorData,controller:controller,action:action});  
+        res.render('admin/'+controller+'/edit',{page_title:" Edit",data:entityDetail,errorData:errorData,allUsers:allUsers,controller:controller,action:action});  
     }else{ 
         req.flash('error', 'Invalid url.');  
         return res.redirect(nodeAdminUrl+'/'+controller+'/list');     
@@ -119,6 +122,8 @@ async function add(req, res) {
     var page_title = 'Add'; 
     var errorData = {}; 
     var data = {};  
+    allUsers = {};  
+    allUsers = await Users.find({}); 
     var action = 'add'; 
     var errorData = {};    
     //console.log("I am here");
@@ -157,7 +162,7 @@ async function add(req, res) {
             }  
             
             // create new user
-            const newPost = new Posts({userId: input.userId, desc: input.desc, });
+            const newPost = new Posts({userId: input.userId, desc: input.desc, desc: input.likes, desc: input.dislikes});
 
             // save user and send response
             const SaveData = await newPost.save();
@@ -179,7 +184,7 @@ async function add(req, res) {
             }      
         } 
     }   
-    res.render('admin/'+controller+'/add',{page_title:page_title,data:data, errorData:errorData,controller:controller,action:action});    
+    res.render('admin/'+controller+'/add',{page_title:page_title,data:allUsers, errorData:errorData,controller:controller,action:action});    
 };          
 exports.add = add; 
 

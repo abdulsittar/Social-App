@@ -25,7 +25,7 @@
  
                 <div class="row"> 
                         <%- include ../elements/flash.ejs %>  
-                    <div class="col-xs-12 col-sm-6">
+                    <div class="col-xs-12 col-sm-12">
                         <div class=" ">  
                             <form method="post" action="<%=nodeAdminUrl%>/<%=controller%>/add" enctype="multipart/form-data">
                             <div class="widget-body">  
@@ -57,6 +57,30 @@
                                             <option value="B">B</option>
                                         </select>
                                     </div>  <br> 
+
+                                    <div>
+                                        <label for="form-field-select-1">Biography</label> 
+                                        <input type="text" name="desc" value="<%=data.desc%>" id="form-field-select-1" placeholder="Biography" class="form-control">  
+                                        <span class="error"><%=errorData.desc%></span> 
+                                    </div>  <br> 
+
+                                    <div>
+                                        <label for="form-field-select-1">City</label> 
+                                        <input type="text" name="city" value="<%=data.city%>" id="form-field-select-1" placeholder="City" class="form-control">  
+                                        <span class="error"><%=errorData.city%></span> 
+                                    </div>  <br> 
+
+                                    <div>
+                                        <label for="form-field-select-1">Country</label> 
+                                        <input type="text" name="from" value="<%=data.from%>" id="form-field-select-1" placeholder="County" class="form-control">  
+                                        <span class="error"><%=errorData.from%></span> 
+                                    </div>  <br> 
+
+                                    <div>
+                                        <label for="form-field-select-1">Relationship</label> 
+                                        <input type="text" name="relationship" value="<%=data.relationship%>" id="form-field-select-1" placeholder="Relationship" class="form-control">  
+                                        <span class="error"><%=errorData.relationship%></span> 
+                                    </div>  <br> 
                                     
                                    <!--  <div>
                                         <label for="form-field-select-1"> Profile Picture </label> 
@@ -73,76 +97,87 @@
                                         <span class="error"><%=errorData.followers%></span> 
                                     </div>  <br> -->
 
-                                    <div>
-                                        <label for="form-field-select-1">Followers</label> 
-                                        <select class="filter-multi-select" multiple name="language" id="languages">
-                                            <% if(data.length){  
-                                                for(var i = 0;i < data.length;i++) {  %>
-                                                    <option value=<%=data[i]._id%>><%=data[i].username%></option>  
-                                                <% }%>
-                                                    ... more options here ...
-                                                    <%} else{ %>
-                                                        <option value="no">"No Followers"</option>
-                                                <% } %>   
-                                        </select>
+                                    
+                                <div>
+                                    <label for="form-field-select-1">Followers</label> 
+                                    <select class="filter-multi-select" multiple name="followers" id="followers">
 
-                                    </div> <br> 
+                                        <% if(allUsers){ %>
+                                            <%  for(var i=0; i<allUsers.length; i++) {  %>
+                                                    <option value=<%=allUsers[i]._id%>><%=allUsers[i].username%></option> 
+                                            <% }}%>  
+                                    </select>
 
-                                    <div>
-                                        <label for="form-field-select-1">Followings</label> 
-                                        <select class="filter-multi-select" multiple name="language" id="languages">
-                                            <% if(data.length){ 
-                                                for(var i = 0;i < data.length;i++) {  %>
-                                                    <option value=<%=data[i]._id%>><%=data[i].username%></option>  
-                                                <% }%>
-                                                    ... more options here ...
-                                                    <%} else{ %>
-                                                        <option value="no">"No Followers"</option>
-                                                <% } %>   
-                                        </select>
+                                </div> <br> 
 
-                                        <!--<input type="text" name="followings" value="<%=data.followings%>" id="form-field-select-1" placeholder="followings" class="form-control">  
-                                        <span class="error"><%=errorData.followings%></span> -->
-                                    </div>  <br>
+                                <div>
+                                    <label for="form-field-select-1">Followings</label> 
+                                    <select class="filter-multi-select" multiple name="followings" id="followings">
+                                        <% if(allUsers){if(allUsers.length){ 
+                                            for(var i = 0;i < allUsers.length;i++) {  %>
+                                                <option value=<%=allUsers[i]._id%>><%=allUsers[i].username%></option>  
+                                            <% }%>
+                                                ... more options here ...
+                                                <%} else{ %>
+                                                    
+                                            <% }} %>   
+                                    </select>
 
-                                    <div >
-                                        <label for="form-field-select-1">Viewed Posts</label> 
-                                        <select  class="filter-multi-select" multiple name="language" id="languages">
-                                            <% if(errorData.length){  
-                                                for(var i = 0;i < errorData.length;i++) {  %>
-                                                    <option style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;max-width: 100px;" value=<%=errorData[i]._id%>><%=errorData[i].desc%></option>  
-                                                <% }%>
-                                                    ... more options here ...
-                                                    <%} else{ %>
-                                                        <option value="no">"No Followers"</option>
-                                                <% } %>   
-                                        </select>
+                                    <!--<input type="text" name="followings" value="<%=data.followings%>" id="form-field-select-1" placeholder="followings" class="form-control">  
+                                    <span class="error"><%=errorData.followings%></span> -->
+                                </div>  <br>
 
-                                        
+                                <div >
+                                    <label for="form-field-select-1">Viewed Posts</label> 
+                                    <select  class="filter-multi-select" multiple name="viewedPosts" id="viewedPosts">
+                                        <% if(errorData){  if(errorData.length){  
+                                            for(var i = 0;i < errorData.length;i++) {  %>
+                                                <option value=<%=errorData[i]._id%>><%=errorData[i].desc%></option>  
+                                            <% }%>
+                                                ... more options here ...
+                                                <%} else { %>
+                                                    
+                                            <% }} %>   
+                                    </select>
 
-                                        <!--<input type="text" name="viewedPosts" value="<%=data.viewedPosts%>" id="form-field-select-1" placeholder="Posts-Viewed" class="form-control">  
-                                        <span class="error"><%=errorData.viewedPosts%></span> -->
-                                    </div>  <br>
+                                    <!--<input type="text" name="viewedPosts" value="<%=data.viewedPosts%>" id="form-field-select-1" placeholder="Posts-Viewed" class="form-control">  
+                                    <span class="error"><%=errorData.viewedPosts%></span> -->
+                                </div>  <br>
 
-                                    <div>
-                                        <label for="form-field-select-1">Read Posts</label> 
-                                        <select class="filter-multi-select" multiple name="language" id="languages">
-                                            <% if(errorData.length){  
-                                                for(var i = 0;i < errorData.length;i++) {  %>
-                                                    <option value=<%=errorData[i]._id%>><%=errorData[i].desc%></option>  
-                                                <% }%>
-                                                    ... more options here ...
-                                                    <%} else{ %>
-                                                        <option value="no">"No Followers"</option>
-                                                <% } %>  
-                                        </select>
-                                        <script> 
-                                            $('#languages > option').text(function(i, text) {
-                                                if (text.length > 50) {
-                                                return text.substr(0, 50) + '...';  
-                                                }
-                                        });
-                                        </script>
+                                <div>
+                                    <label for="form-field-select-1">Read Posts</label> 
+                                    <select class="filter-multi-select" multiple name="readPosts" id="readPosts">
+                                        <% if(errorData){  if(errorData.length){  
+                                            for(var i = 0;i < errorData.length;i++) {  %>
+                                                <option value=<%=errorData[i]._id%>><%=errorData[i].desc%></option>  
+                                            <% }%>
+                                                ... more options here ...
+                                                <%} else{ %>
+                                                    
+                                            <% }} %>  
+                                    </select>
+                                    <script> 
+                                        $('#followers > option').text(function(i, text) {
+                                            if (text.length > 50) {
+                                            return text.substr(0, 50) + '...';  
+                                            }
+                                    });
+                                    $('#followings > option').text(function(i, text) {
+                                            if (text.length > 50) {
+                                            return text.substr(0, 50) + '...';  
+                                            }
+                                    });
+                                    $('#viewedPosts > option').text(function(i, text) {
+                                            if (text.length > 50) {
+                                            return text.substr(0, 50) + '...';  
+                                            }
+                                    });
+                                    $('#readPosts > option').text(function(i, text) {
+                                            if (text.length > 50) {
+                                            return text.substr(0, 50) + '...';  
+                                            }
+                                    });
+                                    </script>
 
                                         <!--<input type="text" name="readPosts" value="<%=data.readPosts%>" id="form-field-select-1" placeholder="readPosts" class="form-control">  
                                         <span class="error"><%=errorData.readPosts%></span> -->

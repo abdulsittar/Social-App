@@ -2,6 +2,8 @@ var Request = require("request");
 //var Categories = require.main.require('./models/Categories');   
 var Comments = require.main.require('./models/Comment');   
 const controller = 'Comments'; 
+var Users = require.main.require('./models/User');   
+var Posts = require.main.require('./models/Post');
 const module_name = 'Comments'; 
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
@@ -59,10 +61,9 @@ async function edit(req, res) {
             var input = JSON.parse(JSON.stringify(req.body)); 
             
             console.log(input); console.log('Here');  
-            req.checkBody('body', 'Comment is required').notEmpty();
-            req.checkBody('userId', 'User ID is required').notEmpty();
-            req.checkBody('username', 'Username is required').notEmpty();    
-            req.checkBody('postId', 'Post ID is required').notEmpty();  
+            req.checkBody('body', 'Comment text is required').notEmpty();
+            req.checkBody('userId', 'User ID is required').notEmpty(); 
+            req.checkBody('postId', 'Post ID is required').notEmpty(); 
             var errors = req.validationErrors();    
             if(errors){	   
                 if(errors.length > 0){
@@ -91,15 +92,20 @@ async function edit(req, res) {
                     });  
                 }   
                 var msg =  controller+' updated successfully.';  
+                var user = await Users.findById({_id:input.userId}); 
                 var saveResult = await Comments.findByIdAndUpdate(req.params.id, {$set: input});  
                 req.flash('success', msg)    
                 res.locals.message = req.flash(); 
                 if(saveResult){     
-                    return res.redirect(nodeAdminUrl+'/'+controller+'/list');     
+                    return res.redirect(nodeAdminUrl+'/Comment/add');   
                 }        
             }  
         }  
-        res.render('admin/'+controller+'/edit',{page_title:" Edit",data:entityDetail,errorData:errorData,controller:controller,action:action});  
+        var postData = {};
+    var allUsers = {};
+    postData = await Posts.find({}); 
+    allUsers = await Users.find({});   
+        res.render('admin/'+controller+'/edit',{page_title:" Edit",data:entityDetail,errorData:postData, allUsers:allUsers,controller:controller,action:action});  
     }else{ 
         req.flash('error', 'Invalid url.');  
         return res.redirect(nodeAdminUrl+'/'+controller+'/list');     
@@ -123,26 +129,26 @@ async function add(req, res) {
     var data = {};  
     var action = 'add'; 
     var errorData = {};    
-    //console.log("I am here");
+    console.log("I am here");
     if (req.method == "POST") { 
-        var input = JSON.parse(JSON.stringify(req.body));  
+        var input = JSON.parse(JSON.stringify(req.body)); 
+        console.log(input); 
         req.checkBody('body', 'Comment text is required').notEmpty();
-        req.checkBody('userId', 'User ID is required').notEmpty();
-        req.checkBody('username', 'Username is required').notEmpty();    
+        req.checkBody('userId', 'User ID is required').notEmpty(); 
         req.checkBody('postId', 'Post ID is required').notEmpty(); 
         var errors = req.validationErrors();    
         if(errors){	  
             if(errors.length > 0){
                 errors.forEach(function (errors1) {
                     var field1 = String(errors1.param); 
-                    //console.log(errors1);
+                    console.log(errors1);
                     var msg = errors1.msg; 
                     errorData[field1] = msg;   
                     data.field1 = req.field1; 
                 }); 
             }     
             data = input;   
-        }else{ 
+        } else { 
             // Upload Image 
             if (req.files && req.files.profile_pic !== "undefined") { 
                 let profile_pic = req.files.profile_pic;  
@@ -160,8 +166,9 @@ async function add(req, res) {
                 }); 
             }   
             
+            var user = await Users.findById({_id:input.userId}); 
             // create new user
-            const newComment = new Comments({body: input.body, userId: input.userId, username: input.username, postId: input.postId});
+            const newComment = new Comments({body: input.body, userId: input.userId, postId: input.postId, username: user.username, likes: input.likes, dislikes: input.dislikes});
 
             // save user and send response
             const SaveData = await newComment.save();
@@ -170,20 +177,26 @@ async function add(req, res) {
             //var saveResult=   await SaveData.save();   
             //console.log(SaveData);
             //console.log("Result");
-            if(SaveData){    
+            if(SaveData) {    
                 req.flash('success', controller+' added successfully.');  
                 res.locals.message = req.flash();  
                 res.set('content-type' , 'text/html; charset=mycharset');  
-                return res.redirect(nodeAdminUrl+'/'+controller+'/list');  
-                //console.log("Success");  
-            }else{
+                return res.redirect(nodeAdminUrl+'/Comment/list');  
+                //console.log("Success"); 
+
+            } else {
                 req.flash('error', 'Could not save record. Please try again')  
                 res.locals.message = req.flash(); 
                 //console.log("Fail"); 
+                
             }      
         } 
-    }   
-    res.render('admin/'+controller+'/add',{page_title:page_title,data:data, errorData:errorData,controller:controller,action:action});    
+    } 
+    var postData = {};
+    var allUsers = {};
+    postData = await Posts.find({}); 
+    allUsers = await Users.find({});   
+    res.render('admin/'+controller+'/add',{page_title:page_title,data:data, errorData:postData, allUsers:allUsers,controller:controller,action:action});    
 };          
 exports.add = add; 
 

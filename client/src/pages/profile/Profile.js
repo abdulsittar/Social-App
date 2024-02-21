@@ -51,7 +51,6 @@ function Profile({ classes }) {
         </ToastProvider>
 };*/
 
-
 useEffect(() => {
   const fetchUser = async () => {
     const res = await axios.get(`/users?username=${username}`)

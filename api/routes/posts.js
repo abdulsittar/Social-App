@@ -483,6 +483,7 @@ const getPostsPaginatedFollowings = async (page, req) => {
       .limit(resultsPerPage)
       .exec()
         }))
+        
     let userPosts = []
     userPosts.concat(...friendPosts)
     //console.log([].concat(...friendPosts));
