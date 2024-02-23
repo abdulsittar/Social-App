@@ -20,7 +20,6 @@
   const fs = require('fs');
   const Grid = require('gridfs-stream');
   const crypto = require('crypto');
-  //const proPort =  1077 //8080  
   const port = process.env.PORT || proPort;
   dotenv.config();
   // SocialApp
@@ -34,12 +33,12 @@
   var apiRouter = require('./routes/api');
   global.connectPool = require('./config/db.js'); 
   if (process.env.NODE_ENV === 'development') {
-    global.nodeSiteUrl  = 'https://127.0.0.1'; // node  
-    global.nodeAdminUrl = 'https://127.0.0.1/admin'; // node
+    global.nodeSiteUrl  = process.env.nodeSiteUrl 
+    global.nodeAdminUrl = process.env.localAdminUrl 
 
   } else if (process.env.NODE_ENV === 'production') {
-    global.nodeSiteUrl  = 'https://socialapp.ijs.si'; // node  
-    global.nodeAdminUrl = 'https://socialapp.ijs.si/admin'; // node 
+    global.nodeSiteUrl  =  process.env.NODESITEURL   
+    global.nodeAdminUrl =  process.env.LOCALADMINURL  
 
   }
  
