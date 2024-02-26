@@ -6,6 +6,7 @@ import Rightbar2 from "../../components/rightbar/Rightbar2";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Topbar from "../../components/topbar/Topbar";
 import { useMediaQuery } from 'react-responsive';
+import {regSw, subscribe} from '../../helper.js';
 import './home.css';
 import { ToastProvider, useToasts } from 'react-toast-notifications';
 

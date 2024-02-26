@@ -1,9 +1,10 @@
   // SocialApp
   const express = require('express');
-  const bodyParser = require("body-parser")
+  const webPush = require ('web-push');
+  const bodyParser = require("body-parser");
   const User = require('./models/User');
-  const swaggerJsdoc = require("swagger-jsdoc")
-  const swaggerUi = require("swagger-ui-express")
+  const swaggerJsdoc = require("swagger-jsdoc");
+  const swaggerUi = require("swagger-ui-express");
   const mongoose = require('mongoose');
   const { MongoClient, ServerApiVersion } = require('mongodb');
   const dotenv = require('dotenv');
@@ -42,7 +43,6 @@
 
   }
  
-    
   global.siteTitle = 'TWON Admin';
   global.successStatus = 200;
   global.failStatus = 401; 
@@ -51,6 +51,7 @@
   var flash = require('express-flash-messages') 
   var cookieParser = require('cookie-parser');
   var expressSession = require('express-session');
+  const Subscription = require('./models/Subscription');
   // Admin
   // Swagger
   const options = {
@@ -186,6 +187,10 @@ app.post('/images', upload.single('profilePicture'), (req, res) => {
     res.status(500).send('Error uploading file.');
   });
 });
+
+
+
+
 
 function getLastPart(url) {
   const parts = url.split('/');

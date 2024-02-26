@@ -2,6 +2,8 @@ const router = require('express').Router();
 const Post = require('../models/Post');
 const User = require('../models/User');
 const Comment = require('../models/Comment');
+const Subscription = require('../models/Subscription');
+const webPush = require ('web-push');
 
 /**
  * @swagger
@@ -101,6 +103,40 @@ router.put('/:id', async(req, res) =>{
         res.status(500).json(err);
     }
 })
+
+// notification
+router.post('/subscribe', async(req, res) =>{
+    console.log(req);
+    const newSubscription = await Subscription.create ({...req.body});
+    const options = {
+      vapidDetails: {
+        subject: 'mailto:myemail@example.com',
+        publicKey: process.env.PUBLIC_KEY,
+        privateKey: process.env.PRIVATE_KEY,
+      },
+    };
+    console.log(req.body)
+    console.log(options)
+    console.log(newSubscription.endpoint)
+    try {
+      const res2 = await webPush.sendNotification (
+        newSubscription,
+        JSON.stringify ({
+          title: 'Hello from server',
+          description: 'this message is coming from the server',
+          image: 'https://cdn2.vectorstock.com/i/thumb-large/94/66/emoji-smile-icon-symbol-smiley-face-vector-26119466.jpg',
+        }),
+        options
+      );
+      console.log(res2);
+      res.sendStatus(200);
+    } catch (error) {
+      console.log (error);
+      res.sendStatus (500);
+    }
+  });
+
+
 
 // delete a post
 router.delete('/:id', async(req, res) =>{

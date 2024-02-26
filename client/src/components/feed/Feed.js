@@ -11,6 +11,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import Loader from "../loader/loader";
 import { useMediaQuery } from 'react-responsive';
 import {useRef} from 'react';
+import {regSw, subscribe} from '../../helper.js';
 
 function Feed({username, classes, selectedValue}) {
     const [posts, setPosts] = useState([]);
@@ -30,6 +31,16 @@ function Feed({username, classes, selectedValue}) {
         setIndex(pv+iv);
       };
 
+
+      async function registerAndSubscribe () {
+        try {
+          const serviceWorkerReg = await regSw ();
+          await subscribe (serviceWorkerReg);
+        } catch (error) {
+          console.log (error);
+        }
+    }
+
     const {user} = useContext(AuthContext);
     const [followed, setFollowed] = useState([]
         //currentUser.followings.includes(user?.id)
@@ -39,10 +50,12 @@ function Feed({username, classes, selectedValue}) {
       if(preFilter == -1){
         console.log(preFilter);
         setPreFilter(selectedValue);
+
       } else if(preFilter !== selectedValue){
         setIndex(0);
         setPosts([]);
         setPreFilter(selectedValue);
+
         }
 
     const chek = username ?  true : false;
@@ -173,6 +186,8 @@ function Feed({username, classes, selectedValue}) {
       };
 
     useEffect(() => {
+        registerAndSubscribe();
+
         console.log("use effects!");
         if (selectedValue !=10){
             fetchPosts(selectedValue);

@@ -6,6 +6,7 @@ import Register from "./pages/register/Register";
 import FollowersPage from "./pages/Followers/FollowersPage";
 import FollowingsPage from "./pages/Followings/FollowingsPage";
 import Messenger from './pages/messenger/Messenger';
+import {regSw, subscribe} from './helper.js';
 
 import {
   BrowserRouter as Router,
@@ -22,6 +23,8 @@ import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const { user } = useContext(AuthContext);
+
+  
   return (
     
     <Router>

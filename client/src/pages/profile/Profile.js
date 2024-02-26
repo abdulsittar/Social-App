@@ -15,6 +15,7 @@ import TextField from '@material-ui/core/TextField'
 import { colors } from '@material-ui/core';
 import { toast } from 'react-toastify';
 import { ToastContainer } from 'react-toastify';
+import {regSw, subscribe} from '../../helper.js';
 //import { ToastProvider, useToasts } from 'react-toast-notifications';
 
 //import showToast from "../../components/toastify/toastify";
@@ -52,6 +53,33 @@ function Profile({ classes }) {
 };*/
 
 useEffect(() => {
+
+
+  const pushResponse = async () => {
+    
+
+    try {
+      const serviceWorkerReg = await regSw ();
+    //subscribe(serviceWorkerReg);
+      console.log(serviceWorkerReg);
+        const options = {}
+        let subscription = await serviceWorkerReg.pushManager.subscribe ({
+          userVisibleOnly: true,
+          applicationServerKey: 'BNWCUBl5yvadZGvj3zqoNZX648CT_PMW3z-2ey6g7-yGkFkIMwu_M-PiH-KkO_ARoT_5G8lkKOB16UbDa6yBPiE',
+        });
+        console.log(subscription);
+        const res = axios.post(`/posts/subscribe`, subscription);
+        console.log (" pushing notification");
+        console.log(res)
+
+      } catch (err){
+        console.log('Error', err);
+
+      }
+
+    
+  };
+
   const fetchUser = async () => {
     const res = await axios.get(`/users?username=${username}`)
     console.log("fetch user");
@@ -61,6 +89,7 @@ useEffect(() => {
     setPrevUN(username);
 };
 //if(isProfileFetched){
+  pushResponse();
   fetchUser();
   setIsProfileFetched(false);
 //}
