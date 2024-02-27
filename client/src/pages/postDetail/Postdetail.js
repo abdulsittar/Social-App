@@ -14,7 +14,7 @@ import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { useHistory } from "react-router";
 import {COLORS} from '../../components/values/colors.js';
-//import User from '../../../../api/models/User';
+//import User from '../../../../server/models/User';
 
 function Postdetail({ classes }) {
   const history = useHistory();

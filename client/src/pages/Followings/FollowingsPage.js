@@ -12,7 +12,7 @@ import { withStyles } from '@material-ui/core/styles';
 import {styles} from './followingsPageStyle';
 import { useMediaQuery } from 'react-responsive';
 import {COLORS} from '../../components/values/colors.js';
-//import User from '../../../../api/models/User';
+//import User from '../../../../server/models/User';
 
 function FollowingsPage({ username, classes }) {
     const [user, setUser] = useState({});

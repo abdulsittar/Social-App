@@ -11,7 +11,7 @@ import { useParams } from 'react-router';
 import { withStyles } from '@material-ui/core/styles';
 import {styles} from './followersPageStyle';
 import { useMediaQuery } from 'react-responsive';
-//import User from '../../../../api/models/User';
+//import User from '../../../../server/models/User';
 import {COLORS} from '../../components/values/colors.js';
 
 function FollowersPage({ username, classes }) {
