@@ -1,38 +1,38 @@
 const mongoose = require('mongoose');
 
 const PostSchema = new mongoose.Schema({
-    userId: {
-        type: String,
-        required: true
-    },
-    desc: {
-        type: String,
-        required: true,
-        max: 500
-    },
-    img:{
-        type: String
-    },
-    likes: {
-        type:Array,
-        default:[]
-    },
-    pool: {
-        type: String,
-        default: "0"
-    },
-    dislikes: {
-        type:Array,
-        default:[]
-    },
-    comments:[{
+userId: {
+    type: String,
+    required: true
+},
+desc: {
+    type: String,
+    required: true,
+    max: 500
+},
+img:{
+    type: String
+},
+likes: {
+    type:Array,
+    default:[]
+},
+pool: {
+    type: String,
+    default: "0"
+},
+dislikes: {
+    type:Array,
+    default:[]
+},
+comments:[{
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'Comment'
+    }],
+postedBy: {
         type: mongoose.Schema.Types.ObjectId, 
-        ref: 'Comment'
-        }],
-    postedBy: {
-            type: mongoose.Schema.Types.ObjectId, 
-            ref: 'User'
-        }},
+        ref: 'User'
+    }},
 {timestamps: true}
 );
 

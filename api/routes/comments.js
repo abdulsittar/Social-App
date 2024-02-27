@@ -46,44 +46,44 @@ const bcrypt = require('bcrypt');
 // like a post
 router.put('/:id/like', async(req, res) =>{
 
-    console.log(req.params.id);
-    console.log("comments testing");
-    try {
-        // Like a post
-        const comment = await Comment.findById(req.params.id);
-        console.log("testing");
-        console.log(comment);
-        if(!comment.likes.includes(req.body.userId)) {
-            await comment.updateOne({$push: { likes: req.body.userId } });
-            res.status(200).json('The comment has been liked!');
-        } else {
-            // Dislike a post
-            await comment.updateOne({$pull: { likes: req.body.userId } });
-            res.status(403).json('The comment has been disliked!');
-        }
-    } catch(err) {
-        res.status(500).json(err);
+console.log(req.params.id);
+console.log("comments testing");
+try {
+    // Like a post
+    const comment = await Comment.findById(req.params.id);
+    console.log("testing");
+    console.log(comment);
+    if(!comment.likes.includes(req.body.userId)) {
+        await comment.updateOne({$push: { likes: req.body.userId } });
+        res.status(200).json('The comment has been liked!');
+    } else {
+        // Dislike a post
+        await comment.updateOne({$pull: { likes: req.body.userId } });
+        res.status(403).json('The comment has been disliked!');
     }
+} catch(err) {
+    res.status(500).json(err);
+}
 })
 
 // like a post
 router.put('/:id/dislike', async(req, res) =>{
-    try {
+try {
+    // Dislike a post
+    const comment = await Comment.findById(req.params.id);
+    console.log("testing");
+    console.log(comment)
+    if(!comment.dislikes.includes(req.body.userId)) {
+        await comment.updateOne({$push: { dislikes: req.body.userId } });
+        res.status(200).json('The comment has been disliked!');
+    } else {
         // Dislike a post
-        const comment = await Comment.findById(req.params.id);
-        console.log("testing");
-        console.log(comment)
-        if(!comment.dislikes.includes(req.body.userId)) {
-            await comment.updateOne({$push: { dislikes: req.body.userId } });
-            res.status(200).json('The comment has been disliked!');
-        } else {
-            // Dislike a post
-            await comment.updateOne({$pull: { dislikes: req.body.userId } });
-            res.status(403).json('The comment has been disliked!');
-        }
-    } catch(err) {
-        res.status(500).json(err);
+        await comment.updateOne({$pull: { dislikes: req.body.userId } });
+        res.status(403).json('The comment has been disliked!');
     }
+} catch(err) {
+    res.status(500).json(err);
+}
 })
 
 
@@ -160,39 +160,39 @@ router.put('/:id/dislike', async(req, res) =>{
 
 // add a comment
 router.post('/:id/comment', async(req, res) => {
-    const comment = new Comment({body:req.body.txt, userId:req.body.userId, postId:req.body.postId, username: req.body.username});
-    try{
-        await comment.save();
-        const post = await Comment.findById(req.body.postId);
-        await post.updateOne({$push: { comments: comment } });
-        //await post.comments.push(comment);
+const comment = new Comment({body:req.body.txt, userId:req.body.userId, postId:req.body.postId, username: req.body.username});
+try{
+    await comment.save();
+    const post = await Comment.findById(req.body.postId);
+    await post.updateOne({$push: { comments: comment } });
+    //await post.comments.push(comment);
 
-        //await post.save(function(err) {
-        //    if(err) {
-        //        console.log(err)
-        //    }
-        //    });
-        //await post.updateOne({_id:req.body.postId}, {$push: {comments:comment}});
-        res.status(200).json('The comment has been added');
-    
-    } catch(err) {
-        console.log(res.status(500).json(err));
-    }
+    //await post.save(function(err) {
+    //    if(err) {
+    //        console.log(err)
+    //    }
+    //    });
+    //await post.updateOne({_id:req.body.postId}, {$push: {comments:comment}});
+    res.status(200).json('The comment has been added');
+
+} catch(err) {
+    console.log(res.status(500).json(err));
+}
 // create a comment
 /* console.log(req.body.postId)
 console.log(req.body.txt)
 console.log(req.body.userId)
 //const post = await Post.findById(req.params.id);
 try{
-    let result = await Post.findOneAndUpdate({_id:req.body.postId}, {Comment: {body: req.body.txt, userId:req.body.userId, postId:req.body.postId}},
-                function(err,post){
-                    if (err || !post) {
-                        console.log(res.json({ error: err }));
-                    }
+let result = await Post.findOneAndUpdate({_id:req.body.postId}, {Comment: {body: req.body.txt, userId:req.body.userId, postId:req.body.postId}},
+            function(err,post){
+                if (err || !post) {
+                    console.log(res.json({ error: err }));
                 }
-            )
+            }
+        )
 } catch(err) {
-    console.log(err)
+console.log(err)
 console.log(res.status(500).json(err));
 }*/
 });

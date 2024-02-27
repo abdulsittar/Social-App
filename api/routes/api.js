@@ -11,14 +11,14 @@ router.post('/login', AdminController.login);
 router.get('/login', AdminController.login);     
 router.get('/Dashboard', requiredAuthentication, AdminController.dashboard);  
 router.get('/logout', AdminController.logout);         
- 
+
 /** Routes for users module  */ 
- router.get('/User/list',requiredAuthentication,  UsersController.list);     
- router.get('/User/edit/:id', requiredAuthentication, UsersController.edit);     
- router.post('/User/edit/:id',requiredAuthentication,  UsersController.edit); 
- router.post('/User/add',requiredAuthentication, UsersController.add); 
- router.get('/User/add', requiredAuthentication, UsersController.add); 
- router.get('/User/delete/:id', requiredAuthentication, UsersController.deleteRecord);
+router.get('/User/list',requiredAuthentication,  UsersController.list);     
+router.get('/User/edit/:id', requiredAuthentication, UsersController.edit);     
+router.post('/User/edit/:id',requiredAuthentication,  UsersController.edit); 
+router.post('/User/add',requiredAuthentication, UsersController.add); 
+router.get('/User/add', requiredAuthentication, UsersController.add); 
+router.get('/User/delete/:id', requiredAuthentication, UsersController.deleteRecord);
 
 /** Routes for posts module  */ 
 router.get('/Post/list',requiredAuthentication,  PostsController.list);     
@@ -38,17 +38,17 @@ router.get('/Comment/delete/:id', requiredAuthentication, CommentsController.del
 
 
 module.exports = router;        
- 
+
 
 function requiredAuthentication(req, res, next) { 
-    if(req.session){
-        LoginUser = req.session.LoginUser; 
-        if(LoginUser){    
-            next();   
-        }else{
-            res.redirect(nodeAdminUrl+'/login');       
-        } 
+if(req.session){
+    LoginUser = req.session.LoginUser; 
+    if(LoginUser){    
+        next();   
     }else{
         res.redirect(nodeAdminUrl+'/login');       
-    }
+    } 
+}else{
+    res.redirect(nodeAdminUrl+'/login');       
+}
 }

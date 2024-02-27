@@ -80,77 +80,77 @@ const webPush = require ('web-push');
 
 // create a post
 router.post('/', async(req, res) => {
-    const newPost = new Post(req.body);
-    try{
-        const savedPost = await newPost.save(); 
-        res.status(200).json(savedPost);
-    }catch(err) {
-        res.status(500).json(err);
-    }
+const newPost = new Post(req.body);
+try{
+    const savedPost = await newPost.save(); 
+    res.status(200).json(savedPost);
+}catch(err) {
+    res.status(500).json(err);
+}
 })
 
 //update a post
 router.put('/:id', async(req, res) =>{
-    try {
-        const post = await Post.findById(req.params.id);
-        if(post.userId === req.body.userId) {
-            await post.updateOne({$set:req.body});
-            res.status(200).json('The post has been updated');
-        } else {
-            res.status(403).json('You can only update your post!');
-        }
-    } catch(err) {
-        res.status(500).json(err);
+try {
+    const post = await Post.findById(req.params.id);
+    if(post.userId === req.body.userId) {
+        await post.updateOne({$set:req.body});
+        res.status(200).json('The post has been updated');
+    } else {
+        res.status(403).json('You can only update your post!');
     }
+} catch(err) {
+    res.status(500).json(err);
+}
 })
 
 // notification
 router.post('/subscribe', async(req, res) =>{
-    console.log(req);
-    const newSubscription = await Subscription.create ({...req.body});
-    const options = {
-      vapidDetails: {
-        subject: 'mailto:myemail@example.com',
-        publicKey: process.env.PUBLIC_KEY,
-        privateKey: process.env.PRIVATE_KEY,
-      },
-    };
-    console.log(req.body)
-    console.log(options)
-    console.log(newSubscription.endpoint)
-    try {
-      const res2 = await webPush.sendNotification (
-        newSubscription,
-        JSON.stringify ({
-          title: 'Hello from server',
-          description: 'this message is coming from the server',
-          image: 'https://cdn2.vectorstock.com/i/thumb-large/94/66/emoji-smile-icon-symbol-smiley-face-vector-26119466.jpg',
-        }),
-        options
-      );
-      console.log(res2);
-      res.sendStatus(200);
-    } catch (error) {
-      console.log (error);
-      res.sendStatus (500);
-    }
-  });
+console.log(req);
+const newSubscription = await Subscription.create ({...req.body});
+const options = {
+    vapidDetails: {
+    subject: 'mailto:myemail@example.com',
+    publicKey: process.env.PUBLIC_KEY,
+    privateKey: process.env.PRIVATE_KEY,
+    },
+};
+console.log(req.body)
+console.log(options)
+console.log(newSubscription.endpoint)
+try {
+    const res2 = await webPush.sendNotification (
+    newSubscription,
+    JSON.stringify ({
+        title: 'Hello from server',
+        description: 'this message is coming from the server',
+        image: 'https://cdn2.vectorstock.com/i/thumb-large/94/66/emoji-smile-icon-symbol-smiley-face-vector-26119466.jpg',
+    }),
+    options
+    );
+    console.log(res2);
+    res.sendStatus(200);
+} catch (error) {
+    console.log (error);
+    res.sendStatus (500);
+}
+});
 
 
 
 // delete a post
 router.delete('/:id', async(req, res) =>{
-    try {
-        const post = await Post.findById(req.params.id);
-        if(post.userId === req.body.userId) {
-            await post.deleteOne();
-            res.status(200).json('The post has been deleted');
-        } else {
-            res.status(403).json('You can only delete your post!');
-        }
-    } catch(err) {
-        res.status(500).json(err);
+try {
+    const post = await Post.findById(req.params.id);
+    if(post.userId === req.body.userId) {
+        await post.deleteOne();
+        res.status(200).json('The post has been deleted');
+    } else {
+        res.status(403).json('You can only delete your post!');
     }
+} catch(err) {
+    res.status(500).json(err);
+}
 })
 
 
@@ -195,38 +195,38 @@ router.delete('/:id', async(req, res) =>{
 
 // like a post
 router.put('/:id/like', async(req, res) =>{
-    try {
-        // Like a post
-        const post = await Post.findById(req.params.id);
-        if(!post.likes.includes(req.body.userId)) {
-            await post.updateOne({$push: { likes: req.body.userId } });
-            res.status(200).json('The post has been liked!');
-        } else {
-            // Dislike a post
-            await post.updateOne({$pull: { likes: req.body.userId } });
-            res.status(403).json('The post has been disliked!');
-        }
-    } catch(err) {
-        res.status(500).json(err);
+try {
+    // Like a post
+    const post = await Post.findById(req.params.id);
+    if(!post.likes.includes(req.body.userId)) {
+        await post.updateOne({$push: { likes: req.body.userId } });
+        res.status(200).json('The post has been liked!');
+    } else {
+        // Dislike a post
+        await post.updateOne({$pull: { likes: req.body.userId } });
+        res.status(403).json('The post has been disliked!');
     }
+} catch(err) {
+    res.status(500).json(err);
+}
 })
 
 // like a post
 router.put('/:id/dislike', async(req, res) =>{
-    try {
+try {
+    // Dislike a post
+    const post = await Post.findById(req.params.id);
+    if(!post.dislikes.includes(req.body.userId)) {
+        await post.updateOne({$push: { dislikes: req.body.userId } });
+        res.status(200).json('The post has been disliked!');
+    } else {
         // Dislike a post
-        const post = await Post.findById(req.params.id);
-        if(!post.dislikes.includes(req.body.userId)) {
-            await post.updateOne({$push: { dislikes: req.body.userId } });
-            res.status(200).json('The post has been disliked!');
-        } else {
-            // Dislike a post
-            await post.updateOne({$pull: { dislikes: req.body.userId } });
-            res.status(403).json('The post has been disliked!');
-        }
-    } catch(err) {
-        res.status(500).json(err);
+        await post.updateOne({$pull: { dislikes: req.body.userId } });
+        res.status(403).json('The post has been disliked!');
     }
+} catch(err) {
+    res.status(500).json(err);
+}
 })
 
 
@@ -265,12 +265,12 @@ router.put('/:id/dislike', async(req, res) =>{
 
 // get a post
 router.get('/:id', async(req, res) =>{
-    try {
-        const post = await Post.findById(req.params.id).populate('Comment').exec();
-        res.status(200).json(post);
-    } catch(err) {
-        res.status(500).json(err);
-    }
+try {
+    const post = await Post.findById(req.params.id).populate('Comment').exec();
+    res.status(200).json(post);
+} catch(err) {
+    res.status(500).json(err);
+}
 })
 
 /**
@@ -309,69 +309,69 @@ router.get('/:id', async(req, res) =>{
 
 // get all posts
 router.get('/timeline2/:userId', async(req, res) =>{
-    try {
-        const currentUser = await User.findById(req.params.userId).populate('Comment').exec();
-        const userPosts = await Post.find({ userId: currentUser._id });
+try {
+    const currentUser = await User.findById(req.params.userId).populate('Comment').exec();
+    const userPosts = await Post.find({ userId: currentUser._id });
 
-        const friendPosts = await Promise.all(
-            currentUser.followings.map((friendId) => {
-                return Post.find({ userId: friendId }).populate('Comment').exec();
-            })
-        );
+    const friendPosts = await Promise.all(
+        currentUser.followings.map((friendId) => {
+            return Post.find({ userId: friendId }).populate('Comment').exec();
+        })
+    );
 
-        res.status(200).json(userPosts.concat(...friendPosts));
-    } catch(err) {
-        res.status(500).json(err);
-    }
+    res.status(200).json(userPosts.concat(...friendPosts));
+} catch(err) {
+    res.status(500).json(err);
+}
 })
 
 // get pagination posts
 router.get('/timelinePag/:userId', async(req, res) =>{
-    console.log("hereherehereh");
-    console.log(req.query.page);
-    try {
-        let page = req.query.page //starts from 0
-        let posts= await getPostsPaginated(page)
-        if (posts && posts.length > 0) {
-            res.status(200).json(posts)
-        } else {
-            res.status(200).json(err);
-            //console.log(res);
-        }
-
-    } catch(err) {
-        res.status(500).json(err);
+console.log("hereherehereh");
+console.log(req.query.page);
+try {
+    let page = req.query.page //starts from 0
+    let posts= await getPostsPaginated(page)
+    if (posts && posts.length > 0) {
+        res.status(200).json(posts)
+    } else {
+        res.status(200).json(err);
+        //console.log(res);
     }
+
+} catch(err) {
+    res.status(500).json(err);
+}
 })
 
 
 //service
 const getPostsPaginated = async (page) => {
-    let resultsPerPage = 10
-  
-    return await Post.find({})
-      .populate({path : 'comments', populate:{path : "userId", model: "User"}})
-      .sort({ createdAt: 'descending' })
-      //.lean()
-      .skip(page * resultsPerPage)
-      .limit(resultsPerPage)
-      .exec()
-  }
+let resultsPerPage = 10
+
+return await Post.find({})
+    .populate({path : 'comments', populate:{path : "userId", model: "User"}})
+    .sort({ createdAt: 'descending' })
+    //.lean()
+    .skip(page * resultsPerPage)
+    .limit(resultsPerPage)
+    .exec()
+}
 
 // all users
 router.get('/timeline/:userId', async (req, res) => {
-	try {
-	let postList = [];
-	Post.find({}, function(err, posts) {
-	//console.log(posts.length)
-    //res.send(userMap);
-    res.status(200).json(posts)
-  }).populate('comments').exec();
-	}
-  catch (err) {
-  //console.log(err)
-      res.status(500).json(err);
-    }
+try {
+let postList = [];
+Post.find({}, function(err, posts) {
+//console.log(posts.length)
+//res.send(userMap);
+res.status(200).json(posts)
+}).populate('comments').exec();
+}
+catch (err) {
+//console.log(err)
+    res.status(500).json(err);
+}
 });
 
 /**
@@ -409,65 +409,65 @@ router.get('/timeline/:userId', async (req, res) => {
 
 // post of only follower
 router.get('/onlyFollowers/:userId', async (req, res) => {
-	try {
-        const currentUser = await User.findById(req.params.userId);
-        const userPosts = await Post.find({ userId: currentUser._id }).populate('Comment').exec();
+try {
+    const currentUser = await User.findById(req.params.userId);
+    const userPosts = await Post.find({ userId: currentUser._id }).populate('Comment').exec();
 
-        const friendPosts = await Promise.all(
-            currentUser.followers.map((friendId) => {
-                return Post.find({ userId: friendId });
-            })
-        );
-        //console.log(friendPosts.length)
+    const friendPosts = await Promise.all(
+        currentUser.followers.map((friendId) => {
+            return Post.find({ userId: friendId });
+        })
+    );
+    //console.log(friendPosts.length)
 
-        res.status(200).json(userPosts.concat(...friendPosts));
-    } catch(err) {
-        res.status(500).json(err);
-    }
+    res.status(200).json(userPosts.concat(...friendPosts));
+} catch(err) {
+    res.status(500).json(err);
+}
 });
 
 //service
 const getPostsPaginatedFollowers = async (page, req) => {
-    let resultsPerPage = 10
-    const currentUser = await User.findById(req.params.userId);
-    //const userPosts = await Post.find({ userId: currentUser._id }).populate('Comment').exec();
-    let userPosts = []
-    const friendPosts = await Promise.all(
-        currentUser.followers.map((friendId) => {
-            return Post.find({ userId: friendId })
-            .populate({path : 'comments', populate:{path : "userId", model: "User"}})
-      .sort({ createdAt: 'descending' })
-      //.lean()
-      .skip(page * resultsPerPage)
-      .limit(resultsPerPage)
-      .exec()
-        }))
+let resultsPerPage = 10
+const currentUser = await User.findById(req.params.userId);
+//const userPosts = await Post.find({ userId: currentUser._id }).populate('Comment').exec();
+let userPosts = []
+const friendPosts = await Promise.all(
+    currentUser.followers.map((friendId) => {
+        return Post.find({ userId: friendId })
+        .populate({path : 'comments', populate:{path : "userId", model: "User"}})
+    .sort({ createdAt: 'descending' })
+    //.lean()
+    .skip(page * resultsPerPage)
+    .limit(resultsPerPage)
+    .exec()
+    }))
 
-    //console.log([].concat(...friendPosts))
-    //const filtPost =  follPosts.sort({ createdAt: 'descending' }).lean().limit(resultsPerPage).skip(page * resultsPerPage)
-    return [].concat(...friendPosts)
-  }
+//console.log([].concat(...friendPosts))
+//const filtPost =  follPosts.sort({ createdAt: 'descending' }).lean().limit(resultsPerPage).skip(page * resultsPerPage)
+return [].concat(...friendPosts)
+}
 
 // post of only follower
 router.get('/onlyFollowersPag/:userId', async (req, res) => {
-    console.log("hereherehereh");
-    console.log(req.query.page);
+console.log("hereherehereh");
+console.log(req.query.page);
 
-    try {
-        let page = req.query.page //starts from 0
-        let posts= await getPostsPaginatedFollowers(page, req)
+try {
+    let page = req.query.page //starts from 0
+    let posts= await getPostsPaginatedFollowers(page, req)
 
-        if (posts && posts.length > 0) {
-            res.status(200).json(posts)
-        } else {
-            res.status(200).json(posts);
-            //console.log(res);
-        }
-
-    } catch(err) {
-        //console.log(err);
-        res.status(500).json(err);
+    if (posts && posts.length > 0) {
+        res.status(200).json(posts)
+    } else {
+        res.status(200).json(posts);
+        //console.log(res);
     }
+
+} catch(err) {
+    //console.log(err);
+    res.status(500).json(err);
+}
 });
 
 /**
@@ -505,79 +505,79 @@ router.get('/onlyFollowersPag/:userId', async (req, res) => {
 
 //service
 const getPostsPaginatedFollowings = async (page, req) => {
-    let resultsPerPage = 10
-    const currentUser = await User.findById(req.params.userId);
-    //const userPosts = await Post.find({ userId: currentUser._id }).populate('Comment').exec();
+let resultsPerPage = 10
+const currentUser = await User.findById(req.params.userId);
+//const userPosts = await Post.find({ userId: currentUser._id }).populate('Comment').exec();
 
-    const friendPosts = await Promise.all(
-        currentUser.followings.map((friendId) => {
-            return Post.find({ userId: friendId })
-            .populate({path : 'comments', populate:{path : "userId", model: "User"}})
-      .sort({ createdAt: 'descending' })
-      //.lean()
-      .skip(page * resultsPerPage)
-      .limit(resultsPerPage)
-      .exec()
-        }))
-        
-    let userPosts = []
-    userPosts.concat(...friendPosts)
-    //console.log([].concat(...friendPosts));
-    //const filtPost =  follPosts.sort({ createdAt: 'descending' }).lean().limit(resultsPerPage).skip(page * resultsPerPage)
-    return [].concat(...friendPosts)
-  }
+const friendPosts = await Promise.all(
+    currentUser.followings.map((friendId) => {
+        return Post.find({ userId: friendId })
+        .populate({path : 'comments', populate:{path : "userId", model: "User"}})
+    .sort({ createdAt: 'descending' })
+    //.lean()
+    .skip(page * resultsPerPage)
+    .limit(resultsPerPage)
+    .exec()
+    }))
+    
+let userPosts = []
+userPosts.concat(...friendPosts)
+//console.log([].concat(...friendPosts));
+//const filtPost =  follPosts.sort({ createdAt: 'descending' }).lean().limit(resultsPerPage).skip(page * resultsPerPage)
+return [].concat(...friendPosts)
+}
 
 // posts of only followings
 router.get('/onlyFollowingsPag/:userId', async (req, res) => {
-	try {
-        let page = req.query.page 
-        const currentUser = await User.findById(req.params.userId);
-        let posts= await getPostsPaginatedFollowings(page, req)
-        if (posts && posts.length > 0) {
-            res.status(200).json(posts)
-        } else {
-            res.status(200).json(posts);
-            //console.log(res);
-        }
-
-    } catch(err) {
-        //console.log(err);
-        res.status(500).json(err);
+try {
+    let page = req.query.page 
+    const currentUser = await User.findById(req.params.userId);
+    let posts= await getPostsPaginatedFollowings(page, req)
+    if (posts && posts.length > 0) {
+        res.status(200).json(posts)
+    } else {
+        res.status(200).json(posts);
+        //console.log(res);
     }
+
+} catch(err) {
+    //console.log(err);
+    res.status(500).json(err);
+}
 });
 
 // posts of only followings
 router.get('/onlyFollowings/:userId', async (req, res) => {
 
-    try {
-        let page = req.query.page //starts from 0
-        let posts= await getPostsPaginatedFollowings(page)
-        if (posts && posts.length > 0) {
-            res.status(200).json(posts)
-        } else {
-            //res.status(200).json("error");
-            console.log(res);
-        }
-
-    } catch(err) {
-        res.status(500).json(err);
+try {
+    let page = req.query.page //starts from 0
+    let posts= await getPostsPaginatedFollowings(page)
+    if (posts && posts.length > 0) {
+        res.status(200).json(posts)
+    } else {
+        //res.status(200).json("error");
+        console.log(res);
     }
 
+} catch(err) {
+    res.status(500).json(err);
+}
 
-	try {
-        const currentUser = await User.findById(req.params.userId);
-        const userPosts = await Post.find({ userId: currentUser._id }).populate('Comment').exec();
 
-        const friendPosts = await Promise.all(
-            currentUser.followings.map((friendId) => {
-                return Post.find({ userId: friendId }).populate('Comment').exec();
-            })
-        );
-        //console.log(friendPosts.length)      
-        res.status(200).json(userPosts.concat(...friendPosts));
-    } catch(err) {
-        res.status(500).json(err);
-    }
+try {
+    const currentUser = await User.findById(req.params.userId);
+    const userPosts = await Post.find({ userId: currentUser._id }).populate('Comment').exec();
+
+    const friendPosts = await Promise.all(
+        currentUser.followings.map((friendId) => {
+            return Post.find({ userId: friendId }).populate('Comment').exec();
+        })
+    );
+    //console.log(friendPosts.length)      
+    res.status(200).json(userPosts.concat(...friendPosts));
+} catch(err) {
+    res.status(500).json(err);
+}
 });
 
 
@@ -620,64 +620,64 @@ router.get('/onlyFollowings/:userId', async (req, res) => {
 
 // get all posts of a user
 router.get('/profile/:username', async(req, res) =>{
-    try {
-        let resultsPerPage = 10
-        const user = await User.findOne({username: req.params.username});
-        const posts = await Post.find({userId: user._id})
-            .populate({path : 'comments', populate:{path : "userId", model: "User"}})
-            .sort({ createdAt: 'descending' })
-            //.lean()
-            .skip(req.query.page * resultsPerPage)
-            .limit(resultsPerPage)
-            .exec()
-        res.status(200).json(posts);
-    } catch(err) {
-        res.status(500).json(err);
-        console.log(err);
-    }
+try {
+    let resultsPerPage = 10
+    const user = await User.findOne({username: req.params.username});
+    const posts = await Post.find({userId: user._id})
+        .populate({path : 'comments', populate:{path : "userId", model: "User"}})
+        .sort({ createdAt: 'descending' })
+        //.lean()
+        .skip(req.query.page * resultsPerPage)
+        .limit(resultsPerPage)
+        .exec()
+    res.status(200).json(posts);
+} catch(err) {
+    res.status(500).json(err);
+    console.log(err);
+}
 });
 
 // get all comments
 
 // add a comment
 router.post('/:id/comment', async(req, res) => {
-        const comment = new Comment({body:req.body.txt, userId:req.body.userId, postId:req.body.postId, username: req.body.username});
-        try{
-            await comment.save();
-            const post = await Post.findById(req.body.postId);
-            await post.updateOne({$push: { comments: comment } });
-            const comm = await Comment.findOne({postId: req.body.postId}).sort({ createdAt: 'descending' })
-            //post.comments.findOne(sort=[('$natural', DESCENDING)]);
-            //await post.comments.push(comment);
-
-            //await post.save(function(err) {
-            //    if(err) {
-            //        console.log(err)
-            //    }
-            //    });
-            //await post.updateOne({_id:req.body.postId}, {$push: {comments:comment}});
-            res.status(200).json(comm);
-        
-        } catch(err) {
-            //console.log(res.status(500).json(err));
-        }
-    // create a comment
-   /* console.log(req.body.postId)
-    console.log(req.body.txt)
-    console.log(req.body.userId)
-    //const post = await Post.findById(req.params.id);
+    const comment = new Comment({body:req.body.txt, userId:req.body.userId, postId:req.body.postId, username: req.body.username});
     try{
-        let result = await Post.findOneAndUpdate({_id:req.body.postId}, {Comment: {body: req.body.txt, userId:req.body.userId, postId:req.body.postId}},
-                    function(err,post){
-                        if (err || !post) {
-                            console.log(res.json({ error: err }));
-                        }
-                    }
-                )
+        await comment.save();
+        const post = await Post.findById(req.body.postId);
+        await post.updateOne({$push: { comments: comment } });
+        const comm = await Comment.findOne({postId: req.body.postId}).sort({ createdAt: 'descending' })
+        //post.comments.findOne(sort=[('$natural', DESCENDING)]);
+        //await post.comments.push(comment);
+
+        //await post.save(function(err) {
+        //    if(err) {
+        //        console.log(err)
+        //    }
+        //    });
+        //await post.updateOne({_id:req.body.postId}, {$push: {comments:comment}});
+        res.status(200).json(comm);
+    
     } catch(err) {
-        console.log(err)
-    console.log(res.status(500).json(err));
-    }*/
+        //console.log(res.status(500).json(err));
+    }
+// create a comment
+/* console.log(req.body.postId)
+console.log(req.body.txt)
+console.log(req.body.userId)
+//const post = await Post.findById(req.params.id);
+try{
+    let result = await Post.findOneAndUpdate({_id:req.body.postId}, {Comment: {body: req.body.txt, userId:req.body.userId, postId:req.body.postId}},
+                function(err,post){
+                    if (err || !post) {
+                        console.log(res.json({ error: err }));
+                    }
+                }
+            )
+} catch(err) {
+    console.log(err)
+console.log(res.status(500).json(err));
+}*/
 });
 
 // delete a comment
