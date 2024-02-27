@@ -45,7 +45,7 @@ A MERN stack based social media application (MongoDB Express React Redux NodeJs)
  **And application will be up and running.**
 
 **Here are some images of application on desktop:**
-![login page](screenshots/11- Theme2And1-Signup-Scroll1-Mobile.jpg)
+![login page](screenshots/1-Theme1And2-Signup-Web.png)
 ![login page]()
 ![registration page]()
 ![registration page]()
