@@ -68,20 +68,5 @@ A MERN stack based project on social media application (MongoDB Express React Re
 ![profile page]()
 ![profile page]()
 
-![admin panel]()
-
-![profile page]()
-
-![home page]()
-![new post]()
-
-![dark mode]()
-
-![search users]()
-
-![posts menu]()
-
-![explore page]()
-
 
 
