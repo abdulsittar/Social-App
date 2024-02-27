@@ -1,5 +1,5 @@
 # TWON Social Application
-A MERN stack based project on social media application (MongoDB Express React Redux NodeJs).
+A MERN stack based social media application (MongoDB Express React Redux NodeJs).
 
 # Featurs included in this project:
 
