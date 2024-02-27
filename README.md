@@ -37,10 +37,10 @@ A MERN stack based social media application (MongoDB Express React Redux NodeJs)
 3. Include public and private keys for push notifications.
 4. Clone this repository
 5. Open command line in the cloned folder,
-    - To install dependencies for backend, run  `npm install` in server folder.
-    - To run backend type command `node server` in main folder.
+    - To install dependencies for backend, run  `npm install` in `/server` folder.
+    - To run backend type command `npm start` in main folder.
     - To install dependencies for frontend , run  `npm install` in `/client` folder.
-    - To run frontend type command `npm start` in `/client` folder.
+    - To run frontend type command `npm run build` in `/client` folder.
 6.  Open  [localhost:3000](http://localhost:3000/)  in the browser.
  **And application will be up and running.**
 
