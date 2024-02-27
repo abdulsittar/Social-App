@@ -20,7 +20,7 @@ import {regSw, subscribe} from '../../helper.js';
 
 //import showToast from "../../components/toastify/toastify";
 
-//import User from '../../../../api/models/User';
+//import User from '../../../../server/models/User';
 function Profile({ classes }) {
     
     const [selectedImage, setSelectedImage] = useState(null);
