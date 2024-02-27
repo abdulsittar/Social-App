@@ -37,7 +37,7 @@ A MERN stack based project on social media application (MongoDB Express React Re
 3. Include public and private keys for push notifications.
 4. Clone this repository
 5. Open command line in the cloned folder,
-    - To install dependencies for backend, run  `npm install` in api folder.
+    - To install dependencies for backend, run  `npm install` in server folder.
     - To run backend type command `node server` in main folder.
     - To install dependencies for frontend , run  `npm install` in `/client` folder.
     - To run frontend type command `npm start` in `/client` folder.
