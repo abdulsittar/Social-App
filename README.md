@@ -68,20 +68,20 @@ A MERN stack based project on social media application (MongoDB Express React Re
 ![profile page]()
 ![profile page]()
 
-![admin panel](https://user-images.githubusercontent.com/72184791/114161299-877f6b80-9945-11eb-9791-cab82f92bd7e.JPG)
+![admin panel]()
 
-![profile page](https://user-images.githubusercontent.com/72184791/114161324-8b12f280-9945-11eb-96a2-0707ee234c8a.JPG)
+![profile page]()
 
-![home page](https://user-images.githubusercontent.com/72184791/114161305-88180200-9945-11eb-9856-a4b33b8e9def.JPG)
-![new post](https://user-images.githubusercontent.com/72184791/114161309-89492f00-9945-11eb-888f-3ff263cfb909.JPG)
+![home page]()
+![new post]()
 
-![dark mode](https://user-images.githubusercontent.com/72184791/114161287-851d1180-9945-11eb-8a0e-1a4c56132de0.JPG)
+![dark mode]()
 
-![search users](https://user-images.githubusercontent.com/72184791/114161296-86e6d500-9945-11eb-85cb-eb7c84d4abda.JPG)
+![search users]()
 
-![posts menu](https://user-images.githubusercontent.com/72184791/114161315-89e1c580-9945-11eb-8f9f-4156d1184567.JPG)
+![posts menu]()
 
-![explore page](https://user-images.githubusercontent.com/72184791/114161321-8a7a5c00-9945-11eb-8c67-bf42a8f30fcd.JPG)
+![explore page]()
 
 
 
