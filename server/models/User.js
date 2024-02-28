@@ -37,11 +37,11 @@ followings: [{
     }],
 viewedPosts:[{
     type: mongoose.Schema.Types.ObjectId, 
-    ref: 'Post'
+    ref: 'Viewpost'
     }],
 readPosts: [{
     type: mongoose.Schema.Types.ObjectId, 
-    ref: 'Post'
+    ref: 'Readpost'
 }],
 isAdmin: {
     type: Boolean,

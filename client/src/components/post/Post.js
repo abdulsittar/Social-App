@@ -32,8 +32,12 @@ function Post({onScrolling,  post, classes, isDetail }) {
   //console.log(post);
   const [like, setLike] = useState(post.likes.length);
   const [dislike, setDislike] = useState(post.dislikes.length);
+  const [repost, setRepost] = useState(post.reposts? post.reposts.length: 0);
+
   const [isLiked, setIsLiked] = useState(false);
   const [isDisliked, setIsDisliked] = useState(false);
+  const [isReposted, setIsReposted] = useState(false);
+
   const [isLikedByOne, setIsLikedByOne] = useState(false);
   const [isDislikedByOne, setIsDislikedByOne] = useState(false);
   const [user, setUser] = useState({});
@@ -139,8 +143,6 @@ function Post({onScrolling,  post, classes, isDetail }) {
 
   }
 
- 
-
   const handleReadChange = () => {
       axios.put("/users/" + currentUser._id + "/read", { postId: post._id });
   };
@@ -180,6 +182,18 @@ function Post({onScrolling,  post, classes, isDetail }) {
       setIsLikedByOne(false);
     }
   };
+
+  const repostHandler = () => {
+    try {
+      axios.post("/posts/" + post._id + "/repost", { userId: currentUser._id });
+    } catch (err) {
+      console.log(err)
+     }
+    setRepost(isReposted ? repost + 1 : repost + 1);
+    setIsReposted(true);
+
+  };
+
 
   const dislikeHandler = () => {
     try {
@@ -221,10 +235,11 @@ function Post({onScrolling,  post, classes, isDetail }) {
             </span>
             </Link>
             <span className={classes.postDate}>{format(post.createdAt)}</span>
+            <span className={classes.postDate} style={{margin: '0px 0px 0px 20px',}}>{" Reposted by " + repost}</span>
           </div>
           { (!isDetail)?
           <div className={classes.postTopRight}>
-          <Link style={{textDecoration: 'none', color: COLORS.textColor}} to={{pathname:`/postdetail/${user.username}`, state:{myObj: post}}}> <ArrowForwardIcon /></Link></div>: <div></div>
+          <Link style={{textDecoration: 'none', color: COLORS.textColor}} onClick={repostHandler}> <ArrowForwardIcon /></Link></div>: <div></div>
           }
         </div>
         <div className={classes.postCenter}>
@@ -237,7 +252,7 @@ function Post({onScrolling,  post, classes, isDetail }) {
          >
            {decoratedText}
          </a>
-       )}><div className={classes.postText}>{post?.desc}</div></Linkify>
+       )}><div className={classes.postText} >{post?.desc.length > 100? <div className={classes.postText} >{post?.desc.substring(0, 100)} <Link to={{pathname:`/postdetail/${user.username}`, state:{myObj: post}}}>"....click to see more"</Link></div> :post?.desc}</div></Linkify>
           
           
         </div>
@@ -251,7 +266,7 @@ function Post({onScrolling,  post, classes, isDetail }) {
              
           </div>
           <div className={classes.postBottomRight}>
-            <div className={classes.postCommentText} onClick={(e) => { e.stopPropagation(); setIsVisible(!isVisible);}} >{comments.length} comments</div>
+          <Link style={{textDecoration: 'none', color: COLORS.textColor}} to={{pathname:`/postdetail/${user.username}`, state:{myObj: post}}}> <div className={classes.postCommentText} >{comments.length} comments</div></Link>
           </div>
         </div>
         <div ref={ref} className={classes.commentsWrapper}  style={{ display: isVisible ? "block" : "none" }}>

@@ -15,7 +15,6 @@ const userRoute = require('./routes/users.js');
 const authRoute = require('./routes/auth.js');
 const postRoute = require('./routes/posts.js');
 const commentRoute = require('./routes/comments.js');
-const messageRoute = require('./routes/messages.js');
 const path = require('path');
 const fs = require('fs');
 const Grid = require('gridfs-stream');
@@ -203,7 +202,6 @@ app.use('/users', userRoute);
 app.use('/auth',  authRoute);
 app.use('/posts', postRoute);
 app.use('/comments', commentRoute);
-app.use('/messages', messageRoute);
 app.use('/users', apiRouter);  
 
 app._router.stack.forEach(function(r){

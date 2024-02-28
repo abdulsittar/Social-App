@@ -12,17 +12,18 @@ import { ToastProvider, useToasts } from 'react-toast-notifications';
 
 function Home() {
     const [selectedValue, setSelectedValue] = useState('0');
+    const [searchTerm, setSearchTerm] = useState("");
 
     const isMobileDevice = useMediaQuery({ query: "(min-device-width: 480px)", });
     const isTabletDevice = useMediaQuery({ query: "(min-device-width: 768px)", });
 
     return (
         <>
-            <Topbar setSelectedValue={setSelectedValue}/>
+            <Topbar setSelectedValue={setSelectedValue} setSearchTerm={setSearchTerm}/>
             <ToastProvider style={{ 'margin': !isMobileDevice && !isTabletDevice && '0px 1px' }}>
-            <div className="homeContainer" style={{ 'margin': !isMobileDevice && !isTabletDevice && '0px 1px' }}>
+            <div className="homeContainer" style={{ 'margin': !isMobileDevice && !isTabletDevice && '50px 1px' }}>
                 { isMobileDevice && isTabletDevice && <Sidebar />}
-                <Feed selectedValue={selectedValue}/>
+                <Feed selectedValue={selectedValue} searchTerm={searchTerm} />
                 { isMobileDevice && isTabletDevice && <Rightbar2 />}
             </div>
             </ToastProvider>

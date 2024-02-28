@@ -13,14 +13,14 @@ const CommentSchema = new mongoose.Schema({
       type: String,
       required: true,
     },
-    likes: {
-      type:Array,
-      default:[]
-  },
-  dislikes: {
-      type:Array,
-      default:[]
-  },
+    likes: [{
+      type: mongoose.Schema.Types.ObjectId, 
+      ref: 'CommentLike'
+    }],
+  dislikes: [{
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'CommentDislike'
+  }],
     postId: {
       type:mongoose.Schema.Types.ObjectId,
       ref: 'Post'

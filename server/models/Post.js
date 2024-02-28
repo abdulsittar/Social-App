@@ -13,18 +13,23 @@ desc: {
 img:{
     type: String
 },
-likes: {
-    type:Array,
-    default:[]
-},
+reposts: [{
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'Repost'
+  }],
 pool: {
     type: String,
     default: "0"
 },
-dislikes: {
-    type:Array,
-    default:[]
-},
+likes: [{
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'PostLike'
+  }],
+
+dislikes: [{
+  type: mongoose.Schema.Types.ObjectId, 
+  ref: 'PostDislike'
+}],
 comments:[{
     type: mongoose.Schema.Types.ObjectId, 
     ref: 'Comment'

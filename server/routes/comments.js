@@ -1,8 +1,8 @@
 const Comment = require('../models/Comment');
+const CommentDislike = require('../models/CommentDislike');
+const CommentLike = require('../models/CommentLike');
 const router = require('express').Router();
 const bcrypt = require('bcrypt');
-
-
 
 /**
  * @swagger
@@ -43,13 +43,127 @@ const bcrypt = require('bcrypt');
  *         description: Some server error!
  */
 
-// like a post
-router.put('/:id/like', async(req, res) =>{
 
+// like a comment
+router.put('/:id/like', async(req, res) => {
+
+   const dislikedObj = await CommentDislike.find({"commentId": req.params.id, "userId" : req.body.userId})
+   console.log(dislikedObj);
+
+   const likedObj = await CommentLike.find({"commentId": req.params.id, "userId" : req.body.userId})
+   console.log(likedObj);
+
+   const isAlreadyLiked = false;
+   const isAlreadyDisliked = false;
+
+
+   if(likedObj.length > 0){
+    isAlreadyLiked = true
+    try{
+        const comment = await Comment.findById(req.params.id);
+        await comment.updateOne({$pull: { "likes": {"_id": likedObj[0]._id}}});
+        const dltobj = await CommentLike.findByIdAndDelete(likedObj[0]._id);
+        res.status(200).json("Deleted previous one liked");
+    }catch(err) {
+        res.status(500).json(err);
+    
+       }
+   } 
+
+   if(dislikedObj.length > 0){
+    isAlreadyDisliked = true
+    try{
+        const comment = await Comment.findById(req.params.id);
+        await comment.updateOne({$pull: { "dislikes": {"_id": dislikedObj[0]._id}}});
+        const dltobj = await CommentLike.findByIdAndDelete(dislikedObj[0]._id);
+        res.status(200).json("Deleted previous one disliked");
+    }catch(err) {
+        res.status(500).json(err);
+    
+       }
+   }
+
+
+   if(!isAlreadyLiked && !isAlreadyDisliked){
+    try {
+        const commentLike = new CommentLike({userId:req.body.userId, commentId:req.params.id});
+        await commentLike.save();
+        const comment = await Comment.findById(req.params.id);
+        await comment.updateOne({$push: { likes: commentLike } });
+        res.status(200).json(err);
+
+    } catch(err) {
+        res.status(500).json(err);
+
+    }
+}
+
+});
+
+
+// like a post
+router.put('/:id/dislike', async(req, res) =>{
+
+
+    const dislikedObj = await CommentDislike.find({"commentId": req.params.id, "userId" : req.body.userId})
+    console.log(dislikedObj);
+ 
+    const likedObj = await CommentLike.find({"commentId": req.params.id, "userId" : req.body.userId})
+    console.log(likedObj);
+ 
+    const isAlreadyLiked = false;
+    const isAlreadyDisliked = false;
+ 
+ 
+    if(likedObj.length > 0){
+     isAlreadyLiked = true
+     try{
+         const comment = await Comment.findById(req.params.id);
+         await comment.updateOne({$pull: { "likes": {"_id": likedObj[0]._id}}});
+         const dltobj = await CommentLike.findByIdAndDelete(likedObj[0]._id);
+         res.status(200).json("Deleted previous one liked");
+     }catch(err) {
+        res.status(500).json(err);
+     
+        }
+    } 
+ 
+    if(dislikedObj.length > 0){
+     isAlreadyDisliked = true
+     try{
+         const comment = await Comment.findById(req.params.id);
+         await comment.updateOne({$pull: { "dislikes": {"_id": dislikedObj[0]._id}}});
+         const dltobj = await CommentLike.findByIdAndDelete(dislikedObj[0]._id);
+         res.status(200).json("Deleted previous one disliked");
+     }catch(err) {
+        res.status(500).json(err);
+     
+        }
+    }
+
+       if(!isAlreadyLiked && !isAlreadyDisliked){
+    try{
+        const commentDislike = new CommentDislike({userId:req.body.userId, commentId:req.params.id});
+        await commentDislike.save();
+
+        const comment = await Comment.findById(req.params.id);
+        await comment.updateOne({$push: { dislikes: commentDislike } });
+        res.status(200).json("Done");
+
+    } catch(err) {
+        res.status(500).json(err);
+
+    }
+}
+});
+
+
+// like a comment
+router.put('/:id/like2', async(req, res) =>{
 console.log(req.params.id);
-console.log("comments testing");
 try {
     // Like a post
+    
     const comment = await Comment.findById(req.params.id);
     console.log("testing");
     console.log(comment);
@@ -67,7 +181,7 @@ try {
 })
 
 // like a post
-router.put('/:id/dislike', async(req, res) =>{
+router.put('/:id/dislike2', async(req, res) => {
 try {
     // Dislike a post
     const comment = await Comment.findById(req.params.id);

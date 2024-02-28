@@ -52,8 +52,7 @@ function CommentSA ({post, comment, isDetail, classes }) {
 
 
   const commentLikeHandler = () => {
-    console.log(comment._id);
-    console.log("comments testing");
+    if(!isDisliked){
     try {
       axios.put("/comments/" + comment._id + "/like", { userId: currentUser._id });
     } catch (err) { 
@@ -65,9 +64,14 @@ function CommentSA ({post, comment, isDetail, classes }) {
     if (comment.likes.length == 1){
       setIsLikedByOne(false);
     }
+  }else{
+    setDislike(dislike - 1);
+    setIsDisliked(false);
+  }
   };
 
   const commentDislikeHandler = () => {
+    if(!isLiked){
     try {
       axios.put("/comments/" + comment._id + "/dislike", { userId: currentUser._id });
     } catch (err) {console.log(err);}
@@ -77,6 +81,10 @@ function CommentSA ({post, comment, isDetail, classes }) {
     if (comment.dislikes.length == 1){
       setIsDislikedByOne(false);
     }
+  }else{
+    setLike(like - 1);
+    setIsLiked(false);
+  }
   };
 
 

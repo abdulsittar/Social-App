@@ -8,6 +8,7 @@ import {styles} from './shareStyle';
 import { useMediaQuery } from 'react-responsive';
 import InputEmoji from "react-input-emoji";
 import SendIcon from '@mui/icons-material/Send';
+import { Search } from '@material-ui/icons';
 
 function Share({classes}) {
     const { user } = useContext(AuthContext);
@@ -17,6 +18,8 @@ function Share({classes}) {
     const [file, setFile] = useState(null);
     const isMobileDevice = useMediaQuery({ query: "(min-device-width: 480px)", });
     const isTabletDevice = useMediaQuery({ query: "(min-device-width: 768px)", });
+
+    
 
     // submit a post
     const submitHandler = async (e) => {
@@ -48,8 +51,9 @@ function Share({classes}) {
     function handleChange(text) {
         setText(text)
         console.log("enter", text);
-    
       }
+
+      
 
 
     return (

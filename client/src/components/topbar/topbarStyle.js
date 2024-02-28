@@ -32,9 +32,19 @@ export const styles = {
     'width': '100%',
     'height': '45px',
     'backgroundColor': COLORS.postBackgroundColor,
+    'borderColor': COLORS.textColor, 
     'borderRadius': '30px',
     'display': 'flex',
-    'alignItems': 'center'
+    'alignItems': 'center',
+    lineHeight:'20px',
+    padding:'15px 10px',
+    color:COLORS.textColor,
+    fontSize:'20px',
+    '&:focus': {
+        outline: 'none',
+    }
+
+
   },
   'titleAndIcon': {
     'display': 'flex'
@@ -50,19 +60,18 @@ export const styles = {
     'color': 'white'
   },
   'searchInput': {
-    'border': 'none',
     'width': '100%',
-    'height': '95%',
+    'height': '40px',
     'borderRadius': '30px',
     'background': COLORS.postBackgroundColor,
-    color: '#d0d3db !important',
+    color: COLORS.textColor,
     '&:focus': {
         outline: 'none'
     }
   },
   'topbarRight': {
     'alignItems': 'center',
-    'justifyContent': 'space-around',
+    'justifyContent': 'flex-end',
     'color': COLORS.textColor
   },
   'topbarLink': {

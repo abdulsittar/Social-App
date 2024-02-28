@@ -15,7 +15,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import SimplePopover from '../popover/SimplePopover';
 
-function Topbar({ classes, setSelectedValue, isProfile }) {
+function Topbar({ classes, setSelectedValue, isProfile, setSearchTerm }) {
     const [fv, setFv] = useState(0);
     const { user }    = useContext(AuthContext);
     const PF          = process.env.REACT_APP_PUBLIC_FOLDER;
@@ -48,6 +48,10 @@ function Topbar({ classes, setSelectedValue, isProfile }) {
         setAnchorEl(null);
     };
 
+    function setSearchTermFunction(value) {
+        setSearchTerm(value);
+      }
+
     const onRadioChanged = e => {
         //console.log("radio avlues")
         //console.log(e.target.value)
@@ -78,7 +82,7 @@ function Topbar({ classes, setSelectedValue, isProfile }) {
                 <Link  style={{textDecoration: 'none'}} to='/'  className={classes.titleAndIcon}>
                     <HomeIcon className={classes.homeIcon} sx={{ color: COLORS.homeIconColor}} style={{'margin-top': !isMobileDevice && !isTabletDevice && '10px' }}/>
                     {!isMobileDevice && !isTabletDevice && <span className={classes.logo} style={{'margin-top': !isMobileDevice && !isTabletDevice && '10px' }}>TWON</span>}
-                    {isMobileDevice && isTabletDevice && <span className={classes.logo}>Twin of Online Social Networks</span>}
+                    {isMobileDevice && isTabletDevice && <span className={classes.logo}>TWON</span>}
                 </Link>
             </div>
 
@@ -90,9 +94,18 @@ function Topbar({ classes, setSelectedValue, isProfile }) {
                      </Link>
                      <KeyboardArrowDownIcon className={classes.downArrow} onClick={openProfileDetails} />
                      <SimplePopover anchorEl={anchorEl} handleClose={handleClose} />
+            </div>}
+
             </div>
-             }
-            </div>
+
+            {!isProfile?
+            <div className={classes.topbarCenter} style={{ 'backgroundColor': COLORS.backgroudColor, 'margin-top': (isMobileDevice || isTabletDevice) && '20px', 'display':  !isMobileDevice && !isTabletDevice && 'flex'}}  >
+                <div className={classes.searchbar}>
+                    <Search className={classes.searchIcon} />
+                    <input placeholder="Search" className={classes.searchInput} onChange={(event) => { setSearchTermFunction(event.target.value);}}/>
+                </div>
+            </div>: <div></div>
+            }
 
             {!isProfile?
             <div className={classes.topbarRight} style={{ 'margin-top': '-10px', 'backgroundColor': COLORS.backgroudColor, 'margin-top': '0px', 'display':  'flex', 'flex':  '4', 'flex-direction':  'row' }}>

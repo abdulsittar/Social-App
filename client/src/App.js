@@ -5,7 +5,6 @@ import Profile from "./pages/profile/Profile";
 import Register from "./pages/register/Register";
 import FollowersPage from "./pages/Followers/FollowersPage";
 import FollowingsPage from "./pages/Followings/FollowingsPage";
-import Messenger from './pages/messenger/Messenger';
 import {regSw, subscribe} from './helper.js';
 
 import {
@@ -32,7 +31,6 @@ function App() {
 		<Route exact path="/">{user ? <Home /> : <Login />}</Route>
 		<Route path="/login"><Login /></Route>
 		<Route path="/register"><Register /></Route>
-		<Route path="/messenger">{!user ? <Login /> : <Messenger />}</Route>
 		<Route path="/profile/:username"><Profile /></Route>
     <Route path="/followerspage/:username"><FollowersPage /></Route>
     <Route path="/followingspage/:username"><FollowingsPage /></Route>

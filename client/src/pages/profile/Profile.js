@@ -53,11 +53,7 @@ function Profile({ classes }) {
 };*/
 
 useEffect(() => {
-
-
   const pushResponse = async () => {
-    
-
     try {
       const serviceWorkerReg = await regSw ();
     //subscribe(serviceWorkerReg);

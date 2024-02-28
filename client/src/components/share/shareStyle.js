@@ -15,6 +15,29 @@ export const styles = {
     "display": "flex",
     "alignItems": "center"
   },
+  'searchbar': {
+    'width': '100%',
+    'height': '45px',
+    'backgroundColor': COLORS.postBackgroundColor,
+    'borderRadius': '30px',
+    'display': 'flex',
+    'alignItems': 'center'
+  },
+  'searchIcon': {
+    'fontSize': '27px !important',
+    'marginLeft': '10px'
+  },
+  'searchInput': {
+    'border': 'none',
+    'width': '100%',
+    'height': '95%',
+    'borderRadius': '30px',
+    'background': COLORS.postBackgroundColor,
+    color: '#000000 !important',
+    '&:focus': {
+        outline: 'none'
+    }
+  },
   "sendButton2": {
     "border": "none",
     "cursor": "pointer",
