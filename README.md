@@ -45,7 +45,7 @@ A MERN stack based social media application (MongoDB Express React Redux NodeJs)
  **And application will be up and running.**
 
 **Here are some images of application on desktop:**
-<<<<<<< HEAD
+
 ![login page](screenshots/2-Theme1And2-Login-Web.png)
 ![registration page](screenshots/1-Theme1And2-Signup-Web)
 ![home page](screenshots/3-Theme1-Home-Web.png)
@@ -58,6 +58,7 @@ A MERN stack based social media application (MongoDB Express React Redux NodeJs)
 ![profile page](screenshots/10-Theme2-Profile-Scroll2-Web.png)
 
 **Here are some images of application on mobile screens:**
+
 ![login page](screenshots/13-Theme2And1-Login-Mobile.jpg)
 ![registration page](screenshots/11-Theme2And1-Signup-Scroll1-Mobile.jpg)
 ![registration page](screenshots/12-Theme2And1-Signup-Scroll2-Mobile.jpg)
@@ -70,29 +71,3 @@ A MERN stack based social media application (MongoDB Express React Redux NodeJs)
 ![profile page](screenshots/20-Theme2-Profile-Scroll1-Mobile.jpg)
 ![profile page](screenshots/21-Theme2-Profile-Scroll2-Mobile.jpg)
 =======
-![login page]()
-![login page]()
-![registration page]()
-![registration page]()
-![home page]()
-![home page]()
-![post detail]()
-![post detail]()
-![profile page]()
-![profile page]()
-
-**Here are some images of application on mobile screens:**
-![login page]()
-![login page]()
-![registration page]()
-![registration page]()
-![home page]()
-![home page]()
-![post detail]()
-![post detail]()
-![profile page]()
-![profile page]()
->>>>>>> 22fc07c909818e9b10a9c6f8ba6daf777e5cf93d
-
-
-
