@@ -6,6 +6,7 @@ const User = require('./models/User.js');
 const swaggerJsdoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
 const mongoose = require('mongoose');
+mongoose.set('useFindAndModify', false);
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const dotenv = require('dotenv');
 const helmet = require('helmet');
