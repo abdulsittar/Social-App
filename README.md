@@ -44,33 +44,33 @@ A MERN stack based social media application (MongoDB Express React Redux NodeJs)
  **And application will be up and running.**
 
 
-# Below are a few screenshots showcasing the desktop application:
+# Screenshots showcasing the desktop view:
 ![login page](screenshots/2-Theme1And2-Login-Web.png)
 ![registration page](screenshots/1-Theme1And2-Signup-Web)
 
 
-# Below are a few screenshots showcasing the desktop application with dark mode:
+# Screenshots showcasing the desktop view with dark mode:
 ![home page](screenshots/3-Theme1-Home-Web.png)
 ![post detail](screenshots/4-Theme1-Post-detail-Web.png)
 ![profile page](screenshots/5-Theme1-Profile-Scroll1-Web.png)
 ![profile page](screenshots/6-Theme1-Profile-Scroll2-Web.png)
 
 
-# Below are a few screenshots showcasing the desktop application with light mode:
+# Screenshots showcasing the desktop view with light mode:
 ![home page](screenshots/7-Theme2-Home-Web.png)
 ![post detail](screenshots/8-Theme2-Post-detail-Web.png)
 ![profile page](screenshots/9-Theme2-Profile-Scroll1-Web.png)
 ![profile page](screenshots/10-Theme2-Profile-Scroll2-Web.png)
 
 
-# Below are a few screenshots showcasing the mobile application:
+# Screenshots showcasing the mobile view:
 ![login page](screenshots/13-Theme2And1-Login-Mobile.jpg)
 ![registration page](screenshots/11-Theme2And1-Signup-Scroll1-Mobile.jpg)
 ![registration page](screenshots/12-Theme2And1-Signup-Scroll2-Mobile.jpg)
 
 
 
-# Below are a few screenshots showcasing the mobile application with dark mode:
+# Screenshots showcasing the mobile view with dark mode:
 ![home page](screenshots/14-Theme1-Home- Mobile.jpg)
 ![post detail](screenshots/15-Theme1-Post-Detail- Mobile.jpg)
 ![profile page](screenshots/16-Theme1-Profile-Scroll1-Mobile.jpg)
@@ -78,7 +78,7 @@ A MERN stack based social media application (MongoDB Express React Redux NodeJs)
 
 
 
-# Below are a few screenshots showcasing the mobile application with light mode:
+# Screenshots showcasing the mobile view with light mode:
 ![home page](screenshots/18-Theme2-Home- Mobile.jpg)
 ![post detail](screenshots/19-Theme2-Post-Detail- Mobile.jpg)
 ![profile page](screenshots/20-Theme2-Profile-Scroll1-Mobile.jpg)
