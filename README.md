@@ -71,8 +71,8 @@ A MERN stack based social media application (MongoDB Express React Redux NodeJs)
 
 
 # The mobile view with dark mode:
-![home page](screenshots/14-Theme1-Home- Mobile.jpg)
-![post detail](screenshots/15-Theme1-Post-Detail- Mobile.jpg)
+![home page](screenshots/14-Theme1-Home-Mobile.jpg)
+![post detail](screenshots/15-Theme1-Post-Detail-Mobile.jpg)
 ![profile page](screenshots/16-Theme1-Profile-Scroll1-Mobile.jpg)
 ![profile page](screenshots/17-Theme1-Profile-Scroll2-Mobile.jpg)
 
