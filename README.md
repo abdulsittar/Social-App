@@ -1,4 +1,4 @@
-Demo website : https://mern-social-media-sdp.herokuapp.com/
+Demo website : [(https://socialapp.ijs.si/)](https://socialapp.ijs.si/)
 
 # TWON Social Application
 A MERN stack based social media application (MongoDB Express React Redux NodeJs).
