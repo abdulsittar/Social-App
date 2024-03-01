@@ -5,10 +5,10 @@ A MERN stack based social media application (MongoDB Express React Redux NodeJs)
 
 **user features:**
  - register and login users. 
- - pagination on every pages.
- - Light/Dark mode.
+ - pagination on every page.
+ - light and dark mode.
  - admin panel is included.
- - Explore page to view other posts by random users.
+ - explore page to view other posts by random users.
  - notifications page.
  - profile page.
  - edit profile page user data.
@@ -18,8 +18,8 @@ A MERN stack based social media application (MongoDB Express React Redux NodeJs)
  - like, and dislike a comment.
  - followings
  - followers
- - Recording viewed posts by users.
- - Recording read posts by users.
+ - recording viewed posts by users.
+ - recording read posts by users.
  - profile page shows user details and posts with following and followers menu.
    
 **Admin features:**
@@ -44,55 +44,36 @@ A MERN stack based social media application (MongoDB Express React Redux NodeJs)
 6.  Open  [localhost:3000](http://localhost:3000/)  in the browser.
  **And application will be up and running.**
 
-**Here are some images of application on desktop:**
-<<<<<<< HEAD
+# A few screenshots showcasing the desktop view:
 ![login page](screenshots/2-Theme1And2-Login-Web.png)
 ![registration page](screenshots/1-Theme1And2-Signup-Web)
+# The desktop view with dark mode:
 ![home page](screenshots/3-Theme1-Home-Web.png)
-![home page](screenshots/7-Theme2-Home-Web.png)
 ![post detail](screenshots/4-Theme1-Post-detail-Web.png)
-![post detail](screenshots/8-Theme2-Post-detail-Web.png)
 ![profile page](screenshots/5-Theme1-Profile-Scroll1-Web.png)
 ![profile page](screenshots/6-Theme1-Profile-Scroll2-Web.png)
+# The desktop view with light mode:
+![home page](screenshots/7-Theme2-Home-Web.png)
+![post detail](screenshots/8-Theme2-Post-detail-Web.png)
 ![profile page](screenshots/9-Theme2-Profile-Scroll1-Web.png)
 ![profile page](screenshots/10-Theme2-Profile-Scroll2-Web.png)
 
-**Here are some images of application on mobile screens:**
+# The mobile view:
 ![login page](screenshots/13-Theme2And1-Login-Mobile.jpg)
 ![registration page](screenshots/11-Theme2And1-Signup-Scroll1-Mobile.jpg)
 ![registration page](screenshots/12-Theme2And1-Signup-Scroll2-Mobile.jpg)
+# The mobile view with dark mode:
 ![home page](screenshots/14-Theme1-Home- Mobile.jpg)
-![home page](screenshots/18-Theme2-Home- Mobile.jpg)
 ![post detail](screenshots/15-Theme1-Post-Detail- Mobile.jpg)
-![post detail](screenshots/19-Theme2-Post-Detail- Mobile.jpg)
 ![profile page](screenshots/16-Theme1-Profile-Scroll1-Mobile.jpg)
 ![profile page](screenshots/17-Theme1-Profile-Scroll2-Mobile.jpg)
+# The mobile view with light mode:
+![home page](screenshots/18-Theme2-Home- Mobile.jpg)
+![post detail](screenshots/19-Theme2-Post-Detail- Mobile.jpg)
 ![profile page](screenshots/20-Theme2-Profile-Scroll1-Mobile.jpg)
 ![profile page](screenshots/21-Theme2-Profile-Scroll2-Mobile.jpg)
 =======
-![login page]()
-![login page]()
-![registration page]()
-![registration page]()
-![home page]()
-![home page]()
-![post detail]()
-![post detail]()
-![profile page]()
-![profile page]()
 
-**Here are some images of application on mobile screens:**
-![login page]()
-![login page]()
-![registration page]()
-![registration page]()
-![home page]()
-![home page]()
-![post detail]()
-![post detail]()
-![profile page]()
-![profile page]()
->>>>>>> 22fc07c909818e9b10a9c6f8ba6daf777e5cf93d
 
 
 
