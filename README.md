@@ -8,6 +8,7 @@ A MERN stack based social media application (MongoDB Express React Redux NodeJs)
 **Admin features:**
  - admin panel shows total number of post ,users, and comments.
  - admin can create, edit, and delete posts, users, and comments. 
+ - admin can like, dislike comments, and posts. 
 
 **user features:**
  - register and login users. 
@@ -26,11 +27,7 @@ A MERN stack based social media application (MongoDB Express React Redux NodeJs)
  - recording viewed posts by users.
  - recording read posts by users.
  - profile page shows user details and posts with following and followers menu.
-   
-**Admin features:**
- - admin panel shows total number of post ,users, and comments.
- - admin can create, edit, and delete posts, users, and comments.
- - admin can like, dislike comments, and posts. 
+
 
 **How to run this application**
 1. Make sure MongoDB is running on your system or online.
