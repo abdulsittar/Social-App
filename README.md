@@ -46,7 +46,7 @@ A MERN stack based social media application (MongoDB Express React Redux NodeJs)
 
 # A few screenshots showcasing the desktop view:
 ![login page](screenshots/2-Theme1And2-Login-Web.png)
-![registration page](screenshots/1-Theme1And2-Signup-Web)
+![registration page](screenshots/1-Theme1And2-Signup-Web.png)
 # The desktop view with dark mode:
 ![home page](screenshots/3-Theme1-Home-Web.png)
 ![post detail](screenshots/4-Theme1-Post-detail-Web.png)
@@ -63,13 +63,13 @@ A MERN stack based social media application (MongoDB Express React Redux NodeJs)
 ![registration page](screenshots/11-Theme2And1-Signup-Scroll1-Mobile.jpg)
 ![registration page](screenshots/12-Theme2And1-Signup-Scroll2-Mobile.jpg)
 # The mobile view with dark mode:
-![home page](screenshots/14-Theme1-Home- Mobile.jpg)
-![post detail](screenshots/15-Theme1-Post-Detail- Mobile.jpg)
+![home page](screenshots/14-Theme1-Home-Mobile.jpg)
+![post detail](screenshots/15-Theme1-Post-Detail-Mobile.jpg)
 ![profile page](screenshots/16-Theme1-Profile-Scroll1-Mobile.jpg)
 ![profile page](screenshots/17-Theme1-Profile-Scroll2-Mobile.jpg)
 # The mobile view with light mode:
-![home page](screenshots/18-Theme2-Home- Mobile.jpg)
-![post detail](screenshots/19-Theme2-Post-Detail- Mobile.jpg)
+![home page](screenshots/18-Theme2-Home-Mobile.jpg)
+![post detail](screenshots/19-Theme2-Post-Detail-Mobile.jpg)
 ![profile page](screenshots/20-Theme2-Profile-Scroll1-Mobile.jpg)
 ![profile page](screenshots/21-Theme2-Profile-Scroll2-Mobile.jpg)
 =======
