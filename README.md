@@ -44,38 +44,33 @@ A MERN stack based social media application (MongoDB Express React Redux NodeJs)
  **And application will be up and running.**
 
 
-
-**Here are some images of application on desktop:**
+# Below are a few screenshots showcasing the desktop application:
 ![login page](screenshots/2-Theme1And2-Login-Web.png)
 ![registration page](screenshots/1-Theme1And2-Signup-Web)
 
 
-
-
-**Here are some images of application on desktop with dark mode:**
+# Below are a few screenshots showcasing the desktop application with dark mode:
 ![home page](screenshots/3-Theme1-Home-Web.png)
 ![post detail](screenshots/4-Theme1-Post-detail-Web.png)
 ![profile page](screenshots/5-Theme1-Profile-Scroll1-Web.png)
 ![profile page](screenshots/6-Theme1-Profile-Scroll2-Web.png)
 
 
-
-**Here are some images of application on desktop with light mode:**
+# Below are a few screenshots showcasing the desktop application with light mode:
 ![home page](screenshots/7-Theme2-Home-Web.png)
 ![post detail](screenshots/8-Theme2-Post-detail-Web.png)
 ![profile page](screenshots/9-Theme2-Profile-Scroll1-Web.png)
 ![profile page](screenshots/10-Theme2-Profile-Scroll2-Web.png)
 
 
-
-**Here are some images of application on mobile screens:**
+# Below are a few screenshots showcasing the mobile application:
 ![login page](screenshots/13-Theme2And1-Login-Mobile.jpg)
 ![registration page](screenshots/11-Theme2And1-Signup-Scroll1-Mobile.jpg)
 ![registration page](screenshots/12-Theme2And1-Signup-Scroll2-Mobile.jpg)
 
 
 
-**Here are some images of application on mobile screens with dark mode:**
+# Below are a few screenshots showcasing the mobile application with dark mode:
 ![home page](screenshots/14-Theme1-Home- Mobile.jpg)
 ![post detail](screenshots/15-Theme1-Post-Detail- Mobile.jpg)
 ![profile page](screenshots/16-Theme1-Profile-Scroll1-Mobile.jpg)
@@ -83,7 +78,7 @@ A MERN stack based social media application (MongoDB Express React Redux NodeJs)
 
 
 
-**Here are some images of application on mobile screens with light mode:**
+# Below are a few screenshots showcasing the mobile application with light mode:
 ![home page](screenshots/18-Theme2-Home- Mobile.jpg)
 ![post detail](screenshots/19-Theme2-Post-Detail- Mobile.jpg)
 ![profile page](screenshots/20-Theme2-Profile-Scroll1-Mobile.jpg)
