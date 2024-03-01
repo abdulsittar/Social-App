@@ -1,9 +1,13 @@
-Demo website : [(https://socialapp.ijs.si/)](https://socialapp.ijs.si/)
+Website : [(https://socialapp.ijs.si/)](https://socialapp.ijs.si/)
 
 # TWON Social Application
 A MERN stack based social media application (MongoDB Express React Redux NodeJs).
 
 # Featurs included in this project:
+
+**Admin features:**
+ - admin panel shows total number of post ,users, and comments.
+ - admin can create, edit, and delete posts, users, and comments. 
 
 **user features:**
  - register and login users. 
@@ -11,7 +15,6 @@ A MERN stack based social media application (MongoDB Express React Redux NodeJs)
  - light and dark mode.
  - admin panel is included.
  - explore page to view other posts by random users.
- - notifications page.
  - profile page.
  - edit profile page user data.
  - password is stored in database in encrypted format with salt.
@@ -23,15 +26,6 @@ A MERN stack based social media application (MongoDB Express React Redux NodeJs)
  - recording viewed posts by users.
  - recording read posts by users.
  - profile page shows user details and posts with following and followers menu.
-   
-**Admin features:**
- - admin panel shows total number of post ,users, and comments.
- - admin can create, edit, and delete posts, users, and comments. 
-
-**What you need to run this application:**
-
- - Node 
- - MongoDB or Mongo Atlas
 
 **How to run this application**
 1. Make sure MongoDB is running on your system or online.
