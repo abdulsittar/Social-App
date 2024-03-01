@@ -23,14 +23,35 @@ const bcrypt = require('bcrypt');
  *           type: string
  *           description: Currently, empty string
  *         followers:
- *           type: string
+ *           type: array
  *           description: The followers of the user
  *         followings:
- *           type: string
+ *           type: array
  *           description: The followings of the user
+ *         viewedPosts:
+ *           type: array
+ *           description: The posts viewed by this user
+ *         readPosts:
+ *           type: array
+ *           description: The posts read by this user
  *         username:
  *           type: string
  *           description: The username of the user
+ *         pool:
+ *           type: string
+ *           description: Pool A or B
+ *         description:
+ *           type: string
+ *           description: Biography of the user
+ *         city:
+ *           type: string
+ *           description: City of the user
+ *         from:
+ *           type: string
+ *           description: Country of the user
+ *         relationship:
+ *           type: string
+ *           description: Marrital status of the user
  *         email:
  *           type: string
  *           format: email
@@ -43,6 +64,8 @@ const bcrypt = require('bcrypt');
  *         email: XYZ@gmail.com
  *         password: 123456
  */
+
+
 
 /**
  * @swagger

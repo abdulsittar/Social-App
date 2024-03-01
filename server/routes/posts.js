@@ -1,12 +1,14 @@
     {const router = require('express').Router();
     const Post = require('../models/Post');
     const User = require('../models/User');
+    const PostDislike = require('../models/PostDislike');
+    const PostLike = require('../models/PostLike');
     const Comment = require('../models/Comment');
     const Subscription = require('../models/Subscription');
     const webPush = require ('web-push');
     const mongoose = require('mongoose');
     const conn = mongoose.createConnection(process.env.DB_URL);
-
+    const { ObjectId } = require('mongodb');
     /**
      * @swagger
      * components:
@@ -27,8 +29,14 @@
      *           type: string
      *           description: The text of the post
      *         likes:
-     *           type: string
-     *           description: The likes of the user
+     *           type: array
+     *           description: an array of post-likes'
+     *         dislikes:
+     *           type: array
+     *           description: an array of post-dislikes'
+     *         reposts:
+     *           type: array
+     *           description: an array of reposts-users'
      *         comments:
      *           type: string
      *           format: email
@@ -40,6 +48,118 @@
      *         email: XYZ@gmail.com
      *         password: 123456
      */
+
+   /**
+     * @swagger
+     * components:
+     *   schemas:
+     *     Postlike:
+     *       type: object
+     *       required:
+     *         - userId
+     *         - postId
+     *       properties:
+     *         id:
+     *           type: string
+     *           description: The auto-generated id of the post
+     *         userId:
+     *           type: string
+     *           description: The id of a user who is liking the post.
+     *         postId:
+     *           type: string
+     *           description: The id of a post which is being liked.
+     */
+
+     /**
+     * @swagger
+     * components:
+     *   schemas:
+     *     Postdislike:
+     *       type: object
+     *       required:
+     *         - userId
+     *         - postId
+     *       properties:
+     *         id:
+     *           type: string
+     *           description: The auto-generated id of the post
+     *         userId:
+     *           type: string
+     *           description: The id of a user who is disliking the post.
+     *         postId:
+     *           type: string
+     *           description: The id of a post which is being disliked.
+     */
+
+
+     /**
+     * @swagger
+     * components:
+     *   schemas:
+     *     Repost:
+     *       type: object
+     *       required:
+     *         - userId
+     *         - postId
+     *       properties:
+     *         id:
+     *           type: string
+     *           description: The auto-generated id of the reposted object
+     *         userId:
+     *           type: string
+     *           description: The id of a user who is reposting the post.
+     *         postId:
+     *           type: string
+     *           description: The id of a post which is being reposted.
+     */
+
+     /**
+     * @swagger
+     * components:
+     *   schemas:
+     *     Readpost:
+     *       type: object
+     *       required:
+     *         - userId
+     *         - postId
+     *       properties:
+     *         id:
+     *           type: string
+     *           description: The auto-generated id of the post which is being read
+     *         userId:
+     *           type: string
+     *           description: The id of the user who is reading it.
+     *         postId:
+     *           type: string
+     *           description: The id of the post which is being read
+     */
+
+    /**
+     * 
+     /**
+     * @swagger
+     * components:
+     *   schemas:
+     *     Viewpost:
+     *       type: object
+     *       required:
+     *         - userId
+     *         - postId
+     *       properties:
+     *         id:
+     *           type: string
+     *           description: The auto-generated id of the post which is being viewed
+     *         userId:
+     *           type: string
+     *           description: The id of the user who is viewing it.
+     *         postId:
+     *           type: string
+     *           description: The id of the post which is being viewed
+     */
+
+    /**
+
+
 
     /**
      * @swagger
@@ -210,8 +330,170 @@
      *         description: Some server error!
      */
 
+
+// like a post
+router.put('/:id/like', async(req, res) => {
+
+    const dislikedObj = await PostDislike.find({"postId": req.params.id, "userId" : req.body.userId})
+    console.log("Disliked objects");
+    console.log(dislikedObj.length);
+ 
+    const likedObj = await PostLike.find({"postId": req.params.id, "userId" : req.body.userId})
+    console.log("Liked objects");
+    console.log(likedObj.length);
+ 
+    var isAlreadyLiked = false;
+    var isAlreadyDisliked = false;
+ 
+ 
+    if(likedObj.length > 0){
+     isAlreadyLiked = true
+     try {
+ 
+         const idl = new ObjectId(likedObj[0]._id)
+         Post.findOneAndUpdate({_id: req.params.id}, {$pull: {'likes': {$in: idl}}}, (err, block) => {
+             console.log(err)
+             console.log(block)
+         });
+         const dltobj = await PostLike.findByIdAndDelete({_id:idl}, (err, block) => {
+             console.log(err)
+             console.log(block)
+         });
+         res.status(200).json("Liked");
+     } catch(err) {
+         console.log(err);
+         res.status(500).json(err);
+        }
+    } 
+ 
+    if(dislikedObj.length > 0){
+     isAlreadyDisliked = true
+     try{
+ 
+         const idl = new ObjectId(dislikedObj[0]._id)
+         Post.findOneAndUpdate({_id: req.params.id}, {$pull: {'dislikes': {$in: idl}}}, (err, block) => {
+             console.log(err)
+             console.log(block)
+         });
+ 
+         const dltobj = await PostLike.findByIdAndDelete(dislikedObj[0]._id);
+         res.status(200).json("Disliked");
+     }catch(err) {
+         res.status(500).json(err);
+     
+        }
+    }
+ 
+ 
+    if(!isAlreadyLiked){
+     if(!isAlreadyDisliked){
+     try {
+         const postLike = new PostLike({userId:req.body.userId, postId:req.params.id});
+         await postLike.save();
+         console.log(postLike);
+         console.log("postLike is added");
+         const post = await Post.findById(req.params.id);
+         await post.updateOne({$push: { likes: postLike } });
+         const post2 = await Post.findById(req.params.id).populate({path : "likes", model: "PostLike"}).sort({ createdAt: 'descending' }).exec();
+         console.log(post2);
+         console.log("Post is liked");
+         res.status(200).json(post2);
+ 
+     } catch(err) {
+         console.log(err);
+         res.status(500).json(err);
+ 
+     }
+ }else{
+     console.log("Both are not false");
+     console.log(isAlreadyLiked);
+     console.log(isAlreadyDisliked);
+ }
+     }else{console.log(isAlreadyLiked);
+     }
+ });
+ 
+ // dislike a post
+ router.put('/:id/dislike', async(req, res) =>{
+ 
+     const dislikedObj = await PostDislike.find({"postId": req.params.id, "userId" : req.body.userId})
+     console.log("Disliked objects");
+     console.log(dislikedObj.length);
+  
+     const likedObj = await PostLike.find({"postId": req.params.id, "userId" : req.body.userId})
+     console.log("Liked objects");
+     console.log(likedObj.length);
+  
+     var isAlreadyLiked = false;
+     var isAlreadyDisliked = false;
+  
+     if(likedObj.length > 0){
+         isAlreadyLiked = true
+         try {
+     
+             const idl = new ObjectId(likedObj[0]._id)
+             Post.findOneAndUpdate({_id: req.params.id}, {$pull: {'likes': {$in: idl}}}, (err, block) => {
+                 console.log(err)
+                 console.log(block)
+             });
+             const dltobj = await PostLike.findByIdAndDelete({_id:idl}, (err, block) => {
+                 console.log(err)
+                 console.log(block)
+             });
+             res.status(200).json("Done");
+         } catch(err) {
+             console.log(err);
+             res.status(500).json(err);
+            }
+        } 
+  
+     if(dislikedObj.length > 0){
+         isAlreadyDisliked = true
+         try{
+     
+             const idl = new ObjectId(dislikedObj[0]._id)
+             Post.findOneAndUpdate({_id: req.params.id}, {$pull: {'dislikes': {$in: idl}}}, (err, block) => {
+                 console.log(err)
+                 console.log(block)
+             });
+     
+             const dltobj = await PostLike.findByIdAndDelete(dislikedObj[0]._id);
+             res.status(200).json("Disliked");
+         }catch(err) {
+             res.status(500).json(err);
+         
+            }
+        }
+ 
+     if(!isAlreadyLiked){
+         if(!isAlreadyDisliked){
+         try {
+         const postDislike = new PostDislike({userId:req.body.userId, postId:req.params.id});
+         await postDislike.save();
+         console.log(postDislike);
+         console.log("postDislike is added");
+ 
+         const post = await Post.findById(req.params.id);
+         await post.updateOne({$push: { dislikes: postDislike } });
+         console.log(post);
+         console.log("post is disliked");
+         res.status(200).json(post);
+ 
+     } catch(err) {
+         console.log(err);
+         res.status(500).json(err);
+     }
+ }else{
+     console.log("Both are not false");
+     console.log(isAlreadyLiked);
+     console.log(isAlreadyDisliked);
+ }
+     }else{console.log(isAlreadyLiked);
+     }
+ });
+
     // like a post
-    router.put('/:id/like', async(req, res) =>{
+    router.put('/:id/like2', async(req, res) =>{
     try {
     // Like a post
     const post = await Post.findById(req.params.id);
@@ -229,7 +511,7 @@
     })
 
     // like a post
-    router.put('/:id/dislike', async(req, res) =>{
+    router.put('/:id/dislike2', async(req, res) =>{
     try {
     // Dislike a post
     const post = await Post.findById(req.params.id);
@@ -367,7 +649,7 @@
     let resultsPerPage = 10
 
     return await Post.find({})
-    .populate({path : 'comments', populate:[{path : "userId", model: "User"}, {path: "CommentLike", model: ""}, {path: "CommentDislike", model: ""}]})
+    .populate({path : 'comments', populate:[{path : "userId", model: "User"}, {path: "likes", model: "PostLike"}, {path: "dislikes", model: "CommentDislike"}]})
     .sort({ createdAt: 'descending' })
     //.lean()
     .skip(page * resultsPerPage)
@@ -596,11 +878,6 @@
     res.status(500).json(err);
     }
     });
-
-
-
-
-
 
     /**
      * @swagger

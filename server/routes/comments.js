@@ -133,18 +133,16 @@ router.put('/:id/like', async(req, res) => {
 // like a post
 router.put('/:id/dislike', async(req, res) =>{
 
-
     const dislikedObj = await CommentDislike.find({"commentId": req.params.id, "userId" : req.body.userId})
     console.log("Disliked objects");
-   console.log(dislikedObj.length);
+    console.log(dislikedObj.length);
  
     const likedObj = await CommentLike.find({"commentId": req.params.id, "userId" : req.body.userId})
     console.log("Liked objects");
-   console.log(likedObj.length);
+    console.log(likedObj.length);
  
     var isAlreadyLiked = false;
     var isAlreadyDisliked = false;
- 
  
     if(likedObj.length > 0){
         isAlreadyLiked = true
@@ -277,6 +275,12 @@ try {
  *         postId:
  *           type: string
  *           description: The id of the post where this comment will be added
+ *         likes:
+ *           type: array
+ *           description: an array of comment-likes'
+ *         dislikes:
+ *           type: array
+ *           description: an array of comment-dislikes'
  *         username:
  *           type: string
  *           description: The username of the user who is commenting
@@ -286,6 +290,49 @@ try {
  *         password: 123456
  * 
  */
+
+
+   /**
+     * @swagger
+     * components:
+     *   schemas:
+     *     Commentlike:
+     *       type: object
+     *       required:
+     *         - userId
+     *         - postId
+     *       properties:
+     *         id:
+     *           type: string
+     *           description: The auto-generated id of the object
+     *         userId:
+     *           type: string
+     *           description: The id of a user who is liking the comment.
+     *         postId:
+     *           type: string
+     *           description: The id of a comment which is being liked.
+     */
+
+     /**
+     * @swagger
+     * components:
+     *   schemas:
+     *     Commentdislike:
+     *       type: object
+     *       required:
+     *         - userId
+     *         - postId
+     *       properties:
+     *         id:
+     *           type: string
+     *           description: The auto-generated id of the object
+     *         userId:
+     *           type: string
+     *           description: The id of a user who is disliking the comment.
+     *         postId:
+     *           type: string
+     *           description: The id of a comment which is being disliked.
+     */
 
 /**
  * @swagger
