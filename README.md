@@ -6,9 +6,9 @@ A MERN stack based social media application (MongoDB Express React Redux NodeJs)
 **user features:**
  - register and login users. 
  - pagination on every pages.
- - Light/Dark mode.
+ - light and dark mode.
  - admin panel is included.
- - Explore page to view other posts by random users.
+ - explore page to view other posts by random users.
  - profile page.
  - edit profile page user data.
  - password is stored in database in encrypted format with salt.
@@ -46,7 +46,7 @@ A MERN stack based social media application (MongoDB Express React Redux NodeJs)
 
 # Screenshots showcasing the desktop view:
 ![login page](screenshots/2-Theme1And2-Login-Web.png)
-![registration page](screenshots/1-Theme1And2-Signup-Web)
+![registration page](screenshots/1-Theme1And2-Signup-Web.png)
 
 
 # Screenshots showcasing the desktop view with dark mode:
