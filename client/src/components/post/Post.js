@@ -32,14 +32,15 @@ function Post({onScrolling,  post, classes, isDetail }) {
   //console.log(post);
   const [like, setLike] = useState(post.likes.length);
   const [dislike, setDislike] = useState(post.dislikes.length);
-  const [repost, setRepost] = useState(post.reposts? post.reposts.length: 0);
-
   const [isLiked, setIsLiked] = useState(false);
   const [isDisliked, setIsDisliked] = useState(false);
-  const [isReposted, setIsReposted] = useState(false);
-
   const [isLikedByOne, setIsLikedByOne] = useState(false);
   const [isDislikedByOne, setIsDislikedByOne] = useState(false);
+
+  const [repost, setRepost] = useState(post.reposts? post.reposts.length: 0);
+
+  const [isReposted, setIsReposted] = useState(false);
+
   const [user, setUser] = useState({});
   const [text, setText] = useState('');
   const linkify = linkifyit();
@@ -172,7 +173,7 @@ function Post({onScrolling,  post, classes, isDetail }) {
       console.log(err); }
   };
 
-  const likeHandler = () => {
+  /*const likeHandler = () => {
     try {
       axios.put("/posts/" + post._id + "/like", { userId: currentUser._id });
     } catch (err) { }
@@ -181,9 +182,10 @@ function Post({onScrolling,  post, classes, isDetail }) {
     if (post.likes.length == 1){
       setIsLikedByOne(false);
     }
-  };
+  };*/
 
-  const repostHandler = () => {
+
+  const repostHandler = async () => {
     try {
       axios.post("/posts/" + post._id + "/repost", { userId: currentUser._id });
     } catch (err) {
@@ -195,15 +197,82 @@ function Post({onScrolling,  post, classes, isDetail }) {
   };
 
 
-  const dislikeHandler = () => {
+  const likeHandler = async () => {
+    //if(!isDisliked){
+      try {
+        const p = await axios.put("/posts/" + post._id + "/like", { userId: currentUser._id });
+        console.log("likeHandler");
+        console.log(p);
+        console.log(p.data.likes.length);
+
+        
+        if(p.data.likes.length > 0){
+          
+          setIsLiked(p.data.likes.includes(currentUser._id));
+          setLike(p.data.likes.length);
+          setDislike(p.data.dislikes.length);
+        }
+          else{
+            setIsLiked(false);
+            setLike(0);
+            setDislike(0);
+          }
+
+      } catch (err) { console.log(err); }
+    
+    //if (p.likes.length == 1){
+    //  setIsLikedByOne(false);
+    //}
+   /* }else{
+      try {
+        const totLikes = axios.put("/posts/" + post._id + "/dislike", { userId: currentUser._id });
+
+        console.log(totLikes.length);
+        setDislike(totLikes.length);
+        if(totLikes.length > 0){
+          setIsDisliked(totLikes.includes(currentUser._id));}else{setIsDisliked(false);}
+      } catch (err) {console.log(err);}
+  }*/
+  };
+
+
+
+  const dislikeHandler = async () => {
+    //if(!isLiked){
     try {
-      axios.put("/posts/" + post._id + "/dislike", { userId: currentUser._id });
-    } catch (err) { }
-    setDislike(isDisliked ? dislike - 1 : dislike + 1);
-    setIsDisliked(!isDisliked);
-    if (post.dislikes.length == 1){
-      setIsDislikedByOne(false);
+      const p = await axios.put("/posts/" + post._id + "/dislike", { userId: currentUser._id });
+      console.log("dislike Handler");
+      if(p.data.dislikes.length > 0){
+        
+        setIsDisliked(p.data.dislikes.includes(currentUser._id));
+        setLike(p.data.likes.length);
+        setDislike(p.data.dislikes.length);
+      
+      }else{
+        setIsDisliked(false);
+        setLike(0);
+        setDislike(0);
+      }
+
+    } catch (err) {console.log(err);}
+    
+    //if (p.dislikes.length == 1){
+    //  setIsDislikedByOne(false);
+    //}
+ /* }else{
+    setIsLiked(false);
+
+    try {
+      const totLikes = axios.put("/posts/" + post._id + "/like", { userId: currentUser._id });
+
+      console.log(totLikes.length);
+      setLike(totLikes.length);
+      if(totLikes.length > 0){
+        setIsLiked(totLikes.includes(currentUser._id));}else{setIsLiked(false);}
+
+    } catch (err) { console.log(err);
     }
+  }*/
   };
 
   const showCommentsHandler = () => {
@@ -218,7 +287,6 @@ function Post({onScrolling,  post, classes, isDetail }) {
     }
   }
   //<img src={PF + post.img} alt="" className={classes.postImg} />
-
 
   return (
     <InView as="div" onChange={(inView, entry) => handleViewedChange(inView, post)}>

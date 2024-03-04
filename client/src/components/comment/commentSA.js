@@ -20,8 +20,10 @@ function CommentSA ({post, comment, isDetail, classes }) {
   const desc = useRef();
   const [like, setLike] = useState(comment.likes.length);
   const [dislike, setDislike] = useState(comment.dislikes.length);
+
   const [isLiked, setIsLiked] = useState(false);
   const [isDisliked, setIsDisliked] = useState(false);
+
   const [isLikedByOne, setIsLikedByOne] = useState(false);
   const [isDislikedByOne, setIsDislikedByOne] = useState(false);
   const [user, setUser] = useState({});
@@ -35,6 +37,7 @@ function CommentSA ({post, comment, isDetail, classes }) {
   useEffect(() => {
     setIsLiked(comment.likes.includes(currentUser._id));
     setIsLikedByOne(comment.likes.length == 1)
+    
     setIsDisliked(comment.dislikes.includes(currentUser._id));
     setIsDislikedByOne(comment.dislikes.length == 1)
 
@@ -51,40 +54,47 @@ function CommentSA ({post, comment, isDetail, classes }) {
   }, [post.userId])
 
 
-  const commentLikeHandler = () => {
-    if(!isDisliked){
-    try {
-      axios.put("/comments/" + comment._id + "/like", { userId: currentUser._id });
-    } catch (err) { 
 
+  const commentLikeHandler = async () => {
+    try {
+      const p = await axios.put("/comments/" + comment._id + "/like", { userId: currentUser._id });
+      console.log("likeHandler");
+      console.log(p);
+
+      if(p.data.likes.length > 0){
+          
+        setIsLiked(p.data.likes.includes(currentUser._id));
+        setLike(p.data.likes.length);
+        setDislike(p.data.dislikes.length);
+      }
+        else{
+          setIsLiked(false);
+          setLike(0);
+          setDislike(0);
+        }
+    } catch (err) { 
       console.log(err);
     }
-    setLike(isLiked ? like - 1 : like + 1);
-    setIsLiked(!isLiked);
-    if (comment.likes.length == 1){
-      setIsLikedByOne(false);
-    }
-  }else{
-    setDislike(dislike - 1);
-    setIsDisliked(false);
-  }
   };
 
-  const commentDislikeHandler = () => {
-    if(!isLiked){
+
+  const commentDislikeHandler = async () => {
+
     try {
-      axios.put("/comments/" + comment._id + "/dislike", { userId: currentUser._id });
+      const p =  await axios.put("/comments/" + comment._id + "/dislike", { userId: currentUser._id });
+      console.log("dislike Handler");
+      if(p.data.dislikes.length > 0){
+        
+        setIsDisliked(p.data.dislikes.includes(currentUser._id));
+        setLike(p.data.likes.length);
+        setDislike(p.data.dislikes.length);
+      
+      }else{
+        setIsDisliked(false);
+        setLike(0);
+        setDislike(0);
+      }
     } catch (err) {console.log(err);}
-    setDislike(isDisliked ? dislike - 1 : dislike + 1);
-    setIsDisliked(!isDisliked);
-    
-    if (comment.dislikes.length == 1){
-      setIsDislikedByOne(false);
-    }
-  }else{
-    setLike(like - 1);
-    setIsLiked(false);
-  }
   };
 
 

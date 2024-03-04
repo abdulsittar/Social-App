@@ -22,8 +22,8 @@ A MERN stack based social media application (MongoDB Express React Redux NodeJs)
  - create posts.
  - like, dislike, and comment on posts.
  - like, and dislike a comment.
- - followings
- - followers
+ - followings.
+ - followers.
  - recording viewed posts by users.
  - recording read posts by users.
  - profile page shows user details and posts with following and followers menu.

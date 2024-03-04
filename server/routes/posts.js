@@ -334,23 +334,22 @@
 // like a post
 router.put('/:id/like', async(req, res) => {
 
-    const dislikedObj = await PostDislike.find({"postId": req.params.id, "userId" : req.body.userId})
+    const post = await Post.findById(req.params.id).populate([{path : "likes", model: "PostLike"}, {path : "dislikes", model: "PostDislike"}]).sort({ createdAt: 'descending' }).exec();
     console.log("Disliked objects");
-    console.log(dislikedObj.length);
+    console.log(post.dislikes.length);
  
-    const likedObj = await PostLike.find({"postId": req.params.id, "userId" : req.body.userId})
+    //const likedObj = await PostLike.find({"postId": req.params.id, "userId" : req.body.userId})
     console.log("Liked objects");
-    console.log(likedObj.length);
+    console.log(post.likes.length);
  
     var isAlreadyLiked = false;
     var isAlreadyDisliked = false;
  
- 
-    if(likedObj.length > 0){
+    if(post.likes.length > 0){
      isAlreadyLiked = true
      try {
- 
-         const idl = new ObjectId(likedObj[0]._id)
+        console.log("LIKE - 1");
+         const idl = new ObjectId(post.likes[0]._id)
          Post.findOneAndUpdate({_id: req.params.id}, {$pull: {'likes': {$in: idl}}}, (err, block) => {
              console.log(err)
              console.log(block)
@@ -359,25 +358,34 @@ router.put('/:id/like', async(req, res) => {
              console.log(err)
              console.log(block)
          });
-         res.status(200).json("Liked");
+
+         const post2 = await Post.findById(req.params.id).populate([{path : "likes", model: "PostLike"}, {path : "dislikes", model: "PostDislike"}]).sort({ createdAt: 'descending' }).exec();
+         console.log(post2);
+         res.status(200).json(post2);
      } catch(err) {
          console.log(err);
          res.status(500).json(err);
         }
     } 
  
-    if(dislikedObj.length > 0){
+    else if(post.dislikes.length > 0){
      isAlreadyDisliked = true
      try{
- 
-         const idl = new ObjectId(dislikedObj[0]._id)
+        console.log("LIKE - 2");
+         const idl = new ObjectId(post.dislikes[0]._id)
          Post.findOneAndUpdate({_id: req.params.id}, {$pull: {'dislikes': {$in: idl}}}, (err, block) => {
              console.log(err)
              console.log(block)
          });
  
-         const dltobj = await PostLike.findByIdAndDelete(dislikedObj[0]._id);
-         res.status(200).json("Disliked");
+         const dltobj = await PostLike.findByIdAndDelete(idl, (err, block) => {
+            console.log(err)
+            console.log(block)
+        });
+
+         const post2 = await Post.findById(req.params.id).populate([{path : "likes", model: "PostLike"}, {path : "dislikes", model: "PostDislike"}]).sort({ createdAt: 'descending' }).exec();
+         console.log(post2);
+         res.status(200).json(post2);
      }catch(err) {
          res.status(500).json(err);
      
@@ -388,15 +396,15 @@ router.put('/:id/like', async(req, res) => {
     if(!isAlreadyLiked){
      if(!isAlreadyDisliked){
      try {
+        console.log("LIKE - 3");
          const postLike = new PostLike({userId:req.body.userId, postId:req.params.id});
          await postLike.save();
          console.log(postLike);
          console.log("postLike is added");
          const post = await Post.findById(req.params.id);
          await post.updateOne({$push: { likes: postLike } });
-         const post2 = await Post.findById(req.params.id).populate({path : "likes", model: "PostLike"}).sort({ createdAt: 'descending' }).exec();
+         const post2 = await Post.findById(req.params.id).populate([{path : "likes", model: "PostLike"}, {path : "dislikes", model: "PostDislike"}]).sort({ createdAt: 'descending' }).exec();
          console.log(post2);
-         console.log("Post is liked");
          res.status(200).json(post2);
  
      } catch(err) {
@@ -416,49 +424,61 @@ router.put('/:id/like', async(req, res) => {
  // dislike a post
  router.put('/:id/dislike', async(req, res) =>{
  
-     const dislikedObj = await PostDislike.find({"postId": req.params.id, "userId" : req.body.userId})
+     const post = await Post.findById(req.params.id).populate([{path : "likes", model: "PostLike"}, {path : "dislikes", model: "PostDislike"}]).sort({ createdAt: 'descending' }).exec();
      console.log("Disliked objects");
-     console.log(dislikedObj.length);
+     console.log(post.dislikes.length);
   
-     const likedObj = await PostLike.find({"postId": req.params.id, "userId" : req.body.userId})
+     //const likedObj = await PostLike.find({"postId": req.params.id, "userId" : req.body.userId})
      console.log("Liked objects");
-     console.log(likedObj.length);
-  
+     console.log(post.likes.length);
+
      var isAlreadyLiked = false;
      var isAlreadyDisliked = false;
   
-     if(likedObj.length > 0){
+     if(post.likes.length > 0){
+        const idd = post.likes[0]._id
          isAlreadyLiked = true
          try {
-     
-             const idl = new ObjectId(likedObj[0]._id)
-             Post.findOneAndUpdate({_id: req.params.id}, {$pull: {'likes': {$in: idl}}}, (err, block) => {
+            
+            console.log("DISLIKE - 1");
+            const idl = new ObjectId(idd);
+            Post.findOneAndUpdate({_id: req.params.id}, {$pull: {'likes': {$in: idl}}}, (err, block) => {
                  console.log(err)
                  console.log(block)
              });
              const dltobj = await PostLike.findByIdAndDelete({_id:idl}, (err, block) => {
                  console.log(err)
                  console.log(block)
+
              });
-             res.status(200).json("Done");
+
+             const post = await Post.findById(req.params.id).populate([{path : "likes", model: "PostLike"}, {path : "dislikes", model: "PostDislike"}]).sort({ createdAt: 'descending' }).exec();
+             console.log(post);
+             res.status(200).json(post);
+             
+             
          } catch(err) {
              console.log(err);
              res.status(500).json(err);
             }
-        } 
-  
-     if(dislikedObj.length > 0){
+        } else if(post.dislikes.length > 0){
          isAlreadyDisliked = true
          try{
-     
-             const idl = new ObjectId(dislikedObj[0]._id)
+            console.log("DISLIKE - 2");
+             const idl = new ObjectId(post.dislikes[0]._id)
              Post.findOneAndUpdate({_id: req.params.id}, {$pull: {'dislikes': {$in: idl}}}, (err, block) => {
                  console.log(err)
                  console.log(block)
              });
      
-             const dltobj = await PostLike.findByIdAndDelete(dislikedObj[0]._id);
-             res.status(200).json("Disliked");
+             const dltobj = await PostLike.findByIdAndDelete(idl, (err, block) => {
+                 console.log(err)
+                 console.log(block)
+             });
+             const post2 = await Post.findById(req.params.id).populate([{path : "likes", model: "PostLike"}, {path : "dislikes", model: "PostDislike"}]).sort({ createdAt: 'descending' }).exec();
+             console.log(post2);
+             res.status(200).json(post2);
+             
          }catch(err) {
              res.status(500).json(err);
          
@@ -468,6 +488,7 @@ router.put('/:id/like', async(req, res) => {
      if(!isAlreadyLiked){
          if(!isAlreadyDisliked){
          try {
+        console.log("DISLIKE - 3");
          const postDislike = new PostDislike({userId:req.body.userId, postId:req.params.id});
          await postDislike.save();
          console.log(postDislike);
@@ -475,15 +496,15 @@ router.put('/:id/like', async(req, res) => {
  
          const post = await Post.findById(req.params.id);
          await post.updateOne({$push: { dislikes: postDislike } });
-         console.log(post);
-         console.log("post is disliked");
-         res.status(200).json(post);
- 
+         const post2 = await Post.findById(req.params.id).populate([{path : "likes", model: "PostLike"}, {path : "dislikes", model: "PostDislike"}]).sort({ createdAt: 'descending' }).exec();
+         console.log(post2);
+         res.status(200).json(post2);
      } catch(err) {
          console.log(err);
          res.status(500).json(err);
      }
  }else{
+
      console.log("Both are not false");
      console.log(isAlreadyLiked);
      console.log(isAlreadyDisliked);

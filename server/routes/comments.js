@@ -47,26 +47,30 @@ const { ObjectId } = require('mongodb');
  */
 
 
+
 // like a comment
 router.put('/:id/like', async(req, res) => {
 
-   const dislikedObj = await CommentDislike.find({"commentId": req.params.id, "userId" : req.body.userId})
+    const comment = await Comment.findById(req.params.id).populate([{path : "likes", model: "CommentLike"}, {path : "dislikes", model: "CommentDislike"}]).sort({ createdAt: 'descending' }).exec();
+        
+   //const dislikedObj = await CommentDislike.find({"commentId": req.params.id, "userId" : req.body.userId})
    console.log("Disliked objects");
-   console.log(dislikedObj.length);
+   console.log(comment.dislikes.length);
 
-   const likedObj = await CommentLike.find({"commentId": req.params.id, "userId" : req.body.userId})
+   //const likedObj = await CommentLike.find({"commentId": req.params.id, "userId" : req.body.userId})
    console.log("Liked objects");
-   console.log(likedObj.length);
+   console.log(comment.likes.length);
 
    var isAlreadyLiked = false;
    var isAlreadyDisliked = false;
 
-
-   if(likedObj.length > 0){
+   
+   if(comment.likes.length > 0){
+    const idl = new ObjectId(comment.likes[0]._id)
     isAlreadyLiked = true
     try {
-
-        const idl = new ObjectId(likedObj[0]._id)
+        console.log("LIKE - 1");
+        
         Comment.findOneAndUpdate({_id: req.params.id}, {$pull: {'likes': {$in: idl}}}, (err, block) => {
             console.log(err)
             console.log(block)
@@ -75,28 +79,35 @@ router.put('/:id/like', async(req, res) => {
             console.log(err)
             console.log(block)
         });
+        const comment = await Comment.findById(req.params.id).populate([{path : "likes", model: "CommentLike"}, {path : "dislikes", model: "CommentDislike"}]).sort({ createdAt: 'descending' }).exec();
         res.status(200).json(comment);
     } catch(err) {
+
         console.log(err);
         res.status(500).json(err);
        }
    } 
 
-   if(dislikedObj.length > 0){
+   if(comment.dislikes.length > 0){
+    const idl = new ObjectId(comment.dislikes[0]._id)
     isAlreadyDisliked = true
     try{
-
-        const idl = new ObjectId(dislikedObj[0]._id)
+        console.log("LIKE - 2");
+        
         Comment.findOneAndUpdate({_id: req.params.id}, {$pull: {'dislikes': {$in: idl}}}, (err, block) => {
             console.log(err)
             console.log(block)
         });
 
-        const dltobj = await CommentLike.findByIdAndDelete(dislikedObj[0]._id);
+        const dltobj = await CommentLike.findByIdAndDelete({_id:idl}, (err, block) => {
+            console.log(err)
+            console.log(block)
+        });
+        const comment = await Comment.findById(req.params.id).populate([{path : "likes", model: "CommentLike"}, {path : "dislikes", model: "CommentDislike"}]).sort({ createdAt: 'descending' }).exec();
         res.status(200).json(comment);
     }catch(err) {
+
         res.status(500).json(err);
-    
        }
    }
 
@@ -104,13 +115,14 @@ router.put('/:id/like', async(req, res) => {
    if(!isAlreadyLiked){
     if(!isAlreadyDisliked){
     try {
+        console.log("LIKE - 3");
         const commentLike = new CommentLike({userId:req.body.userId, commentId:req.params.id});
         await commentLike.save();
         console.log(commentLike);
         console.log("Commentlike is added");
         const comment = await Comment.findById(req.params.id);
         await comment.updateOne({$push: { likes: commentLike } });
-        const comment2 = await Comment.findById(req.params.id).populate({path : "likes", model: "CommentLike"}).sort({ createdAt: 'descending' }).exec();
+        const comment2 = await Comment.findById(req.params.id).populate([{path : "likes", model: "CommentLike"}, {path : "dislikes", model: "CommentDislike"}]).sort({ createdAt: 'descending' }).exec();
         console.log(comment2);
         console.log("Comment is liked");
         res.status(200).json(comment2);
@@ -132,23 +144,25 @@ router.put('/:id/like', async(req, res) => {
 
 // like a post
 router.put('/:id/dislike', async(req, res) =>{
-
-    const dislikedObj = await CommentDislike.find({"commentId": req.params.id, "userId" : req.body.userId})
+    const comment = await Comment.findById(req.params.id).populate([{path : "likes", model: "CommentLike"}, {path : "dislikes", model: "CommentDislike"}]).sort({ createdAt: 'descending' }).exec();
+     
+    //const dislikedObj = await CommentDislike.find({"commentId": req.params.id, "userId" : req.body.userId})
     console.log("Disliked objects");
-    console.log(dislikedObj.length);
+    console.log(comment.dislikes.length);
  
-    const likedObj = await CommentLike.find({"commentId": req.params.id, "userId" : req.body.userId})
+    //const likedObj = await CommentLike.find({"commentId": req.params.id, "userId" : req.body.userId})
     console.log("Liked objects");
-    console.log(likedObj.length);
+    console.log(comment.likes.length);
  
     var isAlreadyLiked = false;
     var isAlreadyDisliked = false;
- 
-    if(likedObj.length > 0){
+    
+    if(comment.likes.length > 0){
+        const idl = new ObjectId(comment.likes[0]._id)
         isAlreadyLiked = true
         try {
-    
-            const idl = new ObjectId(likedObj[0]._id)
+            console.log("DISLIKE - 1");
+            
             Comment.findOneAndUpdate({_id: req.params.id}, {$pull: {'likes': {$in: idl}}}, (err, block) => {
                 console.log(err)
                 console.log(block)
@@ -157,24 +171,30 @@ router.put('/:id/dislike', async(req, res) =>{
                 console.log(err)
                 console.log(block)
             });
-            res.status(200).json("Done");
+            const comment = await Comment.findById(req.params.id).populate([{path : "likes", model: "CommentLike"}, {path : "dislikes", model: "CommentDislike"}]).sort({ createdAt: 'descending' }).exec();
+            res.status(200).json(comment);
         } catch(err) {
             console.log(err);
             res.status(500).json(err);
            }
        } 
  
-    if(dislikedObj.length > 0){
+    if(comment.dislikes.length > 0){
+        const idl = new ObjectId(comment.comment.dislikes[0]._id)
         isAlreadyDisliked = true
         try{
-    
-            const idl = new ObjectId(dislikedObj[0]._id)
+            console.log("DISLIKE - 2");
+            
             Comment.findOneAndUpdate({_id: req.params.id}, {$pull: {'dislikes': {$in: idl}}}, (err, block) => {
                 console.log(err)
                 console.log(block)
             });
     
-            const dltobj = await CommentLike.findByIdAndDelete(dislikedObj[0]._id);
+            const dltobj = await CommentLike.findByIdAndDelete({_id:idl}, (err, block) => {
+                console.log(err)
+                console.log(block)
+            });
+            const comment = await Comment.findById(req.params.id).populate([{path : "likes", model: "CommentLike"}, {path : "dislikes", model: "CommentDislike"}]).sort({ createdAt: 'descending' }).exec();
             res.status(200).json(comment);
         }catch(err) {
             res.status(500).json(err);
@@ -185,6 +205,7 @@ router.put('/:id/dislike', async(req, res) =>{
     if(!isAlreadyLiked){
         if(!isAlreadyDisliked){
         try {
+        console.log("DISLIKE - 3");
         const commentDislike = new CommentDislike({userId:req.body.userId, commentId:req.params.id});
         await commentDislike.save();
         console.log(commentDislike);
@@ -192,9 +213,10 @@ router.put('/:id/dislike', async(req, res) =>{
 
         const comment = await Comment.findById(req.params.id);
         await comment.updateOne({$push: { dislikes: commentDislike } });
-        console.log(comment);
-        console.log("Comment is disliked");
-        res.status(200).json(comment);
+        const comment2 = await Comment.findById(req.params.id).populate([{path : "likes", model: "CommentLike"}, {path : "dislikes", model: "CommentDislike"}]).sort({ createdAt: 'descending' }).exec();
+        console.log(comment2);
+        console.log("Comment is liked");
+        res.status(200).json(comment2);
 
     } catch(err) {
         console.log(err);
@@ -208,6 +230,10 @@ router.put('/:id/dislike', async(req, res) =>{
     }else{console.log(isAlreadyLiked);
     }
 });
+
+
+
+
 
 
 // like a comment
