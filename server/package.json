@@ -51,6 +51,7 @@
     "react-scripts": "^5.0.1",
     "react-toastify": "^8.0.0",
     "request": "^2.88.0",
+    "timeme.js": "^2.1.0",
     "util": "^0.12.5",
     "web-push": "^3.6.7"
   },

@@ -9,13 +9,34 @@ import { useMediaQuery } from 'react-responsive';
 import {regSw, subscribe} from '../../helper.js';
 import './home.css';
 import { ToastProvider, useToasts } from 'react-toast-notifications';
+import TimeMe from "timeme.js";
 
 function Home() {
     const [selectedValue, setSelectedValue] = useState('0');
     const [searchTerm, setSearchTerm] = useState("");
+    const [shouldSendEvent, setShouldSendEvent] = useState(false);
 
     const isMobileDevice = useMediaQuery({ query: "(min-device-width: 480px)", });
     const isTabletDevice = useMediaQuery({ query: "(min-device-width: 768px)", });
+
+    console.log(TimeMe.getTimeOnCurrentPageInSeconds());
+
+    useEffect(() => {
+        TimeMe.initialize({
+          currentPageName: "HomePage", // current page
+          idleTimeoutInSeconds: 15 // seconds
+          });
+      
+          TimeMe.callWhenUserLeaves(() => {
+          setShouldSendEvent(true);
+          });
+        
+          TimeMe.callWhenUserReturns(() => {
+          setShouldSendEvent(false);
+          });
+      
+        }, []);
+
 
     return (
         <>

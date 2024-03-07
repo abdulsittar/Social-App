@@ -15,6 +15,7 @@ import { Link } from 'react-router-dom';
 import { useHistory } from "react-router";
 import {COLORS} from '../../components/values/colors.js';
 //import User from '../../../../server/models/User';
+import TimeMe from "timeme.js";
 
 function Postdetail({ classes }) {
   const history = useHistory();
@@ -23,6 +24,7 @@ function Postdetail({ classes }) {
   const [selectedValue, setSelectedValue] = useState('0');
   const isMobileDevice = useMediaQuery({ query: "(min-device-width: 480px)"});
   const isTabletDevice = useMediaQuery({ query: "(min-device-width: 768px)"});
+  const [shouldSendEvent, setShouldSendEvent] = useState(false);
 
   const { user: currentUser, dispatch } = useContext(AuthContext);
   const username = useParams().username;
@@ -33,7 +35,23 @@ function Postdetail({ classes }) {
 
   useEffect(() => {
     handleReadChange();
-    }, [username])
+    }, [username]);
+
+    useEffect(() => {
+      TimeMe.initialize({
+        currentPageName: "PostDetailPage", // current page
+        idleTimeoutInSeconds: 15 // seconds
+        });
+    
+        TimeMe.callWhenUserLeaves(() => {
+        setShouldSendEvent(true);
+        });
+      
+        TimeMe.callWhenUserReturns(() => {
+        setShouldSendEvent(false);
+        });
+    
+      }, []);
 
   return (
     <>

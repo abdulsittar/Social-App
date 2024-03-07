@@ -9,12 +9,13 @@ import {styles} from './registerPageStyle'
 import Avatar from '@material-ui/core/Avatar';
 import TextField from '@material-ui/core/TextField';
 import axios from "axios";
+import TimeMe from "timeme.js";
 
 function Register({classes}) {
   const history = useHistory();
   const {user, isFetching, error, dispatch} = useContext(AuthContext);
   const [passwordErr, setPasswordErr] = useState('');
-  
+  const [shouldSendEvent, setShouldSendEvent] = useState(false);
 
   const handleClick = async (e) => {
     e.preventDefault();

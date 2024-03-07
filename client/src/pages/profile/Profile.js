@@ -16,6 +16,8 @@ import { colors } from '@material-ui/core';
 import { toast } from 'react-toastify';
 import { ToastContainer } from 'react-toastify';
 import {regSw, subscribe} from '../../helper.js';
+import TimeMe from "timeme.js";
+
 //import { ToastProvider, useToasts } from 'react-toast-notifications';
 
 //import showToast from "../../components/toastify/toastify";
@@ -38,6 +40,7 @@ function Profile({ classes }) {
     const [followed, setFollowed] = useState([]);
     const [isProfileFetched, setIsProfileFetched] = useState(true);
     const [prevUN, setPrevUN] = useState("");
+    const [shouldSendEvent, setShouldSendEvent] = useState(false);
 
   /*const YourComponent = () => {
   const { addToast } = useToasts();
@@ -90,6 +93,24 @@ useEffect(() => {
   setIsProfileFetched(false);
 //}
 }, [username]);
+
+
+useEffect(() => {
+  TimeMe.initialize({
+    currentPageName: "ProfilePage", // current page
+    idleTimeoutInSeconds: 15 // seconds
+    });
+
+    TimeMe.callWhenUserLeaves(() => {
+    setShouldSendEvent(true);
+    });
+  
+    TimeMe.callWhenUserReturns(() => {
+    setShouldSendEvent(false);
+    });
+
+  }, []);
+
 
     useEffect(() => {
       setFollowed(currentUser.followings.includes(usr._id));

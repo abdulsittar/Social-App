@@ -180,7 +180,7 @@ router.put('/:id/dislike', async(req, res) =>{
        } 
  
     if(comment.dislikes.length > 0){
-        const idl = new ObjectId(comment.comment.dislikes[0]._id)
+        const idl = new ObjectId(comment.dislikes[0]._id)
         isAlreadyDisliked = true
         try{
             console.log("DISLIKE - 2");

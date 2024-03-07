@@ -9,12 +9,33 @@ import { withStyles } from '@material-ui/core/styles';
 import {styles} from './loginPageStyle'
 import { Link } from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
+import TimeMe from "timeme.js";
+
 
 function Login({ classes }) {
   const {user, isFetching, error, dispatch} = useContext(AuthContext);
   const history = useHistory();
   const [passwordErr, setPasswordErr] = useState('');
+  const [shouldSendEvent, setShouldSendEvent] = useState(false);
+  const t = new Date().getTime();
+  console.log(TimeMe.getTimeOnCurrentPageInSeconds());
+
+  useEffect(() => {
+	TimeMe.initialize({
+		currentPageName: "Login", // current page
+		idleTimeoutInSeconds: 15 // seconds
+	  });
+
+	  TimeMe.callWhenUserLeaves(() => {
+		setShouldSendEvent(true);
+	  });
   
+	  TimeMe.callWhenUserReturns(() => {
+		setShouldSendEvent(false);
+	  });
+
+  }, []);
+
   const handleClick = (e) => {
 	e.preventDefault();
 	const email = document.getElementById('email').value;

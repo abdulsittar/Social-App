@@ -13,6 +13,7 @@ import {styles} from './followingsPageStyle';
 import { useMediaQuery } from 'react-responsive';
 import {COLORS} from '../../components/values/colors.js';
 //import User from '../../../../server/models/User';
+import TimeMe from "timeme.js";
 
 function FollowingsPage({ username, classes }) {
     const [user, setUser] = useState({});
@@ -21,6 +22,7 @@ function FollowingsPage({ username, classes }) {
     const [friends, setFriends] = useState([]);
     const isMobileDevice = useMediaQuery({ query: "(min-device-width: 480px)", });
     const isTabletDevice = useMediaQuery({ query: "(min-device-width: 768px)", });
+    const [shouldSendEvent, setShouldSendEvent] = useState(false);
 
     useEffect(() => {
         const getFriends = async () => {
@@ -33,6 +35,22 @@ function FollowingsPage({ username, classes }) {
         };
         getFriends();
       }, [currentUser]);
+
+      useEffect(() => {
+        TimeMe.initialize({
+          currentPageName: "FollowingsPage", // current page
+          idleTimeoutInSeconds: 15 // seconds
+          });
+      
+          TimeMe.callWhenUserLeaves(() => {
+          setShouldSendEvent(true);
+          });
+        
+          TimeMe.callWhenUserReturns(() => {
+          setShouldSendEvent(false);
+          });
+      
+        }, []);
 
 
     return (
