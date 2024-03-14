@@ -95,7 +95,7 @@ useEffect(() => {
 }, [username]);
 
 
-useEffect(() => {
+/* useEffect(() => {
   TimeMe.initialize({
     currentPageName: "ProfilePage", // current page
     idleTimeoutInSeconds: 15 // seconds
@@ -109,7 +109,7 @@ useEffect(() => {
     setShouldSendEvent(false);
     });
 
-  }, []);
+  }, []); */
 
 
     useEffect(() => {

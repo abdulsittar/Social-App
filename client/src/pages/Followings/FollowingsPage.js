@@ -36,7 +36,7 @@ function FollowingsPage({ username, classes }) {
         getFriends();
       }, [currentUser]);
 
-      useEffect(() => {
+     /* useEffect(() => {
         TimeMe.initialize({
           currentPageName: "FollowingsPage", // current page
           idleTimeoutInSeconds: 15 // seconds
@@ -50,7 +50,7 @@ function FollowingsPage({ username, classes }) {
           setShouldSendEvent(false);
           });
       
-        }, []);
+        }, []);*/
 
 
     return (

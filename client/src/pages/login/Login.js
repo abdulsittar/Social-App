@@ -20,7 +20,7 @@ function Login({ classes }) {
   const t = new Date().getTime();
   console.log(TimeMe.getTimeOnCurrentPageInSeconds());
 
-  useEffect(() => {
+  /*useEffect(() => {
 	TimeMe.initialize({
 		currentPageName: "Login", // current page
 		idleTimeoutInSeconds: 15 // seconds
@@ -34,7 +34,7 @@ function Login({ classes }) {
 		setShouldSendEvent(false);
 	  });
 
-  }, []);
+  }, []); */
 
   const handleClick = (e) => {
 	e.preventDefault();

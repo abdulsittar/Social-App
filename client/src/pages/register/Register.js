@@ -30,7 +30,6 @@ function Register({classes}) {
       setTimeout(() => { setPasswordErr(''); }, 5000) 
     
     } else {
-
       const user = {
         username: username,
         email: email,

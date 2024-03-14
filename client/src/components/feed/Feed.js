@@ -130,7 +130,7 @@ if (preProfile === " ") {
     const res = username ?  await axios.get("/posts/profile/" + username+`?page=${index}`) : await axios.get(whPosts + user._id+`?page=${index}`);
     console.log(res.data);
     console.log("fetch posts");
-
+    if(res.data.length){
     if(res.data.length > 0){
         setPosts((prevItems) => [...prevItems, ...res.data
             //.sort((p1,p2) => {return new Date(p2.createdAt) - new Date(p1.createdAt);})
@@ -147,10 +147,10 @@ if (preProfile === " ") {
     //setPreFilter(whPosts);
     console.log(whPosts);
     //setPosts(res.data.sort((p1,p2) => {return new Date(p2.createdAt) - new Date(p1.createdAt);})); 
-};
+}};
 
 function updateViewdPosts( post) {
-    const oldViewed = [...viewedPosts, post];
+    /*const oldViewed = [...viewedPosts, post];
     setViewedPosts(oldViewed);
     console.log("array  ", viewedPosts);
     console.log("post id  ", post);
@@ -158,7 +158,7 @@ function updateViewdPosts( post) {
     if(viewedPosts.length == 10){
         axios.put("/users/" + currentUser._id + "/viewed", { postId: post });
         setViewedPosts([]);
-    }
+    }*/
     }
 
 const fetchMoreData = async () => {

@@ -33,11 +33,32 @@ function Postdetail({ classes }) {
     axios.put("/users/" + currentUser._id + "/read", { postId: state.myObj._id });
 };
 
+const handleActivityRecorder = () => {
+  axios.put("/users/" + currentUser._id + "/activity", { page: "DetailPage", seconds: TimeMe.getTimeOnCurrentPageInSeconds() });
+};
+
   useEffect(() => {
     handleReadChange();
     }, [username]);
 
     useEffect(() => {
+      TimeMe.initialize({
+        currentPageName: "DetailPage", // current page
+        idleTimeoutInSeconds: 10 // seconds
+        });
+    
+        TimeMe.callWhenUserLeaves(() => {
+        setShouldSendEvent(true);
+        handleActivityRecorder();
+        });
+      
+        TimeMe.callWhenUserReturns(() => {
+        setShouldSendEvent(false);
+        });
+    
+      }, []);
+
+    /*useEffect(() => {
       TimeMe.initialize({
         currentPageName: "PostDetailPage", // current page
         idleTimeoutInSeconds: 15 // seconds
@@ -51,7 +72,7 @@ function Postdetail({ classes }) {
         setShouldSendEvent(false);
         });
     
-      }, []);
+      }, []);*/
 
   return (
     <>

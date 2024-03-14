@@ -43,6 +43,10 @@ readPosts: [{
     type: mongoose.Schema.Types.ObjectId, 
     ref: 'Readpost'
 }],
+activity: [{
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'TimeMe'
+}],
 isAdmin: {
     type: Boolean,
     default: false,

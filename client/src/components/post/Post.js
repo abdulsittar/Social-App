@@ -281,10 +281,10 @@ function Post({onScrolling,  post, classes, isDetail }) {
   }
 
   function handleViewedChange(view, post) {
-    if(view == true){
+    /*if(view == true){
     console.log("view ", view);
     onScrolling(post._id);
-    }
+    }*/
   }
   //<img src={PF + post.img} alt="" className={classes.postImg} />
 
@@ -320,7 +320,7 @@ function Post({onScrolling,  post, classes, isDetail }) {
          >
            {decoratedText}
          </a>
-       )}><div className={classes.postText} >{post?.desc.length > 100? <div className={classes.postText} >{post?.desc.substring(0, 100)} <Link to={{pathname:`/postdetail/${user.username}`, state:{myObj: post}}}>"....click to see more"</Link></div> :post?.desc}</div></Linkify>
+       )}><div className={classes.postText} >{!isDetail && post?.desc.length > 100? <div className={classes.postText} >{post?.desc.substring(0, 100)} <Link to={{pathname:`/postdetail/${user.username}`, state:{myObj: post}}}>"....click to see more"</Link></div> :post?.desc}</div></Linkify>
           
           
         </div>

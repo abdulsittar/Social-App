@@ -8,12 +8,15 @@ const crypto = require('crypto');
 const bcrypt = require('bcrypt');
 const path = require('path');
 const fs = require("fs");
+const Readpost = require('../models/Readpost');
 const multer = require('multer');
 const {v4: uuidv4} = require('uuid');
 var uniqueId = uuidv4();
 const { Readable } = require('stream');
+const TimeMe = require('../models/TimeMe');
 
 const conn = mongoose.createConnection(process.env.DB_URL);
+const { ObjectId } = require('mongodb');
 
 let gfs;
 
@@ -417,17 +420,55 @@ try {
 }
 })
 
+// TimeMe
+router.put('/:id/activity', async(req, res) =>{
+
+    try {
+        const timeMe = new TimeMe({userId:req.params.id, page:req.body.page, seconds: req.body.seconds});
+        timeMe.save( async(err, block) => {
+            const user = await User.findById(req.params.id);
+            await user.updateOne({$push: { activity: timeMe}});
+            res.status(200).json('The time has been saved!');
+
+        });
+        // Like a post
+
+    } catch(err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+    });
+
+
 // Read a post
 // like a post
 router.put('/:id/read', async(req, res) =>{
+
 try {
-    // Like a post
-    const user = await User.findById(req.params.id);
+    const user           = await User.findById(req.params.id);    
+    const isAlreadyThere = await Readpost.findById(req.body.postId);
+    var isAlreadyRead = false;
+
+    if(isAlreadyThere){
+        if(isAlreadyThere.length > 0){
+            isAlreadyRead = true
+        }
+    }
+    
+    if(isAlreadyRead == false){
+        const postRead = new Readpost({userId:req.params.id, postId:req.body.postId});
+        await postRead.save();
+        console.log(postRead);
+        console.log("postRead is added");
+    }
+
     if(!user.readPosts.includes(req.body.postId)) {
         await user.updateOne({$push: { readPosts: req.body.postId } });
         res.status(200).json('The post has been read!');
-    } 
+    }
+
 } catch(err) {
+    console.log(err);
     res.status(500).json(err);
 }
 })
