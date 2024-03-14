@@ -27,7 +27,7 @@ function FollowingsPage({ username, classes }) {
     useEffect(() => {
         const getFriends = async () => {
           try {
-            const friendList = await axios.get("/users/followings/" + currentUser._id);
+            const friendList = await axios.get("/users/allUsers/" + currentUser._id);
             setFriends(friendList.data);
           } catch (err) {
             console.log(err);

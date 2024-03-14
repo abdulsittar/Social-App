@@ -1,7 +1,7 @@
 import {COLORS} from '../values/colors.js';
 export const styles = {
   "sidebar": {
-    "flex": "2",
+    //"flex": "2",
     "height": "calc(100vh - 80px)",
     "overflowY": "scroll",
     "position": "sticky",

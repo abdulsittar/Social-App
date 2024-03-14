@@ -33,6 +33,7 @@ const fileUpload = require('express-fileupload');
 const cors = require('cors');
 var apiRouter = require('./routes/api.js');
 global.connectPool = require('./config/db.js'); 
+
 if (process.env.NODE_ENV === 'development') {
   global.nodeSiteUrl  = process.env.nodeSiteUrl 
   global.nodeAdminUrl = process.env.localAdminUrl 

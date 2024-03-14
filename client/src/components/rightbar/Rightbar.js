@@ -25,7 +25,7 @@ function Rightbar({ user, classes }) {
   useEffect(() => {
     const getFriends = async () => {
       try {
-        const friendList = await axios.get("/users/followings/" + user._id);
+        const friendList = await axios.get("/users/allUsers/" + user._id);
         setFriends(friendList.data);
       } catch (err) {
         console.log(err);
@@ -34,7 +34,7 @@ function Rightbar({ user, classes }) {
     getFriends();
   }, [user]);
 
-  const handleClick = async () => {
+  /*const handleClick = async () => {
     try {
       if (followed) {
         await axios.put(`/users/${user._id}/unfollow`, {
@@ -50,7 +50,7 @@ function Rightbar({ user, classes }) {
       setFollowed(!followed);
     } catch (err) {
     }
-  };
+  };*/
 
   const HomeRightbar = () => {
     return (
@@ -68,12 +68,12 @@ function Rightbar({ user, classes }) {
   const ProfileRightbar = () => {
     return (
       <>
-        {user.username !== currentUser.username && (
+        {/*user.username !== currentUser.username && (
           <button className={classes.rightbarFollowButton} onClick={handleClick}>
             {followed ? "Unfollow" : "Follow"}
             {followed ? <Remove /> : <Add />}
           </button>
-        )}
+        )*/}
         <h4 className={classes.rightbarTitle}>User information</h4>
         <div className={classes.rightbarInfo}>
           <div className={classes.rightbarInfoItem}>

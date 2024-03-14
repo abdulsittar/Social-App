@@ -26,7 +26,7 @@ export const styles = {
     'cursor': 'pointer'
   },
   'topbarCenter': {
-    'flex': '5'
+    'flex': '7'
   },
   'searchbar': {
     'width': '100%',

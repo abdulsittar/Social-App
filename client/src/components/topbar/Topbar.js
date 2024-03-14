@@ -99,7 +99,7 @@ function Topbar({ classes, setSelectedValue, isProfile, setSearchTerm }) {
             </div>
 
             {!isProfile?
-            <div className={classes.topbarCenter} style={{ 'backgroundColor': COLORS.backgroudColor, 'margin-top': (isMobileDevice || isTabletDevice) && '20px', 'display':  !isMobileDevice && !isTabletDevice && 'flex'}}  >
+            <div className={classes.topbarCenter} style={{ 'backgroundColor': COLORS.backgroudColor, 'margin-top': (isMobileDevice || isTabletDevice) && '0px', 'display':  !isMobileDevice && !isTabletDevice && 'flex'}}  >
                 <div className={classes.searchbar}>
                     <Search className={classes.searchIcon} />
                     <input placeholder="Search" className={classes.searchInput} onChange={(event) => { setSearchTermFunction(event.target.value);}}/>
@@ -107,8 +107,8 @@ function Topbar({ classes, setSelectedValue, isProfile, setSearchTerm }) {
             </div>: <div></div>
             }
 
-            {!isProfile?
-            <div className={classes.topbarRight} style={{ 'margin-top': '-10px', 'backgroundColor': COLORS.backgroudColor, 'margin-top': '0px', 'display':  'flex', 'flex':  '4', 'flex-direction':  'row' }}>
+            {/*!isProfile?
+            {<div className={classes.topbarRight} style={{ 'margin-top': '-10px', 'backgroundColor': COLORS.backgroudColor, 'margin-top': '0px', 'display':  'flex', 'flex':  '4', 'flex-direction':  'row' }}>
                 <FormControl row={true} style={{ 'margin-left': '0', "fontSize": "10px" }}>
                     <FormLabel id="demo-radio-buttons-group-label" style={{ text: 'white', 'margin': '0' }}></FormLabel>
                     <RadioGroup style={{ 'margin': '0', "fontSize": "10px" }} aria-labelledby="demo-radio-buttons-group-label" defaultValue="0" row={true} name="radio-buttons-group" onChange={onRadioChanged}>
@@ -116,9 +116,9 @@ function Topbar({ classes, setSelectedValue, isProfile, setSearchTerm }) {
                         <FormControlLabel value="1" control={<Radio />} label={<span style={{ "fontSize": !isMobileDevice && !isTabletDevice && "12px"}}>{"Followers"}</span>} />
                         <FormControlLabel value="2" control={<Radio />} label={<span style={{ "fontSize": !isMobileDevice && !isTabletDevice && "12px"}}>{"Followings"}</span>} />
                     </RadioGroup>
-                </FormControl>
+            </FormControl>}
             </div> : <div></div>
-            }
+            */}
             {(isMobileDevice || isTabletDevice) && 
             <div className={classes.topbarRight} >
                 <div className={classes.userInfo} style={{ alignItems: 'flex-end' }}>

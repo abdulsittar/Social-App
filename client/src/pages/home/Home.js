@@ -53,7 +53,7 @@ function Home() {
             <div className="homeContainer" style={{ 'margin': !isMobileDevice && !isTabletDevice && '50px 1px' }}>
                 { isMobileDevice && isTabletDevice && <Sidebar />}
                 <Feed selectedValue={selectedValue} searchTerm={searchTerm} />
-                { isMobileDevice && isTabletDevice && <Rightbar2 />}
+                {/* isMobileDevice && isTabletDevice && <Rightbar2 />*/}
             </div>
             </ToastProvider>
         </>

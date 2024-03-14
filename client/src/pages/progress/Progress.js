@@ -9,7 +9,7 @@ import axios from "axios";
 import { useParams } from 'react-router';
 import { Add, Remove } from "@material-ui/icons";
 import { withStyles } from '@material-ui/core/styles';
-import {styles} from './profileStyle';
+import {styles} from './progressStyle';
 import { useMediaQuery } from 'react-responsive';
 import TextField from '@material-ui/core/TextField'
 import { colors } from '@material-ui/core';
@@ -23,7 +23,7 @@ import TimeMe from "timeme.js";
 //import showToast from "../../components/toastify/toastify";
 
 //import User from '../../../../server/models/User';
-function Profile({ classes }) {
+function Progress({ classes }) {
     
     const [selectedImage, setSelectedImage] = useState(null);
     const [preImage, setPreImage] = useState(null);
@@ -294,4 +294,4 @@ useEffect(() => {
 
   }
 
-export default withStyles(styles)(Profile);
+export default withStyles(styles)(Progress);

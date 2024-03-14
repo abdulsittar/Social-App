@@ -77,7 +77,7 @@ export default function SimplePopover({anchorEl, handleClose}) {
 				<Typography className={classes.typography + ' ' + classes.desc}>Profile details</Typography>
 			</Link>
 		</div>
-		{ (!isMobileDevice || !isTabletDevice)?  
+		{/* (!isMobileDevice || !isTabletDevice)?  
 		<div>
 		<div className={classes.flex}>
 			<Avatar/>
@@ -92,7 +92,14 @@ export default function SimplePopover({anchorEl, handleClose}) {
 			</Link>
 		</div>
 		</div>: <div></div>
-		}
+	*/}
+		<div className={classes.flex}>
+			<Avatar/>
+			<Link to={`/progress/${user.username}`} style={{textDecoration:'none', color: '#111'}}>
+				<Typography className={classes.typography}>{"Progress"} </Typography>
+				<Typography className={classes.typography + ' ' + classes.desc}>Time Spent </Typography>
+			</Link>
+		</div>
 		<div className={classes.flex}>
 			<ExitToAppIcon className={classes.icon} />
 			<Typography className={classes.typography} onClick={logOut}>Log out</Typography>
