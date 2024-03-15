@@ -38,6 +38,7 @@ function Post({onScrolling,  post, classes, isDetail }) {
   const [isDislikedByOne, setIsDislikedByOne] = useState(false);
 
   const [repost, setRepost] = useState(post.reposts? post.reposts.length: 0);
+  const [rank, setRank] = useState(post.rank);//useState(post.reposts? post.reposts.length: 0);
 
   const [isReposted, setIsReposted] = useState(false);
 
@@ -303,7 +304,7 @@ function Post({onScrolling,  post, classes, isDetail }) {
             </span>
             </Link>
             <span className={classes.postDate}>{format(post.createdAt)}</span>
-            <span className={classes.postDate} style={{margin: '0px 0px 0px 20px',}}>{" Reposted by " + repost}</span>
+            <span className={classes.postDate} style={{margin: '0px 0px 0px 20px',}}>{" Reposted by " + repost + " Ranking " + rank}</span>
           </div>
           { (!isDetail)?
           <div className={classes.postTopRight}>

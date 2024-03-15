@@ -671,7 +671,7 @@ router.put('/:id/like', async(req, res) => {
 
     return await Post.find({})
     .populate({path : 'comments', populate:[{path : "userId", model: "User"}, {path: "likes", model: "PostLike"}, {path: "dislikes", model: "CommentDislike"}]})
-    .sort({ createdAt: 'descending' })
+    .sort({ rank: -1 })
     //.lean()
     .skip(page * resultsPerPage)
     .limit(resultsPerPage)

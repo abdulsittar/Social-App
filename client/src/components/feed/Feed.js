@@ -33,14 +33,14 @@ const increment  = (pv, iv) => {
     setIndex(pv+iv);
 };
 
-    async function registerAndSubscribe () {
+    /*async function registerAndSubscribe () {
     try {
         const serviceWorkerReg = await regSw ();
         await subscribe (serviceWorkerReg);
     } catch (error) {
         console.log (error);
     }
-}
+}*/
 
 const {user} = useContext(AuthContext);
 const [followed, setFollowed] = useState([]
@@ -204,7 +204,7 @@ function getWindowSize() {
     };
 
 useEffect(() => {
-    registerAndSubscribe();
+    //registerAndSubscribe();
 
     console.log("use effects!");
     

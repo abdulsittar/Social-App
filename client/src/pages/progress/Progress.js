@@ -16,13 +16,8 @@ import { colors } from '@material-ui/core';
 import { toast } from 'react-toastify';
 import { ToastContainer } from 'react-toastify';
 import {regSw, subscribe} from '../../helper.js';
-import TimeMe from "timeme.js";
+import { Line, Circle } from 'rc-progress';
 
-//import { ToastProvider, useToasts } from 'react-toast-notifications';
-
-//import showToast from "../../components/toastify/toastify";
-
-//import User from '../../../../server/models/User';
 function Progress({ classes }) {
     
     const [selectedImage, setSelectedImage] = useState(null);
@@ -40,45 +35,9 @@ function Progress({ classes }) {
     const [followed, setFollowed] = useState([]);
     const [isProfileFetched, setIsProfileFetched] = useState(true);
     const [prevUN, setPrevUN] = useState("");
-    const [shouldSendEvent, setShouldSendEvent] = useState(false);
-
-  /*const YourComponent = () => {
-  const { addToast } = useToasts();
-
-  const showToast = () => {
-    addToast('Your message here', { appearance: 'success' });
-  };
-
-  return (<></>);
-  <ToastProvider>
-          <YourComponent/>
-        </ToastProvider>
-};*/
+    const [percent, setPercent] = useState(10);
 
 useEffect(() => {
-  const pushResponse = async () => {
-    try {
-      const serviceWorkerReg = await regSw ();
-    //subscribe(serviceWorkerReg);
-      console.log(serviceWorkerReg);
-        const options = {}
-        let subscription = await serviceWorkerReg.pushManager.subscribe ({
-          userVisibleOnly: true,
-          applicationServerKey: 'BNWCUBl5yvadZGvj3zqoNZX648CT_PMW3z-2ey6g7-yGkFkIMwu_M-PiH-KkO_ARoT_5G8lkKOB16UbDa6yBPiE',
-        });
-        console.log(subscription);
-        //const res = axios.post(`/posts/subscribe`, subscription);
-        console.log (" pushing notification");
-        //console.log(res)
-
-      } catch (err){
-        console.log('Error', err);
-
-      }
-
-    
-  };
-
   const fetchUser = async () => {
     const res = await axios.get(`/users?username=${username}`)
     console.log("fetch user");
@@ -87,29 +46,9 @@ useEffect(() => {
     console.log(usr);
     setPrevUN(username);
 };
-//if(isProfileFetched){
-  pushResponse();
   fetchUser();
   setIsProfileFetched(false);
-//}
 }, [username]);
-
-
-/* useEffect(() => {
-  TimeMe.initialize({
-    currentPageName: "ProfilePage", // current page
-    idleTimeoutInSeconds: 15 // seconds
-    });
-
-    TimeMe.callWhenUserLeaves(() => {
-    setShouldSendEvent(true);
-    });
-  
-    TimeMe.callWhenUserReturns(() => {
-    setShouldSendEvent(false);
-    });
-
-  }, []); */
 
 
     useEffect(() => {
@@ -118,129 +57,7 @@ useEffect(() => {
         setPreImage(usr.profilePicture);
     }, [currentUser.followings, usr]);
 
-  const handleImageInputChange = (e) => {
-    const file = e.target.files[0];
-    usr.profilePicture = file;
-    
-    setSelectedImage(file);
-    setPreImage(URL.createObjectURL(file));
-  };
 
-  const handleDescription = (e) => {
-    setBio(e.target.value);
-  };
-
-  const handleCity = (e) => {
-    setCity(e.target.value);
-  };
-
-  const handleCountry = (e) => {
-    setCountry(e.target.value);
-    console.log("country value");
-    console.log(country);
-  };
-
-  const handleRelationship = (e) => {
-    setRelationship(e.target.value);
-  };
-
-  const handleUploadFromGallery = () => {
-    //console.log("handleUploadFromGallery");
-    document.getElementById('fileSeleID').innerHTML = "Select from Gallery";
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = 'image/*'; // Allow only image files
-    input.onchange = (e) => {
-      document.getElementById('fileSeleID').innerHTML = "File is selected!";
-      const file = e.target.files[0];
-      // Validate file type if needed
-      //console.log('Selected image:', file);
-      //console.log("selected file");
-      //console.log(file);
-      setSelectedImage(file);
-      //usr.profilePicture = file;
-      ////<input accept="image/*" type="file" onChange={handleImageInputChange} style={{ display: 'none' }} />
-      setPreImage(URL.createObjectURL(file));
-    };
-    input.click();
-  };
-
-  /*const handleClick = async () => {
-    try {
-      if (followed) {
-        await axios.put(`/users/${usr._id}/unfollow`, {
-          userId: currentUser._id,
-        });
-        dispatch({ type: "UNFOLLOW", payload: usr._id });
-      } else {
-        await axios.put(`/users/${usr._id}/follow`, {
-          userId: currentUser._id,
-        });
-        dispatch({ type: "FOLLOW", payload: usr._id });
-      }
-      setFollowed(!followed);
-    } catch (err) {
-    }
-  };*/
-
-  const handleUpload = async () => {
-    console.log("handleUpload");
-    // Handle the selected image and perform upload logic
-    
-      // Implement your upload logic here (e.g., send the image to the server)
-      //console.log('Selected image:', selectedImage);
-      //YourComponent.addToast('Your message here', { appearance: 'success' });
-      //YourComponent.showToast('Saved Successfully');
-      const profData = {
-        userId: usr._id,
-        desc: bio,
-        city: city,
-        from: country,
-        relationship: relationship,
-      };
-
-      const formData = new FormData();
-      formData.append('id', usr._id);
-      formData.append('desc', bio);
-      formData.append('city', city);
-      formData.append('relationship', relationship);
-      formData.append('from', country);
-
-      try {
-        if (selectedImage != null) {
-          console.log("selectedImage");
-          console.log(selectedImage);
-          formData.append('profilePicture', selectedImage);
-          const res = await axios.put(`/users/${usr._id}/updateProfile`, formData, {
-            headers: {
-              'Content-Type': 'multipart/form-data',
-            },
-        });
-        toast.success("Profile Saved")
-        //YourComponent.showToast('Saved Successfully');
-      } 
-      else 
-      {
-        console.log(formData);
-        const res = await axios.post(`/users/${usr._id}/updateProfile2`, profData);
-          //toast.success("Updated");
-          //const { addToast } = useToasts();
-          //YourComponent.showToast('Saved Successfully');
-          toast.success("Profile Saved")
-          
-      }
-      } catch (error) {
-        console.error('Error uploading image:', error);
-        toast.error("Failed to update the profile");
-        //YourComponent.showToast('Failed to upload the profile');
-        // Handle error
-      }
-     // const fetchUser = async () => {
-     //   const res = await axios.get(`/users?username=${username}`)
-     //   setUsr(res.data);
-    //};
-    //fetchUser()
-  };
    return (
         <>
         <Topbar isProfile="true"/>
@@ -254,13 +71,6 @@ useEffect(() => {
                   src={usr.coverPicture ? PF+usr.coverPicture : PF+"person/noCover.png"}
                   alt=""
                 />
-                {username == currentUser.username && (
-                <div className={classes.photosInfo}>
-                  <button id="fileSeleID" onClick={handleUploadFromGallery}>{"Select from Gallery"}</button>
-                  
-                  <button onClick={handleUpload}>Save profile</button>
-                </div>
-                )}
                 <img id='profileImg'
                   className={classes.profileUserImg}
                   src={usr.profilePicture ? PF + usr.profilePicture : PF+"person/noAvatar.png"}
@@ -281,17 +91,16 @@ useEffect(() => {
                 <input style= {{borderWidth: '1px', marginBottom: '10px'}} readOnly={!(usr.username == currentUser.username)} placeholder={usr.relationship? usr.relationship:"Whats is the status of your relationship?"} className={classes.shareInput} onChange={handleRelationship}  />*/}
               </div>
             </div>
-          <div className={classes.profileRightBottom} >
-              <Feed username={username} selectedValue={"0"}/>
-              {/* isMobileDevice && isTabletDevice && <Rightbar  user={usr} username={username}/>*/}
-            </div>
+
         </div>
+        </div>
+        <div style= {{width: '250px'}}>
+        <h3>Line Progress {percent}%</h3>
+          <Line percent={percent} strokeWidth={4} strokeColor="green" />
+          <Circle percent={percent} strokeWidth={4} strokeColor="green" />
         </div>
       </>
     );
-
-
-
   }
 
 export default withStyles(styles)(Progress);

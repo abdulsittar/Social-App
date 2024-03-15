@@ -57,14 +57,14 @@ function Profile({ classes }) {
 
 useEffect(() => {
   const pushResponse = async () => {
-    try {
+    /*try {
       const serviceWorkerReg = await regSw ();
     //subscribe(serviceWorkerReg);
       console.log(serviceWorkerReg);
         const options = {}
         let subscription = await serviceWorkerReg.pushManager.subscribe ({
           userVisibleOnly: true,
-          applicationServerKey: 'BNWCUBl5yvadZGvj3zqoNZX648CT_PMW3z-2ey6g7-yGkFkIMwu_M-PiH-KkO_ARoT_5G8lkKOB16UbDa6yBPiE',
+          applicationServerKey: process.env.APP_SERVER_KEY,
         });
         console.log(subscription);
         //const res = axios.post(`/posts/subscribe`, subscription);
@@ -74,9 +74,7 @@ useEffect(() => {
       } catch (err){
         console.log('Error', err);
 
-      }
-
-    
+      }*/
   };
 
   const fetchUser = async () => {

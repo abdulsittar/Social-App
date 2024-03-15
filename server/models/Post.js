@@ -1,3 +1,4 @@
+const { Decimal128, Double } = require('mongodb');
 const mongoose = require('mongoose');
 
 const PostSchema = new mongoose.Schema({
@@ -20,6 +21,10 @@ reposts: [{
 pool: {
     type: String,
     default: "0"
+},
+rank: {
+    type: Number,
+    default: 0.0
 },
 likes: [{
     type: mongoose.Schema.Types.ObjectId, 
