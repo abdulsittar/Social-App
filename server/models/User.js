@@ -47,6 +47,11 @@ activity: [{
     type: mongoose.Schema.Types.ObjectId, 
     ref: 'TimeMe'
 }],
+uniqueId:{
+    type: String,
+    required: true,
+    default: "0"
+},
 isAdmin: {
     type: Boolean,
     default: false,

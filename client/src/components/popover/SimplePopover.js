@@ -50,7 +50,7 @@ export default function SimplePopover({anchorEl, handleClose}) {
 
   const logOut = () => {
 	localStorage.removeItem("user");
-	history.push("/login");
+	history.push("/login/"+"0");
   }
 
   return (

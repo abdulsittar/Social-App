@@ -113,12 +113,14 @@ const bcrypt = require('bcrypt');
  */
 
 // REGISTER USER
-router.post('/register', async (req, res) => {
+router.post('/register/:userId', requireUserId, async (req, res) => {
 try{
+    console.log("here");
     // encrypt password
     const salt = await bcrypt.genSalt(10);
     //console.log(req.body.password)
     //console.log(salt)
+    console.log(req.query.userId);
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
     
     // create new user
@@ -126,9 +128,12 @@ try{
         username: req.body.username,
         email: req.body.email,
         password: hashedPassword,
+        uniqueId: req.query.userId
     });
 
     // save user and send response
+
+
     const user = await newUser.save();
     res.status(200).json(user);
 
@@ -198,5 +203,27 @@ try {
     res.status(500).json(err);
 }
 })
+
+
+function requireUserId(req, res, next) { 
+    console.log(req.params.userId);
+    console.log(req.body);
+    const userId = req.params.userId;
+
+    if (!userId) {
+        console.log("id not found");
+        // If userId parameter is missing, respond with an error or redirect
+        return res.status(400).json({ error: 'User ID is required' });
+    }
+    if(process.env.USER_IDS.indexOf(userId) > -1){
+        console.log("id found");
+        next();
+
+    }else{
+        console.log("id not found");
+        // If userId parameter is missing, respond with an error or redirect
+        return res.status(400).json({ error: 'User ID is required' });
+    }
+    }
 
 module.exports = router;

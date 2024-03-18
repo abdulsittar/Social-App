@@ -23,6 +23,19 @@ const crypto = require('crypto');
 const port = process.env.PORT || proPort;
 dotenv.config();
 
+const uuid = require('uuid');
+const userIdentifiers = Array.from({ length: 10 }, () => uuid.v4());
+const signupPageURLs = userIdentifiers.map(userId => `https://socialapp.ijs.si/register/${userId}`);
+const stringsText = signupPageURLs.join('\n');
+const filePath = 'strings.txt';
+fs.writeFile(filePath, stringsText, (err) => {
+  if (err) {
+      console.error('Error writing file:', err);
+  } else {
+      console.log('File saved successfully:', filePath);
+  }
+});
+
 // SocialApp
 // Admin
 //const app = express();
@@ -212,17 +225,24 @@ app._router.stack.forEach(function(r){
   }
 })
 
+
 // Serve frontend
 if (process.env.NODE_ENV === 'production') {
   console.log("Production!");
 
   app.use(express.static(path.join(__dirname, '../client/build')));
-  app.get('/', function (req, res) {
-  res.sendFile(
-      path.resolve(__dirname, '../', 'client', 'build', 'index.html')
-    )}
+
+  app.get('/*', function (req, res, next) {
+
+    if (/\.(jpg|jpeg|png|gif|bmp|webp)$/i.test(req.url)) {
+      // If it's an image request, skip to the next middleware
+      return next();
+  }
+
+  res.sendFile(path.resolve(__dirname, '../', 'client', 'build', 'index.html'))}
+  
   );
-  app.get('/', (req, res) => res.send('DONE'));
+  //app.get('/', (req, res) => res.send('DONE'));
   
 } else {
 
@@ -236,6 +256,9 @@ if (process.env.NODE_ENV === 'production') {
 
 // Swagger
 app.use( "/api-docs", swaggerUi.serve, swaggerUi.setup(specs, { explorer: true, customCssUrl: "https://cdn.jsdelivr.net/npm/swagger-ui-themes@3.0.0/themes/3.x/theme-newspaper.css",}));
+
+
+
 
 // Admin
 app.use(expressValidator());

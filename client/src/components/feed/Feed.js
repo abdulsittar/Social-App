@@ -232,9 +232,13 @@ useEffect(() => {
 
 }, [username, user._id, selectedValue, searchTerm])
 
+function refreshed(){
+    fetchPosts(0)
+}
+
 return (
     <div className={classes.feed}>
-        <InfiniteScroll dataLength={posts.length} next={fetchMoreData} hasMore={hasMore} loader={<Loader />} >
+        <InfiniteScroll dataLength={posts.length} next={fetchMoreData} hasMore={hasMore} loader={<Loader />} refreshFunction={refreshed} pullDownToRefresh pullDownToRefreshThreshold={50} pullDownToRefreshContent={<h3 style={{ textAlign: 'center' }}>&#8595; Pull down to refresh</h3>} releaseToRefreshContent={<h3 style={{ textAlign: 'center' }}>&#8593; Release to refresh</h3>}>
         <div className={classes.feedWrapper} style={{"width": (!isMobileDevice && !isTabletDevice) && (windowSize.innerWidth-10)+"px"}}>
             {( !username || username === user.username) && <Share/> }
             {posts.map((p) => {

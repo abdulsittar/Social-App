@@ -15,6 +15,9 @@ var uniqueId = uuidv4();
 const { Readable } = require('stream');
 const TimeMe = require('../models/TimeMe');
 
+const uuid = require('uuid');
+const userIdentifiers = uuid.v4();
+
 const conn = mongoose.createConnection(process.env.DB_URL);
 const { ObjectId } = require('mongodb');
 

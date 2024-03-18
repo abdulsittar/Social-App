@@ -30,8 +30,8 @@ function App() {
     <Router>
     <Switch>
 		<Route exact path="/">{user ? <Home /> : <Login />}</Route>
-		<Route path="/login"><Login /></Route>
-		<Route path="/register"><Register /></Route>
+		<Route path="/login/:userId"><Login /></Route>
+		<Route path="/register/:userId"><Register /></Route>
 		<Route path="/profile/:username"><Profile /></Route>
     <Route path="/progress/:username"><Progress /></Route>
     <Route path="/followerspage/:username"><FollowersPage /></Route>

@@ -41,6 +41,7 @@
     "timeago.js": "^4.0.2",
     "timeme.js": "^2.1.0",
     "url-loader": "^4.1.1",
+    "uuid": "^9.0.1",
     "web-vitals": "^1.0.1"
   },
   "engines": {

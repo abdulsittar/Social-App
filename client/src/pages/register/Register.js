@@ -10,12 +10,23 @@ import Avatar from '@material-ui/core/Avatar';
 import TextField from '@material-ui/core/TextField';
 import axios from "axios";
 import TimeMe from "timeme.js";
+import { useParams } from 'react-router-dom';
 
 function Register({classes}) {
   const history = useHistory();
   const {user, isFetching, error, dispatch} = useContext(AuthContext);
   const [passwordErr, setPasswordErr] = useState('');
   const [shouldSendEvent, setShouldSendEvent] = useState(false);
+  const [userId, setUserId] = useState("");
+
+  useEffect(() => {
+
+    console.log("user id");
+    const urlParts = window.location.pathname.split('/');
+    setUserId(urlParts[urlParts.length-1]);
+    console.log(userId);
+
+	}, []);
 
   const handleClick = async (e) => {
     e.preventDefault();
@@ -23,6 +34,8 @@ function Register({classes}) {
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
     const passwordAgain = document.getElementById('passwordAgain').value;
+
+
 
     if (passwordAgain !== password) {
       setPasswordErr("Passwords don't match!");
@@ -36,12 +49,14 @@ function Register({classes}) {
         password: password,
       };
       
+
+
       try {
-        const res = await axios.post("/auth/register", user);
+        const res = await axios.post(`/auth/register/${userId}`, user);
         dispatch({ type: "LOGIN_SUCCESS", payload: res.data });
         history.push("/");
       } catch (err) {
-        setPasswordErr("A user with this name/email already exists. Use a different name/email.");
+        setPasswordErr("A user with this name/email already exists. Use a different name/email. OR the used url for registrationis wrong.");
 
       }
     }
@@ -51,7 +66,7 @@ function Register({classes}) {
       <div className={classes.register}>
         <form className={classes.form} noValidate autoComplete="off" onSubmit={handleClick}>
 				<h1 style={{marginBottom: '10vh'}}>Sign Up</h1>
-				<p className={classes.text}>already have an account? <Link  style={{textDecoration: 'none'}} to='/login'>log in now</Link></p><p className={classes.disclaimor}>DISCLAIMER: This application was developed as part of a research project and is designed to gather data on user behavior and interactions, including post reactions and patterns. It is recommended that you refrain from using this application unless you willingly wish to contribute data to the project. In the event that you initially use the application but later decide to have your data removed, kindly contact us at alenka.gucek@ijs.si. Please note that this application is not intended for public use and does not serve as a general service.</p>
+				<p className={classes.text}>already have an account? <Link  style={{textDecoration: 'none'}} to={"/login/" + userId}>log in now</Link></p><p className={classes.disclaimor}>DISCLAIMER: This application was developed as part of a research project and is designed to gather data on user behavior and interactions, including post reactions and patterns. It is recommended that you refrain from using this application unless you willingly wish to contribute data to the project. In the event that you initially use the application but later decide to have your data removed, kindly contact us at alenka.gucek@ijs.si. Please note that this application is not intended for public use and does not serve as a general service.</p>
 				<Avatar alt='choose avatar' src="" className={classes.avatar}/>
             	<TextField className={classes.textField} id='username' name='username' label="Username" required/>
 				<TextField className={classes.textField} id='email' name='email' label="Email" type="email" required />
