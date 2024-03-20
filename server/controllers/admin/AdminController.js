@@ -56,6 +56,7 @@ if (req.method == "POST") {
         data.password = input.password; 
         res.set('content-type' , 'text/html; charset=mycharset'); 
         res.render('admin/login',{page_title:"Admin - Login",data:data,errorData:errorData});   
+        
     }else{  
         
         var email         = input.email;   

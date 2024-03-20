@@ -11,7 +11,7 @@
         </div>
 
         <div class="page-content"> 
-                <%- include ../elements/flash.ejs %>    
+                <%- include('../elements/flash.ejs');%>    
             <div class="page-header col-xs-12">
                 <div class="col-xs-12"> 
                         <h1>  <%=controller%> List <small>    </h1> 
@@ -34,6 +34,7 @@
                                             <th>User ID</th>
                                             <th>Username</th>
                                             <th>Email</th>
+                                            <th>UniqueId</th>
                                             <th>City</th>
                                             <th>Description</th>
                                             <th>Country</th>
@@ -58,6 +59,7 @@
                                             <td style="width: 15%;"><%=data[i]._id%></td> 
                                             <td style="width: 15%;"><%=data[i].username%></td> 
                                             <td style="width: 15%;"><%=data[i].email%></td> 
+                                            <td style="width: 15%;"><%=data[i].uniqueId%></td>
                                             <td style="width: 15%;"><%=data[i].city%></td> 
                                             <td style="width: 15%;"><%=data[i].desc%></td>
                                             <td style="width: 15%;"><%=data[i].from%></td>

@@ -24,7 +24,7 @@
             </div><!-- /.page-header -->
 
             <div class="row"> 
-                    <%- include ../elements/flash.ejs %>  
+                    <%- include('../elements/flash.ejs');%>  
                 <div class="col-xs-12 col-sm-12">
                     <div class=" ">  
                         <form method="post" action="<%=nodeAdminUrl%>/<%=controller%>/add" enctype="multipart/form-data">
@@ -48,7 +48,12 @@
                                     <input type="password" name="password" value="<%=data.password%>" id="form-field-select-1" placeholder="Passowrd" class="form-control">  
                                     <span class="error"><%=errorData.password%></span>   
                                 </div>  <br> 
-                                
+
+                                <div>
+                                    <label for="form-field-select-1"> Unique ID </label> 
+                                    <input type="text" name="uniqueId" value="<%=data.uniqueId%>" id="form-field-select-1" placeholder="uniqueId" class="form-control">  
+                                    <span class="error"><%=errorData.uniqueId%></span>   
+                                </div>  <br> 
 
                                 <div>
                                     <label for="form-field-select-1">Pool A/B</label> 

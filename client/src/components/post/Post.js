@@ -304,7 +304,7 @@ function Post({onScrolling,  post, classes, isDetail }) {
             </span>
             </Link>
             <span className={classes.postDate}>{format(post.createdAt)}</span>
-            <span className={classes.postDate} style={{margin: '0px 0px 0px 20px',}}>{" Reposted by " + repost + " Ranking " + rank}</span>
+            <span className={classes.postDate} style={{margin: '0px 0px 0px 20px',}}>{" Ranking " + rank}</span>
           </div>
           { (!isDetail)?
           <div className={classes.postTopRight}>

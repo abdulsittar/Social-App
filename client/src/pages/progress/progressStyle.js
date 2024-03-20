@@ -31,6 +31,38 @@ export const styles = {
       background: COLORS.textColor,
       position: 'relative'
     },
+    progressHead:{
+      fontSize: '14px',
+      marginTop: '10px',
+      marginBottom: '3vh',
+      color: '#444'
+    },
+    button: {
+      width: '100%',
+      backgroundColor: '#1b2021',
+      marginTop: '5vh',
+      height: '50px',
+      lineHeight: '50px',
+      fontSize: '17px',
+      textTransform: 'uppercase',
+      letterSpacing: '.6px',
+      color: '#dfe2e9',
+      cursor: 'pointer',
+      textAlign: 'center',    
+      appearance: 'none',
+      outline: 'none',
+      border: 'none',
+      transition: 'all .3s ease-in-out',
+      '&:hover': {
+        backgroundColor: COLORS.blueColor
+      }
+    },
+    progressVal:{
+      fontSize: '14px',
+      marginTop: '5px',
+      marginBottom: '1vh',
+      color: '#444'
+    },
     "profileCover": {
       "height": "320px",
       "position": "relative"
@@ -94,5 +126,78 @@ export const styles = {
     },
     "profileRightBottom": {
       "display": "flex",
+    },
+    question:{
+      marginBottom: '3vh',
+      marginTop: '3vh',
+      marginLeft:"1vh",
+      fontSize: '12px',
+      color: '#444',
+      justifyContent: 'left',
+      textAlign: 'left',
+      fontWeight: '500',
+      letterSpacing: '.7px',
+    },
+    label:{
+      marginBottom: '2vh',
+      marginTop: '2vh',
+      marginLeft:"2vh",
+      fontSize: '14px',
+      color: '#444',
+      justifyContent: 'left',
+      textAlign: 'left',
+      fontWeight: '500',
+      letterSpacing: '.7px',
+    },
+    label2:{
+      marginBottom: '2vh',
+      marginTop: '2vh',
+      marginLeft:"0vh",
+      fontSize: '14px',
+      color: '#444',
+      justifyContent: 'left',
+      textAlign: 'left',
+      fontWeight: '500',
+      letterSpacing: '.7px',
+    },
+    disclaimor:{
+      fontSize: '14px',
+      marginTop: '10px',
+      marginBottom: '3vh',
+      color: '#444',
+      fontWeight: '500',
+      justifyContent: 'left',
+      textAlign: 'left',
+      letterSpacing: '.7px',
+    },
+    secon_disclaimor:{
+      fontSize: '14px',
+      marginTop: '5px',
+      marginBottom: '1vh',
+      color: '#444',
+      fontWeight: '500',
+      justifyContent: 'left',
+      textAlign: 'left',
+      letterSpacing: '.7px',
+    },
+    disclaimor2:{
+      fontSize: '14px',
+      marginTop: '1vh',
+      marginBottom: '10px',
+      color: '#444',
+      fontWeight: '500',
+      justifyContent: 'left',
+      textAlign: 'left',
+      letterSpacing: '.7px',
+    },
+    disclaimor3:{
+      fontSize: '14px',
+      marginTop: '3vh',
+      marginBottom: '3px',
+      color: '#444',
+      fontWeight: '500',
+      justifyContent: 'left',
+      textAlign: 'left',
+      letterSpacing: '.7px',
     }
   }

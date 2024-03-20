@@ -226,6 +226,20 @@ app._router.stack.forEach(function(r){
 })
 
 
+
+// Admin
+app.use(expressValidator());
+app.use(cors()); 
+app.use(fileUpload()); 
+app.use(bodyParser.urlencoded({ extended: true }));
+app.set('view engine', 'ejs');  
+app.set('views', path.join(__dirname, 'views')); 
+app.use(express.static(path.join(__dirname  +'/public')));
+app.use(express.static(__dirname +'/public')); 
+
+
+
+
 // Serve frontend
 if (process.env.NODE_ENV === 'production') {
   console.log("Production!");
@@ -234,9 +248,14 @@ if (process.env.NODE_ENV === 'production') {
 
   app.get('/*', function (req, res, next) {
 
-    if (/\.(jpg|jpeg|png|gif|bmp|webp)$/i.test(req.url)) {
-      // If it's an image request, skip to the next middleware
-      return next();
+  if (/\.(jpg|jpeg|png|gif|bmp|webp)$/i.test(req.url)) {
+    // If it's an image request, skip to the next middleware
+    return next();
+  }
+
+  if (req.url.includes("admin")) {
+    // If it's an image request, skip to the next middleware
+    return next();
   }
 
   res.sendFile(path.resolve(__dirname, '../', 'client', 'build', 'index.html'))}
@@ -258,17 +277,8 @@ if (process.env.NODE_ENV === 'production') {
 app.use( "/api-docs", swaggerUi.serve, swaggerUi.setup(specs, { explorer: true, customCssUrl: "https://cdn.jsdelivr.net/npm/swagger-ui-themes@3.0.0/themes/3.x/theme-newspaper.css",}));
 
 
+ 
 
-
-// Admin
-app.use(expressValidator());
-app.use(cors()); 
-app.use(fileUpload()); 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.set('view engine', 'ejs');  
-app.set('views', path.join(__dirname, 'views'));  
-app.use(express.static(path.join(__dirname  +'/public')));
-app.use(express.static(__dirname +'/public')); 
 app.use(flash())
 app.use(cookieParser()); 
 app.use(expressSession({secret: 'D%$*&^lk32', resave: false,saveUninitialized: true})); 
@@ -278,7 +288,8 @@ app.use(express.urlencoded({limit: '100mb',extended: true }));
 app.get('/text/', (req, res) => {
   res.json({"message": "Welcome to EasyNotes application. Take notes quickly. Organize and keep track of all your notes."});
 });
-app.use('/admin/', apiRouter);   
+app.use('/admin/', apiRouter);
+   
 
 app.listen(port, () => console.log(`Server started on port ${port} and ${nodeSiteUrl}`));     
 

@@ -129,6 +129,7 @@ var errorData = {};
 //console.log("I am here");
 if (req.method == "POST") { 
     var input = JSON.parse(JSON.stringify(req.body));  
+    console.log(input)
     req.checkBody('userId', 'User ID is required').notEmpty();
     req.checkBody('desc', 'Post text is required').notEmpty();  
     var errors = req.validationErrors();    
@@ -143,7 +144,7 @@ if (req.method == "POST") {
             }); 
         }     
         data = input;   
-    }else{ 
+    } else { 
         // Upload Image 
         if (req.files && req.files.profile_pic !== "undefined") { 
             let profile_pic = req.files.profile_pic;  
@@ -162,7 +163,7 @@ if (req.method == "POST") {
         }  
         
         // create new user
-        const newPost = new Posts({userId: input.userId, desc: input.desc, desc: input.likes, desc: input.dislikes});
+        const newPost = new Posts({userId: input.userId, desc: input.desc, likes: input.likes, dislikes: input.dislikes});
 
         // save user and send response
         const SaveData = await newPost.save();
