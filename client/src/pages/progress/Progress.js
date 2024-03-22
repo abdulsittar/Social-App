@@ -18,11 +18,7 @@ import { ToastContainer } from 'react-toastify';
 import {regSw, subscribe} from '../../helper.js';
 import { Line, Circle } from 'rc-progress';
 import { CSSTransition } from 'react-transition-group';
-import {q1, q1_op1, q1_op2, q1_op3, q1_op4, q1_op5,  nein, ja, disclaimor_1, dear_part_2, wlcome_3, bitte_4,aimHEADING_5 ,aim_6 ,procedureHEADING_7 ,procedure_8 ,voluntaryHEADING_9 ,voluntary_10 ,other_11 ,dataprotHEADING_12 ,dataprot_13 ,datasharingHEADING_14 ,datasharing_15 ,retentionHEADING_16 ,retention_17 ,furtherHEADING_18 ,further_19 ,complaints_20 ,best_21 ,nme_22 ,consentHEADING_23 ,consent_24,
-  stat_info, geborn, ukraine, dank, login, noteusername, q2, q2_op1 , q2_op2,q2_op3 ,q3 ,q3_op1,q3_op2 ,q3_op3,q3_op4 ,q3_op5,q3_op6,q3_op7, q4 ,q4_op1,q4_op2,q4_op3,q4_op4,q4_op5, 
-  q5 , q5_op1 ,q5_op2, q5_op3 , q5_op4, q6, q6_op1, q6_op2,  q6_op3,  q6_op4,   q6_op5,  q6_op6,  q6_op7,  q6_op8,  q6_op9,  q6_op10,  q6_op11, q7 ,
-  q7_op1,  q7_op2, q7_op3, q7_op4, q7_op5, q8, q8_op1, q8_op2,  q8_op3,  q8_op4, q8_op5,  q9, q9_op1, q9_op2, q9_op3,  q9_op4 ,q9_op5, q10, q10_op1 ,
-  q10_op2, q10_op3 ,q10_op4 ,q10_op5 } from '../../constants';
+import {post_info_0, post_info_1,post_q1,post_info_2,post_q2, post_q2_op1,post_q2_op2,post_q2_op3, post_q2_op4,post_q2_op5 ,post_q3 ,post_q3_op1 , post_q3_op2 , post_q3_op3 ,post_q3_op4 ,post_q3_op5 , post_info_3 , post_info_4 , post_q4 ,post_q4_op1 ,post_q4_op2 ,post_q4_op3 , post_q4_op4,post_q4_op5 ,post_q4_op6 ,post_q4_op7 ,post_q5_op1 ,post_q5_op2  ,post_q5_op3 ,post_q5_op4 ,post_q5_op5 ,post_q5_op6,post_q5_op7,post_q6_op1 ,post_q6_op2 ,post_q6_op3 ,post_q6_op4 ,post_q6_op5 ,post_q6_op6 ,post_q6_op7 ,post_q7_op1 ,post_q7_op2 ,post_q7_op3 ,post_q7_op4 ,post_q7_op5 ,post_q7_op6 ,post_q7_op7 ,post_q8_op1 , post_q8_op2,post_q8_op3 ,post_q8_op4 ,post_q8_op5 ,post_q8_op6 , post_q8_op7, post_q9_op1, post_q9_op2, post_q9_op3,post_q9_op4 ,post_q9_op5 ,post_q9_op6 , post_q9_op7, post_info_5,post_q10 ,post_q10_op1 ,post_q10_op2,post_q10_op3 ,post_q10_op4 ,post_q10_op5 ,post_q11 ,post_q11_op1 ,post_q11_op2 ,post_q11_op3 ,post_q11_op4,post_q11_op5 ,post_q12 ,post_q12_op1 ,post_q12_op2 ,post_q12_op3 ,post_q12_op4 ,post_q12_op5 ,post_q13 ,post_q13_op1 ,post_q13_op2 , post_q13_op3,post_q13_op4 , post_q13_op5,post_info_6 ,post_q14 ,post_q14_op1 ,post_q14_op2 ,post_q14_op3 , post_q14_op4,post_q14_op5 ,post_q15 ,post_q15_op1, post_q15_op2, post_q15_op3, post_q15_op4,post_q15_op5 ,post_q16 , post_q16_op1,post_q16_op2 ,post_q16_op3 ,post_q16_op4 ,post_q16_op5 ,post_q17 , post_q17_op1, post_q17_op2, post_q17_op3, post_q17_op4, post_q17_op5,post_info_7 ,post_q18, post_info_8 } from '../../constants';
 
 
 function Progress({ classes }) {
@@ -46,18 +42,24 @@ function Progress({ classes }) {
 
     const [isVisible, setIsVisible] = useState(true);
 
-    const [value_q0, stValue_q0] = useState('option2');
-    const [value_q1, stValue_q1] = useState('option1');
     const [value_q2, stValue_q2] = useState('option1');
     const [value_q3, stValue_q3] = useState('option1');
     const [value_q4, stValue_q4] = useState('option1');
-    const [value_q5, stValue_q5] = useState('option1');
-    const [value_q6, stValue_q6] = useState('option1');
-    const [value_q7, stValue_q7] = useState('option1');
-    const [value_q8, stValue_q8] = useState('option1');
-    const [value_q9, stValue_q9] = useState('option1');
+    const [value_q4_1, stValue_q4_1] = useState('option1');
+    const [value_q4_2, stValue_q4_2] = useState('option1');
+    const [value_q4_3, stValue_q4_3] = useState('option1');
+    const [value_q4_4, stValue_q4_4] = useState('option1');
+    const [value_q4_5, stValue_q4_5] = useState('option1');
+
     const [value_q10, stValue_q10] = useState('option1');
     const [value_q11, stValue_q11] = useState('option1');
+    const [value_q12, stValue_q12] = useState('option1');
+    const [value_q13, stValue_q13] = useState('option1');
+    const [value_q14, stValue_q14] = useState('option1');
+    const [value_q15, stValue_q15] = useState('option1');
+    const [value_q16, stValue_q16] = useState('option1');
+    const [value_q17, stValue_q17] = useState('option1');
+    
 
 
 useEffect(() => {
@@ -73,17 +75,24 @@ useEffect(() => {
   setIsProfileFetched(false);
 }, [username]);
 
-const handle_Q0_Changed = async (e) => { stValue_q0(e.target.value); if(e.target.value == "option1"){setIsVisible(true);}else{setIsVisible(false);} };
-  const handle_Q1_Changed = async (e) => { stValue_q1(e.target.value); };
+  
   const handle_Q2_Changed = async (e) => { stValue_q2(e.target.value); };
   const handle_Q3_Changed = async (e) => { stValue_q3(e.target.value); };
   const handle_Q4_Changed = async (e) => { stValue_q4(e.target.value); };
-  const handle_Q5_Changed = async (e) => { stValue_q5(e.target.value); };
-  const handle_Q6_Changed = async (e) => { stValue_q6(e.target.value); };
-  const handle_Q7_Changed = async (e) => { stValue_q7(e.target.value); };
-  const handle_Q8_Changed = async (e) => { stValue_q8(e.target.value); };
-  const handle_Q9_Changed = async (e) => { stValue_q9(e.target.value); };
+  const handle_Q4_1_Changed = async (e) => { stValue_q4_1(e.target.value); };
+  const handle_Q4_2_Changed = async (e) => { stValue_q4_2(e.target.value); };
+  const handle_Q4_3_Changed = async (e) => { stValue_q4_3(e.target.value); };
+  const handle_Q4_4_Changed = async (e) => { stValue_q4_4(e.target.value); };
+  const handle_Q4_5_Changed = async (e) => { stValue_q4_5(e.target.value); };
+
   const handle_Q10_Changed = async (e) => { stValue_q10(e.target.value); };
+  const handle_Q11_Changed = async (e) => { stValue_q11(e.target.value); };
+  const handle_Q12_Changed = async (e) => { stValue_q12(e.target.value); };
+  const handle_Q13_Changed = async (e) => { stValue_q13(e.target.value); };
+  const handle_Q14_Changed = async (e) => { stValue_q14(e.target.value); };
+  const handle_Q15_Changed = async (e) => { stValue_q15(e.target.value); };
+  const handle_Q16_Changed = async (e) => { stValue_q16(e.target.value); };
+  const handle_Q17_Changed = async (e) => { stValue_q17(e.target.value); };
 
 
   const handleClick = async (e) => {
@@ -154,159 +163,181 @@ const handle_Q0_Changed = async (e) => { stValue_q0(e.target.value); if(e.target
         </div>
 
           <form className={classes.form} noValidate autoComplete="off" onSubmit={handleClick}>
-
-        <p className={classes.secon_disclaimor}>{dear_part_2}</p>
-        <p className={classes.secon_disclaimor}>{wlcome_3}</p>
-        <p className={classes.secon_disclaimor}>{bitte_4}</p>
-
-        <h1 style={{marginBottom: '1vh', textAlign: 'Left'}}>{aimHEADING_5}</h1>
-        <p className={classes.secon_disclaimor}>{aim_6}</p>
-
-        <h1 style={{marginBottom: '1vh', textAlign: 'Left'}}>{procedureHEADING_7}</h1>
-        <p className={classes.secon_disclaimor}>{procedure_8}</p>
-
-        <h1 style={{marginBottom: '1vh', textAlign: 'Left'}}>{voluntaryHEADING_9}</h1>
-        <p className={classes.secon_disclaimor}>{voluntary_10}</p>
-        <p className={classes.secon_disclaimor}>{other_11}</p>
-
-        <h1 style={{marginBottom: '1vh', textAlign: 'Left'}}>{dataprotHEADING_12}</h1>
-        <p className={classes.secon_disclaimor}>{dataprot_13}</p>
-
-        <h1 style={{marginBottom: '1vh', textAlign: 'Left'}}>{datasharingHEADING_14}</h1>
-        <p className={classes.secon_disclaimor}>{datasharing_15}</p>
-
-        <h1 style={{marginBottom: '1vh', textAlign: 'Left'}}>{retentionHEADING_16}</h1>
-        <p className={classes.secon_disclaimor}>{retention_17}</p>
-
-        <h1 style={{marginBottom: '1vh', textAlign: 'Left'}}>{furtherHEADING_18}</h1>
-        <p className={classes.secon_disclaimor}>{further_19}</p>
-        <p className={classes.secon_disclaimor}>{complaints_20}</p>
-        <p className={classes.secon_disclaimor}>{best_21}</p>
-        <p className={classes.disclaimor2}>{nme_22}</p>
-
-        <h1 style={{marginBottom: '1vh', textAlign: 'Left'}}>{consentHEADING_23}</h1>
-
-        <p className={classes.secon_disclaimor}>{consent_24}</p>
-        <form className={classes.question} style={{textAlign: 'Left'}}>
-        <div className={classes.label}><label><input type="radio" value="option1" checked={value_q0 === 'option1'} onChange={handle_Q0_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{ja}</span></label></div>
-        <div className={classes.label}><label><input type="radio" value="option2" checked={value_q0 === 'option2'} onChange={handle_Q0_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{nein}</span></label></div>
-        </form>
         <CSSTransition in={isVisible} timeout={300} classNames="fade" unmountOnExit >
       <div id='toShow'>
-        <p className={classes.secon_disclaimor}>{q1}</p>
+      <p className={classes.secon_disclaimor}>{post_info_0}</p>
+      <p className={classes.secon_disclaimor}>{post_info_1}</p>
+      <p className={classes.secon_disclaimor}>{post_q1}</p>
+      <input className={classes.label2} placeholder={post_q1}/>
+
+      <p className={classes.secon_disclaimor}>{post_info_2}</p>
+        <p className={classes.secon_disclaimor}>{post_q2}</p>
         <form  className={classes.question}>
-        <div className={classes.label}><label><input type="radio" value="option1" checked={value_q1 === 'option1'} onChange={handle_Q1_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q1_op1}</span></label></div>
-        <div className={classes.label}><label ><input type="radio" value="option2"  checked={value_q1 === 'option2'} onChange={handle_Q1_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q1_op2}</span></label></div>
-        <div className={classes.label}><label ><input type="radio" value="option3"  checked={value_q1 === 'option3'} onChange={handle_Q1_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q1_op3}</span></label></div>
-        <div className={classes.label}><label ><input type="radio" value="option4"  checked={value_q1 === 'option4'} onChange={handle_Q1_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q1_op4}</span></label></div>
-        <div className={classes.label}><label ><input type="radio" value="option5"  checked={value_q1 === 'option5'} onChange={handle_Q1_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q1_op5}</span></label></div>
+        <div className={classes.label}><label><input type="radio" value="option1" checked={value_q2 === 'option1'} onChange={handle_Q2_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q2_op1}</span></label></div>
+        <div className={classes.label}><label ><input type="radio" value="option2"  checked={value_q2 === 'option2'} onChange={handle_Q2_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q2_op2}</span></label></div>
+        <div className={classes.label}><label ><input type="radio" value="option3"  checked={value_q2 === 'option3'} onChange={handle_Q2_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q2_op3}</span></label></div>
+        <div className={classes.label}><label ><input type="radio" value="option4"  checked={value_q2 === 'option4'} onChange={handle_Q2_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q2_op4}</span></label></div>
+        <div className={classes.label}><label ><input type="radio" value="option5"  checked={value_q2 === 'option5'} onChange={handle_Q2_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q2_op5}</span></label></div>
         </form>
 
-        <p className={classes.secon_disclaimor}>{stat_info}</p>
-        <p className={classes.secon_disclaimor}>{geborn}</p>
-        <input className={classes.label2} placeholder={""}/>
-
-        <p className={classes.secon_disclaimor}>{q2}</p>
+        <p className={classes.secon_disclaimor}>{post_q3}</p>
         <form  className={classes.question}>
-        <div className={classes.label}><label><input type="radio" value="option1"  checked={value_q2 === 'option1'} onChange={handle_Q2_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q2_op1}</span></label></div>
-        <div className={classes.label}><label ><input type="radio" value="option2"  checked={value_q2 === 'option2'} onChange={handle_Q2_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q2_op2}</span></label></div>
-        <div className={classes.label}><label ><input type="radio" value="option3"  checked={value_q2 === 'option3'} onChange={handle_Q2_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q2_op3}</span></label></div>
+        <div className={classes.label}><label><input type="radio" value="option1" checked={value_q3 === 'option1'} onChange={handle_Q3_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q3_op1}</span></label></div>
+        <div className={classes.label}><label ><input type="radio" value="option2"  checked={value_q3 === 'option2'} onChange={handle_Q3_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q3_op2}</span></label></div>
+        <div className={classes.label}><label ><input type="radio" value="option3"  checked={value_q3 === 'option3'} onChange={handle_Q3_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q3_op3}</span></label></div>
+        <div className={classes.label}><label ><input type="radio" value="option4"  checked={value_q3 === 'option4'} onChange={handle_Q3_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q3_op4}</span></label></div>
+        <div className={classes.label}><label ><input type="radio" value="option5"  checked={value_q3 === 'option5'} onChange={handle_Q3_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q3_op5}</span></label></div>
         </form>
 
-        <p className={classes.secon_disclaimor}>{q3}</p>
+        <p className={classes.secon_disclaimor}>{post_info_3}</p>
+        <p className={classes.secon_disclaimor}>{post_info_4}</p>
+
+        <p className={classes.secon_disclaimor}>{post_q4}</p>
         <form  className={classes.question}>
-        <div className={classes.label}><label><input type="radio" value="option1"  checked={value_q3 === 'option1'} onChange={handle_Q3_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q3_op1}</span></label></div>
-        <div className={classes.label}><label ><input type="radio" value="option2"  checked={value_q3 === 'option2'} onChange={handle_Q3_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q3_op2}</span></label></div>
-        <div className={classes.label}><label ><input type="radio" value="option3"  checked={value_q3 === 'option3'} onChange={handle_Q3_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q3_op5}</span></label></div>
-        <div className={classes.label}><label><input type="radio" value="option4"  checked={value_q3 === 'option4'} onChange={handle_Q3_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q3_op1}</span></label></div>
-        <div className={classes.label}><label ><input type="radio" value="option5"  checked={value_q3 === 'option5'} onChange={handle_Q3_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q3_op2}</span></label></div>
-        <div className={classes.label}><label ><input type="radio" value="option6"  checked={value_q3 === 'option6'} onChange={handle_Q3_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q3_op5}</span></label></div>
-        <div className={classes.label}><label><input type="radio" value="option7"  checked={value_q3 === 'option7'} onChange={handle_Q3_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q3_op1}</span></label></div>
+        <div className={classes.label}><label><input type="radio" value="option1"  checked={value_q4 === 'option1'} onChange={handle_Q4_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q4_op1}</span></label></div>
+        <div className={classes.label}><label ><input type="radio" value="option2"  checked={value_q4 === 'option2'} onChange={handle_Q4_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q4_op2}</span></label></div>
+        <div className={classes.label}><label ><input type="radio" value="option3"  checked={value_q4 === 'option3'} onChange={handle_Q4_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q4_op3}</span></label></div>
+        <div className={classes.label}><label><input type="radio" value="option4"  checked={value_q4 === 'option4'} onChange={handle_Q4_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q4_op4}</span></label></div>
+        <div className={classes.label}><label ><input type="radio" value="option5"  checked={value_q4 === 'option5'} onChange={handle_Q4_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q4_op5}</span></label></div>
+        <div className={classes.label}><label ><input type="radio" value="option6"  checked={value_q4 === 'option6'} onChange={handle_Q4_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q4_op6}</span></label></div>
+        <div className={classes.label}><label><input type="radio" value="option7"  checked={value_q4 === 'option7'} onChange={handle_Q4_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q4_op7}</span></label></div>
         </form>
 
-        <p className={classes.secon_disclaimor}>{q4}</p>
+        <p className={classes.secon_disclaimor}>{post_q4}</p>
         <form  className={classes.question}>
-        <div className={classes.label}><label><input type="radio" value="option1"   checked={value_q4 === 'option1'} onChange={handle_Q4_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q4_op1}</span></label></div>
-        <div className={classes.label}><label ><input type="radio" value="option2"  checked={value_q4 === 'option2'} onChange={handle_Q4_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q4_op2}</span></label></div>
-        <div className={classes.label}><label ><input type="radio" value="option3"  checked={value_q4 === 'option3'} onChange={handle_Q4_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q4_op3}</span></label></div>
-        <div className={classes.label}><label><input type="radio" value="option4"  checked={value_q4 === 'option4'} onChange={handle_Q4_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q4_op4}</span></label></div>
-        <div className={classes.label}><label><input type="radio" value="option5"  checked={value_q4 === 'option5'} onChange={handle_Q4_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q4_op5}</span></label></div>
+        <div className={classes.label}><label><input type="radio" value="option1"  checked={value_q4_1 === 'option1'} onChange={handle_Q4_1_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q5_op1}</span></label></div>
+        <div className={classes.label}><label ><input type="radio" value="option2"  checked={value_q4_1 === 'option2'} onChange={handle_Q4_1_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q5_op2}</span></label></div>
+        <div className={classes.label}><label ><input type="radio" value="option3"  checked={value_q4_1 === 'option3'} onChange={handle_Q4_1_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q5_op3}</span></label></div>
+        <div className={classes.label}><label><input type="radio" value="option4"  checked={value_q4_1 === 'option4'} onChange={handle_Q4_1_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q5_op4}</span></label></div>
+        <div className={classes.label}><label ><input type="radio" value="option5"  checked={value_q4_1 === 'option5'} onChange={handle_Q4_1_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q5_op5}</span></label></div>
+        <div className={classes.label}><label ><input type="radio" value="option6"  checked={value_q4_1 === 'option6'} onChange={handle_Q4_1_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q5_op6}</span></label></div>
+        <div className={classes.label}><label><input type="radio" value="option7"  checked={value_q4_1 === 'option7'} onChange={handle_Q4_1_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q5_op7}</span></label></div>
         </form>
 
-        <p className={classes.secon_disclaimor}>{q5}</p>
+        <p className={classes.secon_disclaimor}>{post_q4}</p>
         <form  className={classes.question}>
-        <div className={classes.label}><label><input type="radio" value="option1"  checked={value_q5 === 'option1'} onChange={handle_Q5_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q5_op1}</span></label></div>
-        <div className={classes.label}><label ><input type="radio" value="option2"  checked={value_q5 === 'option2'} onChange={handle_Q5_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q5_op2}</span></label></div>
-        <div className={classes.label}><label ><input type="radio" value="option3"  checked={value_q5 === 'option3'} onChange={handle_Q5_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q5_op3}</span></label></div>
-        <div className={classes.label}><label><input type="radio" value="option4"  checked={value_q5 === 'option4'} onChange={handle_Q5_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q5_op4}</span></label></div>
+        <div className={classes.label}><label><input type="radio" value="option1"  checked={value_q4_2 === 'option1'} onChange={handle_Q4_2_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q6_op1}</span></label></div>
+        <div className={classes.label}><label ><input type="radio" value="option2"  checked={value_q4_2 === 'option2'} onChange={handle_Q4_2_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q6_op2}</span></label></div>
+        <div className={classes.label}><label ><input type="radio" value="option3"  checked={value_q4_2 === 'option3'} onChange={handle_Q4_2_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q6_op3}</span></label></div>
+        <div className={classes.label}><label><input type="radio" value="option4"  checked={value_q4_2 === 'option4'} onChange={handle_Q4_2_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q6_op4}</span></label></div>
+        <div className={classes.label}><label ><input type="radio" value="option5"  checked={value_q4_2 === 'option5'} onChange={handle_Q4_2_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q6_op5}</span></label></div>
+        <div className={classes.label}><label ><input type="radio" value="option6"  checked={value_q4_2 === 'option6'} onChange={handle_Q4_2_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q6_op6}</span></label></div>
+        <div className={classes.label}><label><input type="radio" value="option7"  checked={value_q4_2 === 'option7'} onChange={handle_Q4_2_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q6_op7}</span></label></div>
         </form>
 
-        <p className={classes.secon_disclaimor}>{q6}</p>
+        <p className={classes.secon_disclaimor}>{post_q4}</p>
         <form  className={classes.question}>
-        <div className={classes.label}><label><input type="radio" value="option1"  checked={value_q6 === 'option1'} onChange={handle_Q6_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q6_op1}</span></label></div>
-        <div className={classes.label}><label ><input type="radio" value="option2"   checked={value_q6 === 'option2'} onChange={handle_Q6_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q6_op2}</span></label></div>
-        <div className={classes.label}><label ><input type="radio" value="option3"  checked={value_q6 === 'option3'} onChange={handle_Q6_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q6_op3}</span></label></div>
-        <div className={classes.label}><label><input type="radio" value="option4"   checked={value_q6 === 'option4'} onChange={handle_Q6_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q6_op4}</span></label></div>
-        <div className={classes.label}><label ><input type="radio" value="option5"   checked={value_q6 === 'option5'} onChange={handle_Q6_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q6_op5}</span></label></div>
-        <div className={classes.label}><label ><input type="radio" value="option6"   checked={value_q6 === 'option6'} onChange={handle_Q6_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q6_op6}</span></label></div>
-        <div className={classes.label}><label><input type="radio" value="option7"   checked={value_q6 === 'option7'} onChange={handle_Q6_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q6_op7}</span></label></div>
-        <div className={classes.label}><label ><input type="radio" value="option8"   checked={value_q6 === 'option8'} onChange={handle_Q6_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q6_op8}</span></label></div>
-        <div className={classes.label}><label><input type="radio" value="option9"   checked={value_q6 === 'option9'} onChange={handle_Q6_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q6_op9}</span></label></div>
-        <div className={classes.label}><label ><input type="radio" value="option10"   checked={value_q6 === 'option10'} onChange={handle_Q6_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q6_op10}</span></label></div>
-        <div className={classes.label}><label ><input type="radio" value="option11"   checked={value_q6 === 'option11'} onChange={handle_Q6_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q6_op11}</span></label></div>
+        <div className={classes.label}><label><input type="radio" value="option1"  checked={value_q4_3 === 'option1'} onChange={handle_Q4_3_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q7_op1}</span></label></div>
+        <div className={classes.label}><label ><input type="radio" value="option2"  checked={value_q4_3 === 'option2'} onChange={handle_Q4_3_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q7_op2}</span></label></div>
+        <div className={classes.label}><label ><input type="radio" value="option3"  checked={value_q4_3 === 'option3'} onChange={handle_Q4_3_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q7_op3}</span></label></div>
+        <div className={classes.label}><label><input type="radio" value="option4"  checked={value_q4_3 === 'option4'} onChange={handle_Q4_3_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q7_op4}</span></label></div>
+        <div className={classes.label}><label ><input type="radio" value="option5"  checked={value_q4_3 === 'option5'} onChange={handle_Q4_3_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q7_op5}</span></label></div>
+        <div className={classes.label}><label ><input type="radio" value="option6"  checked={value_q4_3 === 'option6'} onChange={handle_Q4_3_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q7_op6}</span></label></div>
+        <div className={classes.label}><label><input type="radio" value="option7"  checked={value_q4_3 === 'option7'} onChange={handle_Q4_3_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q7_op7}</span></label></div>
         </form>
 
-        <p className={classes.secon_disclaimor}>{ukraine}</p>
-        <p className={classes.secon_disclaimor}>{q7}</p>
+        <p className={classes.secon_disclaimor}>{post_q4}</p>
         <form  className={classes.question}>
-        <div className={classes.label}><label><input type="radio" value="option1"  checked={value_q7 === 'option1'}  onChange={handle_Q7_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q7_op1}</span></label></div>
-        <div className={classes.label}><label ><input type="radio" value="option2"  checked={value_q7 === 'option2'}  onChange={handle_Q7_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q7_op2}</span></label></div>
-        <div className={classes.label}><label ><input type="radio" value="option3" checked={value_q7 === 'option3'}  onChange={handle_Q7_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q7_op3}</span></label></div>
-        <div className={classes.label}><label><input type="radio" value="option4"  checked={value_q7 === 'option4'}  onChange={handle_Q7_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q7_op4}</span></label></div>
-        <div className={classes.label}><label><input type="radio" value="option5"  checked={value_q7 === 'option5'}  onChange={handle_Q7_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q7_op5}</span></label></div>
+        <div className={classes.label}><label><input type="radio" value="option1"  checked={value_q4_4 === 'option1'} onChange={handle_Q4_4_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q8_op1}</span></label></div>
+        <div className={classes.label}><label ><input type="radio" value="option2"  checked={value_q4_4 === 'option2'} onChange={handle_Q4_4_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q8_op2}</span></label></div>
+        <div className={classes.label}><label ><input type="radio" value="option3"  checked={value_q4_4 === 'option3'} onChange={handle_Q4_4_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q8_op3}</span></label></div>
+        <div className={classes.label}><label><input type="radio" value="option4"  checked={value_q4_4 === 'option4'} onChange={handle_Q4_4_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q8_op4}</span></label></div>
+        <div className={classes.label}><label ><input type="radio" value="option5"  checked={value_q4_4 === 'option5'} onChange={handle_Q4_4_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q8_op5}</span></label></div>
+        <div className={classes.label}><label ><input type="radio" value="option6"  checked={value_q4_4 === 'option6'} onChange={handle_Q4_4_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q8_op6}</span></label></div>
+        <div className={classes.label}><label><input type="radio" value="option7"  checked={value_q4_4 === 'option7'} onChange={handle_Q4_4_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q8_op7}</span></label></div>
         </form>
 
-        
-        <p className={classes.secon_disclaimor}>{q8}</p>
+        <p className={classes.secon_disclaimor}>{post_q4}</p>
         <form  className={classes.question}>
-        <div className={classes.label}><label><input type="radio" value="option1"  checked={value_q8 === 'option1'}  onChange={handle_Q8_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q8_op1}</span></label></div>
-        <div className={classes.label}><label ><input type="radio" value="option2"  checked={value_q8 === 'option2'}  onChange={handle_Q8_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q8_op2}</span></label></div>
-        <div className={classes.label}><label ><input type="radio" value="option3"  checked={value_q8 === 'option3'}  onChange={handle_Q8_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q8_op3}</span></label></div>
-        <div className={classes.label}><label><input type="radio" value="option4"  checked={value_q8 === 'option4'} onChange={handle_Q8_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q8_op4}</span></label></div>
-        <div className={classes.label}><label><input type="radio" value="option5"  checked={value_q8 === 'option5'} onChange={handle_Q8_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q8_op5}</span></label></div>
+        <div className={classes.label}><label><input type="radio" value="option1"  checked={value_q4_5 === 'option1'} onChange={handle_Q4_5_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q9_op1}</span></label></div>
+        <div className={classes.label}><label ><input type="radio" value="option2"  checked={value_q4_5 === 'option2'} onChange={handle_Q4_5_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q9_op2}</span></label></div>
+        <div className={classes.label}><label ><input type="radio" value="option3"  checked={value_q4_5 === 'option3'} onChange={handle_Q4_5_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q9_op3}</span></label></div>
+        <div className={classes.label}><label><input type="radio" value="option4"  checked={value_q4_5 === 'option4'} onChange={handle_Q4_5_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q9_op4}</span></label></div>
+        <div className={classes.label}><label ><input type="radio" value="option5"  checked={value_q4_5 === 'option5'} onChange={handle_Q4_5_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q9_op5}</span></label></div>
+        <div className={classes.label}><label ><input type="radio" value="option6"  checked={value_q4_5 === 'option6'} onChange={handle_Q4_5_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q9_op6}</span></label></div>
+        <div className={classes.label}><label><input type="radio" value="option7"  checked={value_q4_5 === 'option7'} onChange={handle_Q4_5_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q9_op7}</span></label></div>
         </form>
 
-        <p className={classes.secon_disclaimor}>{q9}</p>
+        <p className={classes.secon_disclaimor}>{post_info_5}</p>
+        <p className={classes.secon_disclaimor}>{post_q10}</p>
         <form  className={classes.question}>
-        <div className={classes.label}><label><input type="radio" value="option1"  checked={value_q9 === 'option1'} onChange={handle_Q9_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q9_op1}</span></label></div>
-        <div className={classes.label}><label ><input type="radio" value="option2"  checked={value_q9 === 'option2'} onChange={handle_Q9_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q9_op2}</span></label></div>
-        <div className={classes.label}><label ><input type="radio" value="option3"  checked={value_q9 === 'option3'} onChange={handle_Q9_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q9_op3}</span></label></div>
-        <div className={classes.label}><label><input type="radio" value="option4"  checked={value_q9 === 'option4'} onChange={handle_Q9_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q9_op4}</span></label></div>
-        <div className={classes.label}><label><input type="radio" value="option5"  checked={value_q9 === 'option5'} onChange={handle_Q9_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q9_op5}</span></label></div>
+        <div className={classes.label}><label><input type="radio" value="option1"   checked={value_q10 === 'option1'} onChange={handle_Q10_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q10_op1}</span></label></div>
+        <div className={classes.label}><label ><input type="radio" value="option2"  checked={value_q10 === 'option2'} onChange={handle_Q10_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q10_op2}</span></label></div>
+        <div className={classes.label}><label ><input type="radio" value="option3"  checked={value_q10 === 'option3'} onChange={handle_Q10_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q10_op3}</span></label></div>
+        <div className={classes.label}><label><input type="radio" value="option4"  checked={value_q10 === 'option4'} onChange={handle_Q10_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q10_op4}</span></label></div>
+        <div className={classes.label}><label><input type="radio" value="option5"  checked={value_q10 === 'option5'} onChange={handle_Q10_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q10_op5}</span></label></div>
         </form>
 
-        <p className={classes.secon_disclaimor}>{q10}</p>
+        <p className={classes.secon_disclaimor}>{post_q11}</p>
         <form  className={classes.question}>
-        <div className={classes.label}><label><input type="radio" value="option1"  checked={value_q10 === 'option1'} onChange={handle_Q10_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q10_op1}</span></label></div>
-        <div className={classes.label}><label ><input type="radio" value="option2"  checked={value_q10 === 'option2'} onChange={handle_Q10_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q10_op2}</span></label></div>
-        <div className={classes.label}><label ><input type="radio" value="option3"  checked={value_q10 === 'option3'} onChange={handle_Q10_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q10_op3}</span></label></div>
-        <div className={classes.label}><label><input type="radio" value="option4"  checked={value_q10 === 'option4'} onChange={handle_Q10_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q10_op4}</span></label></div>
-        <div className={classes.label}><label><input type="radio" value="option5"  checked={value_q10 === 'option5'} onChange={handle_Q10_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q10_op5}</span></label></div>
+        <div className={classes.label}><label><input type="radio" value="option1"   checked={value_q11 === 'option1'} onChange={handle_Q11_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q11_op1}</span></label></div>
+        <div className={classes.label}><label ><input type="radio" value="option2"  checked={value_q11 === 'option2'} onChange={handle_Q11_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q11_op2}</span></label></div>
+        <div className={classes.label}><label ><input type="radio" value="option3"  checked={value_q11 === 'option3'} onChange={handle_Q11_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q11_op3}</span></label></div>
+        <div className={classes.label}><label><input type="radio" value="option4"  checked={value_q11 === 'option4'} onChange={handle_Q11_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q11_op4}</span></label></div>
+        <div className={classes.label}><label><input type="radio" value="option5"  checked={value_q11 === 'option5'} onChange={handle_Q11_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q11_op5}</span></label></div>
         </form>
 
-        <p className={classes.secon_disclaimor}>{dank}</p>
-        <p className={classes.secon_disclaimor}>{login}</p>
-        <p className={classes.secon_disclaimor}>{noteusername}</p>
-        
+        <p className={classes.secon_disclaimor}>{post_q12}</p>
+        <form  className={classes.question}>
+        <div className={classes.label}><label><input type="radio" value="option1"   checked={value_q12 === 'option1'} onChange={handle_Q12_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q12_op1}</span></label></div>
+        <div className={classes.label}><label ><input type="radio" value="option2"  checked={value_q12 === 'option2'} onChange={handle_Q12_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q12_op2}</span></label></div>
+        <div className={classes.label}><label ><input type="radio" value="option3"  checked={value_q12 === 'option3'} onChange={handle_Q12_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q12_op3}</span></label></div>
+        <div className={classes.label}><label><input type="radio" value="option4"  checked={value_q12 === 'option4'} onChange={handle_Q12_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q12_op4}</span></label></div>
+        <div className={classes.label}><label><input type="radio" value="option5"  checked={value_q12 === 'option5'} onChange={handle_Q12_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q12_op5}</span></label></div>
+        </form>
+
+        <p className={classes.secon_disclaimor}>{post_q13}</p>
+        <form  className={classes.question}>
+        <div className={classes.label}><label><input type="radio" value="option1"   checked={value_q13 === 'option1'} onChange={handle_Q13_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q13_op1}</span></label></div>
+        <div className={classes.label}><label ><input type="radio" value="option2"  checked={value_q13 === 'option2'} onChange={handle_Q13_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q13_op2}</span></label></div>
+        <div className={classes.label}><label ><input type="radio" value="option3"  checked={value_q13 === 'option3'} onChange={handle_Q13_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q13_op3}</span></label></div>
+        <div className={classes.label}><label><input type="radio" value="option4"  checked={value_q13 === 'option4'} onChange={handle_Q13_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q13_op4}</span></label></div>
+        <div className={classes.label}><label><input type="radio" value="option5"  checked={value_q13 === 'option5'} onChange={handle_Q13_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q13_op5}</span></label></div>
+        </form>
 
 
-				{/*<p className={classes.text}>already have an account? <Link  style={{textDecoration: 'none'}} to={"/login/" + userId}>log in now</Link></p><p className={classes.disclaimor}>{disclaimor_1}</p>*/}
-				{/*<Avatar alt='choose avatar' src="" className={classes.avatar}/>
-            	<TextField className={classes.textField} id='username' name='username' label="Username" required/>
-				<TextField className={classes.textField} id='email' name='email' label="Email" type="email" required />
-				<TextField className={classes.textField} id="password" label="Password" type="password" minLength="6" autoComplete="current-password"/>
-				<TextField className={classes.textField} id='passwordAgain' name='passwordAgain' label="Password Again" type="password" required/>
-    <p className={classes.errorMessage}>{passwordErr}</p>*/}
+        <p className={classes.secon_disclaimor}>{post_info_6}</p>
+        <p className={classes.secon_disclaimor}>{post_q14}</p>
+        <form  className={classes.question}>
+        <div className={classes.label}><label><input type="radio" value="option1"   checked={value_q14 === 'option1'} onChange={handle_Q14_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q14_op1}</span></label></div>
+        <div className={classes.label}><label ><input type="radio" value="option2"  checked={value_q14 === 'option2'} onChange={handle_Q14_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q14_op2}</span></label></div>
+        <div className={classes.label}><label ><input type="radio" value="option3"  checked={value_q14 === 'option3'} onChange={handle_Q14_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q14_op3}</span></label></div>
+        <div className={classes.label}><label><input type="radio" value="option4"  checked={value_q14 === 'option4'} onChange={handle_Q14_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q14_op4}</span></label></div>
+        <div className={classes.label}><label><input type="radio" value="option5"  checked={value_q14 === 'option5'} onChange={handle_Q14_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q14_op5}</span></label></div>
+        </form>
+
+        <p className={classes.secon_disclaimor}>{post_q15}</p>
+        <form  className={classes.question}>
+        <div className={classes.label}><label><input type="radio" value="option1"   checked={value_q15 === 'option1'} onChange={handle_Q15_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q15_op1}</span></label></div>
+        <div className={classes.label}><label ><input type="radio" value="option2"  checked={value_q15 === 'option2'} onChange={handle_Q15_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q15_op2}</span></label></div>
+        <div className={classes.label}><label ><input type="radio" value="option3"  checked={value_q15 === 'option3'} onChange={handle_Q15_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q15_op3}</span></label></div>
+        <div className={classes.label}><label><input type="radio" value="option4"  checked={value_q15 === 'option4'} onChange={handle_Q15_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q15_op4}</span></label></div>
+        <div className={classes.label}><label><input type="radio" value="option5"  checked={value_q15 === 'option5'} onChange={handle_Q15_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q15_op5}</span></label></div>
+        </form>
+
+        <p className={classes.secon_disclaimor}>{post_q16}</p>
+        <form  className={classes.question}>
+        <div className={classes.label}><label><input type="radio" value="option1"   checked={value_q16 === 'option1'} onChange={handle_Q16_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q16_op1}</span></label></div>
+        <div className={classes.label}><label ><input type="radio" value="option2"  checked={value_q16 === 'option2'} onChange={handle_Q16_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q16_op2}</span></label></div>
+        <div className={classes.label}><label ><input type="radio" value="option3"  checked={value_q16 === 'option3'} onChange={handle_Q16_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q16_op3}</span></label></div>
+        <div className={classes.label}><label><input type="radio" value="option4"  checked={value_q16 === 'option4'} onChange={handle_Q16_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q16_op4}</span></label></div>
+        <div className={classes.label}><label><input type="radio" value="option5"  checked={value_q16 === 'option5'} onChange={handle_Q16_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q16_op5}</span></label></div>
+        </form>
+
+        <p className={classes.secon_disclaimor}>{post_q17}</p>
+        <form  className={classes.question}>
+        <div className={classes.label}><label><input type="radio" value="option1"   checked={value_q17 === 'option1'} onChange={handle_Q17_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q17_op1}</span></label></div>
+        <div className={classes.label}><label ><input type="radio" value="option2"  checked={value_q17 === 'option2'} onChange={handle_Q17_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q17_op2}</span></label></div>
+        <div className={classes.label}><label ><input type="radio" value="option3"  checked={value_q17 === 'option3'} onChange={handle_Q17_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q17_op3}</span></label></div>
+        <div className={classes.label}><label><input type="radio" value="option4"  checked={value_q17 === 'option4'} onChange={handle_Q17_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q17_op4}</span></label></div>
+        <div className={classes.label}><label><input type="radio" value="option5"  checked={value_q17 === 'option5'} onChange={handle_Q17_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q17_op5}</span></label></div>
+        </form>
+
+        <p className={classes.secon_disclaimor}>{post_info_7}</p>
+        <p className={classes.secon_disclaimor}>{post_q18}</p>
+        <input className={classes.label2} placeholder={post_q18}/>
+        <p className={classes.secon_disclaimor}>{post_info_8}</p>
+
 				<button type="submit" className={classes.button}> Submit Post Survey </button>
         </div>
         </CSSTransition>

@@ -60,18 +60,12 @@ function CommentSA ({post, comment, isDetail, classes }) {
       const p = await axios.put("/comments/" + comment._id + "/like", { userId: currentUser._id });
       console.log("likeHandler");
       console.log(p);
+      const vl = Number(like) + p.data.likes
+      if(vl < 0){setLike(0);}else{setLike(vl);}
 
-      if(p.data.likes.length > 0){
-          
-        setIsLiked(p.data.likes.includes(currentUser._id));
-        setLike(p.data.likes.length);
-        setDislike(p.data.dislikes.length);
-      }
-        else{
-          setIsLiked(false);
-          setLike(0);
-          setDislike(0);
-        }
+      const vl2 = Number(dislike) + p.data.dislikes
+      if(vl2 < 0){setDislike(0);}else{setDislike(vl2);}
+      
     } catch (err) { 
       console.log(err);
     }
@@ -83,17 +77,15 @@ function CommentSA ({post, comment, isDetail, classes }) {
     try {
       const p =  await axios.put("/comments/" + comment._id + "/dislike", { userId: currentUser._id });
       console.log("dislike Handler");
-      if(p.data.dislikes.length > 0){
-        
-        setIsDisliked(p.data.dislikes.includes(currentUser._id));
-        setLike(p.data.likes.length);
-        setDislike(p.data.dislikes.length);
-      
-      }else{
-        setIsDisliked(false);
-        setLike(0);
-        setDislike(0);
-      }
+      console.log(p);
+
+      const vl = Number(like) + p.data.likes
+      if(vl < 0){setLike(0);}else{setLike(vl);}
+
+      const vl2 = Number(dislike) + p.data.dislikes
+      if(vl2 < 0){setDislike(0);}else{setDislike(vl2);}
+
+
     } catch (err) {console.log(err);}
   };
 

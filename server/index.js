@@ -25,16 +25,16 @@ dotenv.config();
 
 const uuid = require('uuid');
 const userIdentifiers = Array.from({ length: 10 }, () => uuid.v4());
-const signupPageURLs = userIdentifiers.map(userId => `https://socialapp.ijs.si/register/${userId}`);
-const stringsText = signupPageURLs.join('\n');
-const filePath = 'strings.txt';
-fs.writeFile(filePath, stringsText, (err) => {
+//const signupPageURLs = userIdentifiers.map(userId => `https://socialapp.ijs.si/register/${userId}`);
+//const stringsText = signupPageURLs.join('\n');
+//const filePath = 'strings.txt';
+/*fs.writeFile(filePath, stringsText, (err) => {
   if (err) {
       console.error('Error writing file:', err);
   } else {
       console.log('File saved successfully:', filePath);
   }
-});
+});*/
 
 // SocialApp
 // Admin

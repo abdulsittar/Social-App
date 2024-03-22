@@ -1,7 +1,7 @@
 import {COLORS} from '../../components/values/colors.js';
 export const styles = {
     register: {
-		height: '800vh',
+		height: 'auto',
 		width: '100%',
 		position: 'relative',
 		display: 'flex',
@@ -35,6 +35,7 @@ export const styles = {
 	},
 	label2:{
 		marginBottom: '2vh',
+		width: '100%',
 		marginTop: '2vh',
 		marginLeft:"0vh",
 		fontSize: '14px',

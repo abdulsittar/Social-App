@@ -10,7 +10,6 @@ username: {
 },
 email: {
     type: String,
-    required: true,
     max: 50,
     uniquie: true
 },
@@ -48,9 +47,9 @@ activity: [{
     ref: 'TimeMe'
 }],
 uniqueId:{
-    type: String,
+    type: mongoose.Schema.Types.ObjectId, 
     required: true,
-    default: "0"
+    ref: 'IDStorage'
 },
 isAdmin: {
     type: Boolean,

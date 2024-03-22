@@ -38,7 +38,7 @@ function Post({onScrolling,  post, classes, isDetail }) {
   const [isDislikedByOne, setIsDislikedByOne] = useState(false);
 
   const [repost, setRepost] = useState(post.reposts? post.reposts.length: 0);
-  const [rank, setRank] = useState(post.rank);//useState(post.reposts? post.reposts.length: 0);
+  const [rank, setRank] = useState(parseFloat(post.rank.toFixed(2)));//useState(post.reposts? post.reposts.length: 0);
 
   const [isReposted, setIsReposted] = useState(false);
 
@@ -110,10 +110,10 @@ function Post({onScrolling,  post, classes, isDetail }) {
 
 
   useEffect(() => {
-    setIsLiked(post.likes.includes(currentUser._id));
-    setIsLikedByOne(post.likes.length == 1)
-    setIsDisliked(post.dislikes.includes(currentUser._id));
-    setIsDislikedByOne(post.dislikes.length == 1)
+    //setIsLiked(post.likes.includes(currentUser._id));
+    //setIsLikedByOne(post.likes.length == 1)
+    //setIsDisliked(post.dislikes.includes(currentUser._id));
+    //setIsDislikedByOne(post.dislikes.length == 1)
     setComments(post.comments);
 
   }, [currentUser._id, post.likes, post.dislikes]);
@@ -148,6 +148,8 @@ function Post({onScrolling,  post, classes, isDetail }) {
   const handleReadChange = () => {
       axios.put("/users/" + currentUser._id + "/read", { postId: post._id });
   };
+
+
 
   function handleOnEnter(text) {
     console.log("enter", text);
@@ -204,20 +206,23 @@ function Post({onScrolling,  post, classes, isDetail }) {
         const p = await axios.put("/posts/" + post._id + "/like", { userId: currentUser._id });
         console.log("likeHandler");
         console.log(p);
-        console.log(p.data.likes.length);
 
+        //console.log(p.data.likes.length);
+        //if(p.data.likes.length > 0){
+        const vl = Number(like) + p.data.likes
+        if(vl < 0){setLike(0);}else{setLike(vl);}
+
+        const vl2 = Number(dislike) + p.data.dislikes
+        if(vl2 < 0){setDislike(0);}else{setDislike(vl2);}
+
+        //}else{
+        //  setLike(0);
+        //}
+        //if(p.data.dislikes.length > 0){
         
-        if(p.data.likes.length > 0){
-          
-          setIsLiked(p.data.likes.includes(currentUser._id));
-          setLike(p.data.likes.length);
-          setDislike(p.data.dislikes.length);
-        }
-          else{
-            setIsLiked(false);
-            setLike(0);
-            setDislike(0);
-          }
+        //}else{
+           // setDislike(0);
+        //}
 
       } catch (err) { console.log(err); }
     
@@ -236,24 +241,29 @@ function Post({onScrolling,  post, classes, isDetail }) {
   }*/
   };
 
-
-
   const dislikeHandler = async () => {
     //if(!isLiked){
     try {
       const p = await axios.put("/posts/" + post._id + "/dislike", { userId: currentUser._id });
       console.log("dislike Handler");
-      if(p.data.dislikes.length > 0){
-        
-        setIsDisliked(p.data.dislikes.includes(currentUser._id));
-        setLike(p.data.likes.length);
-        setDislike(p.data.dislikes.length);
-      
-      }else{
-        setIsDisliked(false);
-        setLike(0);
-        setDislike(0);
-      }
+        console.log(p);
+      //if(p.data.likes.length > 0){
+        const vl = Number(like) + p.data.likes
+        if(vl < 0){setLike(0);}else{setLike(vl);}
+
+        const vl2 = Number(dislike) + p.data.dislikes
+        if(vl2 < 0){setDislike(0);}else{setDislike(vl2);}
+
+      //}else{
+      //  setLike(0);
+
+      //}
+
+      //if(p.data.dislikes.length > 0){
+          //setDislike(p.data.dislikes.length);
+      //}else{
+      //    setDislike(0);
+      //}
 
     } catch (err) {console.log(err);}
     
@@ -295,10 +305,10 @@ function Post({onScrolling,  post, classes, isDetail }) {
       <div className={classes.postWrapper}>
         <div className={classes.postTop}>
           <div className={classes.postTopLeft}>
-            <Link  style={{textDecoration: 'none', color: COLORS.textColor}} to={isDetail? `/postdetail/profile/${user.username}`: `/profile/${user.username}` }>
+            <Link  style={{textDecoration: 'none', color: COLORS.textColor}} to={isDetail? `/profile/${user.username}`: `/profile/${user.username}` }>
               <img src={user.profilePicture ? PF + user.profilePicture : PF + 'person/noAvatar.png'} alt="" className={classes.postProfileImg} />
             </Link>
-            <Link style={{textDecoration: 'none', color: COLORS.textColor}} to={isDetail? `/postdetail/profile/${user.username}`: `/profile/${user.username}`}>
+            <Link style={{textDecoration: 'none', color: COLORS.textColor}} to={isDetail? `/profile/${user.username}`: `/profile/${user.username}`}>
             <span className={classes.postUsername}>
               {user.username}
             </span>
@@ -321,7 +331,7 @@ function Post({onScrolling,  post, classes, isDetail }) {
          >
            {decoratedText}
          </a>
-       )}><div className={classes.postText} >{!isDetail && post?.desc.length > 100? <div className={classes.postText} >{post?.desc.substring(0, 100)} <Link to={{pathname:`/postdetail/${user.username}`, state:{myObj: post}}}>"....click to see more"</Link></div> :post?.desc}</div></Linkify>
+       )}><div className={classes.postText} >{!isDetail && post?.desc.length > 100? <div className={classes.postText} >{post?.desc.substring(0, 100)} <Link to={{pathname:`/postdetail/${user.username}`, state:{myObj: post}}}>"...Read more"</Link></div> :post?.desc}</div></Linkify>
           
           
         </div>

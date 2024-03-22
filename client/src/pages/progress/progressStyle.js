@@ -151,6 +151,7 @@ export const styles = {
     },
     label2:{
       marginBottom: '2vh',
+      width: '100%',
       marginTop: '2vh',
       marginLeft:"0vh",
       fontSize: '14px',

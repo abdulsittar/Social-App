@@ -330,11 +330,20 @@
      *         description: Some server error!
      */
 
+    function waitForOneSecond() {
+        setTimeout(() => {
+          // Code to execute after 1 second
+          console.log('One second has passed!');
+        }, 1000); // 1000 milliseconds = 1 second
+      }
 
 // like a post
 router.put('/:id/like', async(req, res) => {
 
-    const post = await Post.findById(req.params.id).populate([{path : "likes", model: "PostLike"}, {path : "dislikes", model: "PostDislike"}]).sort({ createdAt: 'descending' }).exec();
+    //const post = await Post.find({"_id":req.params.id,"PostLike.userId": ObjectId(req.body.userId), "PostDislike.userId": ObjectId(req.body.userId)}, {"PostLike.$": 1,"PostDislike.$": 1 }).populate([{path : "likes", model: "PostLike"}, {path : "dislikes", model: "PostDislike"}]).sort({ createdAt: 'descending' }).exec();
+    const post = await Post.findById(req.params.id).populate([{path : "likes", model: "PostLike", match: { "userId": req.body.userId}}, {path : "dislikes", model: "PostDislike", match: { "userId": req.body.userId}}]).sort({ createdAt: 'descending' }).exec();
+    //const posttoReturn = await Post.findById(req.params.id).populate([{path : "likes", model: "PostLike"}, {path : "dislikes", model: "PostDislike"}]).sort({ createdAt: 'descending' }).exec();
+         
     console.log("Disliked objects");
     console.log(post.dislikes.length);
  
@@ -360,8 +369,9 @@ router.put('/:id/like', async(req, res) => {
          });
 
          const post2 = await Post.findById(req.params.id).populate([{path : "likes", model: "PostLike"}, {path : "dislikes", model: "PostDislike"}]).sort({ createdAt: 'descending' }).exec();
-         console.log(post2);
-         res.status(200).json(post2);
+         //console.log(post2);
+         var diction = {"likes": -1, "dislikes": parseInt(0)}
+         res.status(200).json(diction);
      } catch(err) {
          console.log(err);
          res.status(500).json(err);
@@ -384,14 +394,14 @@ router.put('/:id/like', async(req, res) => {
         });
 
          const post2 = await Post.findById(req.params.id).populate([{path : "likes", model: "PostLike"}, {path : "dislikes", model: "PostDislike"}]).sort({ createdAt: 'descending' }).exec();
-         console.log(post2);
-         res.status(200).json(post2);
+         //console.log(post2);
+         var diction = {"likes": parseInt(0), "dislikes":-1 }
+         res.status(200).json(diction);
      }catch(err) {
          res.status(500).json(err);
      
         }
     }
- 
  
     if(!isAlreadyLiked){
      if(!isAlreadyDisliked){
@@ -401,11 +411,12 @@ router.put('/:id/like', async(req, res) => {
          await postLike.save();
          console.log(postLike);
          console.log("postLike is added");
-         const post = await Post.findById(req.params.id);
-         await post.updateOne({$push: { likes: postLike } });
-         const post2 = await Post.findById(req.params.id).populate([{path : "likes", model: "PostLike"}, {path : "dislikes", model: "PostDislike"}]).sort({ createdAt: 'descending' }).exec();
-         console.log(post2);
-         res.status(200).json(post2);
+         //const post = await Post.findById(req.params.id);
+         await Post.findOneAndUpdate({"_id": req.params.id},{$push: { likes: postLike }});
+         const post2       = await Post.findById(req.params.id, { upsert:true, new: true }).populate([{path : "likes", model: "PostLike"}, {path : "dislikes", model: "PostDislike"}]).sort({ createdAt: 'descending' }).exec();
+         //console.log(post2);
+         var diction = {"likes": 1, "dislikes":parseInt(0) }
+         res.status(200).json(diction);
  
      } catch(err) {
          console.log(err);
@@ -424,7 +435,7 @@ router.put('/:id/like', async(req, res) => {
  // dislike a post
  router.put('/:id/dislike', async(req, res) =>{
  
-     const post = await Post.findById(req.params.id).populate([{path : "likes", model: "PostLike"}, {path : "dislikes", model: "PostDislike"}]).sort({ createdAt: 'descending' }).exec();
+     const post = await Post.findById(req.params.id).populate([{path : "likes", model: "PostLike", match: { "userId": req.body.userId}}, {path : "dislikes", model: "PostDislike", match: { "userId": req.body.userId}}]).sort({ createdAt: 'descending' }).exec();
      console.log("Disliked objects");
      console.log(post.dislikes.length);
   
@@ -454,7 +465,8 @@ router.put('/:id/like', async(req, res) => {
 
              const post = await Post.findById(req.params.id).populate([{path : "likes", model: "PostLike"}, {path : "dislikes", model: "PostDislike"}]).sort({ createdAt: 'descending' }).exec();
              console.log(post);
-             res.status(200).json(post);
+             var diction = {"likes": -1, "dislikes": parseInt(0)}
+            res.status(200).json(diction);
              
              
          } catch(err) {
@@ -477,7 +489,8 @@ router.put('/:id/like', async(req, res) => {
              });
              const post2 = await Post.findById(req.params.id).populate([{path : "likes", model: "PostLike"}, {path : "dislikes", model: "PostDislike"}]).sort({ createdAt: 'descending' }).exec();
              console.log(post2);
-             res.status(200).json(post2);
+             var diction = {"likes": parseInt(0), "dislikes":-1 }
+            res.status(200).json(diction);
              
          }catch(err) {
              res.status(500).json(err);
@@ -498,7 +511,8 @@ router.put('/:id/like', async(req, res) => {
          await post.updateOne({$push: { dislikes: postDislike } });
          const post2 = await Post.findById(req.params.id).populate([{path : "likes", model: "PostLike"}, {path : "dislikes", model: "PostDislike"}]).sort({ createdAt: 'descending' }).exec();
          console.log(post2);
-         res.status(200).json(post2);
+         var diction = {"likes": parseInt(0), "dislikes": 1}
+         res.status(200).json(diction);
      } catch(err) {
          console.log(err);
          res.status(500).json(err);
@@ -667,10 +681,10 @@ router.put('/:id/like', async(req, res) => {
 
     //service
     const getPostsPaginated = async (page) => {
-    let resultsPerPage = 10
+    let resultsPerPage = 20
 
     return await Post.find({})
-    .populate({path : 'comments', populate:[{path : "userId", model: "User"}, {path: "likes", model: "PostLike"}, {path: "dislikes", model: "CommentDislike"}]})
+    .populate({path : 'comments', model:'Comment', populate:[{path : "userId", model: "User"}, {path: "likes", model: "CommentLike"}, {path: "dislikes", model: "CommentDislike"}]})
     .sort({ rank: -1 })
     //.lean()
     .skip(page * resultsPerPage)
@@ -748,7 +762,7 @@ router.put('/:id/like', async(req, res) => {
 
     //service
     const getPostsPaginatedFollowers = async (page, req) => {
-    let resultsPerPage = 10
+    let resultsPerPage = 20
     const currentUser = await User.findById(req.params.userId);
     //const userPosts = await Post.find({ userId: currentUser._id }).populate('Comment').exec();
     let userPosts = []
@@ -825,7 +839,7 @@ router.put('/:id/like', async(req, res) => {
 
     //service
     const getPostsPaginatedFollowings = async (page, req) => {
-    let resultsPerPage = 10
+    let resultsPerPage = 20
     const currentUser = await User.findById(req.params.userId);
     //const userPosts = await Post.find({ userId: currentUser._id }).populate('Comment').exec();
 
@@ -936,7 +950,7 @@ router.put('/:id/like', async(req, res) => {
     // get all posts of a user
     router.get('/profile/:username', async(req, res) =>{
     try {
-    let resultsPerPage = 10
+    let resultsPerPage = 20
     const user = await User.findOne({username: req.params.username});
     const posts = await Post.find({userId: user._id})
     .populate({path : 'comments', populate:{path : "userId", model: "User"}})

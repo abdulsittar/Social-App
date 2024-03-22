@@ -5,7 +5,7 @@ userId: {
 		type: mongoose.Schema.Types.ObjectId, 
 		ref: 'User'
 	},
-	commentId: {
+commentId: {
 			type:mongoose.Schema.Types.ObjectId,
 			ref: 'Comment'
 	}},

@@ -12,7 +12,7 @@ import axios from "axios";
 import TimeMe from "timeme.js";
 import { useParams } from 'react-router-dom';
 import { CSSTransition } from 'react-transition-group';
-import {q1, q1_op1, q1_op2, q1_op3, q1_op4, q1_op5,  nein, ja, disclaimor_1, dear_part_2, wlcome_3, bitte_4,aimHEADING_5 ,aim_6 ,procedureHEADING_7 ,procedure_8 ,voluntaryHEADING_9 ,voluntary_10 ,other_11 ,dataprotHEADING_12 ,dataprot_13 ,datasharingHEADING_14 ,datasharing_15 ,retentionHEADING_16 ,retention_17 ,furtherHEADING_18 ,further_19 ,complaints_20 ,best_21 ,nme_22 ,consentHEADING_23 ,consent_24,
+import {q11, q1, q1_op1, q1_op2, q1_op3, q1_op4, q1_op5,  nein, ja, disclaimor_1, dear_part_2, wlcome_3, bitte_4,aimHEADING_5 ,aim_6 ,procedureHEADING_7 ,procedure_8 ,voluntaryHEADING_9 ,voluntary_10 ,other_11 ,dataprotHEADING_12 ,dataprot_13 ,datasharingHEADING_14 ,datasharing_15 ,retentionHEADING_16 ,retention_17 ,furtherHEADING_18 ,further_19 ,complaints_20 ,best_21 ,nme_22 ,consentHEADING_23 ,consent_24,
   stat_info, geborn, ukraine, dank, login, noteusername, q2, q2_op1 , q2_op2,q2_op3 ,q3 ,q3_op1,q3_op2 ,q3_op3,q3_op4 ,q3_op5,q3_op6,q3_op7, q4 ,q4_op1,q4_op2,q4_op3,q4_op4,q4_op5, 
   q5 , q5_op1 ,q5_op2, q5_op3 , q5_op4, q6, q6_op1, q6_op2,  q6_op3,  q6_op4,   q6_op5,  q6_op6,  q6_op7,  q6_op8,  q6_op9,  q6_op10,  q6_op11, q7 ,
   q7_op1,  q7_op2, q7_op3, q7_op4, q7_op5, q8, q8_op1, q8_op2,  q8_op3,  q8_op4, q8_op5,  q9, q9_op1, q9_op2, q9_op3,  q9_op4 ,q9_op5, q10, q10_op1 ,
@@ -20,14 +20,17 @@ import {q1, q1_op1, q1_op2, q1_op3, q1_op4, q1_op5,  nein, ja, disclaimor_1, dea
 
 function Register({classes}) {
   const history = useHistory();
+  const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+
   const {user, isFetching, error, dispatch} = useContext(AuthContext);
   const [passwordErr, setPasswordErr] = useState('');
   const [shouldSendEvent, setShouldSendEvent] = useState(false);
   const [userId, setUserId] = useState("");
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisibleConsent, setIsVisibleConsent] = useState(false);
+  const [isVisibleSignUp, setIsVisibleSignUp] = useState(false);
+  const [isButtonDisabled, setButtonDisabled] = useState(false);
 
   const [value_q0, stValue_q0] = useState('option2');
-  const [value_q1, stValue_q1] = useState('option1');
   const [value_q2, stValue_q2] = useState('option1');
   const [value_q3, stValue_q3] = useState('option1');
   const [value_q4, stValue_q4] = useState('option1');
@@ -43,13 +46,30 @@ function Register({classes}) {
 
     console.log("user id");
     const urlParts = window.location.pathname.split('/');
-    setUserId(urlParts[urlParts.length-1]);
+    const valu = urlParts[urlParts.length-1]
+    console.log(valu);
+    setUserId(valu.toString());
     console.log(userId);
+    isUserAlreadySubmittedSurvey();
 
 	}, []);
 
-  const handle_Q0_Changed = async (e) => { stValue_q0(e.target.value); if(e.target.value == "option1"){setIsVisible(true);}else{setIsVisible(false);} };
-  const handle_Q1_Changed = async (e) => { stValue_q1(e.target.value); };
+    
+
+  const labels = [q1_op1, q1_op2, q1_op3, q1_op4, q1_op5];
+  const isUserAlreadySubmittedSurvey = async (e) => {
+
+
+    setIsVisibleConsent(true)
+
+    // if not submitted the survey
+        //show third block
+
+    // if submitted the survey, check if user registered
+
+    };
+
+  const handle_Q0_Changed = async (e) => { stValue_q0(e.target.value); if(e.target.value == "option1"){setIsVisibleConsent(true);}else{setIsVisibleConsent(false);} };
   const handle_Q2_Changed = async (e) => { stValue_q2(e.target.value); };
   const handle_Q3_Changed = async (e) => { stValue_q3(e.target.value); };
   const handle_Q4_Changed = async (e) => { stValue_q4(e.target.value); };
@@ -59,6 +79,13 @@ function Register({classes}) {
   const handle_Q8_Changed = async (e) => { stValue_q8(e.target.value); };
   const handle_Q9_Changed = async (e) => { stValue_q9(e.target.value); };
   const handle_Q10_Changed = async (e) => { stValue_q10(e.target.value); };
+  const handle_Q11_Changed = async (e) => { stValue_q11(e.target.value); };
+
+  const companyButtonChanged = async (e) => { 
+    setButtonDisabled(true); 
+    window.open('https://www.google.com', '_blank');
+
+  };
 
   const handleClick = async (e) => {
     e.preventDefault();
@@ -124,27 +151,33 @@ function Register({classes}) {
         <p className={classes.secon_disclaimor}>{best_21}</p>
         <p className={classes.disclaimor2}>{nme_22}</p>
 
-        <h1 style={{marginBottom: '1vh', textAlign: 'Left'}}>{consentHEADING_23}</h1>
+        
+        
 
-        <p className={classes.secon_disclaimor}>{consent_24}</p>
+        <CSSTransition in={isVisibleConsent} timeout={300} classNames="fade" unmountOnExit >
+         <div id='thirdBlock'>
+        <h1 style={{marginBottom: '1vh', textAlign: 'Left'}}>{consentHEADING_23}</h1>
+        
+        <p className={classes.secon_disclaimor}>{q1}</p>
+        <ul>
+        {labels.map((label, index) => (
+          <li className={classes.secon_disclaimor} key={index}>{label}</li>
+        ))}
+      </ul>
+      <p className={classes.secon_disclaimor}>{consent_24}</p>
         <form className={classes.question} style={{textAlign: 'Left'}}>
         <div className={classes.label}><label><input type="radio" value="option1" checked={value_q0 === 'option1'} onChange={handle_Q0_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{ja}</span></label></div>
         <div className={classes.label}><label><input type="radio" value="option2" checked={value_q0 === 'option2'} onChange={handle_Q0_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{nein}</span></label></div>
         </form>
-        <CSSTransition in={isVisible} timeout={300} classNames="fade" unmountOnExit >
-      <div id='toShow'>
-        <p className={classes.secon_disclaimor}>{q1}</p>
-        <form  className={classes.question}>
-        <div className={classes.label}><label><input type="radio" value="option1" checked={value_q1 === 'option1'} onChange={handle_Q1_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q1_op1}</span></label></div>
-        <div className={classes.label}><label ><input type="radio" value="option2"  checked={value_q1 === 'option2'} onChange={handle_Q1_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q1_op2}</span></label></div>
-        <div className={classes.label}><label ><input type="radio" value="option3"  checked={value_q1 === 'option3'} onChange={handle_Q1_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q1_op3}</span></label></div>
-        <div className={classes.label}><label ><input type="radio" value="option4"  checked={value_q1 === 'option4'} onChange={handle_Q1_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q1_op4}</span></label></div>
-        <div className={classes.label}><label ><input type="radio" value="option5"  checked={value_q1 === 'option5'} onChange={handle_Q1_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q1_op5}</span></label></div>
-        </form>
+        </div>
+        </CSSTransition>
+
+        <CSSTransition in={isVisibleConsent} timeout={300} classNames="fade" unmountOnExit >
+        <div id='firstBlock'>
 
         <p className={classes.secon_disclaimor}>{stat_info}</p>
         <p className={classes.secon_disclaimor}>{geborn}</p>
-        <input className={classes.label2} placeholder={""}/>
+        <input className={classes.label2} placeholder={geborn}/>
 
         <p className={classes.secon_disclaimor}>{q2}</p>
         <form  className={classes.question}>
@@ -247,12 +280,26 @@ function Register({classes}) {
 				<TextField className={classes.textField} id="password" label="Password" type="password" minLength="6" autoComplete="current-password"/>
 				<TextField className={classes.textField} id='passwordAgain' name='passwordAgain' label="Password Again" type="password" required/>
     <p className={classes.errorMessage}>{passwordErr}</p>*/}
+
+        <button onClick={companyButtonChanged} disabled={isButtonDisabled} className={classes.button}> Submit Survey</button>.
+        </div>
+        </CSSTransition>
+
+          <CSSTransition in={isVisibleConsent} timeout={300} classNames="fade" unmountOnExit >
+      <div id='secondBlock'>
+        <p className={classes.secon_disclaimor}>{q11}</p>
+        <form  className={classes.question}>
+        <div className={classes.label}><label><input type="radio" value="option1"  checked={value_q11 === 'option1'} onChange={handle_Q11_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem", "margin-top": "0.5rem"}}><img width="50" height="50"className={classes.profileCoverImg}  src={PF+"person/noCover.png"} alt="" /></span></label></div>
+        <div className={classes.label}><label ><input type="radio" value="option2"  checked={value_q11 === 'option2'} onChange={handle_Q11_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem", "margin-top": "0.5rem"}}><img width="50" height="50" className={classes.profileCoverImg}  src={PF+"person/noCover.png"} alt="" /></span></label></div>
+        <div className={classes.label}><label ><input type="radio" value="option3"  checked={value_q11 === 'option3'} onChange={handle_Q11_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem", "margin-top": "0.5rem"}}><img width="50" height="50" className={classes.profileCoverImg}  src={PF+"person/noCover.png"} alt="" /></span></label></div>
+        </form>
+
+        
 				<button type="submit" className={classes.button}> Signup </button>
         </div>
         </CSSTransition>
-					</form>
-
-      </div>
+        </form>
+        </div>
 
     )
 }

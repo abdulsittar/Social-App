@@ -29,8 +29,13 @@ const isTabletDevice = useMediaQuery({ query: "(min-device-width: 768px)", });
 
 const [windowSize, setWindowSize] = useState(getWindowSize());
 
-const increment  = (pv, iv) => {
+const increment  = async (pv, iv) => {
+    console.log("increatem");
+    console.log(pv);
+    console.log(iv);
+    
     setIndex(pv+iv);
+    console.log(index);
 };
 
     /*async function registerAndSubscribe () {
@@ -46,9 +51,7 @@ const {user} = useContext(AuthContext);
 const [followed, setFollowed] = useState([]
     //currentUser.followings.includes(user?.id)
     );
-    console.log("selected radio avlues");
-    console.log(selectedValue);
-    console.log(searchTerm);
+
     if(preFilter == -1){
     console.log(preFilter);
     setPreFilter(selectedValue);
@@ -232,9 +235,64 @@ useEffect(() => {
 
 }, [username, user._id, selectedValue, searchTerm])
 
-function refreshed(){
-    fetchPosts(0)
+const refreshed = async (selectedValue) => {
+    console.log("refreshed");
+    setPosts([]);
+    const chek = username ?  true : false;
+if(chek == true) {
+    console.log(preProfile);
+    console.log("User name1");
+    console.log(username);
+    const ii = (preProfile === username) ? true : false;
+    console.log(ii);
+if (preProfile === " ") {
+    setPreProfile(username);
+    console.log("User name2");
+    console.log(username);
+    console.log(preProfile);
+    console.log(user.username);
+} else if(preProfile !== username) {
+    console.log("a NEW User name");
+    console.log(username);
+    setIndex(0);
+    setPosts([]);
+    setPreProfile(username);
 }
+}
+
+    var whPosts = "/posts/timelinePag/";
+
+    if(selectedValue == 0){
+    var whPosts = "/posts/timelinePag/";
+    }
+    else if (selectedValue == 1){
+        whPosts = "/posts/onlyFollowersPag/"
+    }
+    else if (selectedValue == 2){
+        whPosts = "/posts/onlyFollowingsPag/"
+    }
+    console.log(preFilter);
+    console.log(whPosts);
+    const res = username ?  await axios.get("/posts/profile/" + username+`?page=${0}`) : await axios.get(whPosts + user._id+`?page=${0}`);
+    console.log(res.data);
+    console.log("fetch posts");
+    if(res.data.length){
+    if(res.data.length > 0){
+        setPosts((prevItems) => [...prevItems, ...res.data
+            //.sort((p1,p2) => {return new Date(p2.createdAt) - new Date(p1.createdAt);})
+        ]); 
+        res.data.length > 0 ? setHasMore(true) : setHasMore(false);
+        //setIndex((index) => index + 1);
+        increment(0, 1);
+    } else {
+        //setPosts([]);
+        //setIndex((index) => 0);
+        //increment(index, -index);
+    }
+
+    //setPreFilter(whPosts);
+    console.log(whPosts);
+}}
 
 return (
     <div className={classes.feed}>

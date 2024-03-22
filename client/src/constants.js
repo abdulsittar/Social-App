@@ -25,7 +25,7 @@ export const consent_24 = "Wenn Sie an der Umfrage teilnehmen möchten, klicken 
 export const ja = " Ja, ich nehme teil.";
 export const nein = " Nein, ich nehme nicht teil.";
 
-export const q1 = "1. Hiermit erklären Sie sich einverstanden:";
+export const q1 = "Hiermit erklären Sie sich einverstanden:";
 export const q1_op1 = "Ich bin 18 Jahre oder älter.";
 export const q1_op2 = "Ich habe die Informationen gelesen und verstanden.";
 export const q1_op3 = "Ich bin damit einverstanden, an der Studie teilzunehmen und die damit gewonnenen Daten zu verwenden.";
@@ -33,14 +33,14 @@ export const q1_op4 = "Ich behalte mir das Recht vor, diese Einwilligung ohne An
 export const q1_op5 = "Ich behalte mir das Recht vor, die Studie jederzeit zu beenden, wenn ich dies wünsche.";
 
 export const stat_info = "Zuerst möchten wir Sie um ein paar statistische Angaben bitten.";
-export const geborn = "2. In welchem Jahr wurden Sie geboren?";
+export const geborn = "1. In welchem Jahr wurden Sie geboren?";
 
-export const q2 = "3. Geben Sie bitte Ihr Geschlecht an.";
+export const q2 = "2. Geben Sie bitte Ihr Geschlecht an.";
 export const q2_op1 = "männlich";
 export const q2_op2 = "weiblich";
 export const q2_op3 = "divers";
 
-export const q3 = "4. Welches ist der höchste allgemeinbildende Schulabschluss, den Sie haben?";
+export const q3 = "3. Welches ist der höchste allgemeinbildende Schulabschluss, den Sie haben?";
 export const q3_op1 = "Schule beendet ohne Abschluss";
 export const q3_op2 = "Hauptschulabschluss, Volksschulabschluss";
 export const q3_op3 = "Realschulabschluss, Mittlere Reife, Fachschulreife oder Polytechnikum 10. Klasse";
@@ -49,20 +49,20 @@ export const q3_op5 = "Abitur bzw. erweiterte Oberschule mit Abschluss 12. Klass
 export const q3_op6 = "bin noch Schüler*in (nicht in Ausbildung)";
 export const q3_op7 = "Anderer Schulabschluss";
 
-export const q4 = "5. Ganz allgemein gesprochen. Wie sehr interessieren Sie sich für Politik?";
-export const q4_op1 = "Ich bin überhaupt nicht interessiert";
-export const q4_op2 = "Ich bin nicht sehr interessiert";
-export const q4_op3 = "Ich bin einigermaßen interessiert";
-export const q4_op4 = "Ich bin interessiert";
-export const q4_op5 = "Ich bin sehr interessiert";
+export const q4 = "4. Ganz allgemein gesprochen. Wie sehr interessieren Sie sich für Politik?";
+export const q4_op1 = "1 Ich bin überhaupt nicht interessiert";
+export const q4_op2 = "2";
+export const q4_op3 = "3";
+export const q4_op4 = "4";
+export const q4_op5 = "5 Ich bin sehr interessiert";
 
-export const q5 = "6. Wie oft nutzen Sie soziale Medien in Ihrem Alltag?";
+export const q5 = "5. Wie oft nutzen Sie soziale Medien in Ihrem Alltag?";
 export const q5_op1 = "Sehr oft";
-export const q5_op2 = "oft";
+export const q5_op2 = "Oft";
 export const q5_op3 = "Manchmal";
 export const q5_op4 = "Nie";
 
-export const q6 = "7. In der Politik reden die Leute häufig von \"links\" und \"rechts\". Wenn Sie eine Skala von 1 bis 11 benutzen, wo würden Sie sich selbst einordnen?";
+export const q6 = "6. In der Politik reden die Leute häufig von \"links\" und \"rechts\". Wenn Sie eine Skala von 1 bis 11 benutzen, wo würden Sie sich selbst einordnen?";
 export const q6_op1 = "1 links";
 export const q6_op2 = "2";
 export const q6_op3 = "3";
@@ -77,34 +77,172 @@ export const q6_op11 = "11 rechts";
 
 export const ukraine = "Der Krieg in der Ukraine wird in Politik und Medien seit über zwei Jahren prominent diskutiert. Im Folgenden würden wir gern wissen, wie sehr Sie den Aussagen zustimmen oder nicht zustimmen.";
 
-export const q7 = "8. Deutschland sollte der Ukraine Taurus Marschflugkörper liefern.?";
-export const q7_op1 = "Stimme überhaupt nicht zu";
-export const q7_op2 = "stimme eher nicht zu";
-export const q7_op3 = "weder zustimmen noch nicht zustimmen";
-export const q7_op4 = "stimme einigermaßen zu";
-export const q7_op5 = "Stimme voll und ganz zu";
+export const q7 = "7. Deutschland sollte der Ukraine Taurus Marschflugkörper liefern.";
+export const q7_op1 = "1 Stimme überhaupt nicht zu";
+export const q7_op2 = "2";
+export const q7_op3 = "3";
+export const q7_op4 = "4";
+export const q7_op5 = "5 Stimme voll und ganz zu";
 
-export const q8 = "9. Die EU sollte die Sanktionen gegen Russland weiter verstärken.";
-export const q8_op1 = "Stimme überhaupt nicht zu";
-export const q8_op2 = "stimme eher nicht zu";
-export const q8_op3 = "weder zustimmen noch nicht zustimmen";
-export const q8_op4 = "stimme einigermaßen zu";
-export const q8_op5 = "Stimme voll und ganz zu";
+export const q8 = "8. Die EU sollte die Sanktionen gegen Russland weiter verstärken.";
+export const q8_op1 = "1 Stimme überhaupt nicht zu";
+export const q8_op2 = "2";
+export const q8_op3 = "3";
+export const q8_op4 = "4";
+export const q8_op5 = "5 Stimme voll und ganz zu";
 
-export const q9 = "10. Europa muss zusammenarbeiten, um den Krieg in der Ukraine zu beenden.";
-export const q9_op1 = "Stimme überhaupt nicht zu";
-export const q9_op2 = "stimme eher nicht zu";
-export const q9_op3 = "weder zustimmen noch nicht zustimmen";
-export const q9_op4 = "stimme einigermaßen zu";
-export const q9_op5 = "Stimme voll und ganz zu";
+export const q9 = "9. Europa muss zusammenarbeiten, um den Krieg in der Ukraine zu beenden.";
+export const q9_op1 = "1 Stimme überhaupt nicht zu";
+export const q9_op2 = "2";
+export const q9_op3 = "3";
+export const q9_op4 = "4";
+export const q9_op5 = "5 Stimme voll und ganz zu";
 
-export const q10 = "11. Deutschland sollte weiterhin Migranten aus der Ukraine aufnehmen.";
-export const q10_op1 = "Stimme überhaupt nicht zu";
-export const q10_op2 = "stimme eher nicht zu";
-export const q10_op3 = "weder zustimmen noch nicht zustimmen";
-export const q10_op4 = "stimme einigermaßen zu";
-export const q10_op5 = "Stimme voll und ganz zu";
+export const q10 = "10. Deutschland sollte weiterhin Migranten aus der Ukraine aufnehmen.";
+export const q10_op1 = "1 Stimme überhaupt nicht zu";
+export const q10_op2 = "2";
+export const q10_op3 = "3";
+export const q10_op4 = "4";
+export const q10_op5 = "5 Stimme voll und ganz zu";
 
 export const dank = "Vielen Dank!";
 export const login = "Sie können sich nun auf TWON anmelden. Bitte wählen Sie einen der drei Accountnamen und Avatare, die Ihnen unten angezeigt werden.";
 export const noteusername = "Ausgezeichnete Wahl! Bitte notieren Sie sich diesen Benutzernamen und das Passwort, da Sie diese für den zukünftigen Zugang zur Plattform benötigen. Um Ihre Anonymität in dieser Studie zu gewährleisten, speichern wir diese Information nicht ab";
+
+export const q11 = "11. Please select one username from the following three images:";
+
+export const post_info_0 = "Ganz herzlichen Dank für die aktive Nutzung der TWON-Plattform!";
+export const post_info_1 = "Im Folgenden möchten wir Ihnen gern einige Fragen zu Ihrer Nutzererfahrung auf TWON stellen. Am Schluss des Fragebogens werden Sie zurück zu Bilendi geleitet, um Ihre Vergütung zu erhalten.";
+export const post_q1 = "1. Wie lautet der Benutzername, mit dem Sie auf TWON aktiv waren?";
+
+
+export const post_info_2 = "Zuerst interessieren wir uns für Ihr Einschätzung der technischen Bedienbarkeit von TWON.";
+export const post_q2 = "2. Einmal ganz allgemein gesprochen. Wie nutzerfreundlich bewerten Sie die Gestaltung von TWON?";
+export const post_q2_op1 = "1 Überhaupt nicht nutzerfreundlich";
+export const post_q2_op2 = "2";
+export const post_q2_op3 = "3";
+export const post_q2_op4 = "4";
+export const post_q2_op5 = "5 Sehr nutzerfreundlich";
+
+export const post_q3 = "3. Sind während der Studie technische Probleme aufgetreten?";
+export const post_q3_op1 = "1 Gar keine technischen Probleme";
+export const post_q3_op2 = "2";
+export const post_q3_op3 = "3";
+export const post_q3_op4 = "4";
+export const post_q3_op5 = "5 Große technische Probleme";
+
+export const post_info_3 = "Sie  haben angegeben, dass während der Studie technische Probleme aufgetreten sind. Können die diese kurz näher beschreiben?";
+
+export const post_info_4 = "Nun möchten wir gern erfahren, wie sie die Inhalte auf TWON bewerten.";
+export const post_q4 = "4. Der Newsfeed war:";
+export const post_q4_op1 = "1 Sehr negativ";
+export const post_q4_op2 = "2";
+export const post_q4_op3 = "3";
+export const post_q4_op4 = "4";
+export const post_q4_op5 = "5";
+export const post_q4_op6 = "6";
+export const post_q4_op7 = "7 Sehr positiv";
+
+export const post_q5_op1 = "1 Nicht glaubwürdig";
+export const post_q5_op2 = "2";
+export const post_q5_op3 = "3";
+export const post_q5_op4 = "4";
+export const post_q5_op5 = "5";
+export const post_q5_op6 = "6";
+export const post_q5_op7 = "7 Glaubwürdig";
+
+export const post_q6_op1 = "1 Nicht wichtig";
+export const post_q6_op2 = "2";
+export const post_q6_op3 = "3";
+export const post_q6_op4 = "4";
+export const post_q6_op5 = "5";
+export const post_q6_op6 = "6";
+export const post_q6_op7 = "7 Wichtig"
+
+export const post_q7_op1 = "1 Für mich nicht relevant";
+export const post_q7_op2 = "2";
+export const post_q7_op3 = "3";
+export const post_q7_op4 = "4";
+export const post_q7_op5 = "5";
+export const post_q7_op6 = "6";
+export const post_q7_op7 = "7 Für mich relevant"
+
+export const post_q8_op1 = "1 Nicht aktuell";
+export const post_q8_op2 = "2";
+export const post_q8_op3 = "3";
+export const post_q8_op4 = "4";
+export const post_q8_op5 = "5";
+export const post_q8_op6 = "6";
+export const post_q8_op7 = "7 Aktuell"
+
+export const post_q9_op1 = "1 Unfreundlich";
+export const post_q9_op2 = "2";
+export const post_q9_op3 = "3";
+export const post_q9_op4 = "4";
+export const post_q9_op5 = "5";
+export const post_q9_op6 = "6";
+export const post_q9_op7 = "7 Freundlich"
+
+
+export const post_info_5 = "Und wie bewerten Sie die Interaktionen mit den anderen Nutzern von TWON?";
+export const post_q10 = "5. In den Nutzerkommentaren waren sehr viele verschiedene Meinungen vertreten:";
+export const post_q10_op1 = "1 Stimme überhaupt nicht zu";
+export const post_q10_op2 = "2";
+export const post_q10_op3 = "3";
+export const post_q10_op4 = "4";
+export const post_q10_op5 = "5 Stimme voll und ganz zu";
+
+export const post_q11 = "6. Die auf TWON geführten Diskussionen waren qualitativ hochwertig:";
+export const post_q11_op1 = "1 Stimme überhaupt nicht zu";
+export const post_q11_op2 = "2";
+export const post_q11_op3 = "3";
+export const post_q11_op4 = "4";
+export const post_q11_op5 = "5 Stimme voll und ganz zu";
+
+export const post_q12 = "7. Ich habe mich in die Diskussionen einbezogen gefühlt:";
+export const post_q12_op1 = "1 Stimme überhaupt nicht zu";
+export const post_q12_op2 = "2";
+export const post_q12_op3 = "3";
+export const post_q12_op4 = "4";
+export const post_q12_op5 = "5 Stimme voll und ganz zu";
+
+export const post_q13 = "8. Ich habe aus den Diskussionen auf TWON etwas gelernt:";
+export const post_q13_op1 = "1 Stimme überhaupt nicht zu";
+export const post_q13_op2 = "2";
+export const post_q13_op3 = "3";
+export const post_q13_op4 = "4";
+export const post_q13_op5 = "5 Stimme voll und ganz zu";
+
+export const post_info_6 = "Zum Schluss kommen wir nun noch einmal auf einige Aussagen zum Krieg in der Ukraine zurück. Bitte sagen Sie uns, wie sehr Sie den Aussagen zustimmen oder nicht zustimmen.";
+export const post_q14 = "9. Deutschland sollte der Ukraine Taurus Marschflugkörper liefern:";
+export const post_q14_op1 = "1 Stimme überhaupt nicht zu";
+export const post_q14_op2 = "2";
+export const post_q14_op3 = "3";
+export const post_q14_op4 = "4";
+export const post_q14_op5 = "5 Stimme voll und ganz zu";
+
+export const post_q15 = "10. Die EU sollte die Sanktionen gegen Russland weiter verstärken:";
+export const post_q15_op1 = "1 Stimme überhaupt nicht zu";
+export const post_q15_op2 = "2";
+export const post_q15_op3 = "3";
+export const post_q15_op4 = "4";
+export const post_q15_op5 = "5 Stimme voll und ganz zu";
+
+export const post_q16 = "11. Europa muss zusammenarbeiten, um den Krieg in der Ukraine zu beenden:";
+export const post_q16_op1 = "1 Stimme überhaupt nicht zu";
+export const post_q16_op2 = "2";
+export const post_q16_op3 = "3";
+export const post_q16_op4 = "4";
+export const post_q16_op5 = "5 Stimme voll und ganz zu";
+
+export const post_q17 = "12. Deutschland sollte weiterhin Migranten aus der Ukraine aufnehmen:";
+export const post_q17_op1 = "1 Stimme überhaupt nicht zu";
+export const post_q17_op2 = "2";
+export const post_q17_op3 = "3";
+export const post_q17_op4 = "4";
+export const post_q17_op5 = "5 Stimme voll und ganz zu";
+
+export const post_info_7 = "Vielen Dank für Ihre Teilnahme an unserer Studie. Sie haben damit einen großen Beitrag zum Erfolg unseres Projekts geleistet.";
+export const post_q18 = "13. Gibt es zum Schluss noch etwas, dass Sie uns gern zur Studie mitteilen würden?";
+
+export const post_info_8 = "Bitte klicken Sie hier, um den Fragebogen abzuschließen und Ihre Vergütung zu erhalten.";

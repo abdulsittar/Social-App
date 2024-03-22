@@ -31,7 +31,7 @@ function Sidebar({ user, classes }) {
         <div className={classes.sidebar}>
            <div className={classes.sidebarWrapper}>
 
-                <h4 className={classes.rightbarTitle}>Followings</h4>
+                <h4 className={classes.rightbarTitle}>All Users</h4>
 
                 <ul className={classes.sidebarFriendList}>
                     {friends.map((u) => (
