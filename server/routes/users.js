@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const router = require('express').Router();
 const mongoose = require('mongoose');
+const IDStorage = require('../models/IDStorage');
 require('dotenv').config()
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const Grid = require('gridfs-stream');
@@ -136,6 +137,27 @@ try {
     res.status(500).json(err);
 }
 })
+
+// get a user
+router.post('/getUser/:uniqId', async (req, res) => {
+    try {
+    const idstor = await IDStorage.find({"yourID": req.params.uniqId});
+        const fid = idstor[0]
+        const userExist = await User.find({"uniqueId": fid["_id"]});
+
+        if (userExist.length > 0) {
+            const usr = {"data": true, "login": true, "user": userExist[0]}
+            res.status(200).json(usr);
+        }else{
+            res.status(500).json(err);
+        }
+        return
+
+    } catch(err) {
+        console.log(err)
+        res.status(500).json(err);
+    }
+    })
 
 /**
  * @swagger
@@ -445,6 +467,100 @@ router.put('/:id/activity', async(req, res) =>{
 
         });
         // Like a post
+
+    } catch(err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+    });
+
+// TimeMe
+router.get('/:id/getTimeSpent', async(req, res) => {
+
+    try {
+
+        const today = new Date();
+        today.setHours(0, 0, 0, 0); 
+
+        const One_before = new Date();
+        One_before.setDate(One_before.getDate() - 1);
+        One_before.setHours(0, 0, 0, 0);
+
+        const Two_before = new Date();
+        Two_before.setDate(Two_before.getDate() - 2);
+        Two_before.setHours(0, 0, 0, 0);
+
+        const Three_before = new Date();
+        Three_before.setDate(Three_before.getDate() - 3);
+        Three_before.setHours(0, 0, 0, 0);
+
+        const Four_before = new Date();
+        Four_before.setDate(Four_before.getDate() - 4);
+        Four_before.setHours(0, 0, 0, 0);
+
+        const Ffth_before = new Date();
+        Ffth_before.setDate(Ffth_before.getDate() - 5);
+        Ffth_before.setHours(0, 0, 0, 0);
+
+        const userId = req.params.id;
+        const today_Times = await TimeMe.find({"userId":userId, "createdAt": { "$lt": today, "$gte":One_before }});
+        console.log(userId);
+        console.log(today_Times);
+
+        const One_before_Times = await TimeMe.find({"userId":userId,  "createdAt": { "$lt": One_before, "$gte":Two_before }});
+        const Two_before_Times = await TimeMe.find({"userId":userId,  "createdAt": { "$lt": Two_before, "$gte":Three_before }});
+        const Three_before_Times = await TimeMe.find({"userId":userId, "createdAt": { "$lt": Three_before, "$gte":Four_before }});
+        const Four_before_Times = await TimeMe.find({"userId":userId,  "createdAt": { "$lt": Four_before, "$gte":Ffth_before }});
+        
+        var sum_today = 0
+        var One_before_today = 0
+        var Two_before_today = 0
+        var Three_before_today = 0
+        var Four_before_today = 0
+        if (today_Times !== null && today_Times !== undefined) {
+        for (let i = 0; i < today_Times.length; i++) {
+            tim = today_Times[i]
+            const parsedNumber = parseInt(tim["seconds"], 10);
+            console.log(typeof parsedNumber);
+            console.log(sum_today);
+            console.log(parseInt(sum_today, 10) + parsedNumber)
+            sum_today = parseInt(sum_today, 10) + parsedNumber; 
+
+        } 
+    }
+    if (One_before_Times !== null && One_before_Times !== undefined) {
+        for (let i = 0; i < One_before_Times.length; i++) {
+            tim = One_before_Times[i]
+            One_before_today = One_before_today + parseInt(tim["seconds"], 10); 
+
+        } 
+    } 
+    if (Two_before_Times !== null && Two_before_Times !== undefined) {
+        for (let i = 0; i < Two_before_Times.length; i++) {
+            tim = Two_before_Times[i]
+            Two_before_today = Two_before_today + parseInt(tim["seconds"], 10); 
+
+        } 
+    }
+
+    if (Three_before_Times !== null && Three_before_Times !== undefined) {
+        for (let i = 0; i < Three_before_Times.length; i++) {
+            tim = Three_before_Times[i]
+            Three_before_today = Three_before_today + parseInt(tim["seconds"], 10);
+
+        }
+    } 
+
+    if (Four_before_Times !== null && Four_before_Times !== undefined) {
+        for (let i = 0; i < Four_before_Times.length; i++) {
+            tim = Four_before_Times[i]
+            Four_before_today = Four_before_today + parseInt(tim["seconds"], 10); 
+
+        } 
+    } 
+            
+        const response = {"today": sum_today/60, "oneDayBefore": One_before_today/60, "twoDayBefore":Two_before_today/60 , "threeDayBefore": Three_before_today/60, "fourDayBefore": Four_before_today/60}
+        res.status(200).json(response);
 
     } catch(err) {
         console.log(err);

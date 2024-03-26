@@ -16,6 +16,8 @@ const userRoute = require('./routes/users.js');
 const authRoute = require('./routes/auth.js');
 const postRoute = require('./routes/posts.js');
 const commentRoute = require('./routes/comments.js');
+const presurRoute = require('./routes/presurvey.js');
+const postsurRoute = require('./routes/postsurvey.js');
 const path = require('path');
 const fs = require('fs');
 const Grid = require('gridfs-stream');
@@ -218,6 +220,8 @@ app.use('/auth',  authRoute);
 app.use('/posts', postRoute);
 app.use('/comments', commentRoute);
 app.use('/users', apiRouter);  
+app.use('/presurvey', presurRoute);
+app.use('/postsurvey', postsurRoute);
 
 app._router.stack.forEach(function(r){
   if (r.route && r.route.path){

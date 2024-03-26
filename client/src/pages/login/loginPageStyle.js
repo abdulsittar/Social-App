@@ -13,6 +13,9 @@ export const styles = {
 		color: '#444',
 		overflow: 'auto',
     },
+	header: {
+		marginBottom: '50px'
+	},
 	disclaimor:{
 		fontSize: '14px',
 		marginTop: '10px',

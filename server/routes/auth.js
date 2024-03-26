@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
+const IDStorage = require('../models/IDStorage');
 
 /**
  * @swagger
@@ -113,7 +114,7 @@ const bcrypt = require('bcrypt');
  */
 
 // REGISTER USER
-router.post('/register/:userId', requireUserId, async (req, res) => {
+router.post('/register/:uniqId', async (req, res) => {
 try{
     console.log("here");
     // encrypt password
@@ -123,12 +124,16 @@ try{
     console.log(req.query.userId);
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
     
+    const idstor = await IDStorage.find({"yourID": req.params.uniqId});
+        
+    const fid = idstor[0]
+    
     // create new user
     const newUser = new User({
         username: req.body.username,
-        email: req.body.email,
+        profilePicture: req.body.profilePicture,
         password: hashedPassword,
-        uniqueId: req.query.userId
+        uniqueId: fid["_id"]
     });
 
     // save user and send response
@@ -138,7 +143,7 @@ try{
     res.status(200).json(user);
 
 } catch (err) {
-    //console.log(err)
+    console.log(err)
     res.status(500).json(err);
 }
 });
@@ -185,7 +190,7 @@ try{
 // LOGIN
 router.post('/login', async (req, res) => {
 try {
-    const user = await User.findOne({email: req.body.email});
+    const user = await User.findOne({username: req.body.username});
     if (!user) {
         res.status(404).json("user not found");
         return

@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const PostSurvey = new mongoose.Schema({
+  userId: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User' },
     q1: { type: String, required: false,},
     q2: { type: String, required: false,},
     q3: { type: String, required: false,},

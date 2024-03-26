@@ -1,10 +1,7 @@
 const mongoose = require('mongoose');
 
 const IDStorage = new mongoose.Schema({
-yourID: {
-    type: String,
-    required: true
-},
+yourID: {type: String, required: true},
 },
 {timestamps: true}
 );

@@ -1,5 +1,6 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { Route, Redirect } from 'react-router-dom';
 import { useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { useHistory } from "react-router";
@@ -11,6 +12,8 @@ import TextField from '@material-ui/core/TextField';
 import axios from "axios";
 import TimeMe from "timeme.js";
 import { useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import { CSSTransition } from 'react-transition-group';
 import {q11, q1, q1_op1, q1_op2, q1_op3, q1_op4, q1_op5,  nein, ja, disclaimor_1, dear_part_2, wlcome_3, bitte_4,aimHEADING_5 ,aim_6 ,procedureHEADING_7 ,procedure_8 ,voluntaryHEADING_9 ,voluntary_10 ,other_11 ,dataprotHEADING_12 ,dataprot_13 ,datasharingHEADING_14 ,datasharing_15 ,retentionHEADING_16 ,retention_17 ,furtherHEADING_18 ,further_19 ,complaints_20 ,best_21 ,nme_22 ,consentHEADING_23 ,consent_24,
   stat_info, geborn, ukraine, dank, login, noteusername, q2, q2_op1 , q2_op2,q2_op3 ,q3 ,q3_op1,q3_op2 ,q3_op3,q3_op4 ,q3_op5,q3_op6,q3_op7, q4 ,q4_op1,q4_op2,q4_op3,q4_op4,q4_op5, 
@@ -25,43 +28,92 @@ function Register({classes}) {
   const {user, isFetching, error, dispatch} = useContext(AuthContext);
   const [passwordErr, setPasswordErr] = useState('');
   const [shouldSendEvent, setShouldSendEvent] = useState(false);
-  const [userId, setUserId] = useState("");
+  const [isSurveyChecked, setIsSurveyChecked] = useState(true);
+  const [uniqId, setUniqId] = useState('');
   const [isVisibleConsent, setIsVisibleConsent] = useState(false);
+  const [isVisibleBasic, setIsVisibleBasic] = useState(false);
   const [isVisibleSignUp, setIsVisibleSignUp] = useState(false);
   const [isButtonDisabled, setButtonDisabled] = useState(false);
 
+  const [profPic1, setProfPic1] = useState("");
+  const [profPic2, setProfPic2] = useState("");
+  const [profPic3, setProfPic3] = useState("");
+
+  const [usrName1, setUsrName1] = useState("");
+  const [usrName2, setUsrName2] = useState("");
+  const [usrName3, setUsrName3] = useState("");
+
+  const [password4, setPassword4] = useState("");
+  
+
   const [value_q0, stValue_q0] = useState('option2');
-  const [value_q2, stValue_q2] = useState('option1');
-  const [value_q3, stValue_q3] = useState('option1');
-  const [value_q4, stValue_q4] = useState('option1');
-  const [value_q5, stValue_q5] = useState('option1');
-  const [value_q6, stValue_q6] = useState('option1');
-  const [value_q7, stValue_q7] = useState('option1');
-  const [value_q8, stValue_q8] = useState('option1');
-  const [value_q9, stValue_q9] = useState('option1');
-  const [value_q10, stValue_q10] = useState('option1');
-  const [value_q11, stValue_q11] = useState('option1');
+  const [value_q2, stValue_q2] = useState('');
+  const [value_q3, stValue_q3] = useState('');
+  const [value_q4, stValue_q4] = useState('');
+  const [value_q5, stValue_q5] = useState('');
+  const [value_q6, stValue_q6] = useState('');
+  const [value_q7, stValue_q7] = useState('');
+  const [value_q8, stValue_q8] = useState('');
+  const [value_q9, stValue_q9] = useState('');
+  const [value_q10, stValue_q10] = useState('');
+  const [value_q11, stValue_q11] = useState('');
+
+  const initialized = useRef(false);
 
   useEffect(() => {
-
-    console.log("user id");
+    console.log("uniqId");
     const urlParts = window.location.pathname.split('/');
     const valu = urlParts[urlParts.length-1]
     console.log(valu);
-    setUserId(valu.toString());
-    console.log(userId);
-    isUserAlreadySubmittedSurvey();
+    setUniqId(valu);
+    console.log(uniqId);
+    isUserAlreadySubmittedSurvey(valu);
 
 	}, []);
 
-    
-
   const labels = [q1_op1, q1_op2, q1_op3, q1_op4, q1_op5];
-  const isUserAlreadySubmittedSurvey = async (e) => {
+  
+  const isUserAlreadySubmittedSurvey = async (val) => {
+    try {
+      const res = await axios.post(`/presurvey/isSubmitted/${val}`);
+      console.log(res.data.data);
+      setIsSurveyChecked(false);
+      console.log(isSurveyChecked);
+      setUniqId(val);
 
+      if(res.data.login == true){
+        const urlParts = window.location.pathname.split('/');
+        const valu = urlParts[urlParts.length-1]
+        history.push(`/login/${valu}`);
 
-    setIsVisibleConsent(true)
+      }else if(res.data.data == true){
+        const usr1 = res.data.users[0];
+        const usr2 = res.data.users[1];
+        const usr3 = res.data.users[2];
+        
+        setProfPic1(usr1.profilePicture);
+        setUsrName1(usr1.username);
 
+        setProfPic2(usr2.profilePicture);
+        setUsrName2(usr2.username);
+
+        setProfPic3(usr3.profilePicture);
+        setUsrName3(usr3.username);
+
+        setPassword4(usr1.password);
+
+        setIsVisibleBasic(false)
+        setIsVisibleSignUp(true)
+
+      }else{
+
+        setIsVisibleBasic(true)
+      }
+    } catch (err) {
+      console.log(err);
+      setPasswordErr("A user with this name/email already exists. Use a different name/email. OR the used url for registrationis wrong.");
+
+    }
     // if not submitted the survey
         //show third block
 
@@ -82,15 +134,104 @@ function Register({classes}) {
   const handle_Q11_Changed = async (e) => { stValue_q11(e.target.value); };
 
   const companyButtonChanged = async (e) => { 
-    setButtonDisabled(true); 
-    window.open('https://www.google.com', '_blank');
+    e.preventDefault()
+    
+    const age = document.getElementById('age').value;
+    
+    if(age == ""){
+      e.preventDefault()
+      toast.error("Question 1. Please enter your age!");
+      return
+    }else if (value_q2 == ""){
+      e.preventDefault()
+      toast.error("Question 2. Please select one given choice!");
+      return
+    }else if (value_q3 == ""){
+      e.preventDefault()
+      toast.error("Question 3. Please select one given choice!");
+      return
+    }else if (value_q4 == ""){
+      e.preventDefault()
+      toast.error("Question 4. Please select one given choice!");
+      return
+    }else if (value_q5 == ""){
+      e.preventDefault()
+      toast.error("Question 5. Please select one given choice!");
+      return
+    }else if (value_q6 == ""){
+      e.preventDefault()
+      toast.error("Question 6. Please select one given choice!");
+      return
+    }else if (value_q7 == ""){
+      e.preventDefault()
+      toast.error("Question 7. Please select one given choice!");
+      return
+    }else if (value_q8 == ""){
+      e.preventDefault()
+      toast.error("Question 8. Please select one given choice!");
+      return
+    }else if (value_q9 == ""){
+      e.preventDefault()
+      toast.error("Question 9. Please select one given choice!");
+      return
+    }else if (value_q10 == ""){
+      e.preventDefault()
+      toast.error("Question 10. Please select one given choice!");
+      return
+    }
+    
+    const survey = {
+      q1: age,
+      q2: value_q2,
+      q3: value_q3,
+      q4: value_q4,
+      q5: value_q5,
+      q6: value_q6,
+      q7: value_q7,
+      q8: value_q8,
+      q9: value_q9,
+      q10: value_q10,
 
+    };
+  
+        try {
+          console.log(survey)
+          const res = await axios.post(`/presurvey/psurvey/${uniqId}`, survey);
+          setButtonDisabled(true); 
+
+          const urlParts = window.location.pathname.split('/');
+          const valu = urlParts[urlParts.length-1]
+          isUserAlreadySubmittedSurvey(valu);
+          
+          window.open('https://www.google.com', '_blank');
+
+        } catch (err) {
+          console.log(err);
+          setPasswordErr("A user with this name/email already exists. Use a different name/email. OR the used url for registrationis wrong.");
+  
+        }
   };
 
   const handleClick = async (e) => {
     e.preventDefault();
-    const username = document.getElementById('username').value;
-    const email = document.getElementById('email').value;
+    var username = ""
+    var proPic = ""
+
+    if(value_q11 == "option1"){
+      username = usrName1
+      proPic = profPic1
+
+    }else if(value_q11 == "option2"){
+      username = usrName2
+      proPic = profPic2
+
+    }else if(value_q11 == "option3"){
+      username = usrName3
+      proPic = profPic3
+
+    }
+    
+    //const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
     const passwordAgain = document.getElementById('passwordAgain').value;
 
@@ -102,12 +243,12 @@ function Register({classes}) {
     } else {
       const user = {
         username: username,
-        email: email,
         password: password,
+        profilePicture: proPic
       };
 
       try {
-        const res = await axios.post(`/auth/register/${userId}`, user);
+        const res = await axios.post(`/auth/register/${uniqId}`, user);
         dispatch({ type: "LOGIN_SUCCESS", payload: res.data });
         history.push("/");
       } catch (err) {
@@ -118,8 +259,10 @@ function Register({classes}) {
   };
 
     return (
+      <>
+      <ToastContainer></ToastContainer>
       <div className={classes.register}>
-        <form className={classes.form} noValidate autoComplete="off" onSubmit={handleClick}>
+        <form className={classes.form} noValidate autoComplete="off">
 				<h1 style={{marginBottom: '4vh'}}>Sign Up</h1>
 
         <p className={classes.secon_disclaimor}>{dear_part_2}</p>
@@ -150,11 +293,9 @@ function Register({classes}) {
         <p className={classes.secon_disclaimor}>{complaints_20}</p>
         <p className={classes.secon_disclaimor}>{best_21}</p>
         <p className={classes.disclaimor2}>{nme_22}</p>
-
-        
         
 
-        <CSSTransition in={isVisibleConsent} timeout={300} classNames="fade" unmountOnExit >
+        <CSSTransition in={isVisibleBasic} timeout={300} classNames="fade" unmountOnExit >
          <div id='thirdBlock'>
         <h1 style={{marginBottom: '1vh', textAlign: 'Left'}}>{consentHEADING_23}</h1>
         
@@ -168,6 +309,7 @@ function Register({classes}) {
         <form className={classes.question} style={{textAlign: 'Left'}}>
         <div className={classes.label}><label><input type="radio" value="option1" checked={value_q0 === 'option1'} onChange={handle_Q0_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{ja}</span></label></div>
         <div className={classes.label}><label><input type="radio" value="option2" checked={value_q0 === 'option2'} onChange={handle_Q0_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{nein}</span></label></div>
+        <hr style={{ borderTop: '1px solid #000' }}/>
         </form>
         </div>
         </CSSTransition>
@@ -177,7 +319,7 @@ function Register({classes}) {
 
         <p className={classes.secon_disclaimor}>{stat_info}</p>
         <p className={classes.secon_disclaimor}>{geborn}</p>
-        <input className={classes.label2} placeholder={geborn}/>
+        <input className={classes.label2} id='age' placeholder={geborn}/>
 
         <p className={classes.secon_disclaimor}>{q2}</p>
         <form  className={classes.question}>
@@ -195,8 +337,9 @@ function Register({classes}) {
         <div className={classes.label}><label ><input type="radio" value="option5"  checked={value_q3 === 'option5'} onChange={handle_Q3_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q3_op2}</span></label></div>
         <div className={classes.label}><label ><input type="radio" value="option6"  checked={value_q3 === 'option6'} onChange={handle_Q3_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q3_op5}</span></label></div>
         <div className={classes.label}><label><input type="radio" value="option7"  checked={value_q3 === 'option7'} onChange={handle_Q3_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q3_op1}</span></label></div>
+        <hr style={{ borderTop: '1px solid #000' }}/>
         </form>
-
+          
         <p className={classes.secon_disclaimor}>{q4}</p>
         <form  className={classes.question}>
         <div className={classes.label}><label><input type="radio" value="option1"   checked={value_q4 === 'option1'} onChange={handle_Q4_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q4_op1}</span></label></div>
@@ -227,6 +370,7 @@ function Register({classes}) {
         <div className={classes.label}><label><input type="radio" value="option9"   checked={value_q6 === 'option9'} onChange={handle_Q6_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q6_op9}</span></label></div>
         <div className={classes.label}><label ><input type="radio" value="option10"   checked={value_q6 === 'option10'} onChange={handle_Q6_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q6_op10}</span></label></div>
         <div className={classes.label}><label ><input type="radio" value="option11"   checked={value_q6 === 'option11'} onChange={handle_Q6_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q6_op11}</span></label></div>
+        <hr style={{ borderTop: '1px solid #000' }}/>
         </form>
 
         <p className={classes.secon_disclaimor}>{ukraine}</p>
@@ -265,14 +409,11 @@ function Register({classes}) {
         <div className={classes.label}><label ><input type="radio" value="option3"  checked={value_q10 === 'option3'} onChange={handle_Q10_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q10_op3}</span></label></div>
         <div className={classes.label}><label><input type="radio" value="option4"  checked={value_q10 === 'option4'} onChange={handle_Q10_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q10_op4}</span></label></div>
         <div className={classes.label}><label><input type="radio" value="option5"  checked={value_q10 === 'option5'} onChange={handle_Q10_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q10_op5}</span></label></div>
+        <hr style={{ borderTop: '1px solid #000' }}/>
         </form>
 
         <p className={classes.secon_disclaimor}>{dank}</p>
-        <p className={classes.secon_disclaimor}>{login}</p>
-        <p className={classes.secon_disclaimor}>{noteusername}</p>
         
-
-
 				{/*<p className={classes.text}>already have an account? <Link  style={{textDecoration: 'none'}} to={"/login/" + userId}>log in now</Link></p><p className={classes.disclaimor}>{disclaimor_1}</p>*/}
 				{/*<Avatar alt='choose avatar' src="" className={classes.avatar}/>
             	<TextField className={classes.textField} id='username' name='username' label="Username" required/>
@@ -285,22 +426,33 @@ function Register({classes}) {
         </div>
         </CSSTransition>
 
-          <CSSTransition in={isVisibleConsent} timeout={300} classNames="fade" unmountOnExit >
+          <CSSTransition in={isVisibleSignUp} timeout={300} classNames="fade" unmountOnExit >
       <div id='secondBlock'>
-        <p className={classes.secon_disclaimor}>{q11}</p>
+      <p className={classes.secon_disclaimor}>{login}</p>
+        <p className={classes.secon_disclaimor}>{noteusername}</p>
         <form  className={classes.question}>
-        <div className={classes.label}><label><input type="radio" value="option1"  checked={value_q11 === 'option1'} onChange={handle_Q11_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem", "margin-top": "0.5rem"}}><img width="50" height="50"className={classes.profileCoverImg}  src={PF+"person/noCover.png"} alt="" /></span></label></div>
-        <div className={classes.label}><label ><input type="radio" value="option2"  checked={value_q11 === 'option2'} onChange={handle_Q11_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem", "margin-top": "0.5rem"}}><img width="50" height="50" className={classes.profileCoverImg}  src={PF+"person/noCover.png"} alt="" /></span></label></div>
-        <div className={classes.label}><label ><input type="radio" value="option3"  checked={value_q11 === 'option3'} onChange={handle_Q11_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem", "margin-top": "0.5rem"}}><img width="50" height="50" className={classes.profileCoverImg}  src={PF+"person/noCover.png"} alt="" /></span></label></div>
-        </form>
-
+        <div className={classes.label}>
+          <label>
+          <input type="radio" value="option1"  checked={value_q11 === 'option1'} onChange={handle_Q11_Changed} style={{"accent-color":'red'}}/>
+          <span style={{"margin-left": "0.5rem", "margin-top": "0.5rem"}}>
+            <img width="50" height="50"className={classes.profileCoverImg}  src={profPic1 != "" ? PF+profPic1 : PF+"person/noCover.png"} alt="" /> {" "+usrName1}
+            </span>
+            </label>
+            </div>
+        <div className={classes.label}><label ><input type="radio" value="option2"  checked={value_q11 === 'option2'} onChange={handle_Q11_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem", "margin-top": "0.5rem"}}><img width="50" height="50" className={classes.profileCoverImg}  src={profPic2 != "" ? PF+profPic2 : PF+"person/noCover.png"} alt="" />{" "+usrName2}</span></label></div>
+        <div className={classes.label}><label ><input type="radio" value="option3"  checked={value_q11 === 'option3'} onChange={handle_Q11_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem", "margin-top": "0.5rem"}}><img width="50" height="50" className={classes.profileCoverImg}  src={profPic3 != "" ? PF+profPic3 : PF+"person/noCover.png"} alt="" />{" "+usrName3}</span></label></div>
         
-				<button type="submit" className={classes.button}> Signup </button>
+        <TextField className={classes.textField3} id="password" label="Password" value={password4} autoComplete="current-password"/>
+				<TextField className={classes.textField} id='passwordAgain' name='passwordAgain' label="Password Again" type="password" required/>
+        <p className={classes.errorMessage}>{passwordErr}</p>
+        <button type="submit" className={classes.button} onClick={handleClick}> Signup </button>
+        </form>
+				
         </div>
         </CSSTransition>
         </form>
         </div>
-
+        </>
     )
 }
 

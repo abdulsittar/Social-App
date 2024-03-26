@@ -14,6 +14,7 @@ import { useMediaQuery } from 'react-responsive';
 import TextField from '@material-ui/core/TextField'
 import { colors } from '@material-ui/core';
 import { toast } from 'react-toastify';
+import { useHistory } from "react-router";
 import { ToastContainer } from 'react-toastify';
 import {regSw, subscribe} from '../../helper.js';
 import { Line, Circle } from 'rc-progress';
@@ -27,6 +28,8 @@ function Progress({ classes }) {
     const [preImage, setPreImage] = useState(null);
     const { user: currentUser, dispatch } = useContext(AuthContext);
     const [bio, setBio] = useState("");
+    const [userId, setUserId] = useState("");
+    const history = useHistory();
     const [usr, setUsr] = useState({});
     const [city, setCity] = useState("");
     const [country, setCountry] = useState("");
@@ -38,9 +41,18 @@ function Progress({ classes }) {
     const [followed, setFollowed] = useState([]);
     const [isProfileFetched, setIsProfileFetched] = useState(true);
     const [prevUN, setPrevUN] = useState("");
-    const [percent, setPercent] = useState(10);
+    const [percent, setPercent] = useState(0);
+    
+    const [day_One_Percent, setDay_One_Percent] = useState(0);
+    const [day_Two_Percent, setDay_Two_Percent] = useState(0);
+    const [day_Three_Percent, setDay_Three_Percent] = useState(0);
+    const [day_Four_Percent, setDay_Four_Percent] = useState(0);
+    const [day_Five_Percent, setDay_Five_Percent] = useState(0);
 
-    const [isVisible, setIsVisible] = useState(true);
+    const [passwordErr, setPasswordErr] = useState('');
+
+    const [isVisible, setIsVisible] = useState(false);
+    const [isButtonDisabled, setButtonDisabled] = useState(false);
 
     const [value_q2, stValue_q2] = useState('option1');
     const [value_q3, stValue_q3] = useState('option1');
@@ -61,7 +73,6 @@ function Progress({ classes }) {
     const [value_q17, stValue_q17] = useState('option1');
     
 
-
 useEffect(() => {
   const fetchUser = async () => {
     const res = await axios.get(`/users?username=${username}`)
@@ -72,9 +83,40 @@ useEffect(() => {
     setPrevUN(username);
 };
   fetchUser();
+  fetchTimeSpent();
   setIsProfileFetched(false);
-}, [username]);
 
+  if(day_One_Percent > 50){
+    console.log("day_One_Percent");
+    setIsVisible(true);
+  }
+
+}, []);
+
+const fetchTimeSpent = async () => {
+  const res = await axios.get("/users/" + currentUser._id + "/getTimeSpent")
+  console.log(res.data);
+  setDay_One_Percent(calculatePercentage(res.data["today"], 2));
+  setDay_Two_Percent(calculatePercentage(res.data["oneDayBefore"], 2));
+  setDay_Three_Percent(calculatePercentage(res.data["twoDayBefore"], 2));
+  setDay_Four_Percent(calculatePercentage(res.data["threeDayBefore"], 2));
+  setDay_Five_Percent(calculatePercentage(res.data["fourDayBefore"], 2));
+
+  
+};
+
+const calculatePercentage = (numerator, denominator) => {
+  // Ensure denominator is not 0 to avoid division by zero error
+  if (denominator !== 0) {
+    const perct = (numerator/denominator) * 100
+    console.log(numerator)
+    console.log(denominator)
+    console.log(perct)
+    return (perct).toFixed(0);
+  } else {
+    return 'N/A';
+  }
+};
   
   const handle_Q2_Changed = async (e) => { stValue_q2(e.target.value); };
   const handle_Q3_Changed = async (e) => { stValue_q3(e.target.value); };
@@ -97,13 +139,106 @@ useEffect(() => {
 
   const handleClick = async (e) => {
 
+    e.preventDefault()
+    const username = document.getElementById('username').value;
+    const someelse = document.getElementById('someelse').value;
+    
+    if(username == ""){
+      toast.error("Question 1. Please enter your username!");
+      return
+    }else if (value_q2 == ""){
+      toast.error("Question 2. Please select one given choice!");
+      return
+    }else if (value_q3 == ""){
+      toast.error("Question 3. Please select one given choice!");
+      return
+    }else if (value_q4 == ""){
+      toast.error("Question 4. Please select one given choice!");
+      return
+    }else if (value_q4_1 == ""){
+      toast.error("Question 5. Please select one given choice!");
+      return
+    }else if (value_q4_2 == ""){
+      toast.error("Question 6. Please select one given choice!");
+      return
+    }else if (value_q4_3 == ""){
+      toast.error("Question 7. Please select one given choice!");
+      return
+    }else if (value_q4_4 == ""){
+      toast.error("Question 8. Please select one given choice!");
+      return
+    }else if (value_q4_5 == ""){
+      toast.error("Question 9. Please select one given choice!");
+      return
+    }else if (value_q10 == ""){
+      toast.error("Question 10. Please select one given choice!");
+      return
+    }else if (value_q11 == ""){
+      toast.error("Question 3. Please select one given choice!");
+      return
+    }else if (value_q12 == ""){
+      toast.error("Question 4. Please select one given choice!");
+      return
+    }else if (value_q13 == ""){
+      toast.error("Question 5. Please select one given choice!");
+      return
+    }else if (value_q14 == ""){
+      toast.error("Question 6. Please select one given choice!");
+      return
+    }else if (value_q15 == ""){
+      toast.error("Question 7. Please select one given choice!");
+      return
+    }else if (value_q16 == ""){
+      toast.error("Question 8. Please select one given choice!");
+      return
+    }else if (value_q17 == ""){
+      toast.error("Question 9. Please select one given choice!");
+      return
+    }else if (someelse == ""){
+      toast.error("Question 10. Please select one given choice!");
+      return
+    }
+
+    const survey = {
+      q1: username,
+      q2: value_q2,
+      q3: value_q3,
+      q4: value_q4_1,
+      q5: value_q4_2,
+      q6: value_q4_3,
+      q7: value_q4_4,
+      q8: value_q4_5,
+      q9: value_q10,
+      q10: value_q11,
+      q11: value_q12,
+      q12: value_q13,
+      q13: value_q14,
+      q14: value_q15,
+      q15: value_q16,
+      q16: value_q17,
+      q17: someelse,
+    };
+        try {
+          console.log(survey)
+          const res = await axios.post(`/postsurvey/pstsurvey/${currentUser.uniqueId}`, survey);
+
+          localStorage.removeItem("user");
+	        const urlParts = window.location.pathname.split('/');
+          const valu = urlParts[urlParts.length-1]
+          window.open('https://www.google.com', '_blank');
+	        history.push(`/login/${valu}`);
+        } catch (err) {
+          console.log(err);
+          setPasswordErr("A user with this name/email already exists. Use a different name/email. OR the used url for registrationis wrong.");
+  
+        }
   };
 
   useEffect(() => {
       setFollowed(currentUser.followings.includes(usr._id));
         //setSelectedImage(usr.profilePicture);
         setPreImage(usr.profilePicture);
-    }, [currentUser.followings, usr]);
+    }, []);
 
 
    return (
@@ -144,31 +279,31 @@ useEffect(() => {
         </div>
         <div style= {{width: 'auto', alignItems: 'center', "margin":"50px"}}>
 
-        <h3 className={classes.progressHead}>Progress Day 1 {percent}%</h3>
-        <Line percent={percent} strokeWidth={4} strokeColor="green" className={classes.progressVal}/>
+        <h3 className={classes.progressHead}>Progress Day 1 = {day_One_Percent}%</h3>
+        <Line percent={day_One_Percent} strokeWidth={4} strokeColor={day_One_Percent < 30? "red": day_One_Percent < 60? "yellow": "green"} className={classes.progressVal}/>
 
-        <h3 className={classes.progressHead}>Progress Day 2 {percent}%</h3>
-        <Line percent={percent} strokeWidth={4} strokeColor="green" className={classes.progressVal}/>
+        <h3 className={classes.progressHead}>Progress Day 2 = {day_Two_Percent}%</h3>
+        <Line percent={day_Two_Percent} strokeWidth={4} strokeColor={day_Two_Percent < 30? "red": day_Two_Percent < 60? "yellow": "green"} className={classes.progressVal}/>
 
-        <h3 className={classes.progressHead}>Progress Day 3 {percent}%</h3>
-        <Line percent={percent} strokeWidth={4} strokeColor="green" className={classes.progressVal}/>
+        <h3 className={classes.progressHead}>Progress Day 3 = {day_Three_Percent}%</h3>
+        <Line percent={day_Three_Percent} strokeWidth={4} strokeColor={day_Three_Percent < 30? "red": day_Three_Percent < 60? "yellow": "green"} className={classes.progressVal}/>
 
-        <h3 className={classes.progressHead}>Progress Day 4 {percent}%</h3>
-        <Line percent={percent} strokeWidth={4} strokeColor="green" className={classes.progressVal}/>
+        <h3 className={classes.progressHead}>Progress Day 4 = {day_Four_Percent}%</h3>
+        <Line percent={day_Four_Percent} strokeWidth={4} strokeColor={day_Four_Percent < 30? "red": day_Four_Percent < 60? "yellow": "green"} className={classes.progressVal}/>
 
-        <h3 className={classes.progressHead}>Progress Day 5 {percent}%</h3>
-        <Line percent={percent} strokeWidth={4} strokeColor="green" className={classes.progressVal}/>
+        <h3 className={classes.progressHead}>Progress Day 5 = {day_Five_Percent}%</h3>
+        <Line percent={day_Five_Percent} strokeWidth={4} strokeColor={day_Five_Percent < 30? "red": day_Five_Percent < 60? "yellow": "green"} className={classes.progressVal}/>
         
           {/*<Circle percent={percent} strokeWidth={4} strokeColor="green" />*/}
         </div>
 
-          <form className={classes.form} noValidate autoComplete="off" onSubmit={handleClick}>
-        <CSSTransition in={isVisible} timeout={300} classNames="fade" unmountOnExit >
+          <form className={classes.form} noValidate autoComplete="off">
+        <CSSTransition in={day_One_Percent > 50 && day_Two_Percent > -1 && day_Three_Percent > -1 && day_Four_Percent > -1 && day_Five_Percent > -1} timeout={300} classNames="fade" unmountOnExit >
       <div id='toShow'>
       <p className={classes.secon_disclaimor}>{post_info_0}</p>
       <p className={classes.secon_disclaimor}>{post_info_1}</p>
       <p className={classes.secon_disclaimor}>{post_q1}</p>
-      <input className={classes.label2} placeholder={post_q1}/>
+      <input id="username" className={classes.label2} placeholder={post_q1}/>
 
       <p className={classes.secon_disclaimor}>{post_info_2}</p>
         <p className={classes.secon_disclaimor}>{post_q2}</p>
@@ -335,10 +470,10 @@ useEffect(() => {
 
         <p className={classes.secon_disclaimor}>{post_info_7}</p>
         <p className={classes.secon_disclaimor}>{post_q18}</p>
-        <input className={classes.label2} placeholder={post_q18}/>
+        <input id="someelse" className={classes.label2} placeholder={post_q18}/>
         <p className={classes.secon_disclaimor}>{post_info_8}</p>
 
-				<button type="submit" className={classes.button}> Submit Post Survey </button>
+				<button onClick={handleClick} type="submit" className={classes.button}> Submit Post Survey </button>
         </div>
         </CSSTransition>
 					</form>

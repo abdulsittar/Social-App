@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 const PreSurvey = new mongoose.Schema({
+  uniqueId:{
+    type: mongoose.Schema.Types.ObjectId, 
+    required: true,
+    ref: 'IDStorage'},
     q1: { type: String, required: false,},
     q2: { type: String, required: false,},
     q3: { type: String, required: false,},

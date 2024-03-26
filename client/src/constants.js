@@ -105,11 +105,11 @@ export const q10_op3 = "3";
 export const q10_op4 = "4";
 export const q10_op5 = "5 Stimme voll und ganz zu";
 
-export const dank = "Vielen Dank!";
+export const dank = "Vielen Dank für Ihre Antworten. Bitte drücken Sie „Senden“. Anschließend werden Sie auf eine neue Seite weitergeleitet, auf der Sie Ihr Konto für die TWON-Plattform erstellen können.";
 export const login = "Sie können sich nun auf TWON anmelden. Bitte wählen Sie einen der drei Accountnamen und Avatare, die Ihnen unten angezeigt werden.";
 export const noteusername = "Ausgezeichnete Wahl! Bitte notieren Sie sich diesen Benutzernamen und das Passwort, da Sie diese für den zukünftigen Zugang zur Plattform benötigen. Um Ihre Anonymität in dieser Studie zu gewährleisten, speichern wir diese Information nicht ab";
 
-export const q11 = "11. Please select one username from the following three images:";
+export const q11 = "Please select one username from the following three images:";
 
 export const post_info_0 = "Ganz herzlichen Dank für die aktive Nutzung der TWON-Plattform!";
 export const post_info_1 = "Im Folgenden möchten wir Ihnen gern einige Fragen zu Ihrer Nutzererfahrung auf TWON stellen. Am Schluss des Fragebogens werden Sie zurück zu Bilendi geleitet, um Ihre Vergütung zu erhalten.";

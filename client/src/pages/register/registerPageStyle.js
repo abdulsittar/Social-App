@@ -117,6 +117,10 @@ export const styles = {
 		width: '100%',
 		marginTop: '40px',	
 	},
+	textField3: {
+		width: '100%',
+		marginTop: '40px',	
+	},
     button: {
 		width: '100%',
 		backgroundColor: '#1b2021',
