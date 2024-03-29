@@ -70,6 +70,27 @@ export const styles = {
 		textAlign: 'left',
 		letterSpacing: '.7px',
 	},
+	secon_disclaimor4:{
+		fontSize: '14px',
+		marginTop: '5px',
+		marginBottom: '4vh',
+		color: '#444',
+		fontWeight: '500',
+		justifyContent: 'left',
+		textAlign: 'left',
+		letterSpacing: '.7px',
+	},
+	secon_disclaimor5:{
+		fontSize: '14px',
+		marginTop: '1vh',
+		marginBottom: '4vh',
+		color: '#444',
+		fontWeight: '500',
+		justifyContent: 'left',
+		textAlign: 'left',
+		letterSpacing: '.7px',
+	},
+	
 	disclaimor2:{
 		fontSize: '14px',
 		marginTop: '1vh',

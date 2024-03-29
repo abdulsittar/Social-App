@@ -1,4 +1,4 @@
-const SelectedUsers = require('../models/SelectedUsers');
+const SelectedUsers = require('../models/SelectedUser');
 const PreSurvey = require('../models/PreSurvey');
 const User = require('../models/User');
 const IDStorage = require('../models/IDStorage');
@@ -115,11 +115,13 @@ router.post('/isSubmitted/:val', async (req, res) => {
             if (userExist.length > 0) {
                 const usr = {"data": true, "login": true, "user": userExist[0]}
                 res.status(200).json(usr);
+
             }else{
                 const users = await SelectedUsers.find({ "available": true }).limit(3).exec();
                 //console.log(users);
                 const usr = {"data": true, "users": users}
                 res.status(200).json(usr);
+
             }
             return
         }else{

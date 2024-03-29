@@ -125,7 +125,7 @@ function Post({onScrolling,  post, classes, isDetail }) {
     };
     //console.log(post.comments.length)
     fetchUser();
-  }, [post.userId])
+  }, [])
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -314,7 +314,7 @@ function Post({onScrolling,  post, classes, isDetail }) {
             </span>
             </Link>
             <span className={classes.postDate}>{format(post.createdAt)}</span>
-            <span className={classes.postDate} style={{margin: '0px 0px 0px 20px',}}>{" Ranking " + rank}</span>
+            <span className={classes.postDate} style={{margin: '0px 0px 0px 20px',}}>{" Ranking " + rank + " Reposted by: "+ repost}</span>
           </div>
           { (!isDetail)?
           <div className={classes.postTopRight}>
@@ -363,6 +363,8 @@ function Post({onScrolling,  post, classes, isDetail }) {
             </div>
             <div className={classes.commentTop}>
             {comments.slice(0).reverse().map((item, i) => {
+              console.log(i);
+              console.log(item._id);
                       //return <CommentSA key={item._id} post={post} comment={item} isDetail={false}/>
               if(isDetail===false && i < 1) {
                   return <CommentSA key={item._id} post={post} comment={item} isDetail={false}/>

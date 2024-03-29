@@ -2,7 +2,10 @@ const router = require('express').Router();
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const IDStorage = require('../models/IDStorage');
+const SelectedUser = require('../models/SelectedUser');
+var mongoose  = require('mongoose');
 
+const { ObjectId } = require('mongodb');
 /**
  * @swagger
  * components:
@@ -127,6 +130,7 @@ try{
     const idstor = await IDStorage.find({"yourID": req.params.uniqId});
         
     const fid = idstor[0]
+    console.log(fid)
     
     // create new user
     const newUser = new User({
@@ -140,7 +144,26 @@ try{
 
 
     const user = await newUser.save();
+
+    let diction = {}
+    diction["available"] = false    
+    const updatedData = { $set: diction}
+
+    const selectedUser = await SelectedUser.find({"username":req.body.username});
+    console.log(updatedData)
+    console.log(selectedUser)
+
+    try {
+        await selectedUser[0].updateOne({ $set: {"available":"false"}});
+        
+
+    } catch (error) {
+        console.error('Error updating object field:', error);
+
+    }
+    console.log(user)
     res.status(200).json(user);
+
 
 } catch (err) {
     console.log(err)

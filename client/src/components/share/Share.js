@@ -40,7 +40,7 @@ function Share({classes}) {
           } catch (err) {}
         }
         try {
-          await axios.post("/posts", newPost);
+          await axios.post("/posts/create", newPost);
 
           // refresh the page after posting something
           window.location.reload();

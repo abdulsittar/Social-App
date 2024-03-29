@@ -40,6 +40,7 @@ function CommentSA ({post, comment, isDetail, classes }) {
     
     setIsDisliked(comment.dislikes.includes(currentUser._id));
     setIsDislikedByOne(comment.dislikes.length == 1)
+    console.log(comment._id);
 
   }, [currentUser._id, comment.likes, comment.dislikes]);
 

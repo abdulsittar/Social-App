@@ -201,15 +201,18 @@
      */
 
     // create a post
-    router.post('/', async(req, res) => {
-    const newPost = new Post(req.body);
-    try{
-    const savedPost = await newPost.save(); 
-    res.status(200).json(savedPost);
-    }catch(err) {
-    res.status(500).json(err);
-    }
-    })
+    router.post('/:id/create', async(req, res) => {
+        console.log(req.params);
+        console.log(req.body);
+        const newPost = new Post({userId: req.body.userId, desc: req.body.desc});
+        console.log(newPost);
+        try{
+            const savedPost = await newPost.save(); 
+            res.status(200).json(savedPost);
+        }catch(err) {
+            res.status(500).json(err);
+        }
+        })
 
     //repost a post
     router.post('/:id/repost', async(req, res) =>{

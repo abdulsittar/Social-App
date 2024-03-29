@@ -478,34 +478,41 @@ router.put('/:id/activity', async(req, res) =>{
 router.get('/:id/getTimeSpent', async(req, res) => {
 
     try {
-
+        console.log("here");
         const today = new Date();
-        today.setHours(0, 0, 0, 0); 
+        //today.setHours(0, 0, 0, 0); 
 
         const One_before = new Date();
-        One_before.setDate(One_before.getDate() - 1);
-        One_before.setHours(0, 0, 0, 0);
+        //One_before.setDate(today.getDate() - 1);
+        One_before.setHours(0, 0, 0, 0); 
 
         const Two_before = new Date();
-        Two_before.setDate(Two_before.getDate() - 2);
+        Two_before.setDate(One_before.getDate() - 1);
         Two_before.setHours(0, 0, 0, 0);
 
         const Three_before = new Date();
-        Three_before.setDate(Three_before.getDate() - 3);
+        Three_before.setDate(Two_before.getDate() - 1);
         Three_before.setHours(0, 0, 0, 0);
 
         const Four_before = new Date();
-        Four_before.setDate(Four_before.getDate() - 4);
+        Four_before.setDate(Three_before.getDate() - 1);
         Four_before.setHours(0, 0, 0, 0);
 
         const Ffth_before = new Date();
-        Ffth_before.setDate(Ffth_before.getDate() - 5);
+        Ffth_before.setDate(Four_before.getDate() - 1);
         Ffth_before.setHours(0, 0, 0, 0);
 
         const userId = req.params.id;
-        const today_Times = await TimeMe.find({"userId":userId, "createdAt": { "$lt": today, "$gte":One_before }});
+        const today_Times = await TimeMe.find({"userId":new ObjectId(userId), "createdAt": { "$lt": today, "$gte":One_before}});
+
         console.log(userId);
-        console.log(today_Times);
+        console.log(today);
+        console.log(One_before);
+        console.log(Two_before);
+        console.log(Three_before);
+        console.log(Four_before);
+        console.log(Ffth_before);
+        //console.log(today_Times);
 
         const One_before_Times = await TimeMe.find({"userId":userId,  "createdAt": { "$lt": One_before, "$gte":Two_before }});
         const Two_before_Times = await TimeMe.find({"userId":userId,  "createdAt": { "$lt": Two_before, "$gte":Three_before }});
@@ -521,9 +528,9 @@ router.get('/:id/getTimeSpent', async(req, res) => {
         for (let i = 0; i < today_Times.length; i++) {
             tim = today_Times[i]
             const parsedNumber = parseInt(tim["seconds"], 10);
-            console.log(typeof parsedNumber);
-            console.log(sum_today);
-            console.log(parseInt(sum_today, 10) + parsedNumber)
+            //console.log(typeof parsedNumber);
+            //console.log(sum_today);
+            //console.log(parseInt(sum_today, 10) + parsedNumber)
             sum_today = parseInt(sum_today, 10) + parsedNumber; 
 
         } 
