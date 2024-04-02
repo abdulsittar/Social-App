@@ -17,6 +17,7 @@ import { toast } from 'react-toastify';
 import { ToastContainer } from 'react-toastify';
 import {regSw, subscribe} from '../../helper.js';
 import TimeMe from "timeme.js";
+import {Failed_Update_profile, Profile_Saved, Save_profile, Select_from_Gallery } from '../../constants';
 
 //import { ToastProvider, useToasts } from 'react-toast-notifications';
 
@@ -224,12 +225,12 @@ useEffect(() => {
           //toast.success("Updated");
           //const { addToast } = useToasts();
           //YourComponent.showToast('Saved Successfully');
-          toast.success("Profile Saved")
+          toast.success({Profile_Saved});
           
       }
       } catch (error) {
         console.error('Error uploading image:', error);
-        toast.error("Failed to update the profile");
+        toast.error({Failed_Update_profile});
         //YourComponent.showToast('Failed to upload the profile');
         // Handle error
       }
@@ -254,9 +255,9 @@ useEffect(() => {
                 />
                 {username == currentUser.username && (
                 <div className={classes.photosInfo}>
-                  <button id="fileSeleID" onClick={handleUploadFromGallery}>{"Select from Gallery"}</button>
+                  <button id="fileSeleID" onClick={handleUploadFromGallery}>{Select_from_Gallery}</button>
                   
-                  <button onClick={handleUpload}>Save profile</button>
+                  <button onClick={handleUpload}>{Save_profile}</button>
                 </div>
                 )}
                 <img id='profileImg'
@@ -287,9 +288,6 @@ useEffect(() => {
         </div>
       </>
     );
-
-
-
   }
 
 export default withStyles(styles)(Profile);

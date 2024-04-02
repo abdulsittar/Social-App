@@ -17,6 +17,7 @@ router.post('/pstsurvey/:uniqId', async (req, res) => {
             "q2": req.body.q2,
             "q3": req.body.q3,
             "q4": req.body.q4,
+            "q4b": req.body.q4b,
             "q5": req.body.q5,
             "q6": req.body.q6,
             "q7": req.body.q7,

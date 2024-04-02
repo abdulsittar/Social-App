@@ -31,7 +31,7 @@ import { useTheme } from '@mui/material/styles';
 
 
 
-import {toGet, theChoice, whats, plzCon, infoPass, screen, note, enony, excell, welcome, q11, q1, q1_op1, q1_op2, q1_op3, q1_op4, q1_op5,  nein, ja, disclaimor_1, dear_part_2, wlcome_3, bitte_4,aimHEADING_5 ,aim_6 ,procedureHEADING_7 ,procedure_8 ,voluntaryHEADING_9 ,voluntary_10 ,other_11 ,dataprotHEADING_12 ,dataprot_13 ,datasharingHEADING_14 ,datasharing_15 ,retentionHEADING_16 ,retention_17 ,furtherHEADING_18 ,further_19 ,complaints_20 ,best_21 ,nme_22 ,consentHEADING_23 ,consent_24,
+import {A_user_with, toGet, theChoice, whats, plzCon, infoPass, screen, note, enony, excell, welcome, q11, q1, q1_op1, q1_op2, q1_op3, q1_op4, q1_op5,  nein, ja, disclaimor_1, dear_part_2, wlcome_3, bitte_4,aimHEADING_5 ,aim_6 ,procedureHEADING_7 ,procedure_8 ,voluntaryHEADING_9 ,voluntary_10 ,other_11 ,dataprotHEADING_12 ,dataprot_13 ,datasharingHEADING_14 ,datasharing_15 ,retentionHEADING_16 ,retention_17 ,furtherHEADING_18 ,further_19 ,complaints_20 ,best_21 ,nme_22 ,consentHEADING_23 ,consent_24,
   stat_info, geborn, ukraine, dank, login, noteusername, q2, q2_op1 , q2_op2,q2_op3 ,q3 ,q3_op1,q3_op2 ,q3_op3,q3_op4 ,q3_op5,q3_op6,q3_op7, q4 ,q4_op1,q4_op2,q4_op3,q4_op4,q4_op5, 
   q5 , q5_op1 ,q5_op2, q5_op3 , q5_op4, q6, q6_op1, q6_op2,  q6_op3,  q6_op4,   q6_op5,  q6_op6,  q6_op7,  q6_op8,  q6_op9,  q6_op10,  q6_op11, q7 ,
   q7_op1,  q7_op2, q7_op3, q7_op4, q7_op5, q8, q8_op1, q8_op2,  q8_op3,  q8_op4, q8_op5,  q9, q9_op1, q9_op2, q9_op3,  q9_op4 ,q9_op5, q10, q10_op1 ,
@@ -178,7 +178,7 @@ function Register({classes}) {
       }
     } catch (err) {
       console.log(err);
-      setPasswordErr("A user with this name/email already exists. Use a different name/email. OR the used url for registrationis wrong.");
+      setPasswordErr({A_user_with});
 
     }
     // if not submitted the survey
@@ -432,7 +432,7 @@ function Register({classes}) {
 
         } catch (err) {
           console.log(err);
-          setPasswordErr("A user with this name/email already exists. Use a different name/email. OR the used url for registrationis wrong.");
+          setPasswordErr({A_user_with});
   
         }
   };
@@ -536,7 +536,7 @@ function Register({classes}) {
         <form className={classes.form} noValidate autoComplete="off">
 				<h1 style={{marginBottom: '4vh'}}>Sign Up</h1>
 
-        <CSSTransition in={isVisibleBasicInfo} timeout={300} classNames="fade" unmountOnExit >
+        <CSSTransition in={isVisibleBasicInfo} timeout={50} classNames="fade" unmountOnExit >
         <div id='sixBlock'>
         <p className={classes.secon_disclaimor}>{dear_part_2}</p>
         <p className={classes.secon_disclaimor}>{wlcome_3}</p>
@@ -569,7 +569,7 @@ function Register({classes}) {
         </div>
         </CSSTransition>
 
-        <CSSTransition in={isVisibleBasic} timeout={300} classNames="fade" unmountOnExit >
+        <CSSTransition in={isVisibleBasic} timeout={50} classNames="fade" unmountOnExit >
          <div id='thirdBlock'>
         <h1 style={{marginBottom: '3vh', textAlign: 'Left'}}>{consentHEADING_23}</h1>
         
@@ -738,7 +738,7 @@ function Register({classes}) {
           </div>
         </CSSTransition>
 
-      <CSSTransition in={isVisibleSignUp} timeout={300} classNames="fade" unmountOnExit >
+      <CSSTransition in={isVisibleSignUp} timeout={50} classNames="fade" unmountOnExit >
       <div id='secondBlock'>
       <p className={classes.secon_disclaimor4}>{welcome}</p>
       <p className={classes.secon_disclaimor}>{login}</p>

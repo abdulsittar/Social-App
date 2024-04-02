@@ -9,6 +9,7 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { Link } from 'react-router-dom'; 
 import { useHistory } from "react-router";
 import { useMediaQuery } from 'react-responsive';
+import { Profile_details, Log_Out, Time_Spent } from '../../constants';
 
 const useStyles = makeStyles((theme) => ({
 	typography: {
@@ -52,7 +53,7 @@ export default function SimplePopover({anchorEl, handleClose}) {
 	localStorage.removeItem("user");
 	const urlParts = window.location.pathname.split('/');
     const valu = urlParts[urlParts.length-1]
-	history.push(`/login/${valu}`);
+	history.push(`/register/${valu}`);
   }
 
   return (
@@ -76,7 +77,7 @@ export default function SimplePopover({anchorEl, handleClose}) {
 			<Avatar/>
 			<Link to={`/profile/${user.username}`} style={{textDecoration:'none', color: '#111'}}>
 				<Typography className={classes.typography}>{user.username} </Typography>
-				<Typography className={classes.typography + ' ' + classes.desc}>Profile details</Typography>
+				<Typography className={classes.typography + ' ' + classes.desc}>{Profile_details}</Typography>
 			</Link>
 		</div>
 		{/* (!isMobileDevice || !isTabletDevice)?  
@@ -99,12 +100,12 @@ export default function SimplePopover({anchorEl, handleClose}) {
 			<Avatar/>
 			<Link to={`/progress/${user.username}`} style={{textDecoration:'none', color: '#111'}}>
 				<Typography className={classes.typography}>{"Progress"} </Typography>
-				<Typography className={classes.typography + ' ' + classes.desc}>Time Spent </Typography>
+				<Typography className={classes.typography + ' ' + classes.desc}>{Time_Spent}</Typography>
 			</Link>
 		</div>
 		<div className={classes.flex}>
 			<ExitToAppIcon className={classes.icon} />
-			<Typography className={classes.typography} onClick={logOut}>Log out</Typography>
+			<Typography className={classes.typography} onClick={logOut}>{Log_Out}</Typography>
 		</div>
       </Popover>
     </div>

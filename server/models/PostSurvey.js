@@ -6,6 +6,7 @@ const PostSurvey = new mongoose.Schema({
     q2: { type: String, required: false,},
     q3: { type: String, required: false,},
     q4: { type: String, required: false,},
+    q4b: { type: String, required: false,},
     q5: { type: String, required: false,},
     q6: { type: String, required: false,},
     q7: { type: String, required: false,},

@@ -9,6 +9,7 @@ import { useMediaQuery } from 'react-responsive';
 import InputEmoji from "react-input-emoji";
 import SendIcon from '@mui/icons-material/Send';
 import { Search } from '@material-ui/icons';
+import { What_in_your_mind, Feelings } from '../../constants';
 
 function Share({classes}) {
     const { user } = useContext(AuthContext);
@@ -18,8 +19,6 @@ function Share({classes}) {
     const [file, setFile] = useState(null);
     const isMobileDevice = useMediaQuery({ query: "(min-device-width: 480px)", });
     const isTabletDevice = useMediaQuery({ query: "(min-device-width: 768px)", });
-
-    
 
     // submit a post
     const submitHandler = async (e) => {
@@ -71,7 +70,7 @@ function Share({classes}) {
                         alt=""
                     />
                     <InputEmoji
-                        placeholder={"What's in your mind " + user.username + "?"}
+                        placeholder={What_in_your_mind + user.username + "?"}
                         className={classes.shareInput}
                         onChange={handleChange}
                         ref={desc}
@@ -107,7 +106,7 @@ function Share({classes}) {
                         </div>
                         <div className={classes.shareOption} style={{ display: "none" }}>
                             <EmojiEmotions htmlColor="goldenrod" className={classes.shareIcon}/>
-                            <span className={classes.shareOptionText}>Feelings</span>
+                            <span className={classes.shareOptionText}>{"Gefühle"}</span>
                         </div>
                     </div>
                     <SendIcon className={classes.sendButton2}  style={{ align: "right" }} type="submit" onClick={submitHandler}/>

@@ -267,3 +267,67 @@ export const post_info_7 = "Vielen Dank für Ihre Teilnahme an unserer Studie. S
 export const post_q18 = "18. Gibt es zum Schluss noch etwas, dass Sie uns gern zur Studie mitteilen würden?";
 
 export const post_info_8 = "Bitte klicken Sie hier, um den Fragebogen abzuschließen und Ihre Vergütung zu erhalten.";
+
+
+export const followers = "Follower";
+export const followings = "Following";
+export const disclaim = "HAFTUNGSAUSSCHLUSS: Diese Anwendung wurde im Rahmen eines Forschungsprojekts entwickelt und dient dazu, Daten über das Verhalten und die Interaktionen der Nutzer zu sammeln, einschließlich der Reaktionen auf Posts und Muster. Es wird empfohlen, diese Anwendung nicht zu verwenden, es sei denn, Sie möchten freiwillig Daten zu dem Projekt beitragen. Sollten Sie die Anwendung zunächst nutzen, aber später beschließen, Ihre Daten zu löschen, kontaktieren Sie uns bitte unter alenka.gucek@ijs.si. Bitte beachten Sie, dass diese Anwendung nicht für den öffentlichen Gebrauch bestimmt ist und nicht als allgemeiner Service dient. Übersetzt mit DeepL.com (kostenlose Version)";
+export const email = "E-Mail";
+export const Password = "Passwort";
+export const Failed_Update_profile = "Dein Profil konnte nicht hochgeladen werden";
+export const Save_profile = "Profil speichern";
+export const Select_from_Gallery = "Aus der Galerie wählen";
+export const Profile_Saved = "Profil gespeichert";
+export const Progress_Day_1  = "Fortschritt Tag 1";
+export const Progress_Day_2  = "Fortschritt Tag 2";
+export const Progress_Day_3  = "Fortschritt Tag 3";
+export const Progress_Day_4  = "Fortschritt Tag 4";
+export const Progress_Day_5  = "Fortschritt Tag 5";
+export const Submit_Post_Survey = "Postumfrage abschicken";
+export const Signup = "Anmelden";
+export const Type_a_message_here = "Nachricht schreiben…";
+export const Send = "Schicken";
+export const Open_a_conversation = "Öffne eine Konversation, um einen Chat zu beginnen.";
+export const Conversation = "Konversation";
+export const Pull_down_to_refresh = "Zum Aktualisieren nach unten ziehen";
+export const Release_to_refresh = "Zum Aktualisieren loslassen";
+export const Personal_Information = "Persönliche Informationen";
+export const Not_available = "Nicht verfügbar";
+export const Profile_details = "Profildetails";
+export const Log_Out = "Ausloggen";
+export const Time_Spent  = "Verbrachte Zeit ";
+export const click_to_see_more = "Hier klicken, um mehr zu sehen";
+export const comments = "Kommentare";
+export const Write_something = "Etwas schreiben…";
+export const Search_input = "Input suchen";
+export const What_in_your_mind = "Woran denkst du gerade ";
+export const Location = "Standort";
+export const Feelings = "Gefühle";
+export const Searche = "Suchen";
+export const A_user_with = "Ein Benutzer mit diesem Namen/E-Mail existiert bereits. Verwende einen anderen Namen/eine andere E-Mail-Adresse. Oder die verwendete Url für die Registrierung ist falsch.";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

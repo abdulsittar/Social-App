@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom'
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { withStyles } from '@material-ui/styles'
+import { Search_input} from '../../constants';
 
 const styles = ({
   '.MuiOutlinedInput-notchedOutline': {
@@ -22,7 +23,7 @@ function SearchUser({listOfContacts, classes}) {
         renderInput={(params) => (
           <TextField
             {...params}
-            label="Search input"
+            label={Search_input}
             margin="normal"
             variant="outlined"
             InputProps={{ ...params.InputProps, type: 'search' }}

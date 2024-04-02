@@ -20,7 +20,7 @@ import {regSw, subscribe} from '../../helper.js';
 import { Line, Circle } from 'rc-progress';
 import { CSSTransition } from 'react-transition-group';
 import { useScrollBy } from "react-use-window-scroll";
-import {post_q4_1, post_q4_2, post_q4_3, post_q4_4, post_q4_5, post_info_0, post_info_1,post_q1,post_info_2,post_q2, post_q2_op1,post_q2_op2,post_q2_op3, post_q2_op4,post_q2_op5 ,post_q3 ,post_q3_op1 , post_q3_op2 , post_q3_op3 ,post_q3_op4 ,post_q3_op5 , post_info_3 , post_info_4 , post_q4 ,post_q4_op1 ,post_q4_op2 ,post_q4_op3 , post_q4_op4,post_q4_op5 ,post_q4_op6 ,post_q4_op7 ,post_q5_op1 ,post_q5_op2  ,post_q5_op3 ,post_q5_op4 ,post_q5_op5 ,post_q5_op6,post_q5_op7,post_q6_op1 ,post_q6_op2 ,post_q6_op3 ,post_q6_op4 ,post_q6_op5 ,post_q6_op6 ,post_q6_op7 ,post_q7_op1 ,post_q7_op2 ,post_q7_op3 ,post_q7_op4 ,post_q7_op5 ,post_q7_op6 ,post_q7_op7 ,post_q8_op1 , post_q8_op2,post_q8_op3 ,post_q8_op4 ,post_q8_op5 ,post_q8_op6 , post_q8_op7, post_q9_op1, post_q9_op2, post_q9_op3,post_q9_op4 ,post_q9_op5 ,post_q9_op6 , post_q9_op7, post_info_5,post_q10 ,post_q10_op1 ,post_q10_op2,post_q10_op3 ,post_q10_op4 ,post_q10_op5 ,post_q11 ,post_q11_op1 ,post_q11_op2 ,post_q11_op3 ,post_q11_op4,post_q11_op5 ,post_q12 ,post_q12_op1 ,post_q12_op2 ,post_q12_op3 ,post_q12_op4 ,post_q12_op5 ,post_q13 ,post_q13_op1 ,post_q13_op2 , post_q13_op3,post_q13_op4 , post_q13_op5,post_info_6 ,post_q14 ,post_q14_op1 ,post_q14_op2 ,post_q14_op3 , post_q14_op4,post_q14_op5 ,post_q15 ,post_q15_op1, post_q15_op2, post_q15_op3, post_q15_op4,post_q15_op5 ,post_q16 , post_q16_op1,post_q16_op2 ,post_q16_op3 ,post_q16_op4 ,post_q16_op5 ,post_q17 , post_q17_op1, post_q17_op2, post_q17_op3, post_q17_op4, post_q17_op5,post_info_7 ,post_q18, post_info_8 } from '../../constants';
+import {A_user_with, Submit_Post_Survey, Progress_Day_1, Progress_Day_2, Progress_Day_3, Progress_Day_4, Progress_Day_5, post_q4_1, post_q4_2, post_q4_3, post_q4_4, post_q4_5, post_info_0, post_info_1,post_q1,post_info_2,post_q2, post_q2_op1,post_q2_op2,post_q2_op3, post_q2_op4,post_q2_op5 ,post_q3 ,post_q3_op1 , post_q3_op2 , post_q3_op3 ,post_q3_op4 ,post_q3_op5 , post_info_3 , post_info_4 , post_q4 ,post_q4_op1 ,post_q4_op2 ,post_q4_op3 , post_q4_op4,post_q4_op5 ,post_q4_op6 ,post_q4_op7 ,post_q5_op1 ,post_q5_op2  ,post_q5_op3 ,post_q5_op4 ,post_q5_op5 ,post_q5_op6,post_q5_op7,post_q6_op1 ,post_q6_op2 ,post_q6_op3 ,post_q6_op4 ,post_q6_op5 ,post_q6_op6 ,post_q6_op7 ,post_q7_op1 ,post_q7_op2 ,post_q7_op3 ,post_q7_op4 ,post_q7_op5 ,post_q7_op6 ,post_q7_op7 ,post_q8_op1 , post_q8_op2,post_q8_op3 ,post_q8_op4 ,post_q8_op5 ,post_q8_op6 , post_q8_op7, post_q9_op1, post_q9_op2, post_q9_op3,post_q9_op4 ,post_q9_op5 ,post_q9_op6 , post_q9_op7, post_info_5,post_q10 ,post_q10_op1 ,post_q10_op2,post_q10_op3 ,post_q10_op4 ,post_q10_op5 ,post_q11 ,post_q11_op1 ,post_q11_op2 ,post_q11_op3 ,post_q11_op4,post_q11_op5 ,post_q12 ,post_q12_op1 ,post_q12_op2 ,post_q12_op3 ,post_q12_op4 ,post_q12_op5 ,post_q13 ,post_q13_op1 ,post_q13_op2 , post_q13_op3,post_q13_op4 , post_q13_op5,post_info_6 ,post_q14 ,post_q14_op1 ,post_q14_op2 ,post_q14_op3 , post_q14_op4,post_q14_op5 ,post_q15 ,post_q15_op1, post_q15_op2, post_q15_op3, post_q15_op4,post_q15_op5 ,post_q16 , post_q16_op1,post_q16_op2 ,post_q16_op3 ,post_q16_op4 ,post_q16_op5 ,post_q17 , post_q17_op1, post_q17_op2, post_q17_op3, post_q17_op4, post_q17_op5,post_info_7 ,post_q18, post_info_8 } from '../../constants';
 
 
 function Progress({ classes }) {
@@ -56,11 +56,14 @@ function Progress({ classes }) {
     const [isVisible, setIsVisible] = useState(false);
     const [isButtonDisabled, setButtonDisabled] = useState(false);
 
-    const [status_msg, stStatus_msg] = useState('');
+    const [status_msg, stStatus_msg] = useState("Sie sind nicht berechtigt, an der Nachbefragung teilzunehmen");
+    const [status_msg2, stStatus_msg2] = useState("Herzlichen Glückwunsch!!! Sie sind jetzt berechtigt, an der Nachbefragung teilzunehmen.");
     
     const [value_q2, stValue_q2] = useState('');
     const [value_q3, stValue_q3] = useState('');
     const [value_q4, stValue_q4] = useState('');
+    const [value_b_q4, stValue_b_q4] = useState('');
+
     const [value_q4_1, stValue_q4_1] = useState('');
     const [value_q4_2, stValue_q4_2] = useState('');
     const [value_q4_3, stValue_q4_3] = useState('');
@@ -80,6 +83,8 @@ function Progress({ classes }) {
   const [is_Q2_visible, setIs_Q2_visible] = useState(false);
   const [is_Q3_visible, setIs_Q3_visible] = useState(false);
   const [is_Q4_visible, setIs_Q4_visible] = useState(false);
+  const [is_Q4_b_visible, setIs_Q4_b_visible] = useState(false);
+  
   const [is_Q5_visible, setIs_Q5_visible] = useState(false);
   const [is_Q6_visible, setIs_Q6_visible] = useState(false);
   const [is_Q7_visible, setIs_Q7_visible] = useState(false);
@@ -97,8 +102,6 @@ function Progress({ classes }) {
     
 
 useEffect(() => {
-
-  
   const fetchUser = async () => {
     const res = await axios.get(`/users?username=${username}`)
     console.log("fetch user");
@@ -127,8 +130,6 @@ const fetchTimeSpent = async () => {
   setDay_Three_Percent(calculatePercentage(res.data["twoDayBefore"], 2));
   setDay_Four_Percent(calculatePercentage(res.data["threeDayBefore"], 2));
   setDay_Five_Percent(calculatePercentage(res.data["fourDayBefore"], 2));
-  updateMsg();
-
   
 };
 
@@ -139,26 +140,18 @@ const calculatePercentage = (numerator, denominator) => {
     console.log(numerator)
     console.log(denominator)
     console.log(perct)
+    if(perct > 100){
+      return (100);
+    }
     return (perct).toFixed(0);
   } else {
     return 'N/A';
   }
 };
-  
-const updateMsg = async () => {
-  console.log("here"+day_One_Percent)
-if(day_One_Percent > 50){
-  stStatus_msg("Herzlichen Glückwunsch!!! Sie sind jetzt berechtigt, an der Nachbefragung teilzunehmen.");
-
-}else{
-  
-  stStatus_msg("Sie sind nicht berechtigt, an der Nachbefragung teilzunehmen");
-}
-}
 
 const handleUserNameChange = async (e) => {
     if(e.target.value != ""){
-      if(is_Q2_visible.length == 1){
+      if(e.target.value.length == 1){
         scrollBy({ top: 500, left: 0, behavior: "smooth" })
       }
       setIs_Q2_visible(true);
@@ -167,6 +160,9 @@ const handleUserNameChange = async (e) => {
       setIs_Q2_visible(false);
     }
 }
+
+
+
 
 
   const handle_Q2_Changed = async (e) => { stValue_q2(e.target.value); 
@@ -185,22 +181,37 @@ const handleUserNameChange = async (e) => {
     } else {
       setIs_Q4_visible(false);
     }  };
-  const handle_Q4_Changed = async (e) => { stValue_q4(e.target.value); 
+
+    const handle_Q4_Changed = async (e) => { stValue_q4(e.target.value); 
+      if(e.target.value != ""){
+        setIs_Q5_visible(true);
+        scrollBy({ top: 500, left: 0, behavior: "smooth" })
+  
+      } else {
+        setIs_Q5_visible(false);
+      }  
+      };
+
+  const handleTechnicalChange = async (e) => { stValue_b_q4(e.target.value); 
+
     if(e.target.value != ""){
-      setIs_Q5_visible(true);
+      setIs_Q4_b_visible(true);
       scrollBy({ top: 500, left: 0, behavior: "smooth" })
 
     } else {
-      setIs_Q5_visible(false);
-    }  };
-  const handle_Q4_1_Changed = async (e) => { stValue_q4_1(e.target.value); 
-    if(e.target.value != ""){
-      setIs_Q6_visible(true);
-      scrollBy({ top: 500, left: 0, behavior: "smooth" })
+      setIs_Q4_b_visible(false);
+    }  
+    };
 
-    } else {
-      setIs_Q6_visible(false);
-    }  };
+    const handle_Q4_1_Changed = async (e) => { stValue_q4_1(e.target.value); 
+      if(e.target.value != ""){
+        setIs_Q6_visible(true);
+        scrollBy({ top: 500, left: 0, behavior: "smooth" })
+  
+      } else {
+        setIs_Q6_visible(false);
+      }  };
+
   const handle_Q4_2_Changed = async (e) => { stValue_q4_2(e.target.value);
     if(e.target.value != ""){
       setIs_Q7_visible(true);
@@ -306,7 +317,7 @@ const handleUserNameChange = async (e) => {
     const username = document.getElementById('username').value;
     const someelse = document.getElementById('someelse').value;
     
-    if(username != currentUser.username){
+    if(username.toLowerCase() != currentUser.username.toLowerCase()){
       toast.error("Question 1. Sie haben einen falschen Benutzernamen eingegeben!");
       return
     }else if (value_q2 == ""){
@@ -363,6 +374,7 @@ const handleUserNameChange = async (e) => {
       q1: username,
       q2: value_q2,
       q3: value_q3,
+      q4b: value_b_q4,
       q4: value_q4_1,
       q5: value_q4_2,
       q6: value_q4_3,
@@ -389,7 +401,7 @@ const handleUserNameChange = async (e) => {
 	        history.push(`/login/${valu}`);
         } catch (err) {
           console.log(err);
-          setPasswordErr("A user with this name/email already exists. Use a different name/email. OR the used url for registrationis wrong.");
+          setPasswordErr({A_user_with});
   
         }
   };
@@ -434,32 +446,12 @@ const handleUserNameChange = async (e) => {
                 <input style= {{borderWidth: '1px', marginBottom: '10px'}} readOnly={!(usr.username == currentUser.username)} placeholder={usr.relationship? usr.relationship:"Whats is the status of your relationship?"} className={classes.shareInput} onChange={handleRelationship}  />*/}
               </div>
             </div>
-
         </div>
         </div>
-        <div style= {{width: 'auto', alignItems: 'center', "margin":"50px"}}>
-
-        <h3 className={classes.progressHead}>{status_msg}</h3>
-
-        <h3 className={classes.progressHead}>Progress Day 1 = {day_One_Percent}%</h3>
-        <Line percent={day_One_Percent} strokeWidth={4} strokeColor={day_One_Percent < 30? "red": day_One_Percent < 60? "yellow": "green"} className={classes.progressVal}/>
-
-        <h3 className={classes.progressHead}>Progress Day 2 = {day_Two_Percent}%</h3>
-        <Line percent={day_Two_Percent} strokeWidth={4} strokeColor={day_Two_Percent < 30? "red": day_Two_Percent < 60? "yellow": "green"} className={classes.progressVal}/>
-
-        <h3 className={classes.progressHead}>Progress Day 3 = {day_Three_Percent}%</h3>
-        <Line percent={day_Three_Percent} strokeWidth={4} strokeColor={day_Three_Percent < 30? "red": day_Three_Percent < 60? "yellow": "green"} className={classes.progressVal}/>
-
-        <h3 className={classes.progressHead}>Progress Day 4 = {day_Four_Percent}%</h3>
-        <Line percent={day_Four_Percent} strokeWidth={4} strokeColor={day_Four_Percent < 30? "red": day_Four_Percent < 60? "yellow": "green"} className={classes.progressVal}/>
-
-        <h3 className={classes.progressHead}>Progress Day 5 = {day_Five_Percent}%</h3>
-        <Line percent={day_Five_Percent} strokeWidth={4} strokeColor={day_Five_Percent < 30? "red": day_Five_Percent < 60? "yellow": "green"} className={classes.progressVal}/>
         
-          {/*<Circle percent={percent} strokeWidth={4} strokeColor="green" />*/}
-        </div>
-
-          <form className={classes.form} noValidate autoComplete="off">
+        <div style={{ alignItems: "center", marginLeft: isMobileDevice && isTabletDevice && '300px', marginRight:isMobileDevice && isTabletDevice &&"300px"}}>
+        <h3 className={classes.progressHead}>{(day_One_Percent > 50 && day_Two_Percent > -1 && day_Three_Percent > -1 && day_Four_Percent > -1 && day_Five_Percent > -1)?status_msg2: status_msg}</h3>
+          <form className={classes.form}  noValidate autoComplete="off">
         <CSSTransition in={day_One_Percent > 50 && day_Two_Percent > -1 && day_Three_Percent > -1 && day_Four_Percent > -1 && day_Five_Percent > -1} timeout={300} classNames="fade" unmountOnExit >
       <div id='toShow'>
       <p className={classes.secon_disclaimor}>{post_info_0}</p>
@@ -497,6 +489,11 @@ const handleUserNameChange = async (e) => {
         <CSSTransition in={is_Q4_visible} timeout={300} classNames="fade" unmountOnExit >
         <div id='sixBlock'>
         <p className={classes.secon_disclaimor}>{post_info_3}</p>
+        <input id="username" onChange = {handleTechnicalChange}className={classes.label2} placeholder={post_info_3}/>
+        </div>
+        </CSSTransition>
+        <CSSTransition in={is_Q4_b_visible} timeout={300} classNames="fade" unmountOnExit >
+        <div id='six_bBlock'>
         <p className={classes.secon_disclaimor}>{post_info_4}</p>
 
         <p className={classes.secon_disclaimor}>{post_q4}</p>
@@ -690,11 +687,33 @@ const handleUserNameChange = async (e) => {
         <input id="someelse" className={classes.label2} placeholder={post_q18}/>
         <p className={classes.secon_disclaimor}>{post_info_8}</p>
 
-				<button onClick={handleClick} type="submit" className={classes.button}> Submit Post Survey </button>
+				<button onClick={handleClick} type="submit" className={classes.button}> {Submit_Post_Survey} </button>
         </div>
         </CSSTransition>
 					</form>
+          </div>
 
+          <div style= {{width: 'auto', marginLeft: isMobileDevice && isTabletDevice && '300px', marginRight: isMobileDevice && isTabletDevice && "300px"}}>
+
+
+
+<h3 className={classes.progressHead}>{Progress_Day_1} = {day_One_Percent}%</h3>
+<Line percent={day_One_Percent} strokeWidth={4} strokeColor={day_One_Percent < 30? "red": day_One_Percent < 60? "yellow": "green"} className={classes.progressVal}/>
+
+<h3 className={classes.progressHead}>{Progress_Day_2} = {day_Two_Percent}%</h3>
+<Line percent={day_Two_Percent} strokeWidth={4} strokeColor={day_Two_Percent < 30? "red": day_Two_Percent < 60? "yellow": "green"} className={classes.progressVal}/>
+
+<h3 className={classes.progressHead}>{Progress_Day_3} = {day_Three_Percent}%</h3>
+<Line percent={day_Three_Percent} strokeWidth={4} strokeColor={day_Three_Percent < 30? "red": day_Three_Percent < 60? "yellow": "green"} className={classes.progressVal}/>
+
+<h3 className={classes.progressHead}>{Progress_Day_4} = {day_Four_Percent}%</h3>
+<Line percent={day_Four_Percent} strokeWidth={4} strokeColor={day_Four_Percent < 30? "red": day_Four_Percent < 60? "yellow": "green"} className={classes.progressVal}/>
+
+<h3 className={classes.progressHead}>{Progress_Day_5} = {day_Five_Percent}%</h3>
+<Line percent={day_Five_Percent} strokeWidth={4} strokeColor={day_Five_Percent < 30? "red": day_Five_Percent < 60? "yellow": "green"} className={classes.progressVal}/>
+
+  {/*<Circle percent={percent} strokeWidth={4} strokeColor="green" />*/}
+</div>
         
       </>
     );

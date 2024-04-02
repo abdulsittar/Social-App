@@ -9,8 +9,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { styles } from './topbarStyle';
 import { useMediaQuery } from 'react-responsive';
 import HomeIcon from '@mui/icons-material/Home';
-
-
+import {Searche } from '../../constants';
 
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import SimplePopover from '../popover/SimplePopover';
@@ -102,7 +101,7 @@ function Topbar({ classes, setSelectedValue, isProfile, setSearchTerm }) {
             <div className={classes.topbarCenter} style={{ 'backgroundColor': COLORS.backgroudColor, 'margin-top': (isMobileDevice || isTabletDevice) && '0px', 'display':  !isMobileDevice && !isTabletDevice && 'flex'}}  >
                 <div className={classes.searchbar}>
                     <Search className={classes.searchIcon} />
-                    <input placeholder="Search" className={classes.searchInput} onChange={(event) => { setSearchTermFunction(event.target.value);}}/>
+                    <input placeholder={Searche} className={classes.searchInput} onChange={(event) => { setSearchTermFunction(event.target.value);}}/>
                 </div>
             </div>: <div></div>
             }

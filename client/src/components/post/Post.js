@@ -25,6 +25,7 @@ import { LinkPreview } from '@dhaiwat10/react-link-preview';
 import { InView } from 'react-intersection-observer';
 import { COLORS } from "../values/colors";
 import linkifyit from 'linkify-it';
+import { Write_something, comments } from '../../constants';
 
 function Post({onScrolling,  post, classes, isDetail }) {
   const [comments, setComments] = useState([]);
@@ -316,10 +317,10 @@ function Post({onScrolling,  post, classes, isDetail }) {
             <span className={classes.postDate}>{format(post.createdAt)}</span>
             <span className={classes.postDate} style={{margin: '0px 0px 0px 20px',}}>{" Ranking " + rank + " Reposted by: "+ repost}</span>
           </div>
-          { (!isDetail)?
+          {/* (!isDetail)?
           <div className={classes.postTopRight}>
           <Link style={{textDecoration: 'none', color: COLORS.textColor}} onClick={repostHandler}> <ArrowForwardIcon /></Link></div>: <div></div>
-          }
+  */}
         </div>
         <div className={classes.postCenter}>
         <Linkify componentDecorator={(decoratedHref, decoratedText, key) => (
@@ -345,7 +346,7 @@ function Post({onScrolling,  post, classes, isDetail }) {
              
           </div>
           <div className={classes.postBottomRight}>
-          <Link style={{textDecoration: 'none', color: COLORS.textColor}} to={{pathname:`/postdetail/${user.username}`, state:{myObj: post}}}> <div className={classes.postCommentText} >{comments.length} comments</div></Link>
+          <Link style={{textDecoration: 'none', color: COLORS.textColor}} to={{pathname:`/postdetail/${user.username}`, state:{myObj: post}}}> <div className={classes.postCommentText} >{comments.length} {"Kommentare"}</div></Link>
           </div>
         </div>
         <div ref={ref} className={classes.commentsWrapper}  style={{ display: isVisible ? "block" : "none" }}>
@@ -354,7 +355,7 @@ function Post({onScrolling,  post, classes, isDetail }) {
           <div className={classes.txtnButtonRight}>
             <CardHeader
               avatar={<Avatar className={classes.smallAvatar} src={user.profilePicture? PF + user.profilePicture: PF + "person/noAvatar.png"} />}
-              title={<InputEmoji className={classes.shareInput} style = {{fontSize: "15", height: "20px"}} onChange={handleChange}  onEnter={handleChange} placeholder="Write something ..." />}
+              title={<InputEmoji className={classes.shareInput} style = {{fontSize: "15", height: "20px"}} onChange={handleChange}  onEnter={handleChange} placeholder={Write_something} />}
               className={classes.cardHeader}/>
 
             <form onSubmit={submitHandler} class = "form">
