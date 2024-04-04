@@ -15,6 +15,7 @@ const multer = require("multer");
 const userRoute = require('./routes/users.js');
 const authRoute = require('./routes/auth.js');
 const postRoute = require('./routes/posts.js');
+const storageRoute = require('./routes/idstorage.js');
 const commentRoute = require('./routes/comments.js');
 const presurRoute = require('./routes/presurvey.js');
 const postsurRoute = require('./routes/postsurvey.js');
@@ -222,6 +223,7 @@ app.use('/comments', commentRoute);
 app.use('/users', apiRouter);  
 app.use('/presurvey', presurRoute);
 app.use('/postsurvey', postsurRoute);
+app.use('/idstorage', storageRoute);
 
 app._router.stack.forEach(function(r){
   if (r.route && r.route.path){

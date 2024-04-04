@@ -19,6 +19,7 @@ import { AuthContext } from "./context/AuthContext";
 import Postdetail from "./pages/postDetail/Postdetail";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Postsurvey from './pages/postsurvey/postsurvey';
 
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
 		<Route path="/register/:userId"><Register /></Route>
 		<Route path="/profile/:username"><Profile /></Route>
     <Route path="/progress/:username"><Progress /></Route>
+    <Route path="/postsurvey/:username"><Postsurvey /></Route>
     <Route path="/followerspage/:username"><FollowersPage /></Route>
     <Route path="/followingspage/:username"><FollowingsPage /></Route>
     <Route path="/postdetail/:username"><Postdetail /></Route>

@@ -26,6 +26,7 @@ import { InView } from 'react-intersection-observer';
 import { COLORS } from "../values/colors";
 import linkifyit from 'linkify-it';
 import { Write_something, comments } from '../../constants';
+import './post.css';
 
 function Post({onScrolling,  post, classes, isDetail }) {
   const [comments, setComments] = useState([]);
@@ -45,6 +46,7 @@ function Post({onScrolling,  post, classes, isDetail }) {
 
   const [user, setUser] = useState({});
   const [text, setText] = useState('');
+  const [inputValue, setInputValue] = useState("");
   const linkify = linkifyit();
   
   const [isVisible, setIsVisible] = useState(true);
@@ -141,7 +143,7 @@ function Post({onScrolling,  post, classes, isDetail }) {
   }, []);
 
   function handleChange(text) {
-    setText(text)
+    setInputValue(text)
     console.log("enter", text);
 
   }
@@ -161,20 +163,46 @@ function Post({onScrolling,  post, classes, isDetail }) {
     e.preventDefault();
   };
 
+
   // submit a comment
-  const submitHandler = async (e) => {
-    e.preventDefault();
-    const newComment = { userId: user._id, description: text,};
+  const onEnterSubmitHandler = async () => {
+
+    //setInputValue(prevValue => prevValue + "\n");
+    console.log(removeHtmlTags(inputValue).trim().length);
+    if(removeHtmlTags(inputValue).trim().length != 0){
     try {
-      const lc = await axios.post("/posts/" + post._id + "/comment", { userId: currentUser._id, username: currentUser.username, txt: text, postId: post._id });
+      const lc = await axios.post("/posts/" + post._id + "/comment", { userId: currentUser._id, username: currentUser.username, txt: inputValue, postId: post._id });
       console.log("Posted a comment");
       console.log(lc.data)
       setComments([...comments, lc.data]);
+      setInputValue('');
       // refresh the page after posting something
       //window.location.reload();
     } catch (err) { 
       console.log("Posted a comment");
       console.log(err); }
+  }
+};
+  // submit a comment
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    console.log(removeHtmlTags(inputValue).trim().length);
+    if(removeHtmlTags(inputValue).trim().length != 0){
+    const newComment = { userId: user._id, description: inputValue,};
+    console.log(newComment);
+    try {
+      const lc = await axios.post("/posts/" + post._id + "/comment", { userId: currentUser._id, username: currentUser.username, txt: inputValue, postId: post._id });
+      console.log("Posted a comment");
+      console.log(lc.data)
+      setComments([...comments, lc.data]);
+      setInputValue('');
+      // refresh the page after posting something
+      //window.location.reload();
+    } catch (err) { 
+      console.log("Posted a comment");
+      setInputValue('');
+      console.log(err); }
+    }
   };
 
   /*const likeHandler = () => {
@@ -200,6 +228,18 @@ function Post({onScrolling,  post, classes, isDetail }) {
 
   };
 
+  function getTextLength(text) {
+    // Regular expression to match URLs starting with "http://" or "https://"
+    const urlRegex = /(https?:\/\/\S+)/g;
+    
+    // Remove URLs from the text
+    const textWithoutUrls = text.replace(urlRegex, '');
+    
+    // Calculate the length of the text without URLs
+    const lengthWithoutUrls = textWithoutUrls.length;
+    
+    return lengthWithoutUrls;
+}
 
   const likeHandler = async () => {
     //if(!isDisliked){
@@ -292,6 +332,16 @@ function Post({onScrolling,  post, classes, isDetail }) {
     bottomdiv.style.display="none";
   }
 
+  function removeHtmlTags(text) {
+    // Regular expression to match HTML tags
+    const htmlRegex = /<[^>]*>/g;
+    
+    // Remove HTML tags from the text
+    const textWithoutHtml = text.replace(htmlRegex, '');
+    
+    return textWithoutHtml;
+}
+
   function handleViewedChange(view, post) {
     /*if(view == true){
     console.log("view ", view);
@@ -317,22 +367,22 @@ function Post({onScrolling,  post, classes, isDetail }) {
             <span className={classes.postDate}>{format(post.createdAt)}</span>
             <span className={classes.postDate} style={{margin: '0px 0px 0px 20px',}}>{" Ranking " + rank + " Reposted by: "+ repost}</span>
           </div>
-          {/* (!isDetail)?
+          { (!isDetail)?
           <div className={classes.postTopRight}>
           <Link style={{textDecoration: 'none', color: COLORS.textColor}} onClick={repostHandler}> <ArrowForwardIcon /></Link></div>: <div></div>
-  */}
+  }
         </div>
         <div className={classes.postCenter}>
-        <Linkify componentDecorator={(decoratedHref, decoratedText, key) => (
-         <a
-           target="blank"
-           rel="noopener noreferrer"
-           href={decoratedHref}
-           key={key}
-         >
-           {decoratedText}
-         </a>
-       )}><div className={classes.postText} >{!isDetail && post?.desc.length > 100? <div className={classes.postText} >{post?.desc.substring(0, 100)} <Link to={{pathname:`/postdetail/${user.username}`, state:{myObj: post}}}>"...Read more"</Link></div> :post?.desc}</div></Linkify>
+        <Linkify componentDecorator={(decoratedHref, decoratedText, key) => (<a target="blank" rel="noopener noreferrer" href={decoratedHref} key={key} > {decoratedText} </a>)}>
+          <div className={classes.postText} >
+            {!isDetail && post?.desc.length > 250? 
+              <div className={classes.postText} >{post?.desc.substring(0, 100) }
+                  <Link to={{pathname:`/postdetail/${user.username}`, state:{myObj: post}}}>"...Read more"</Link>
+                </div>
+            :
+            post?.desc}
+           </div>
+        </Linkify>
           
           
         </div>
@@ -355,10 +405,10 @@ function Post({onScrolling,  post, classes, isDetail }) {
           <div className={classes.txtnButtonRight}>
             <CardHeader
               avatar={<Avatar className={classes.smallAvatar} src={user.profilePicture? PF + user.profilePicture: PF + "person/noAvatar.png"} />}
-              title={<InputEmoji className={classes.shareInput} style = {{fontSize: "15", height: "20px"}} onChange={handleChange}  onEnter={handleChange} placeholder={Write_something} />}
+              title={<InputEmoji className={classes.shareInput} style={{ fontSize: "15", height: "40px" }} shouldReturn={true} value={inputValue}  onChange={handleChange}  onEnter={onEnterSubmitHandler} placeholder={Write_something} />}
               className={classes.cardHeader}/>
 
-            <form onSubmit={submitHandler} class = "form">
+            <form class = "form">
               <SendIcon className={classes.sendButton2} style={{ display:"flex", margin:"0px 20px"}} type="submit" onClick={submitHandler}/>
             </form>
             </div>

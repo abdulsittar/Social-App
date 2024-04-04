@@ -5,12 +5,12 @@ export const bitte_4 = "Bitte lesen Sie den folgenden Text sorgfältig durch, be
 export const aimHEADING_5 = "Ziel der Studie";
 export const aim_6 = "Ziel dieser Studie ist es, ein besseres Verständnis dafür zu entwickeln, wie Social-Media-Plattformen die Aktivität ihrer Nutzer auf der Plattform und die Interaktionen mit anderen Nutzern beeinflussen, um negative Auswirkungen auf die Demokratie zu erklären und zu verhindern.";
 export const procedureHEADING_7 = "Ablauf der Studie";
-export const procedure_8 = "In dieser Studie bitten wir Sie „Twon“¬- die von der Forschungsgruppe entwickelte Plattform für soziale Netzwerke - drei Tage lang mindestens 10 Minuten pro Tag zu nutzen. Die Inhalte auf dieser Plattform kommen teilweise von anderen Platformen; teilweise sind sie automatisiert erstellt. Sie nutzen die Plattform so, wie Sie sich normalerweise ein soziales Netzwerk nutzen würden - zum Beispiel indem Sie die Beiträge anderer Nutzer liken, teilen und kommentieren oder einem Link folgen, um einen Nachrichtenartikel zu lesen. Zu Beginn und am Ende der Studie füllen Sie einen kurzen Fragebogen zu Ihre Nutzererfahrung und einigen allgemeinen statistischen Informationen aus. Insgesamt dauert diese Studie zwischen 50 Minuten und einer Stunde, wenn Sie die tägliche Nutzung und die Zeit für die Fragebögen zusammenrechnen. Nach der Teilnahme an der Studie erhalten Sie die mit dem Bilendi Online Panel vereinbarte Vergütung.";
+export const procedure_8 = "In dieser Studie bitten wir Sie „Twon“- die von der Forschungsgruppe entwickelte Plattform für soziale Netzwerke - drei Tage lang mindestens 10 Minuten pro Tag zu nutzen. Die Inhalte auf dieser Plattform kommen teilweise von anderen Platformen; teilweise sind sie automatisiert erstellt. Sie nutzen die Plattform so, wie Sie sich normalerweise ein soziales Netzwerk nutzen würden - zum Beispiel indem Sie die Beiträge anderer Nutzer liken, teilen und kommentieren oder einem Link folgen, um einen Nachrichtenartikel zu lesen. Zu Beginn und am Ende der Studie füllen Sie einen kurzen Fragebogen zu Ihre Nutzererfahrung und einigen allgemeinen statistischen Informationen aus. Insgesamt dauert diese Studie zwischen 50 Minuten und einer Stunde, wenn Sie die tägliche Nutzung und die Zeit für die Fragebögen zusammenrechnen. Nach der Teilnahme an der Studie erhalten Sie die mit dem Bilendi Online Panel vereinbarte Vergütung.";
 export const voluntaryHEADING_9 = "Freiwillige Teilnahme";
 export const voluntary_10 = "Ihre Teilnahme an dieser Studie ist freiwillig: Sie sind nicht zur Teilnahme verpflichtet. Sie können Ihre Teilnahme während der Studie jederzeit beenden und auch nach der Studie Ihre Daten zurückziehen. Wenn Sie Ihre Daten zurückziehen möchten, wenden Sie sich bitte an Bilendi unter Angabe des Links, der Ihnen für Ihre Teilnahme zur Verfügung gestellt wurde. Sie müssen dafür keinen Grund angeben.";
 export const other_11 = "Mit Ausnahme der Tatsache, dass Sie dann keine Entschädigung erhalten, hat dies keine Nachteile für Sie. Bitte senden Sie uns keine direkte E-Mail, um Ihre Anonymität zu wahren. ";
 export const dataprotHEADING_12 = "Datenschutz";
-export const dataprot_13 = "Wir behandeln Ihre persönlichen Daten völlig anonym, wie es das Gesetz (die Allgemeine Datenschutz-Grundverordnung oder DSGVO) verlangt. In dieser Studie werden Ihre personenbezogenen Daten von unserem Kooperationspartner, dem Jozef Stefan Institut (JSI), als Drittpartei verarbeitet, d.h. dort werden Ihre Daten gesammelt und gespeichert, sowohl bei der Nutzung der Twon-Plattform als auch bei der Beantwortung unserer Fragebögen. Wir haben mit diesen Parteien Verträge abgeschlossen, um Ihre Privatsphäre zu gewährleisten. ";
+export const dataprot_13 = "Wir behandeln Ihre persönlichen Daten völlig anonym, wie es das Gesetz (die Allgemeine Datenschutz-Grundverordnung oder DSGVO) verlangt. In dieser Studie werden Ihre personenbezogenen Daten (z.B., Ihr Alter und Geschlecht, die wir im Fragebogen erfragen) von unserem Kooperationspartner, dem Jozef Stefan Institut (JSI), als Drittpartei verarbeitet, d.h. dort werden Ihre Daten gesammelt und gespeichert, sowohl bei der Nutzung der Twon-Plattform als auch bei der Beantwortung unserer Fragebögen. Wir haben mit diesen Parteien Verträge abgeschlossen, um Ihre Privatsphäre zu gewährleisten. ";
 export const datasharingHEADING_14 = "Gemeinsame Nutzung von Daten";
 export const datasharing_15 = "Die Ergebnisse dieser Studie können mit anderen Forschern geteilt werden und/oder werden über eine öffentliche Datenbank (open access) geteilt, ohne persönliche Daten oder individuell identifizierende Informationen. Die Ergebnisse können in anderen zukünftigen Forschungsarbeiten zu einem anderen Thema als dieser Studie verwendet werden. ";
 export const retentionHEADING_16 = "Aufbewahrungsfrist";
@@ -116,16 +116,17 @@ export const excell = "Exzellente Wahl!";
 
 export const infoPass = "Das Passwort für Ihr Konto lautet:";
 
-export const note = "Bitte notieren Sie sich diesen Benutzernamen und das Passwort, da Sie diese für den zukünftigen Zugang zur Plattform benötigen.";
-export const enony = "Um Ihre Anonymität in dieser Studie zu gewährleisten, speichern wir diese Information nicht ab.";
-export const screen = "Auf dem nächsten Bildschirm werden Sie zur TWON-Plattform weitergeleitet. Sollten Sie sich jemals wieder anmelden müssen, besuchen Sie bitte https://socialapp.ijs.si/ und geben Sie Ihren Benutzernamen und Ihr Passwort ein."; 
+export const note = [<strong>Achtung!</strong>,<br />, <strong>Bitte notieren</strong>, "Sie sich diesen Benutzernamen ","(","=", "Names ihres Avatars, ", "z.B.", " Magister Fuchs) ", "und das Passwort, da Sie diese für den Zugang zur Plattform benötigen. Um Ihre Anonymität in dieser Studie zu gewährleisten, speichern wir diese Information nicht ab."];
+export const enony = [<strong>Bitte notieren/speichern</strong>, "Sie sich auch folgenden Link für den Zugang zur Plattform:", <a href={'https://socialapp.ijs.si/'}>{'https://socialapp.ijs.si/'}</a>];
+export const screen = "Auf dem nächsten Bildschirm werden Sie zur TWON-Plattform weitergeleitet. Beben Sie Ihren Benutzernamen und Ihr Passwort ein."; 
 
-export const plzCon = "Bitte bestätigen Sie, dass Sie Ihren Benutzernamen, Ihr Passwort und die URL der Twon-Plattform für die zukünftige Verwendung sicher gespeichert haben.";
+export const plzCon = [<strong>Bitte bestätigen Sie, dass Sie Ihren Benutzernamen, Ihr Passwort und die URL der Twon-Plattform für die zukünftige Verwendung sicher gespeichert haben.</strong>];
 
-export const toGet = "Um das Gespräch in Gang zu bringen, schreiben Sie bitte eine erste Statusmeldung von Ihrem Konto aus. ";
+export const toGet = "Um das Gespräch in Gang zu bringen, schreiben Sie bitte eine erste Statusmeldung.";
 export const theChoice = "Die Wahl dessen, was Sie hier und zu jeder Zeit während Ihrer regulären Nutzung der Plattform schreiben, liegt ganz bei Ihnen - was immer Ihnen in den Sinn kommt. Sobald Sie Ihren Beitrag geschrieben haben, klicken \"Post\", um Ihren Status zu übermitteln und zur Plattform weitergeleitet zu werden.";
 
-export const whats = "was hast du im Kopf?";
+export const theChoiceNew = "Bitte denken Sie daran, dass alle posts öffentlich sind. Teilen Sie keine persönlichen Informationen wie Ihren Namen oder Kontaktdaten.";
+export const whats = "Was ist die spannendste Meldung, die Sie heute gelesen haben?";
 
 export const post_info_0 = "Ganz herzlichen Dank für die aktive Nutzung der TWON-Plattform!";
 export const post_info_1 = "Im Folgenden möchten wir Ihnen gern einige Fragen zu Ihrer Nutzererfahrung auf TWON stellen. Am Schluss des Fragebogens werden Sie zurück zu Bilendi geleitet, um Ihre Vergütung zu erhalten.";
@@ -133,14 +134,14 @@ export const post_q1 = "1. Wie lautet der Benutzername, mit dem Sie auf TWON akt
 
 
 export const post_info_2 = "Zuerst interessieren wir uns für Ihr Einschätzung der technischen Bedienbarkeit von TWON.";
-export const post_q2 = "2. Einmal ganz allgemein gesprochen. Wie nutzerfreundlich bewerten Sie die Gestaltung von TWON?";
+export const post_q2 = "1. Einmal ganz allgemein gesprochen. Wie nutzerfreundlich bewerten Sie die Gestaltung von TWON?";
 export const post_q2_op1 = "1 Überhaupt nicht nutzerfreundlich";
 export const post_q2_op2 = "2";
 export const post_q2_op3 = "3";
 export const post_q2_op4 = "4";
 export const post_q2_op5 = "5 Sehr nutzerfreundlich";
 
-export const post_q3 = "3. Sind während der Studie technische Probleme aufgetreten?";
+export const post_q3 = "2. Sind während der Studie technische Probleme aufgetreten?";
 export const post_q3_op1 = "1 Gar keine technischen Probleme";
 export const post_q3_op2 = "2";
 export const post_q3_op3 = "3";
@@ -150,12 +151,12 @@ export const post_q3_op5 = "5 Große technische Probleme";
 export const post_info_3 = "Sie  haben angegeben, dass während der Studie technische Probleme aufgetreten sind. Können die diese kurz näher beschreiben?";
 
 export const post_info_4 = "Nun möchten wir gern erfahren, wie sie die Inhalte auf TWON bewerten.";
-export const post_q4 = "4. Der Newsfeed war:";
-export const post_q4_1 = "5. Der Newsfeed war:";
-export const post_q4_2 = "6. Der Newsfeed war:";
-export const post_q4_3 = "7. Der Newsfeed war:";
-export const post_q4_4 = "8. Der Newsfeed war:";
-export const post_q4_5 = "9. Der Newsfeed war:";
+export const post_q4 = "3. Der Newsfeed war:";
+export const post_q4_1 = "4. Der Newsfeed war:";
+export const post_q4_2 = "5. Der Newsfeed war:";
+export const post_q4_3 = "6. Der Newsfeed war:";
+export const post_q4_4 = "7. Der Newsfeed war:";
+export const post_q4_5 = "8. Der Newsfeed war:";
 export const post_q4_op1 = "1 Sehr negativ";
 export const post_q4_op2 = "2";
 export const post_q4_op3 = "3";
@@ -206,28 +207,28 @@ export const post_q9_op7 = "7 Freundlich"
 
 
 export const post_info_5 = "Und wie bewerten Sie die Interaktionen mit den anderen Nutzern von TWON?";
-export const post_q10 = "10. In den Nutzerkommentaren waren sehr viele verschiedene Meinungen vertreten:";
+export const post_q10 = "9. In den Nutzerkommentaren waren sehr viele verschiedene Meinungen vertreten:";
 export const post_q10_op1 = "1 Stimme überhaupt nicht zu";
 export const post_q10_op2 = "2";
 export const post_q10_op3 = "3";
 export const post_q10_op4 = "4";
 export const post_q10_op5 = "5 Stimme voll und ganz zu";
 
-export const post_q11 = "11. Die auf TWON geführten Diskussionen waren qualitativ hochwertig:";
+export const post_q11 = "10. Die auf TWON geführten Diskussionen waren qualitativ hochwertig:";
 export const post_q11_op1 = "1 Stimme überhaupt nicht zu";
 export const post_q11_op2 = "2";
 export const post_q11_op3 = "3";
 export const post_q11_op4 = "4";
 export const post_q11_op5 = "5 Stimme voll und ganz zu";
 
-export const post_q12 = "12. Ich habe mich in die Diskussionen einbezogen gefühlt:";
+export const post_q12 = "11. Ich habe mich in die Diskussionen einbezogen gefühlt:";
 export const post_q12_op1 = "1 Stimme überhaupt nicht zu";
 export const post_q12_op2 = "2";
 export const post_q12_op3 = "3";
 export const post_q12_op4 = "4";
 export const post_q12_op5 = "5 Stimme voll und ganz zu";
 
-export const post_q13 = "13. Ich habe aus den Diskussionen auf TWON etwas gelernt:";
+export const post_q13 = "12. Ich habe aus den Diskussionen auf TWON etwas gelernt:";
 export const post_q13_op1 = "1 Stimme überhaupt nicht zu";
 export const post_q13_op2 = "2";
 export const post_q13_op3 = "3";
@@ -235,28 +236,28 @@ export const post_q13_op4 = "4";
 export const post_q13_op5 = "5 Stimme voll und ganz zu";
 
 export const post_info_6 = "Zum Schluss kommen wir nun noch einmal auf einige Aussagen zum Krieg in der Ukraine zurück. Bitte sagen Sie uns, wie sehr Sie den Aussagen zustimmen oder nicht zustimmen.";
-export const post_q14 = "14. Deutschland sollte der Ukraine Taurus Marschflugkörper liefern:";
+export const post_q14 = "13. Deutschland sollte der Ukraine Taurus Marschflugkörper liefern:";
 export const post_q14_op1 = "1 Stimme überhaupt nicht zu";
 export const post_q14_op2 = "2";
 export const post_q14_op3 = "3";
 export const post_q14_op4 = "4";
 export const post_q14_op5 = "5 Stimme voll und ganz zu";
 
-export const post_q15 = "15. Die EU sollte die Sanktionen gegen Russland weiter verstärken:";
+export const post_q15 = "14. Die EU sollte die Sanktionen gegen Russland weiter verstärken:";
 export const post_q15_op1 = "1 Stimme überhaupt nicht zu";
 export const post_q15_op2 = "2";
 export const post_q15_op3 = "3";
 export const post_q15_op4 = "4";
 export const post_q15_op5 = "5 Stimme voll und ganz zu";
 
-export const post_q16 = "16. Europa muss zusammenarbeiten, um den Krieg in der Ukraine zu beenden:";
+export const post_q16 = "15. Europa muss zusammenarbeiten, um den Krieg in der Ukraine zu beenden:";
 export const post_q16_op1 = "1 Stimme überhaupt nicht zu";
 export const post_q16_op2 = "2";
 export const post_q16_op3 = "3";
 export const post_q16_op4 = "4";
 export const post_q16_op5 = "5 Stimme voll und ganz zu";
 
-export const post_q17 = "17. Deutschland sollte weiterhin Migranten aus der Ukraine aufnehmen:";
+export const post_q17 = "16. Deutschland sollte weiterhin Migranten aus der Ukraine aufnehmen:";
 export const post_q17_op1 = "1 Stimme überhaupt nicht zu";
 export const post_q17_op2 = "2";
 export const post_q17_op3 = "3";
@@ -264,7 +265,7 @@ export const post_q17_op4 = "4";
 export const post_q17_op5 = "5 Stimme voll und ganz zu";
 
 export const post_info_7 = "Vielen Dank für Ihre Teilnahme an unserer Studie. Sie haben damit einen großen Beitrag zum Erfolg unseres Projekts geleistet.";
-export const post_q18 = "18. Gibt es zum Schluss noch etwas, dass Sie uns gern zur Studie mitteilen würden?";
+export const post_q18 = "17. Gibt es zum Schluss noch etwas, dass Sie uns gern zur Studie mitteilen würden?";
 
 export const post_info_8 = "Bitte klicken Sie hier, um den Fragebogen abzuschließen und Ihre Vergütung zu erhalten.";
 

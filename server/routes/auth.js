@@ -131,6 +131,7 @@ try{
         
     const fid = idstor[0]
     console.log(fid)
+    console.log(req.body.password);
     
     // create new user
     const newUser = new User({
@@ -219,6 +220,8 @@ try {
         return
     }
 
+    console.log(req.body.password);
+    console.log(user.password);
     const validPassword = await bcrypt.compare(req.body.password, user.password);
     if (!validPassword){
             res.status(404).json("wrong password");

@@ -4,3 +4,6 @@
     width: 100%;
     background-color: #ffffff;
 }
+.react-input-emoji--wrapper {
+    height: 40px; /* Set the desired height */
+  }

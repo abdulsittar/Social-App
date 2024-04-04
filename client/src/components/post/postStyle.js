@@ -137,7 +137,6 @@ export const styles = {
       },
     "shareInput": {
         "border": "none",
-        "width":"100%",
         backgroundColor: COLORS.postBackgroundColor,
         lineHeight:'20px',
         padding:'0px 0px',
@@ -226,7 +225,7 @@ export const styles = {
   },
 "cardHeader": {
     "width":"100%",
-    "height": "50px",
+    "height": "40px",
     "paddingTop": "0px",
     "paddingBottom": "0px", 
     background: COLORS.postBackgroundColor

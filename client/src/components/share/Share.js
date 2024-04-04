@@ -22,6 +22,7 @@ function Share({classes}) {
 
     // submit a post
     const submitHandler = async (e) => {
+        console.log("Submit Handler");
         e.preventDefault();
         const newPost = {
           userId: user._id,
@@ -39,8 +40,8 @@ function Share({classes}) {
           } catch (err) {}
         }
         try {
-          await axios.post("/posts/create", newPost);
-
+          await axios.post("/posts/" + user._id + "/create", newPost);
+          //await axios.post("/posts/create", newPost);
           // refresh the page after posting something
           window.location.reload();
 

@@ -3,6 +3,8 @@
     const User = require('../models/User');
     const PostDislike = require('../models/PostDislike');
     const PostLike = require('../models/PostLike');
+    const Repost = require('../models/Repost');
+    
     const Comment = require('../models/Comment');
     const Subscription = require('../models/Subscription');
     const webPush = require ('web-push');
@@ -217,9 +219,13 @@
     //repost a post
     router.post('/:id/repost', async(req, res) =>{
     try {
-    const post = await Post.findById(req.params.id);
 
-        await post.updateOne({$push: { rePosted: req.body.userId } });
+        const postRepost = new Repost({userId:req.body.userId, postId:req.params.id});
+        await postRepost.save();
+        console.log(postRepost);
+         console.log("postRepost is added");
+         //const post = await Post.findById(req.params.id);
+         await Post.findOneAndUpdate({"_id": req.params.id},{$push: { reposts: req.body.userId }});
         res.status(200).json('The post has been reposted!');
 
     } catch(err) {
@@ -991,7 +997,7 @@ router.put('/:id/like', async(req, res) => {
     res.status(200).json(comm);
 
     } catch(err) {
-    //console.log(res.status(500).json(err));
+    console.log(res.status(500).json(err));
     }
     // create a comment
     /* console.log(req.body.postId)

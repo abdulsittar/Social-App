@@ -31,7 +31,7 @@ import { useTheme } from '@mui/material/styles';
 
 
 
-import {A_user_with, toGet, theChoice, whats, plzCon, infoPass, screen, note, enony, excell, welcome, q11, q1, q1_op1, q1_op2, q1_op3, q1_op4, q1_op5,  nein, ja, disclaimor_1, dear_part_2, wlcome_3, bitte_4,aimHEADING_5 ,aim_6 ,procedureHEADING_7 ,procedure_8 ,voluntaryHEADING_9 ,voluntary_10 ,other_11 ,dataprotHEADING_12 ,dataprot_13 ,datasharingHEADING_14 ,datasharing_15 ,retentionHEADING_16 ,retention_17 ,furtherHEADING_18 ,further_19 ,complaints_20 ,best_21 ,nme_22 ,consentHEADING_23 ,consent_24,
+import {theChoiceNew, A_user_with, toGet, theChoice, whats, plzCon, infoPass, screen, note, enony, excell, welcome, q11, q1, q1_op1, q1_op2, q1_op3, q1_op4, q1_op5,  nein, ja, disclaimor_1, dear_part_2, wlcome_3, bitte_4,aimHEADING_5 ,aim_6 ,procedureHEADING_7 ,procedure_8 ,voluntaryHEADING_9 ,voluntary_10 ,other_11 ,dataprotHEADING_12 ,dataprot_13 ,datasharingHEADING_14 ,datasharing_15 ,retentionHEADING_16 ,retention_17 ,furtherHEADING_18 ,further_19 ,complaints_20 ,best_21 ,nme_22 ,consentHEADING_23 ,consent_24,
   stat_info, geborn, ukraine, dank, login, noteusername, q2, q2_op1 , q2_op2,q2_op3 ,q3 ,q3_op1,q3_op2 ,q3_op3,q3_op4 ,q3_op5,q3_op6,q3_op7, q4 ,q4_op1,q4_op2,q4_op3,q4_op4,q4_op5, 
   q5 , q5_op1 ,q5_op2, q5_op3 , q5_op4, q6, q6_op1, q6_op2,  q6_op3,  q6_op4,   q6_op5,  q6_op6,  q6_op7,  q6_op8,  q6_op9,  q6_op10,  q6_op11, q7 ,
   q7_op1,  q7_op2, q7_op3, q7_op4, q7_op5, q8, q8_op1, q8_op2,  q8_op3,  q8_op4, q8_op5,  q9, q9_op1, q9_op2, q9_op3,  q9_op4 ,q9_op5, q10, q10_op1 ,
@@ -62,15 +62,62 @@ function Register({classes}) {
     stValue_q11("");
   };
 
+  
+  
   const handleYesClose = () => {
     
+
+
        setIsVisibleSignUp(false);
     setIs_password_visible(true);
+
+    var username = ""
+    var proPic = ""
+
+    if(value_q11 == "option1"){
+      setUsername(usrName1)
+      setProPic(profPic1)
+
+    }else if(value_q11 == "option2"){
+      setUsername(usrName2)
+      setProPic(profPic2)
+
+    }else if(value_q11 == "option3"){
+      setUsername(usrName3)
+      setProPic(profPic3)
+
+    }
+
                   setOpen(false);    
     
   };
 
+  const submitNext = async (e) => { 
+    e.preventDefault()
+
+    setIsVisibleSignUp(false);
+    setIs_password_visible(true);
+
+    if(value_q11 == "option1"){
+      setUsername(usrName1)
+      setProPic(profPic1)
+
+    }else if(value_q11 == "option2"){
+      setUsername(usrName2)
+      setProPic(profPic2)
+
+    }else if(value_q11 == "option3"){
+      setUsername(usrName3)
+      setProPic(profPic3)
+
+    } 
+};
+
+
   const destroyStuff = () => {    console.log("Destroyed!");    setShowDialog(false);  };
+
+  const [username, setUsername] = useState("");
+  const [proPic, setProPic] = useState("");
 
   const [uniqId, setUniqId] = useState('');
   const [isVisibleConsent, setIsVisibleConsent]     = useState(false);
@@ -80,6 +127,8 @@ function Register({classes}) {
   const [isWelcomeVisible, setIsWelcomeVisible]     = useState(false);
   const [isVisibleBasicInfo, setIsVisibleBasicInfo]     = useState(true);
   const [isPostButtonDisplays, setIsPostButtonDisplays] = useState(true);
+  const [isNextDisplays, setIsNextDisplays]     = useState(true);
+  
 
   const [is_Q1_visible, setIs_Q1_visible] = useState(false);
   const [is_Q2_visible, setIs_Q2_visible] = useState(false);
@@ -96,6 +145,7 @@ function Register({classes}) {
   const [is_Post_visible, setIs_Post_visible] = useState(false);
 
   const [selectedUserName, setSelectedUserName] = useState("");
+  const [password, setPassword] = useState("");
 
   const [profPic1, setProfPic1] = useState("");
   const [profPic2, setProfPic2] = useState("");
@@ -108,7 +158,7 @@ function Register({classes}) {
   const [password4, setPassword4] = useState("");
   
 
-  const [value_q0, stValue_q0] = useState('option2');
+  const [value_q0, stValue_q0] = useState('');
   const [value_q2, stValue_q2] = useState('');
   const [value_q3, stValue_q3] = useState('');
   const [value_q4, stValue_q4] = useState('');
@@ -190,10 +240,15 @@ function Register({classes}) {
 
     const handle_Confirm_Changed = async (e) => { 
       stValue_confirmation(e.target.value);
+      const pass = document.getElementById('password').value;
+      setPassword(pass)
       if(e.target.value == "option1"){
+        setIs_password_visible(false);
         setIsWelcomeVisible(true);
+        
       } else {
         setIsWelcomeVisible(false);
+        setIs_password_visible(true);
       } 
   };
     
@@ -203,21 +258,32 @@ function Register({classes}) {
     if(e.target.value == "option1"){
       //setIsVisibleConsent(true);
       setIs_Q1_visible(true);
-      scrollBy({ top: 500, left: 0, behavior: "smooth" })
+      setIs_Q2_visible(true);
+      setIs_Q3_visible(true);
+      scrollBy({ top: 1000, left: 0, behavior: "smooth" })
 
-    } else {
+    } else if(e.target.value == "option2"){
       setIsVisibleConsent(false);
       setIs_Q1_visible(false);
+      setIs_Q2_visible(false);
+      setIs_Q3_visible(false);
+      setIs_Q4_visible(false);
+      setIs_Q5_visible(false);
+      setIs_Q6_visible(false);
+      setIs_Q7_visible(false);
+      setIs_Q8_visible(false);
+      setIs_Q9_visible(false);
+      setIs_Q10_visible(false);
     } 
 };
 
   const handle_age_Changed = async (e) => {
     if(e.target.value != ""){
-      setIs_Q2_visible(true);
-      scrollBy({ top: 500, left: 0, behavior: "smooth" })
+      
+      //scrollBy({ top: 500, left: 0, behavior: "smooth" })
 
     } else {
-      setIs_Q2_visible(false);
+      //setIs_Q2_visible(false);
     }  
   };
 
@@ -235,115 +301,124 @@ function Register({classes}) {
 
   const handle_Q2_Changed = async (e) => { 
     stValue_q2(e.target.value); 
-    if(e.target.value != ""){
+    //scrollBy({ top: 500, left: 0, behavior: "smooth" })
+    /*if(e.target.value != ""){
       setIs_Q3_visible(true);
       scrollBy({ top: 500, left: 0, behavior: "smooth" })
 
     } else {
       setIs_Q3_visible(false);
-    }  
+    } */ 
   
   };
   const handle_Q3_Changed = async (e) => { 
     stValue_q3(e.target.value); 
     if(e.target.value != ""){
       setIs_Q4_visible(true);
-      scrollBy({ top: 500, left: 0, behavior: "smooth" })
+      setIs_Q5_visible(true);
+      setIs_Q6_visible(true);
+      scrollBy({ top: 700, left: 0, behavior: "smooth" })
 
     } else {
-      setIs_Q4_visible(false);
+      //setIs_Q4_visible(false);
     }  
   };
 
   const handle_Q4_Changed = async (e) => { 
     stValue_q4(e.target.value); 
-    if(e.target.value != ""){
+    //scrollBy({ top: 500, left: 0, behavior: "smooth" })
+    /*if(e.target.value != ""){
       setIs_Q5_visible(true);
       scrollBy({ top: 500, left: 0, behavior: "smooth" })
 
     } else {
       setIs_Q5_visible(false);
-    } 
+    } */
   };
   const handle_Q5_Changed = async (e) => { 
     stValue_q5(e.target.value); 
-    if(e.target.value != ""){
+    //scrollBy({ top: 500, left: 0, behavior: "smooth" });
+    /*if(e.target.value != ""){
       setIs_Q6_visible(true);
       scrollBy({ top: 500, left: 0, behavior: "smooth" })
 
     } else {
       setIs_Q6_visible(false);
-    }
+    }*/
   };
   const handle_Q6_Changed = async (e) => { 
     stValue_q6(e.target.value); 
     if(e.target.value != ""){
       setIs_Q7_visible(true);
-      scrollBy({ top: 500, left: 0, behavior: "smooth" })
+      setIs_Q8_visible(true);
+      setIs_Q9_visible(true);
+      setIs_Q10_visible(true);
+      setIs_dank_visible(true);
+      scrollBy({ top: 700, left: 0, behavior: "smooth" })
 
     } else {
-      setIs_Q7_visible(false);
+      //setIs_Q7_visible(false);
     }
   };
   const handle_Q7_Changed = async (e) => { 
     stValue_q7(e.target.value); 
-    if(e.target.value != ""){
+    /*if(e.target.value != ""){
       setIs_Q8_visible(true);
       scrollBy({ top: 500, left: 0, behavior: "smooth" })
 
     } else {
       setIs_Q8_visible(false);
-    }
+    }*/
   };
   const handle_Q8_Changed = async (e) => { 
     stValue_q8(e.target.value); 
-    if(e.target.value != ""){
+    /*if(e.target.value != ""){
       setIs_Q9_visible(true);
       scrollBy({ top: 500, left: 0, behavior: "smooth" })
 
     } else {
       setIs_Q9_visible(false);
-    }
+    }*/
   };
   const handle_Q9_Changed = async (e) => { 
     stValue_q9(e.target.value); 
-    if(e.target.value != ""){
+    /*if(e.target.value != ""){
       setIs_Q10_visible(true);
       scrollBy({ top: 500, left: 0, behavior: "smooth" })
 
     } else {
       setIs_Q10_visible(false);
-    }
+    }*/
   };
 
   const handle_Q10_Changed = async (e) => { 
     stValue_q10(e.target.value); 
 
-    if(e.target.value != ""){
+    /*if(e.target.value != ""){
       setIs_dank_visible(true);
       scrollBy({ top: 500, left: 0, behavior: "smooth" })
 
     } else {
       setIs_dank_visible(false);
-    }
+    }*/
     
   };
 
   const handle_Q11_Changed = async (e) => { 
     
     stValue_q11(e.target.value); 
-
+    setIsNextDisplays(false);
     if(e.target.value == "option1"){
       setSelectedUserName(usrName1);
-      handleClickOpen();
+      //handleClickOpen();
 
     }else if(e.target.value == "option2"){
       setSelectedUserName(usrName2);
-      handleClickOpen();
+      //handleClickOpen();
 
     }else if(e.target.value == "option3"){
       setSelectedUserName(usrName3);
-      handleClickOpen();
+      //handleClickOpen();
 
     }
 
@@ -439,25 +514,9 @@ function Register({classes}) {
 
   const submitPost = async (e) => {
     e.preventDefault();
-    var username = ""
-    var proPic = ""
-
-    if(value_q11 == "option1"){
-      username = usrName1
-      proPic = profPic1
-
-    }else if(value_q11 == "option2"){
-      username = usrName2
-      proPic = profPic2
-
-    }else if(value_q11 == "option3"){
-      username = usrName3
-      proPic = profPic3
-
-    }
     
     //const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
+    
     //const passwordAgain = document.getElementById('passwordAgain').value;
 
     //if (passwordAgain !== password) {
@@ -471,6 +530,8 @@ function Register({classes}) {
         password: password,
         profilePicture: proPic
       };
+
+      console.log(usr)
       const postText = document.getElementById('post').value;
 
       try {
@@ -487,6 +548,7 @@ function Register({classes}) {
             console.log(res2);
             window.open('https://survey.maximiles.com/static-complete?p=123928_220ce61d', '_blank');
             // refresh the page after posting something
+            //window.focus();
             dispatch({ type: "LOGIN_SUCCESS", payload: user });
             history.push("/");
           } catch (err) {
@@ -613,11 +675,11 @@ function Register({classes}) {
         <form  className={classes.question}>
         <div className={classes.label}><label><input type="radio" value="option1"  checked={value_q3 === 'option1'} onChange={handle_Q3_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q3_op1}</span></label></div>
         <div className={classes.label}><label ><input type="radio" value="option2"  checked={value_q3 === 'option2'} onChange={handle_Q3_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q3_op2}</span></label></div>
-        <div className={classes.label}><label ><input type="radio" value="option3"  checked={value_q3 === 'option3'} onChange={handle_Q3_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q3_op5}</span></label></div>
-        <div className={classes.label}><label><input type="radio" value="option4"  checked={value_q3 === 'option4'} onChange={handle_Q3_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q3_op1}</span></label></div>
-        <div className={classes.label}><label ><input type="radio" value="option5"  checked={value_q3 === 'option5'} onChange={handle_Q3_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q3_op2}</span></label></div>
-        <div className={classes.label}><label ><input type="radio" value="option6"  checked={value_q3 === 'option6'} onChange={handle_Q3_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q3_op5}</span></label></div>
-        <div className={classes.label}><label><input type="radio" value="option7"  checked={value_q3 === 'option7'} onChange={handle_Q3_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q3_op1}</span></label></div>
+        <div className={classes.label}><label ><input type="radio" value="option3"  checked={value_q3 === 'option3'} onChange={handle_Q3_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q3_op3}</span></label></div>
+        <div className={classes.label}><label><input type="radio" value="option4"  checked={value_q3 === 'option4'} onChange={handle_Q3_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q3_op4}</span></label></div>
+        <div className={classes.label}><label ><input type="radio" value="option5"  checked={value_q3 === 'option5'} onChange={handle_Q3_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q3_op5}</span></label></div>
+        <div className={classes.label}><label ><input type="radio" value="option6"  checked={value_q3 === 'option6'} onChange={handle_Q3_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q3_op6}</span></label></div>
+        <div className={classes.label}><label><input type="radio" value="option7"  checked={value_q3 === 'option7'} onChange={handle_Q3_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{q3_op7}</span></label></div>
         <hr style={{ borderTop: '1px solid #000' }}/>
         </form>
         </div>
@@ -734,7 +796,7 @@ function Register({classes}) {
 				      <TextField className={classes.textField} id='passwordAgain' name='passwordAgain' label="Password Again" type="password" required/>
               <p className={classes.errorMessage}>{passwordErr}</p>*/}
 
-            <button onClick={companyButtonChanged} disabled={isButtonDisabled} className={classes.button}> Submit Survey</button>.
+            <button onClick={companyButtonChanged} disabled={isButtonDisabled} className={classes.button}>Senden</button>.
           </div>
         </CSSTransition>
 
@@ -753,14 +815,20 @@ function Register({classes}) {
             </div>
         <div className={classes.label}><label ><input type="radio" value="option2"  checked={value_q11 === 'option2'} onChange={handle_Q11_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem", "margin-top": "0.5rem"}}><img width="50" height="50" className={classes.profileCoverImg}  src={profPic2 != "" ? PF+profPic2 : PF+"person/noCover.png"} alt="" />{" "+usrName2}</span></label></div>
         <div className={classes.label}><label ><input type="radio" value="option3"  checked={value_q11 === 'option3'} onChange={handle_Q11_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem", "margin-top": "0.5rem"}}><img width="50" height="50" className={classes.profileCoverImg}  src={profPic3 != "" ? PF+profPic3 : PF+"person/noCover.png"} alt="" />{" "+usrName3}</span></label></div>
+        
+        <button hidden={isNextDisplays} className={classes.button} onClick={submitNext}> Weiter  </button>
         </form>
+        
         </div>
         </CSSTransition>
 
-        <CSSTransition in={is_password_visible} timeout={300} classNames="fade" unmountOnExit >
+        <CSSTransition in={is_password_visible} timeout={50} classNames="fade" unmountOnExit >
         <div id='Q5'>
         <p className={classes.secon_disclaimor4}>{excell}</p>
         <p className={classes.secon_disclaimor4}>{infoPass}</p>
+        <span style={{"margin-left": "0.5rem", "margin-top": "0.5rem"}}>
+            <img width="50" height="50"className={classes.profileCoverImg}  src={proPic != "" ? PF+proPic : PF+"person/noCover.png"} alt="" /> {" "+username}
+            </span>
         <TextField className={classes.textField3} id="password" label="Password" value={password4} autoComplete="current-password"/>
 				
         <p className={classes.secon_disclaimor5}>{note}</p>
@@ -769,15 +837,17 @@ function Register({classes}) {
         <p className={classes.secon_disclaimor4}>{plzCon}</p>
         <form  className={classes.question}>
         <div className={classes.label}><label><input type="radio" value="option1" checked={value_confirmation === 'option1'}  onChange={handle_Confirm_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{"Confirm"}</span></label></div>
+        
         </form>
         </div>
         </CSSTransition>
 
-        <CSSTransition in={isWelcomeVisible} timeout={300} classNames="fade" unmountOnExit >
+        <CSSTransition in={isWelcomeVisible} timeout={50} classNames="fade" unmountOnExit >
         <div id='posts'>
         <form  className={classes.question}>
         <p className={classes.secon_disclaimor4}>{toGet}</p>
         <p className={classes.secon_disclaimor4}>{theChoice}</p>
+        <p className={classes.secon_disclaimor4}>{theChoiceNew}</p>
         <p className={classes.secon_disclaimor4}>{whats}</p>
         <input className={classes.label2} id='post' onChange={handPostTextChange} placeholder={""}/>
         <button type="submit" hidden={isPostButtonDisplays} className={classes.button} onClick={submitPost}> Post </button>

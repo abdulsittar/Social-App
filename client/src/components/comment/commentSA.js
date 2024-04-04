@@ -14,6 +14,7 @@ import { AuthContext } from "../../context/AuthContext";
 import {styles} from './commentStyle';
 import { useMediaQuery } from 'react-responsive';
 import Linkify from 'react-linkify';
+import parse from 'html-react-parser';
 import { COLORS } from "../values/colors";
 
 function CommentSA ({post, comment, isDetail, classes }) {
@@ -34,6 +35,7 @@ function CommentSA ({post, comment, isDetail, classes }) {
 
   const { user: currentUser } = useContext(AuthContext);
 
+  console.log(comment);
   useEffect(() => {
     setIsLiked(comment.likes.includes(currentUser._id));
     setIsLikedByOne(comment.likes.length == 1)
@@ -41,6 +43,7 @@ function CommentSA ({post, comment, isDetail, classes }) {
     setIsDisliked(comment.dislikes.includes(currentUser._id));
     setIsDislikedByOne(comment.dislikes.length == 1)
     console.log(comment._id);
+    console.log(comment);
 
   }, [currentUser._id, comment.likes, comment.dislikes]);
 
@@ -51,6 +54,7 @@ function CommentSA ({post, comment, isDetail, classes }) {
     //};
     //console.log(post.comments.length)
     //fetchUser();
+    
 
   }, [post.userId])
 
@@ -97,7 +101,8 @@ function CommentSA ({post, comment, isDetail, classes }) {
         <div className={classes.comment}>
         <Link  style={{textDecoration: 'none', color: COLORS.textColor, fontWeight: 'bold'}} to={isDetail? `/postdetail/profile/${item.username}`: `/profile/${item.username}`}>{"@"+item.username}</Link>
         <br />
-        {item.body}{'   '}
+        <div dangerouslySetInnerHTML={{ __html: item.body }} />
+        {/*{ parse(item.body) }{'   '}*/}
         
         <div className={classes.postBottom}>
           <div className={classes.postBottomLeft}>
@@ -129,7 +134,7 @@ function CommentSA ({post, comment, isDetail, classes }) {
         { 
         <Linkify>
         <CardHeader
-        avatar={<Link style={{textDecoration: 'none', color: COLORS.textColor}} to={isDetail? `/postdetail/profile/${comment.userId.username}`: `/profile/${comment.userId.username}`}><Avatar className={classes.smallAvatar} src={comment.userId.profilePicture? PF + comment.userId.profilePicture: PF + "person/noAvatar.png"} /></Link>}
+        avatar={<Link style={{textDecoration: 'none', color: COLORS.textColor}} to={isDetail? (comment.userId["username"]? (`/postdetail/profile/${comment.userId["username"]}`): (`/postdetail/profile/${currentUser.username}`)) : (comment.userId["username"]? (`/profile/${comment.userId["username"]}`): (`/profile/${currentUser.username}`))}><Avatar className={classes.smallAvatar} src={comment.userId["profilePicture"]? PF + comment.userId["profilePicture"]: PF + currentUser.profilePicture} /></Link>}
         title={commentBody(comment)}
         className={classes.cardHeader2}/>
         </Linkify>

@@ -30,7 +30,7 @@ function Postdetail({ classes }) {
   const username = useParams().username;
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   const handleReadChange = () => {
-    axios.put("/users/" + currentUser._id + "/read", { postId: state.myObj._id });
+    //axios.put("/users/" + currentUser._id + "/read", { postId: state.myObj._id });
 };
 
 const handleActivityRecorder = () => {
@@ -38,7 +38,6 @@ const handleActivityRecorder = () => {
 };
 
   useEffect(() => {
-    handleReadChange();
     }, [username]);
 
     useEffect(() => {

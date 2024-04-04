@@ -14,8 +14,10 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { toast } from 'react-toastify';
 import { ToastContainer } from 'react-toastify';
+import { useHistory } from "react-router";
 
 function Home() {
+  const history = useHistory();
     const [selectedValue, setSelectedValue] = useState('0');
     const [searchTerm, setSearchTerm] = useState("");
     const [shouldSendEvent, setShouldSendEvent] = useState(false);
@@ -59,6 +61,11 @@ function Home() {
       
         }, []);
 
+        const handleNotificationClick = () => {
+          
+          history.push(`/postsurvey/${currentUser.username}`);
+
+        };
 
 
         
@@ -82,7 +89,9 @@ function Home() {
 
             
                if(a > 50 && b > -1 && c > -1 && d > -1 && e > -1){
-                    toast.success("Herzlichen Glückwunsch!!! Sie sind jetzt berechtigt, an der Nachbefragung teilzunehmen.");
+              
+                    toast.success("Herzlichen Glückwunsch!!! Sie sind jetzt berechtigt, an der Nachbefragung teilzunehmen.",{onClick: handleNotificationClick});
+                    
                     setShouldSendAlert(false)
                 }
             
