@@ -88,7 +88,7 @@ function Home() {
             setDay_Five_Percent(e);
 
             
-               if(a > 50 && b > -1 && c > -1 && d > -1 && e > -1){
+               if(a > 50 && b > -1 && c > -1){
               
                     toast.success("Herzlichen Glückwunsch!!! Sie sind jetzt berechtigt, an der Nachbefragung teilzunehmen.",{onClick: handleNotificationClick});
                     
@@ -112,7 +112,7 @@ function Home() {
 
     return (
         <>
-        <ToastContainer></ToastContainer>
+        <ToastContainer autoClose={600000}></ToastContainer>
             <Topbar setSelectedValue={setSelectedValue} setSearchTerm={setSearchTerm}/>
             <ToastProvider style={{ 'margin': !isMobileDevice && !isTabletDevice && '0px 1px' }}>
             <div className="homeContainer" style={{ 'margin': !isMobileDevice && !isTabletDevice && '50px 1px' }}>

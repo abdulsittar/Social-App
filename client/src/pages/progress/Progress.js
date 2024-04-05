@@ -17,6 +17,7 @@ import { toast } from 'react-toastify';
 import { useHistory } from "react-router";
 import { ToastContainer } from 'react-toastify';
 import {regSw, subscribe} from '../../helper.js';
+import { Link } from 'react-router-dom';
 import { Line, Circle } from 'rc-progress';
 import { CSSTransition } from 'react-transition-group';
 import { useScrollBy } from "react-use-window-scroll";
@@ -56,8 +57,8 @@ function Progress({ classes }) {
     const [isVisible, setIsVisible] = useState(false);
     const [isButtonDisabled, setButtonDisabled] = useState(false);
 
-    const [status_msg, stStatus_msg] = useState("Sie sind nicht berechtigt, an der Nachbefragung teilzunehmen");
-    const [status_msg2, stStatus_msg2] = useState("Herzlichen Glückwunsch!!! Sie sind jetzt berechtigt, an der Nachbefragung teilzunehmen.");
+    const [status_msg, stStatus_msg] = useState("Sie sind nicht berechtigt, an der Nachbefragung teilzunehmen. ");
+    const [status_msg2, stStatus_msg2] = useState("Herzlichen Glückwunsch!!! Sie sind jetzt berechtigt, an der Nachbefragung teilzunehmen. ");
     
     const [value_q2, stValue_q2] = useState('');
     const [value_q3, stValue_q3] = useState('');
@@ -452,11 +453,12 @@ const handleUserNameChange = async (e) => {
         </div>
         
         <div style={{ alignItems: "center", marginLeft: isMobileDevice && isTabletDevice && '300px', marginRight:isMobileDevice && isTabletDevice &&"300px"}}>
-        <h3 className={classes.progressHead}>{(day_One_Percent > 50 && day_Two_Percent > -1 && day_Three_Percent > -1 && day_Four_Percent > -1 && day_Five_Percent > -1)?status_msg2: status_msg}</h3>
-          </div>
+        <h3 className={classes.progressHead}>{(day_One_Percent > 50 && day_Two_Percent > -1 && day_Three_Percent > -1)?status_msg2: status_msg}
+        <a onClick={(day_One_Percent > 50 && day_Two_Percent > -1 && day_Three_Percent > -1)? handleClick : undefined} style={{ color: (day_One_Percent > 50 && day_Two_Percent > -1 && day_Three_Percent > -1)? 'blue' : 'gray', cursor: (day_One_Percent > 50 && day_Two_Percent > -1 && day_Three_Percent > -1)? 'pointer' : 'not-allowed' }}>
+          <Link to={`/postsurvey/${currentUser.username}`}>Link to the post survey</Link></a>
+        </h3></div>
 
           <div style= {{width: 'auto', marginLeft: isMobileDevice && isTabletDevice && '300px', marginRight: isMobileDevice && isTabletDevice && "300px"}}>
-
 
 
 <h3 className={classes.progressHead}>{Progress_Day_1} = {day_One_Percent}%</h3>

@@ -32,7 +32,7 @@ import { useTheme } from '@mui/material/styles';
 
 
 import {theChoiceNew, A_user_with, toGet, theChoice, whats, plzCon, infoPass, screen, note, enony, excell, welcome, q11, q1, q1_op1, q1_op2, q1_op3, q1_op4, q1_op5,  nein, ja, disclaimor_1, dear_part_2, wlcome_3, bitte_4,aimHEADING_5 ,aim_6 ,procedureHEADING_7 ,procedure_8 ,voluntaryHEADING_9 ,voluntary_10 ,other_11 ,dataprotHEADING_12 ,dataprot_13 ,datasharingHEADING_14 ,datasharing_15 ,retentionHEADING_16 ,retention_17 ,furtherHEADING_18 ,further_19 ,complaints_20 ,best_21 ,nme_22 ,consentHEADING_23 ,consent_24,
-  stat_info, geborn, ukraine, dank, login, noteusername, q2, q2_op1 , q2_op2,q2_op3 ,q3 ,q3_op1,q3_op2 ,q3_op3,q3_op4 ,q3_op5,q3_op6,q3_op7, q4 ,q4_op1,q4_op2,q4_op3,q4_op4,q4_op5, 
+  stat_info, geborn, ukraine, dank, login1,login2,login3, noteusername, q2, q2_op1 , q2_op2,q2_op3 ,q3 ,q3_op1,q3_op2 ,q3_op3,q3_op4 ,q3_op5,q3_op6,q3_op7, q4 ,q4_op1,q4_op2,q4_op3,q4_op4,q4_op5, 
   q5 , q5_op1 ,q5_op2, q5_op3 , q5_op4, q6, q6_op1, q6_op2,  q6_op3,  q6_op4,   q6_op5,  q6_op6,  q6_op7,  q6_op8,  q6_op9,  q6_op10,  q6_op11, q7 ,
   q7_op1,  q7_op2, q7_op3, q7_op4, q7_op5, q8, q8_op1, q8_op2,  q8_op3,  q8_op4, q8_op5,  q9, q9_op1, q9_op2, q9_op3,  q9_op4 ,q9_op5, q10, q10_op1 ,
   q10_op2, q10_op3 ,q10_op4 ,q10_op5 } from '../../constants';
@@ -546,7 +546,7 @@ function Register({classes}) {
           try {
             const res2 = await axios.post(`/posts/${uniqId}/create/`, { userId: user._id, desc: postText});
             console.log(res2);
-            window.open('https://survey.maximiles.com/static-complete?p=123928_220ce61d', '_blank');
+            //window.open('https://survey.maximiles.com/static-complete?p=123928_220ce61d', '_blank');
             // refresh the page after posting something
             //window.focus();
             dispatch({ type: "LOGIN_SUCCESS", payload: user });
@@ -803,7 +803,9 @@ function Register({classes}) {
       <CSSTransition in={isVisibleSignUp} timeout={50} classNames="fade" unmountOnExit >
       <div id='secondBlock'>
       <p className={classes.secon_disclaimor4}>{welcome}</p>
-      <p className={classes.secon_disclaimor}>{login}</p>
+      <p className={classes.secon_disclaimor}>{login1}</p>
+      <p className={classes.secon_disclaimor}>{login2}</p>
+      <p className={classes.secon_disclaimor}>{login3}</p>
         <form  className={classes.question}>
         <div className={classes.label}>
           <label>

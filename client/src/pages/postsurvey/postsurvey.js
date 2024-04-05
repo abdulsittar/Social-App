@@ -194,13 +194,38 @@ const handleUserNameChange = async (e) => {
     setIs_Q3_visible(false);
   }  };
   const handle_Q3_Changed = async (e) => { stValue_q3(e.target.value); 
-    /*if(e.target.value != ""){
-      setIs_Q4_visible(true);
-      scrollBy({ top: 500, left: 0, behavior: "smooth" })
 
-    } else {
-      setIs_Q4_visible(false);
-    }  */
+    if(e.target.value != "" && e.target.value != "option1"){
+
+        scrollBy({ top: 500, left: 0, behavior: "smooth" })
+        setIs_Q4_visible(true);
+        setIs_Q4_b_visible(true);
+        setIs_Q5_visible(true);
+        setIs_Q6_visible(true);
+        setIs_Q7_visible(true);
+        setIs_Q8_visible(true);
+        setIs_Q9_visible(true);
+
+      } else  if(e.target.value != "option2" || e.target.value != "option3" ||  e.target.value != "option4" ||  e.target.value != "option5"){
+
+        scrollBy({ top: 500, left: 0, behavior: "smooth" })
+
+        setIs_Q4_visible(false);
+        setIs_Q4_b_visible(true);
+        setIs_Q5_visible(true);
+        setIs_Q6_visible(true);
+        setIs_Q7_visible(true);
+        setIs_Q8_visible(true);
+        setIs_Q9_visible(true);
+      } else {
+        setIs_Q4_visible(false);
+        setIs_Q4_b_visible(false);
+        setIs_Q5_visible(false);
+        setIs_Q6_visible(false);
+        setIs_Q7_visible(false);
+        setIs_Q8_visible(false);
+        setIs_Q9_visible(false);
+    }  
   };
 
     const handle_Q4_Changed = async (e) => { stValue_q4(e.target.value); 
@@ -223,7 +248,7 @@ const handleUserNameChange = async (e) => {
 
   const handleTechnicalChange = async (e) => { stValue_b_q4(e.target.value); 
 
-    if(e.target.value != ""){
+    /*if(e.target.value != ""){
       if(e.target.value.length == 1){
         scrollBy({ top: 700, left: 0, behavior: "smooth" })
       }
@@ -242,7 +267,7 @@ const handleUserNameChange = async (e) => {
         setIs_Q7_visible(false);
         setIs_Q8_visible(false);
         setIs_Q9_visible(false);
-    }  
+    }  */
     };
 
     const handle_Q4_1_Changed = async (e) => { stValue_q4_1(e.target.value); 
@@ -437,22 +462,37 @@ const handleUserNameChange = async (e) => {
       q16: value_q17,
       q17: someelse,
     };
-        try {
-          console.log(survey)
-          const res = await axios.post(`/idstorage/getKey/${currentUser.uniqueId}`);
-          console.log(res);
-          
-	        const urlParts = window.location.pathname.split('/');
-          const valu = urlParts[urlParts.length-1]
-          window.open('https://survey.maximiles.com/static-complete?p=123929_0b2e7809', '_blank');
 
-          localStorage.removeItem("user");
-	        history.push(`/register/${res.data.key}`);
-        } catch (err) {
-          console.log(err);
-          setPasswordErr({A_user_with});
-  
-        }
+
+    try {
+      console.log(survey)
+      console.log(currentUser)
+      const res = await axios.post(`/postsurvey/pstsurvey/${currentUser._id}`, survey);
+
+      try {
+        console.log(survey)
+        const res = await axios.post(`/idstorage/getKey/${currentUser.uniqueId}`);
+        console.log(res);
+        
+        const urlParts = window.location.pathname.split('/');
+        const valu = urlParts[urlParts.length-1]
+        window.open('https://survey.maximiles.com/static-complete?p=123929_0b2e7809', '_blank');
+
+        localStorage.removeItem("user");
+        history.push(`/register/${res.data.key}`);
+      } catch (err) {
+        console.log(err);
+        setPasswordErr({A_user_with});
+
+      }
+
+    } catch (err) {
+      console.log(err);
+      setPasswordErr({A_user_with});
+
+    }
+
+        
   };
 
   useEffect(() => {
@@ -499,7 +539,7 @@ const handleUserNameChange = async (e) => {
         </div>
         
         <div style={{ alignItems: "center", marginLeft: isMobileDevice && isTabletDevice && '300px', marginRight:isMobileDevice && isTabletDevice &&"300px"}}>
-        <h3 className={classes.progressHead}>{(day_One_Percent > 50 && day_Two_Percent > -1 && day_Three_Percent > -1 && day_Four_Percent > -1 && day_Five_Percent > -1)?status_msg2: status_msg}</h3>
+        <h3 className={classes.progressHead}>{(day_One_Percent > 50 && day_Two_Percent > -1 && day_Three_Percent > -1)?status_msg2: status_msg}</h3>
           <form className={classes.form}  noValidate autoComplete="off">
         {/*<CSSTransition in={day_One_Percent > 50 && day_Two_Percent > -1 && day_Three_Percent > -1 && day_Four_Percent > -1 && day_Five_Percent > -1} timeout={50} classNames="fade" unmountOnExit >
       <div id='toShow'>
@@ -511,7 +551,7 @@ const handleUserNameChange = async (e) => {
       </div>
               </CSSTransition>*/}
 
-        <CSSTransition in={day_One_Percent > 50 && day_Two_Percent > -1 && day_Three_Percent > -1 && day_Four_Percent > -1 && day_Five_Percent > -1} timeout={50} classNames="fade" unmountOnExit >
+        <CSSTransition in={day_One_Percent > 50 && day_Two_Percent > -1 && day_Three_Percent > -1} timeout={50} classNames="fade" unmountOnExit >
         <div id='sixBlock'>
       <p className={classes.secon_disclaimor}>{post_info_2}</p>
         <p className={classes.secon_disclaimor}>{post_q2}</p>
@@ -524,7 +564,7 @@ const handleUserNameChange = async (e) => {
         </form>
         </div>
         </CSSTransition>
-        <CSSTransition in={day_One_Percent > 50 && day_Two_Percent > -1 && day_Three_Percent > -1 && day_Four_Percent > -1 && day_Five_Percent > -1} timeout={50}  classNames="fade" unmountOnExit >
+        <CSSTransition in={day_One_Percent > 50 && day_Two_Percent > -1 && day_Three_Percent > -1} timeout={50}  classNames="fade" unmountOnExit >
         <div id='sixBlock'>
         <p className={classes.secon_disclaimor}>{post_q3}</p>
         <form  className={classes.question}>
@@ -536,13 +576,15 @@ const handleUserNameChange = async (e) => {
         </form>
         </div>
         </CSSTransition>
-        <CSSTransition in={day_One_Percent > 50 && day_Two_Percent > -1 && day_Three_Percent > -1 && day_Four_Percent > -1 && day_Five_Percent > -1} timeout={50} classNames="fade" unmountOnExit >
+
+        <CSSTransition in={is_Q4_visible} timeout={50} classNames="fade" unmountOnExit >
         <div id='sixBlock'>
         <p className={classes.secon_disclaimor}>{post_info_3}</p>
         <input id="username" onChange = {handleTechnicalChange}className={classes.label2} placeholder={post_info_3}/>
         <hr style={{ borderTop: '1px solid #000' }}/>
         </div>
         </CSSTransition>
+
         <CSSTransition in={is_Q4_b_visible} timeout={50} classNames="fade" unmountOnExit >
         <div id='six_bBlock'>
         <p className={classes.secon_disclaimor}>{post_info_4}</p>
@@ -554,9 +596,7 @@ const handleUserNameChange = async (e) => {
         <div className={classes.label}><label ><input type="radio" value="option3"  checked={value_q4 === 'option3'} onChange={handle_Q4_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q4_op3}</span></label></div>
         <div className={classes.label}><label><input type="radio" value="option4"  checked={value_q4 === 'option4'} onChange={handle_Q4_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q4_op4}</span></label></div>
         <div className={classes.label}><label ><input type="radio" value="option5"  checked={value_q4 === 'option5'} onChange={handle_Q4_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q4_op5}</span></label></div>
-        <div className={classes.label}><label ><input type="radio" value="option6"  checked={value_q4 === 'option6'} onChange={handle_Q4_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q4_op6}</span></label></div>
-        <div className={classes.label}><label><input type="radio" value="option7"  checked={value_q4 === 'option7'} onChange={handle_Q4_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q4_op7}</span></label></div>
-        </form>
+       </form>
         </div>
         </CSSTransition>
 
@@ -569,9 +609,7 @@ const handleUserNameChange = async (e) => {
         <div className={classes.label}><label ><input type="radio" value="option3"  checked={value_q4_1 === 'option3'} onChange={handle_Q4_1_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q5_op3}</span></label></div>
         <div className={classes.label}><label><input type="radio" value="option4"  checked={value_q4_1 === 'option4'} onChange={handle_Q4_1_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q5_op4}</span></label></div>
         <div className={classes.label}><label ><input type="radio" value="option5"  checked={value_q4_1 === 'option5'} onChange={handle_Q4_1_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q5_op5}</span></label></div>
-        <div className={classes.label}><label ><input type="radio" value="option6"  checked={value_q4_1 === 'option6'} onChange={handle_Q4_1_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q5_op6}</span></label></div>
-        <div className={classes.label}><label><input type="radio" value="option7"  checked={value_q4_1 === 'option7'} onChange={handle_Q4_1_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q5_op7}</span></label></div>
-        </form>
+      </form>
         </div>
         </CSSTransition>
 
@@ -584,9 +622,7 @@ const handleUserNameChange = async (e) => {
         <div className={classes.label}><label ><input type="radio" value="option3"  checked={value_q4_2 === 'option3'} onChange={handle_Q4_2_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q6_op3}</span></label></div>
         <div className={classes.label}><label><input type="radio" value="option4"  checked={value_q4_2 === 'option4'} onChange={handle_Q4_2_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q6_op4}</span></label></div>
         <div className={classes.label}><label ><input type="radio" value="option5"  checked={value_q4_2 === 'option5'} onChange={handle_Q4_2_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q6_op5}</span></label></div>
-        <div className={classes.label}><label ><input type="radio" value="option6"  checked={value_q4_2 === 'option6'} onChange={handle_Q4_2_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q6_op6}</span></label></div>
-        <div className={classes.label}><label><input type="radio" value="option7"  checked={value_q4_2 === 'option7'} onChange={handle_Q4_2_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q6_op7}</span></label></div>
-        </form>
+      </form>
         </div>
         </CSSTransition>
 
@@ -599,9 +635,7 @@ const handleUserNameChange = async (e) => {
         <div className={classes.label}><label ><input type="radio" value="option3"  checked={value_q4_3 === 'option3'} onChange={handle_Q4_3_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q7_op3}</span></label></div>
         <div className={classes.label}><label><input type="radio" value="option4"  checked={value_q4_3 === 'option4'} onChange={handle_Q4_3_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q7_op4}</span></label></div>
         <div className={classes.label}><label ><input type="radio" value="option5"  checked={value_q4_3 === 'option5'} onChange={handle_Q4_3_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q7_op5}</span></label></div>
-        <div className={classes.label}><label ><input type="radio" value="option6"  checked={value_q4_3 === 'option6'} onChange={handle_Q4_3_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q7_op6}</span></label></div>
-        <div className={classes.label}><label><input type="radio" value="option7"  checked={value_q4_3 === 'option7'} onChange={handle_Q4_3_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q7_op7}</span></label></div>
-        </form>
+      </form>
         </div>
         </CSSTransition>
 
@@ -614,8 +648,6 @@ const handleUserNameChange = async (e) => {
         <div className={classes.label}><label ><input type="radio" value="option3"  checked={value_q4_4 === 'option3'} onChange={handle_Q4_4_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q8_op3}</span></label></div>
         <div className={classes.label}><label><input type="radio" value="option4"  checked={value_q4_4 === 'option4'} onChange={handle_Q4_4_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q8_op4}</span></label></div>
         <div className={classes.label}><label ><input type="radio" value="option5"  checked={value_q4_4 === 'option5'} onChange={handle_Q4_4_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q8_op5}</span></label></div>
-        <div className={classes.label}><label ><input type="radio" value="option6"  checked={value_q4_4 === 'option6'} onChange={handle_Q4_4_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q8_op6}</span></label></div>
-        <div className={classes.label}><label><input type="radio" value="option7"  checked={value_q4_4 === 'option7'} onChange={handle_Q4_4_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q8_op7}</span></label></div>
         </form>
         </div>
         </CSSTransition>
@@ -628,9 +660,7 @@ const handleUserNameChange = async (e) => {
         <div className={classes.label}><label ><input type="radio" value="option3"  checked={value_q4_5 === 'option3'} onChange={handle_Q4_5_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q9_op3}</span></label></div>
         <div className={classes.label}><label><input type="radio" value="option4"  checked={value_q4_5 === 'option4'} onChange={handle_Q4_5_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q9_op4}</span></label></div>
         <div className={classes.label}><label ><input type="radio" value="option5"  checked={value_q4_5 === 'option5'} onChange={handle_Q4_5_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q9_op5}</span></label></div>
-        <div className={classes.label}><label ><input type="radio" value="option6"  checked={value_q4_5 === 'option6'} onChange={handle_Q4_5_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q9_op6}</span></label></div>
-        <div className={classes.label}><label><input type="radio" value="option7"  checked={value_q4_5 === 'option7'} onChange={handle_Q4_5_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{post_q9_op7}</span></label></div>
-        <hr style={{ borderTop: '1px solid #000' }}/>
+         <hr style={{ borderTop: '1px solid #000' }}/>
         </form>
         </div>
         </CSSTransition>
@@ -738,8 +768,10 @@ const handleUserNameChange = async (e) => {
         <div id='sixBlock'>
         <p className={classes.secon_disclaimor}>{post_info_7}</p>
         <p className={classes.secon_disclaimor}>{post_q18}</p>
-        <input id="someelse" className={classes.label2} placeholder={post_q18}/>
-        <p className={classes.secon_disclaimor}>{post_info_8}</p>
+
+        <textarea  className={classes.label2} id="someelse" rows={4} placeholder={post_q18}/>
+        {/*<input style={{ height: '40px' }} id="someelse"  placeholder={post_q18}/>*/}
+        <p  className={classes.secon_disclaimor}>{post_info_8}</p>
 
 				<button onClick={handleClick} type="submit" className={classes.button}> {Submit_Post_Survey} </button>
         </div>

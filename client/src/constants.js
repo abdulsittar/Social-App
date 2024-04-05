@@ -57,13 +57,13 @@ export const q4_op4 = "4";
 export const q4_op5 = "5 Ich bin sehr interessiert";
 
 export const q5 = "5. Wie oft nutzen Sie soziale Medien in Ihrem Alltag?";
-export const q5_op1 = "Sehr oft";
-export const q5_op2 = "Oft";
-export const q5_op3 = "Manchmal";
-export const q5_op4 = "Nie";
+export const q5_op1 = "Nie";
+export const q5_op2 = "Manchmal";
+export const q5_op3 = "Oft";
+export const q5_op4 = "Sehr oft";
 
 export const q6 = "6. In der Politik reden die Leute häufig von \"links\" und \"rechts\". Wenn Sie eine Skala von 1 bis 11 benutzen, wo würden Sie sich selbst einordnen?";
-export const q6_op1 = "1 links";
+export const q6_op1 = "1 Links";
 export const q6_op2 = "2";
 export const q6_op3 = "3";
 export const q6_op4 = "4";
@@ -73,7 +73,7 @@ export const q6_op7 = "7";
 export const q6_op8 = "8";
 export const q6_op9 = "9";
 export const q6_op10 = "10";
-export const q6_op11 = "11 rechts";
+export const q6_op11 = "11 Rechts";
 
 export const ukraine = "Der Krieg in der Ukraine wird in Politik und Medien seit über zwei Jahren prominent diskutiert. Im Folgenden würden wir gern wissen, wie sehr Sie den Aussagen zustimmen oder nicht zustimmen.";
 
@@ -106,7 +106,11 @@ export const q10_op4 = "4";
 export const q10_op5 = "5 Stimme voll und ganz zu";
 
 export const dank = "Vielen Dank für Ihre Antworten. Bitte drücken Sie „Senden“. Anschließend werden Sie auf eine neue Seite weitergeleitet, auf der Sie Ihr Konto für die TWON-Plattform erstellen können.";
-export const login = "Sie können sich nun auf TWON anmelden. Um die Anonymität der Nutzer zu schützen, haben wir eine Reihe von Profilen für unsere Nutzer erstellt. Bitte wählen Sie einen der drei Accountnamen und Avatare, die Ihnen unten angezeigt werden.";
+export const login1 = "Sie können sich nun auf TWON anmelden."; 
+export const login2 = [<strong>TWON ist eine textbasierte Plattform, auf der Nutzer Textnachrichten und Statusmeldugen austauschen können und aufeinander reagieren können.</strong>];
+export const login3 = "Um die Anonymität der Nutzer zu schützen, haben wir eine Reihe von Profilen für unsere Nutzer erstellt. Bitte wählen Sie einen der drei Accountnamen und Avatare, die Ihnen unten angezeigt werden.";
+
+
 export const noteusername = "Ausgezeichnete Wahl! Bitte notieren Sie sich diesen Benutzernamen und das Passwort, da Sie diese für den zukünftigen Zugang zur Plattform benötigen. Um Ihre Anonymität in dieser Studie zu gewährleisten, speichern wir diese Information nicht ab";
 
 export const welcome = "Willkommen!"
@@ -114,10 +118,10 @@ export const welcome = "Willkommen!"
 export const q11 = "Please select one username from the following three images:";
 export const excell = "Exzellente Wahl!";
 
-export const infoPass = "Das Passwort für Ihr Konto lautet:";
+export const infoPass = "Der Benutzername für Ihr Konto lautet:";
 
-export const note = [<strong>Achtung!</strong>,<br />, <strong>Bitte notieren</strong>, "Sie sich diesen Benutzernamen ","(","=", "Names ihres Avatars, ", "z.B.", " Magister Fuchs) ", "und das Passwort, da Sie diese für den Zugang zur Plattform benötigen. Um Ihre Anonymität in dieser Studie zu gewährleisten, speichern wir diese Information nicht ab."];
-export const enony = [<strong>Bitte notieren/speichern</strong>, "Sie sich auch folgenden Link für den Zugang zur Plattform:", <a href={'https://socialapp.ijs.si/'}>{'https://socialapp.ijs.si/'}</a>];
+export const note = [<strong>Achtung!</strong>,<br />, <strong>Bitte notieren</strong>, " Sie sich diesen Benutzernamen ","(","=", "Name Ihres Avatars, ", " z.B.", " Magister Fuchs) ", "und das Passwort, da Sie diese für den Zugang zur Plattform benötigen. Um Ihre Anonymität in dieser Studie zu gewährleisten, speichern wir diese Information nicht ab."];
+export const enony = [<strong>Bitte notieren/speichern</strong>, " Sie sich auch folgenden Link für den Zugang zur Plattform:", "https://socialapp.ijs.si/"];
 export const screen = "Auf dem nächsten Bildschirm werden Sie zur TWON-Plattform weitergeleitet. Beben Sie Ihren Benutzernamen und Ihr Passwort ein."; 
 
 export const plzCon = [<strong>Bitte bestätigen Sie, dass Sie Ihren Benutzernamen, Ihr Passwort und die URL der Twon-Plattform für die zukünftige Verwendung sicher gespeichert haben.</strong>];
@@ -161,7 +165,7 @@ export const post_q4_op1 = "1 Sehr negativ";
 export const post_q4_op2 = "2";
 export const post_q4_op3 = "3";
 export const post_q4_op4 = "4";
-export const post_q4_op5 = "5";
+export const post_q4_op5 = "5 Sehr positiv";
 export const post_q4_op6 = "6";
 export const post_q4_op7 = "7 Sehr positiv";
 
@@ -169,7 +173,7 @@ export const post_q5_op1 = "1 Nicht glaubwürdig";
 export const post_q5_op2 = "2";
 export const post_q5_op3 = "3";
 export const post_q5_op4 = "4";
-export const post_q5_op5 = "5";
+export const post_q5_op5 = "5 Glaubwürdig";
 export const post_q5_op6 = "6";
 export const post_q5_op7 = "7 Glaubwürdig";
 
@@ -177,7 +181,7 @@ export const post_q6_op1 = "1 Nicht wichtig";
 export const post_q6_op2 = "2";
 export const post_q6_op3 = "3";
 export const post_q6_op4 = "4";
-export const post_q6_op5 = "5";
+export const post_q6_op5 = "5 Wichtig";
 export const post_q6_op6 = "6";
 export const post_q6_op7 = "7 Wichtig"
 
@@ -185,7 +189,7 @@ export const post_q7_op1 = "1 Für mich nicht relevant";
 export const post_q7_op2 = "2";
 export const post_q7_op3 = "3";
 export const post_q7_op4 = "4";
-export const post_q7_op5 = "5";
+export const post_q7_op5 = "5 Für mich relevant";
 export const post_q7_op6 = "6";
 export const post_q7_op7 = "7 Für mich relevant"
 
@@ -193,15 +197,15 @@ export const post_q8_op1 = "1 Nicht aktuell";
 export const post_q8_op2 = "2";
 export const post_q8_op3 = "3";
 export const post_q8_op4 = "4";
-export const post_q8_op5 = "5";
+export const post_q8_op5 = "5 Aktuell";
 export const post_q8_op6 = "6";
 export const post_q8_op7 = "7 Aktuell"
 
-export const post_q9_op1 = "1 Unfreundlich";
+export const post_q9_op1 = "1 Unhöflich";
 export const post_q9_op2 = "2";
 export const post_q9_op3 = "3";
 export const post_q9_op4 = "4";
-export const post_q9_op5 = "5";
+export const post_q9_op5 = "5 Höflich ";
 export const post_q9_op6 = "6";
 export const post_q9_op7 = "7 Freundlich"
 
@@ -267,7 +271,7 @@ export const post_q17_op5 = "5 Stimme voll und ganz zu";
 export const post_info_7 = "Vielen Dank für Ihre Teilnahme an unserer Studie. Sie haben damit einen großen Beitrag zum Erfolg unseres Projekts geleistet.";
 export const post_q18 = "17. Gibt es zum Schluss noch etwas, dass Sie uns gern zur Studie mitteilen würden?";
 
-export const post_info_8 = "Bitte klicken Sie hier, um den Fragebogen abzuschließen und Ihre Vergütung zu erhalten.";
+export const post_info_8 = "Bitte klicken Sie hier, um den Fragebogen abzuschließen. Bilendi registriert so Ihre Teilnahme. Dort wird Ihnen die Vergütung in den nächsten Tagen gutgeschrieben.";
 
 
 export const followers = "Follower";

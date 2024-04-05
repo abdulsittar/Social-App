@@ -7,12 +7,12 @@ const { ObjectId } = require('mongodb');
 const IDStorage = require('../models/IDStorage');
 
 // Submit pre survey
-router.post('/pstsurvey/:uniqId', async (req, res) => {
+router.post('/pstsurvey/:userId', async (req, res) => {
     try{
         console.log("herelkjkl");
-        console.log(req.params.uniqId);
+        console.log(req.params);
         const newSurvey = new PostSurvey({
-            "userId": req.params.uniqId,
+            "userId": req.params.userId,
             "q1": req.body.q1,
             "q2": req.body.q2,
             "q3": req.body.q3,
@@ -32,12 +32,13 @@ router.post('/pstsurvey/:uniqId', async (req, res) => {
             "q16": req.body.q16,
             "q17": req.body.q17
         });
-        console.log("newSurvey")
+        console.log("newSurvey");
         //console.log(newSurvey)
         // save user and send response
         const survey = await newSurvey.save();
         //console.log(survey)
         res.status(200).json(survey);
+        return
     
     } catch (err) {
         console.log(err)
