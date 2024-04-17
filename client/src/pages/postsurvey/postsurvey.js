@@ -471,7 +471,8 @@ const handleUserNameChange = async (e) => {
     try {
       console.log(survey)
       console.log(currentUser)
-      const res = await axios.post(`/postsurvey/pstsurvey/${currentUser._id}`, survey);
+      const token = localStorage.getItem('token');
+      const res = await axios.post(`/postsurvey/pstsurvey/${currentUser._id}`, survey, {headers: { 'auth-token': token }});
 
       try {
         console.log(survey)
@@ -483,6 +484,7 @@ const handleUserNameChange = async (e) => {
         window.open('https://survey.maximiles.com/static-complete?p=123929_0b2e7809', '_blank');
 
         localStorage.removeItem("user");
+        localStorage.removeItem("token");
         history.push(`/register/${res.data.key}`);
       } catch (err) {
         console.log(err);
