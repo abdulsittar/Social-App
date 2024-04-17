@@ -24,7 +24,7 @@ pool: {
 },
 rank: {
     type: Number,
-    default: 0.0
+    default: 1000.0
 },
 likes: [{
     type: mongoose.Schema.Types.ObjectId, 

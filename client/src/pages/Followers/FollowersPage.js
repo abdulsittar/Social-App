@@ -25,9 +25,10 @@ function FollowersPage({ username, classes }) {
     const [shouldSendEvent, setShouldSendEvent] = useState(false);
 
     useEffect(() => {
+      const token = localStorage.getItem('token');
         const getFriends = async () => {
           try {
-            const friendList = await axios.get("/users/followers/" + currentUser._id);
+            const friendList = await axios.get("/users/followers/" + currentUser._id, {headers: { 'auth-token': token }});
             setFriends(friendList.data);
           } catch (err) {
             console.log(err);

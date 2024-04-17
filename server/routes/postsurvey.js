@@ -5,9 +5,10 @@ const mongoose = require('mongoose');
 const conn = mongoose.createConnection(process.env.DB_URL);
 const { ObjectId } = require('mongodb');
 const IDStorage = require('../models/IDStorage');
+const verifyToken = require('../middleware/verifyToken');
 
 // Submit pre survey
-router.post('/pstsurvey/:userId', async (req, res) => {
+router.post('/pstsurvey/:userId', verifyToken, async (req, res) => {
     try{
         console.log("herelkjkl");
         console.log(req.params);

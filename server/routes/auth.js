@@ -1,9 +1,14 @@
 const router = require('express').Router();
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
+const dotenv = require('dotenv');
+dotenv.config();
 const IDStorage = require('../models/IDStorage');
 const SelectedUser = require('../models/SelectedUser');
 var mongoose  = require('mongoose');
+const jwt = require('jsonwebtoken');
+const verifyToken = require('../middleware/verifyToken');
+require("dotenv").config();
 
 const { ObjectId } = require('mongodb');
 /**
@@ -117,7 +122,7 @@ const { ObjectId } = require('mongodb');
  */
 
 // REGISTER USER
-router.post('/register/:uniqId', async (req, res) => {
+router.post('/register/:uniqId',  async (req, res) => {
 try{
     console.log("here");
     // encrypt password
@@ -145,6 +150,10 @@ try{
 
 
     const user = await newUser.save();
+    console.log(`${process.env.JWT_SECRET}`)
+
+    const token = jwt.sign({ _id: user._id }, `${process.env.JWT_SECRET}`);
+    const usr = {"user": user, "token": token}
 
     let diction = {}
     diction["available"] = false    
@@ -162,8 +171,8 @@ try{
         console.error('Error updating object field:', error);
 
     }
-    console.log(user)
-    res.status(200).json(user);
+    console.log(usr)
+    res.status(200).json(usr);
 
 
 } catch (err) {
@@ -227,7 +236,13 @@ try {
             res.status(404).json("wrong password");
         return
     }
-    res.status(200).json(user);
+
+    const token = jwt.sign({ _id: user._id }, `${process.env.JWT_SECRET}`);
+
+    const usr = {"user": user, "token": token}
+
+    console.log(usr)
+    res.status(200).json(usr);
 
 } catch(err) {
 //console.log(err)

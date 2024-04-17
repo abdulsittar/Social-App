@@ -1,5 +1,6 @@
 // SocialApp
 const express = require('express');
+require("dotenv").config();
 const webPush = require ('web-push');
 const bodyParser = require("body-parser");
 const User = require('./models/User.js');

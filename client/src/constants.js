@@ -5,7 +5,7 @@ export const bitte_4 = "Bitte lesen Sie den folgenden Text sorgfältig durch, be
 export const aimHEADING_5 = "Ziel der Studie";
 export const aim_6 = "Ziel dieser Studie ist es, ein besseres Verständnis dafür zu entwickeln, wie Social-Media-Plattformen die Aktivität ihrer Nutzer auf der Plattform und die Interaktionen mit anderen Nutzern beeinflussen, um negative Auswirkungen auf die Demokratie zu erklären und zu verhindern.";
 export const procedureHEADING_7 = "Ablauf der Studie";
-export const procedure_8 = "In dieser Studie bitten wir Sie „Twon“- die von der Forschungsgruppe entwickelte Plattform für soziale Netzwerke - drei Tage lang mindestens 10 Minuten pro Tag zu nutzen. Die Inhalte auf dieser Plattform kommen teilweise von anderen Platformen; teilweise sind sie automatisiert erstellt. Sie nutzen die Plattform so, wie Sie sich normalerweise ein soziales Netzwerk nutzen würden - zum Beispiel indem Sie die Beiträge anderer Nutzer liken, teilen und kommentieren oder einem Link folgen, um einen Nachrichtenartikel zu lesen. Zu Beginn und am Ende der Studie füllen Sie einen kurzen Fragebogen zu Ihre Nutzererfahrung und einigen allgemeinen statistischen Informationen aus. Insgesamt dauert diese Studie zwischen 50 Minuten und einer Stunde, wenn Sie die tägliche Nutzung und die Zeit für die Fragebögen zusammenrechnen. Nach der Teilnahme an der Studie erhalten Sie die mit dem Bilendi Online Panel vereinbarte Vergütung.";
+export const procedure_8 = "In dieser Studie bitten wir Sie „Twon“- die von der Forschungsgruppe entwickelte Plattform für soziale Netzwerke - drei Tage lang mindestens 10 Minuten pro Tag zu nutzen. Die Inhalte auf dieser Plattform kommen teilweise von anderen Platformen; teilweise sind sie automatisiert erstellt. Sie nutzen die Plattform so, wie Sie normalerweise ein soziales Netzwerk nutzen würden - zum Beispiel indem Sie die Beiträge anderer Nutzer liken, teilen und kommentieren oder einem Link folgen, um einen Nachrichtenartikel zu lesen. Zu Beginn und am Ende der Studie füllen Sie einen kurzen Fragebogen zu Ihre Nutzererfahrung und einigen allgemeinen statistischen Informationen aus. Insgesamt dauert diese Studie zwischen 50 Minuten und einer Stunde, wenn Sie die tägliche Nutzung und die Zeit für die Fragebögen zusammenrechnen. Nach der Teilnahme an der Studie erhalten Sie die mit dem Bilendi Online Panel vereinbarte Vergütung.";
 export const voluntaryHEADING_9 = "Freiwillige Teilnahme";
 export const voluntary_10 = "Ihre Teilnahme an dieser Studie ist freiwillig: Sie sind nicht zur Teilnahme verpflichtet. Sie können Ihre Teilnahme während der Studie jederzeit beenden und auch nach der Studie Ihre Daten zurückziehen. Wenn Sie Ihre Daten zurückziehen möchten, wenden Sie sich bitte an Bilendi unter Angabe des Links, der Ihnen für Ihre Teilnahme zur Verfügung gestellt wurde. Sie müssen dafür keinen Grund angeben.";
 export const other_11 = "Mit Ausnahme der Tatsache, dass Sie dann keine Entschädigung erhalten, hat dies keine Nachteile für Sie. Bitte senden Sie uns keine direkte E-Mail, um Ihre Anonymität zu wahren. ";
@@ -120,9 +120,9 @@ export const excell = "Exzellente Wahl!";
 
 export const infoPass = "Der Benutzername für Ihr Konto lautet:";
 
-export const note = [<strong>Achtung!</strong>,<br />, <strong>Bitte notieren</strong>, " Sie sich diesen Benutzernamen ","(","=", "Name Ihres Avatars, ", " z.B.", " Magister Fuchs) ", "und das Passwort, da Sie diese für den Zugang zur Plattform benötigen. Um Ihre Anonymität in dieser Studie zu gewährleisten, speichern wir diese Information nicht ab."];
-export const enony = [<strong>Bitte notieren/speichern</strong>, " Sie sich auch folgenden Link für den Zugang zur Plattform:", "https://socialapp.ijs.si/"];
-export const screen = "Auf dem nächsten Bildschirm werden Sie zur TWON-Plattform weitergeleitet. Beben Sie Ihren Benutzernamen und Ihr Passwort ein."; 
+export const note = [<strong>Achtung!</strong>,<br />, <strong>Bitte notieren</strong>, " Sie sich diesen Benutzernamen ","(","=", "Name Ihres Avatars, ", " z.B.", " Magischer Fuchs) ", "und das Passwort, da Sie diese für den Zugang zur Plattform benötigen. Um Ihre Anonymität in dieser Studie zu gewährleisten, speichern wir diese Information nicht ab."];
+export const enony = [<strong>Bitte notieren/speichern</strong>, " Sie sich auch folgenden Link für den Zugang zur Plattform:"];
+export const screen = "Auf dem nächsten Bildschirm werden Sie zur TWON-Plattform weitergeleitet. Geben Sie Ihren Benutzernamen und Ihr Passwort ein."; 
 
 export const plzCon = [<strong>Bitte bestätigen Sie, dass Sie Ihren Benutzernamen, Ihr Passwort und die URL der Twon-Plattform für die zukünftige Verwendung sicher gespeichert haben.</strong>];
 
@@ -130,7 +130,7 @@ export const toGet = "Um das Gespräch in Gang zu bringen, schreiben Sie bitte e
 export const theChoice = "Die Wahl dessen, was Sie hier und zu jeder Zeit während Ihrer regulären Nutzung der Plattform schreiben, liegt ganz bei Ihnen - was immer Ihnen in den Sinn kommt. Sobald Sie Ihren Beitrag geschrieben haben, klicken \"Post\", um Ihren Status zu übermitteln und zur Plattform weitergeleitet zu werden.";
 
 export const theChoiceNew = "Bitte denken Sie daran, dass alle posts öffentlich sind. Teilen Sie keine persönlichen Informationen wie Ihren Namen oder Kontaktdaten.";
-export const whats = "Was ist die spannendste Meldung, die Sie heute gelesen haben?";
+export const whats = [<strong>Was ist die spannendste Meldung, die Sie heute gelesen haben?.</strong>];
 
 export const post_info_0 = "Ganz herzlichen Dank für die aktive Nutzung der TWON-Plattform!";
 export const post_info_1 = "Im Folgenden möchten wir Ihnen gern einige Fragen zu Ihrer Nutzererfahrung auf TWON stellen. Am Schluss des Fragebogens werden Sie zurück zu Bilendi geleitet, um Ihre Vergütung zu erhalten.";
@@ -152,9 +152,9 @@ export const post_q3_op3 = "3";
 export const post_q3_op4 = "4";
 export const post_q3_op5 = "5 Große technische Probleme";
 
-export const post_info_3 = "Sie  haben angegeben, dass während der Studie technische Probleme aufgetreten sind. Können die diese kurz näher beschreiben?";
+export const post_info_3 = "Sie  haben angegeben, dass während der Studie technische Probleme aufgetreten sind. Können Sie diese kurz näher beschreiben?";
 
-export const post_info_4 = "Nun möchten wir gern erfahren, wie sie die Inhalte auf TWON bewerten.";
+export const post_info_4 = "Nun möchten wir gern erfahren, wie Sie die Inhalte auf TWON bewerten.";
 export const post_q4 = "3. Der Newsfeed war:";
 export const post_q4_1 = "4. Der Newsfeed war:";
 export const post_q4_2 = "5. Der Newsfeed war:";

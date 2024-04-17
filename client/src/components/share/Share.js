@@ -10,6 +10,8 @@ import InputEmoji from "react-input-emoji";
 import SendIcon from '@mui/icons-material/Send';
 import { Search } from '@material-ui/icons';
 import { What_in_your_mind, Feelings } from '../../constants';
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
 
 function Share({classes}) {
     const { user } = useContext(AuthContext);
@@ -24,11 +26,13 @@ function Share({classes}) {
     const submitHandler = async (e) => {
         console.log("Submit Handler");
         e.preventDefault();
+        const token = localStorage.getItem('token');
         const newPost = {
           userId: user._id,
           desc: text,
         };
         if (file) {
+            
           const data = new FormData();
           const fileName = Date.now() + file.name;
           data.append("name", fileName);
@@ -36,11 +40,11 @@ function Share({classes}) {
           newPost.img = fileName;
           //console.log(newPost);
           try {
-            await axios.post("/upload", data);
+            await axios.post("/upload", data, {headers: { 'auth-token': token }});
           } catch (err) {}
         }
         try {
-          await axios.post("/posts/" + user._id + "/create", newPost);
+          await axios.post("/posts/" + user._id + "/create", newPost, {headers: { 'auth-token': token }});
           //await axios.post("/posts/create", newPost);
           // refresh the page after posting something
           window.location.reload();
@@ -110,7 +114,9 @@ function Share({classes}) {
                             <span className={classes.shareOptionText}>{"Gefühle"}</span>
                         </div>
                     </div>
-                    <SendIcon className={classes.sendButton2}  style={{ align: "right" }} type="submit" onClick={submitHandler}/>
+                    <Stack direction="row" spacing={2}>
+            <Button variant="contained" endIcon={<SendIcon className={classes.sendButton2}  style={{ align: "right" }} type="submit" onClick={submitHandler}/>}> Send </Button></Stack>
+                    
                 </form>
             </div>
         </div>

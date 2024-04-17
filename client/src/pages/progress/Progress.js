@@ -103,8 +103,9 @@ function Progress({ classes }) {
     
 
 useEffect(() => {
+  const token = localStorage.getItem('token');
   const fetchUser = async () => {
-    const res = await axios.get(`/users?username=${username}`)
+    const res = await axios.get(`/users?username=${username}`, {headers: { 'auth-token': token }})
     console.log("fetch user");
     console.log(res.data)
     setUsr(res.data);
@@ -124,13 +125,14 @@ useEffect(() => {
 
 const fetchTimeSpent = async () => {
   
-  const res = await axios.get("/users/" + currentUser._id + "/getTimeSpent")
+  const token = localStorage.getItem('token');
+  const res = await axios.get("/users/" + currentUser._id + "/getTimeSpent", {headers: { 'auth-token': token }})
   console.log(res.data);
-  setDay_One_Percent(calculatePercentage(res.data["today"], 2));
-  setDay_Two_Percent(calculatePercentage(res.data["oneDayBefore"], 2));
-  setDay_Three_Percent(calculatePercentage(res.data["twoDayBefore"], 2));
-  setDay_Four_Percent(calculatePercentage(res.data["threeDayBefore"], 2));
-  setDay_Five_Percent(calculatePercentage(res.data["fourDayBefore"], 2));
+  setDay_One_Percent(calculatePercentage(res.data["today"], 20));
+  setDay_Two_Percent(calculatePercentage(res.data["oneDayBefore"], 20));
+  setDay_Three_Percent(calculatePercentage(res.data["twoDayBefore"], 20));
+  setDay_Four_Percent(calculatePercentage(res.data["threeDayBefore"], 20));
+  setDay_Five_Percent(calculatePercentage(res.data["fourDayBefore"], 20));
   
 };
 
@@ -393,7 +395,8 @@ const handleUserNameChange = async (e) => {
     };
         try {
           console.log(survey)
-          const res = await axios.get(`/idstorage/getKey/${currentUser.uniqueId}`);
+          const token = localStorage.getItem('token');
+          const res = await axios.get(`/idstorage/getKey/${currentUser.uniqueId}`, {headers: { 'auth-token': token }});
           console.log(res.data.key);
           
 	        const urlParts = window.location.pathname.split('/');
@@ -401,6 +404,7 @@ const handleUserNameChange = async (e) => {
           window.open('https://survey.maximiles.com/static-complete?p=123929_0b2e7809', '_blank');
 
           localStorage.removeItem("user");
+          localStorage.removeItem("token");
 	        history.push(`/register/${res.data.key}`);
         } catch (err) {
           console.log(err);
@@ -453,8 +457,8 @@ const handleUserNameChange = async (e) => {
         </div>
         
         <div style={{ alignItems: "center", marginLeft: isMobileDevice && isTabletDevice && '300px', marginRight:isMobileDevice && isTabletDevice &&"300px"}}>
-        <h3 className={classes.progressHead}>{(day_One_Percent > 50 && day_Two_Percent > -1 && day_Three_Percent > -1)?status_msg2: status_msg}
-        <a onClick={(day_One_Percent > 50 && day_Two_Percent > -1 && day_Three_Percent > -1)? handleClick : undefined} style={{ color: (day_One_Percent > 50 && day_Two_Percent > -1 && day_Three_Percent > -1)? 'blue' : 'gray', cursor: (day_One_Percent > 50 && day_Two_Percent > -1 && day_Three_Percent > -1)? 'pointer' : 'not-allowed' }}>
+        <h3 className={classes.progressHead}>{(day_One_Percent > 50 && day_Two_Percent > 50 && day_Three_Percent > 50)?status_msg2: status_msg}
+        <a onClick={(day_One_Percent > 50 && day_Two_Percent > 50 && day_Three_Percent > 50)? handleClick : undefined} style={{ color: (day_One_Percent > 50 && day_Two_Percent > 50 && day_Three_Percent > 50)? 'blue' : 'gray', cursor: (day_One_Percent > 50 && day_Two_Percent > 50 && day_Three_Percent > 50)? 'pointer' : 'not-allowed' }}>
           <Link to={`/postsurvey/${currentUser.username}`}>Link to the post survey</Link></a>
         </h3></div>
 
@@ -462,19 +466,19 @@ const handleUserNameChange = async (e) => {
 
 
 <h3 className={classes.progressHead}>{Progress_Day_1} = {day_One_Percent}%</h3>
-<Line percent={day_One_Percent} strokeWidth={4} strokeColor={day_One_Percent < 30? "red": day_One_Percent < 60? "yellow": "green"} className={classes.progressVal}/>
+<Line percent={day_One_Percent} strokeWidth={4} strokeColor={day_One_Percent < 10? "red": day_One_Percent < 30? "yellow": "green"} className={classes.progressVal}/>
 
 <h3 className={classes.progressHead}>{Progress_Day_2} = {day_Two_Percent}%</h3>
-<Line percent={day_Two_Percent} strokeWidth={4} strokeColor={day_Two_Percent < 30? "red": day_Two_Percent < 60? "yellow": "green"} className={classes.progressVal}/>
+<Line percent={day_Two_Percent} strokeWidth={4} strokeColor={day_Two_Percent < 10? "red": day_Two_Percent < 30? "yellow": "green"} className={classes.progressVal}/>
 
 <h3 className={classes.progressHead}>{Progress_Day_3} = {day_Three_Percent}%</h3>
-<Line percent={day_Three_Percent} strokeWidth={4} strokeColor={day_Three_Percent < 30? "red": day_Three_Percent < 60? "yellow": "green"} className={classes.progressVal}/>
+<Line percent={day_Three_Percent} strokeWidth={4} strokeColor={day_Three_Percent < 10? "red": day_Three_Percent < 30? "yellow": "green"} className={classes.progressVal}/>
 
 <h3 className={classes.progressHead}>{Progress_Day_4} = {day_Four_Percent}%</h3>
-<Line percent={day_Four_Percent} strokeWidth={4} strokeColor={day_Four_Percent < 30? "red": day_Four_Percent < 60? "yellow": "green"} className={classes.progressVal}/>
+<Line percent={day_Four_Percent} strokeWidth={4} strokeColor={day_Four_Percent < 10? "red": day_Four_Percent < 30? "yellow": "green"} className={classes.progressVal}/>
 
 <h3 className={classes.progressHead}>{Progress_Day_5} = {day_Five_Percent}%</h3>
-<Line percent={day_Five_Percent} strokeWidth={4} strokeColor={day_Five_Percent < 30? "red": day_Five_Percent < 60? "yellow": "green"} className={classes.progressVal}/>
+<Line percent={day_Five_Percent} strokeWidth={4} strokeColor={day_Five_Percent < 10? "red": day_Five_Percent < 30? "yellow": "green"} className={classes.progressVal}/>
 
   {/*<Circle percent={percent} strokeWidth={4} strokeColor="green" />*/}
 </div>

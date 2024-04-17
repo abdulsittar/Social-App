@@ -6,6 +6,7 @@ const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
 const conn = mongoose.createConnection(process.env.DB_URL);
 const { ObjectId } = require('mongodb');
+const verifyToken = require('../middleware/verifyToken');
 
 /**
  * @swagger
@@ -50,7 +51,7 @@ const { ObjectId } = require('mongodb');
 
 
 // like a comment
-router.put('/:id/like', async(req, res) => {
+router.put('/:id/like', verifyToken, async(req, res) => {
 
     const comment = await Comment.findById(req.params.id).populate([{path : "likes", model: "CommentLike", match: { "userId": req.body.userId}}, {path : "dislikes", model: "CommentDislike", match: { "userId": req.body.userId}}]).sort({ createdAt: 'descending' }).exec();
         
@@ -148,7 +149,7 @@ router.put('/:id/like', async(req, res) => {
 
 
 // like a post
-router.put('/:id/dislike', async(req, res) =>{
+router.put('/:id/dislike', verifyToken, async(req, res) =>{
     const comment = await Comment.findById(req.params.id).populate([{path : "likes", model: "CommentLike", match: { "userId": req.body.userId}}, {path : "dislikes", model: "CommentDislike", match: { "userId": req.body.userId}}]).sort({ createdAt: 'descending' }).exec();
      
     //const dislikedObj = await CommentDislike.find({"commentId": req.params.id, "userId" : req.body.userId})
@@ -240,12 +241,8 @@ router.put('/:id/dislike', async(req, res) =>{
 });
 
 
-
-
-
-
 // like a comment
-router.put('/:id/like2', async(req, res) =>{
+router.put('/:id/like2', verifyToken, async(req, res) =>{
 console.log(req.params.id);
 try {
     // Like a post
@@ -267,7 +264,7 @@ try {
 })
 
 // like a post
-router.put('/:id/dislike2', async(req, res) => {
+router.put('/:id/dislike2', verifyToken, async(req, res) => {
 try {
     // Dislike a post
     const comment = await Comment.findById(req.params.id);
@@ -408,7 +405,7 @@ try {
  */
 
 // add a comment
-router.post('/:id/comment', async(req, res) => {
+router.post('/:id/comment', verifyToken, async(req, res) => {
 const comment = new Comment({body:req.body.txt, userId:req.body.userId, postId:req.body.postId, username: req.body.username});
 try{
     await comment.save();

@@ -512,6 +512,50 @@ function Register({classes}) {
         }
   };
 
+  const handleKeyPress = async (event) => {
+    if (event.key === 'Enter') {
+      // Perform your action here
+      event.preventDefault();
+      const usr = {
+        username: username,
+        password: password,
+        profilePicture: proPic
+      };
+
+      console.log(usr)
+      const postText = document.getElementById('post').value;
+
+      const token = localStorage.getItem('token');
+      try {
+        const userRes = await axios.post(`/auth/register/${uniqId}`, usr)
+        console.log(userRes.data);
+        const user = userRes.data;
+        console.log(user);
+        console.log(user._id);
+        console.log(postText);
+        if(user){
+          console.log("registered!!!");
+          try {
+            const res2 = await axios.post(`/posts/${uniqId}/create/`, { userId: user._id, desc: postText, headers: { 'auth-token': token }});
+            console.log(res2);
+            //window.open('https://survey.maximiles.com/static-complete?p=123928_220ce61d', '_blank');
+            // refresh the page after posting something
+            //window.focus();
+            dispatch({ type: "LOGIN_SUCCESS", payload: user });
+            history.push("/");
+          } catch (err) {
+            console.log(err)
+          }
+        }
+      } catch (err) {
+        setPasswordErr("Error");
+        console.log(err)
+
+      }
+      console.log('Enter key pressed!');
+    }
+  };
+
   const submitPost = async (e) => {
     e.preventDefault();
     
@@ -536,15 +580,18 @@ function Register({classes}) {
 
       try {
         const userRes = await axios.post(`/auth/register/${uniqId}`, usr)
-        console.log(userRes.data);
-        const user = userRes.data;
+        console.log(userRes.data.user);
+        console.log(userRes.data.token);
+        const user = userRes.data.user;
         console.log(user);
         console.log(user._id);
         console.log(postText);
         if(user){
+          localStorage.setItem('token', userRes.data.token);
           console.log("registered!!!");
+          const token = localStorage.getItem('token');
           try {
-            const res2 = await axios.post(`/posts/${uniqId}/create/`, { userId: user._id, desc: postText});
+            const res2 = await axios.post(`/posts/${uniqId}/create/`, { userId: user._id, desc: postText, headers: { 'auth-token': token }});
             console.log(res2);
             //window.open('https://survey.maximiles.com/static-complete?p=123928_220ce61d', '_blank');
             // refresh the page after posting something
@@ -834,11 +881,11 @@ function Register({classes}) {
         <TextField className={classes.textField3} id="password" label="Password" value={password4} autoComplete="current-password"/>
 				
         <p className={classes.secon_disclaimor5}>{note}</p>
-        <p className={classes.secon_disclaimor4}>{enony}</p>
+        <p className={classes.secon_disclaimor4}>{[...enony, "https://socialapp.ijs.si/register/" +uniqId]}</p>
         <p className={classes.secon_disclaimor4}>{screen}</p>
         <p className={classes.secon_disclaimor4}>{plzCon}</p>
         <form  className={classes.question}>
-        <div className={classes.label}><label><input type="radio" value="option1" checked={value_confirmation === 'option1'}  onChange={handle_Confirm_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{"Confirm"}</span></label></div>
+        <div className={classes.label}><label><input type="radio" value="option1" checked={value_confirmation === 'option1'}  onChange={handle_Confirm_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{"Bestätigen"}</span></label></div>
         
         </form>
         </div>
@@ -851,7 +898,7 @@ function Register({classes}) {
         <p className={classes.secon_disclaimor4}>{theChoice}</p>
         <p className={classes.secon_disclaimor4}>{theChoiceNew}</p>
         <p className={classes.secon_disclaimor4}>{whats}</p>
-        <input className={classes.label2} id='post' onChange={handPostTextChange} placeholder={""}/>
+        <input className={classes.label2} id='post' onChange={handPostTextChange} placeholder={""} onKeyPress={handleKeyPress}/>
         <button type="submit" hidden={isPostButtonDisplays} className={classes.button} onClick={submitPost}> Post </button>
         </form>
         </div>

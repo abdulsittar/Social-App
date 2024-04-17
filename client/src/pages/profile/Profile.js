@@ -79,7 +79,8 @@ useEffect(() => {
   };
 
   const fetchUser = async () => {
-    const res = await axios.get(`/users?username=${username}`)
+    const token = localStorage.getItem('token');
+    const res = await axios.get(`/users?username=${username}`, {headers: { 'auth-token': token }})
     console.log("fetch user");
     console.log(res.data)
     setUsr(res.data);
@@ -205,6 +206,7 @@ useEffect(() => {
       formData.append('relationship', relationship);
       formData.append('from', country);
 
+      const token = localStorage.getItem('token');
       try {
         if (selectedImage != null) {
           console.log("selectedImage");
@@ -213,6 +215,7 @@ useEffect(() => {
           const res = await axios.put(`/users/${usr._id}/updateProfile`, formData, {
             headers: {
               'Content-Type': 'multipart/form-data',
+              'auth-token': token
             },
         });
         toast.success("Profile Saved")
@@ -221,7 +224,8 @@ useEffect(() => {
       else 
       {
         console.log(formData);
-        const res = await axios.post(`/users/${usr._id}/updateProfile2`, profData);
+        const token = localStorage.getItem('token');
+        const res = await axios.post(`/users/${usr._id}/updateProfile2`, profData, {headers: { 'auth-token': token }});
           //toast.success("Updated");
           //const { addToast } = useToasts();
           //YourComponent.showToast('Saved Successfully');

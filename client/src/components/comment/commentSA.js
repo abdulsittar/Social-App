@@ -58,11 +58,13 @@ function CommentSA ({post, comment, isDetail, classes }) {
 
   }, [post.userId])
 
-
+  
+      
 
   const commentLikeHandler = async () => {
     try {
-      const p = await axios.put("/comments/" + comment._id + "/like", { userId: currentUser._id });
+      const token = localStorage.getItem('token');
+      const p = await axios.put("/comments/" + comment._id + "/like", { userId: currentUser._id, headers: { 'auth-token': token } });
       console.log("likeHandler");
       console.log(p);
       const vl = Number(like) + p.data.likes
@@ -80,7 +82,8 @@ function CommentSA ({post, comment, isDetail, classes }) {
   const commentDislikeHandler = async () => {
 
     try {
-      const p =  await axios.put("/comments/" + comment._id + "/dislike", { userId: currentUser._id });
+      const token = localStorage.getItem('token');
+      const p =  await axios.put("/comments/" + comment._id + "/dislike", { userId: currentUser._id, headers: { 'auth-token': token } });
       console.log("dislike Handler");
       console.log(p);
 

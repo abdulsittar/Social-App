@@ -130,7 +130,8 @@ if (preProfile === " ") {
     }
     console.log(preFilter);
     console.log(whPosts);
-    const res = username ?  await axios.get("/posts/profile/" + username+`?page=${index}`) : await axios.get(whPosts + user._id+`?page=${index}`);
+    const token = localStorage.getItem('token');
+    const res = username ?  await axios.get("/posts/profile/" + username+`?page=${index}`, {headers: { 'auth-token': token }}) : await axios.get(whPosts + user._id+`?page=${index}`, {headers: { 'auth-token': token }});
     console.log(res.data);
     console.log("fetch posts");
     if(res.data.length){
@@ -189,7 +190,8 @@ const fetchMoreData = async () => {
         whPosts = "/posts/onlyFollowingsPag/"
     }
 
-    const res = username ?  await axios.get("/posts/profile/" + username+`?page=${index}`): await axios.get(whPosts + user._id+`?page=${index}`);
+    const token = localStorage.getItem('token');
+    const res = username ?  await axios.get("/posts/profile/" + username+`?page=${index}`, {headers: { 'auth-token': token }}): await axios.get(whPosts + user._id+`?page=${index}`, {headers: { 'auth-token': token }});
     //console.log(res.data);
     
     if(res.data.length > 0){
@@ -273,7 +275,8 @@ if (preProfile === " ") {
     }
     console.log(preFilter);
     console.log(whPosts);
-    const res = username ?  await axios.get("/posts/profile/" + username+`?page=${0}`) : await axios.get(whPosts + user._id+`?page=${0}`);
+    const token = localStorage.getItem('token');
+    const res = username ?  await axios.get("/posts/profile/" + username+`?page=${0}`, {headers: { 'auth-token': token }}) : await axios.get(whPosts + user._id+`?page=${0}`, {headers: { 'auth-token': token }});
     console.log(res.data);
     console.log("fetch posts");
     if(res.data.length){

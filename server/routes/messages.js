@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const Message = require("../models/Message");
+const verifyToken = require('../middleware');
 
 // add a new message
 router.post("/", async (req, res) => {

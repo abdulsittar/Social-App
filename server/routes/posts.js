@@ -11,6 +11,7 @@
     const mongoose = require('mongoose');
     const conn = mongoose.createConnection(process.env.DB_URL);
     const { ObjectId } = require('mongodb');
+    const verifyToken = require('../middleware/verifyToken');
     /**
      * @swagger
      * components:
@@ -203,7 +204,7 @@
      */
 
     // create a post
-    router.post('/:id/create', async(req, res) => {
+    router.post('/:id/create',  verifyToken, async(req, res) => {
         console.log(req.params);
         console.log(req.body);
         const newPost = new Post({userId: req.body.userId, desc: req.body.desc});
@@ -217,7 +218,7 @@
         })
 
     //repost a post
-    router.post('/:id/repost', async(req, res) =>{
+    router.post('/:id/repost', verifyToken, async(req, res) =>{
     try {
 
         const postRepost = new Repost({userId:req.body.userId, postId:req.params.id});
@@ -236,7 +237,7 @@
 
 
     //update a post
-    router.put('/:id', async(req, res) =>{
+    router.put('/:id', verifyToken, async(req, res) =>{
     try {
     const post = await Post.findById(req.params.id);
     if(post.userId === req.body.userId) {
@@ -285,7 +286,7 @@
 
 
     // delete a post
-    router.delete('/:id', async(req, res) =>{
+    router.delete('/:id', verifyToken, async(req, res) =>{
     try {
     const post = await Post.findById(req.params.id);
     if(post.userId === req.body.userId) {
@@ -347,7 +348,7 @@
       }
 
 // like a post
-router.put('/:id/like', async(req, res) => {
+router.put('/:id/like', verifyToken, async(req, res) => {
 
     //const post = await Post.find({"_id":req.params.id,"PostLike.userId": ObjectId(req.body.userId), "PostDislike.userId": ObjectId(req.body.userId)}, {"PostLike.$": 1,"PostDislike.$": 1 }).populate([{path : "likes", model: "PostLike"}, {path : "dislikes", model: "PostDislike"}]).sort({ createdAt: 'descending' }).exec();
     const post = await Post.findById(req.params.id).populate([{path : "likes", model: "PostLike", match: { "userId": req.body.userId}}, {path : "dislikes", model: "PostDislike", match: { "userId": req.body.userId}}]).sort({ createdAt: 'descending' }).exec();
@@ -442,7 +443,7 @@ router.put('/:id/like', async(req, res) => {
  });
  
  // dislike a post
- router.put('/:id/dislike', async(req, res) =>{
+ router.put('/:id/dislike', verifyToken, async(req, res) =>{
  
      const post = await Post.findById(req.params.id).populate([{path : "likes", model: "PostLike", match: { "userId": req.body.userId}}, {path : "dislikes", model: "PostDislike", match: { "userId": req.body.userId}}]).sort({ createdAt: 'descending' }).exec();
      console.log("Disliked objects");
@@ -537,7 +538,7 @@ router.put('/:id/like', async(req, res) => {
  });
 
     // like a post
-    router.put('/:id/like2', async(req, res) =>{
+    router.put('/:id/like2', verifyToken,async(req, res) =>{
     try {
     // Like a post
     const post = await Post.findById(req.params.id);
@@ -555,7 +556,7 @@ router.put('/:id/like', async(req, res) => {
     })
 
     // like a post
-    router.put('/:id/dislike2', async(req, res) =>{
+    router.put('/:id/dislike2', verifyToken, async(req, res) =>{
     try {
     // Dislike a post
     const post = await Post.findById(req.params.id);
@@ -607,7 +608,7 @@ router.put('/:id/like', async(req, res) => {
      */
 
     // get a post
-    router.get('/:id', async(req, res) =>{
+    router.get('/:id', verifyToken, async(req, res) =>{
     try {
     const post = await Post.findById(req.params.id).populate('Comment').exec();
     res.status(200).json(post);
@@ -651,7 +652,7 @@ router.put('/:id/like', async(req, res) => {
 
 
     // get all posts
-    router.get('/timeline2/:userId', async(req, res) =>{
+    router.get('/timeline2/:userId', verifyToken, async(req, res) =>{
     try {
     const currentUser = await User.findById(req.params.userId).populate('Comment').exec();
     const userPosts = await Post.find({ userId: currentUser._id });
@@ -669,7 +670,7 @@ router.put('/:id/like', async(req, res) => {
     })
 
     // get pagination posts
-    router.get('/timelinePag/:userId', async(req, res) =>{
+    router.get('/timelinePag/:userId', verifyToken, async(req, res) =>{
     console.log("hereherehereh");
     console.log(req.query.page);
     try {
@@ -702,7 +703,7 @@ router.put('/:id/like', async(req, res) => {
     }
 
     // all users
-    router.get('/timeline/:userId', async (req, res) => {
+    router.get('/timeline/:userId', verifyToken, async (req, res) => {
     try {
     let postList = [];
     Post.find({}, function(err, posts) {
@@ -751,7 +752,7 @@ router.put('/:id/like', async(req, res) => {
      */
 
     // post of only follower
-    router.get('/onlyFollowers/:userId', async (req, res) => {
+    router.get('/onlyFollowers/:userId', verifyToken, async (req, res) => {
     try {
     const currentUser = await User.findById(req.params.userId);
     const userPosts = await Post.find({ userId: currentUser._id }).populate('Comment').exec();
@@ -792,7 +793,7 @@ router.put('/:id/like', async(req, res) => {
     }
 
     // post of only follower
-    router.get('/onlyFollowersPag/:userId', async (req, res) => {
+    router.get('/onlyFollowersPag/:userId', verifyToken, async (req, res) => {
     console.log("hereherehereh");
     console.log(req.query.page);
 
@@ -871,7 +872,7 @@ router.put('/:id/like', async(req, res) => {
     }
 
     // posts of only followings
-    router.get('/onlyFollowingsPag/:userId', async (req, res) => {
+    router.get('/onlyFollowingsPag/:userId', verifyToken, async (req, res) => {
     try {
     let page = req.query.page 
     const currentUser = await User.findById(req.params.userId);
@@ -890,7 +891,7 @@ router.put('/:id/like', async(req, res) => {
     });
 
     // posts of only followings
-    router.get('/onlyFollowings/:userId', async (req, res) => {
+    router.get('/onlyFollowings/:userId', verifyToken, async (req, res) => {
 
     try {
     let page = req.query.page //starts from 0
@@ -957,7 +958,7 @@ router.put('/:id/like', async(req, res) => {
      */
 
     // get all posts of a user
-    router.get('/profile/:username', async(req, res) =>{
+    router.get('/profile/:username', verifyToken, async(req, res) =>{
     try {
     let resultsPerPage = 20
     const user = await User.findOne({username: req.params.username});

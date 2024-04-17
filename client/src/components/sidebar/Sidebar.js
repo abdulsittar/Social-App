@@ -15,9 +15,10 @@ function Sidebar({ user, classes }) {
   const { user: currentUser, dispatch } = useContext(AuthContext);
 
     useEffect(() => {
+      const token = localStorage.getItem('token');
     const getFollowers = async () => {
       try {
-        const friendList = await axios.get("/users/allUsers/" + currentUser._id);
+        const friendList = await axios.get("/users/allUsers/" + currentUser._id,  {headers: { 'auth-token': token }});
         setFriends(friendList.data);
       } catch (err) {
         console.log(err);

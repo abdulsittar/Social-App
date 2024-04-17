@@ -14,6 +14,8 @@ import TextField from '@material-ui/core/TextField'
 import Avatar from '@material-ui/core/Avatar'
 import CommentSA from '../comment/commentSA';
 import PropTypes from 'prop-types';
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
 import Linkify from 'react-linkify';
 import SendIcon from '@mui/icons-material/Send';
 import { useMediaQuery } from 'react-responsive';
@@ -122,8 +124,9 @@ function Post({onScrolling,  post, classes, isDetail }) {
   }, [currentUser._id, post.likes, post.dislikes]);
 
   useEffect(() => {
+    const token = localStorage.getItem('token');
     const fetchUser = async () => {
-      const res = await axios.get(`/users?userId=${post.userId}`)
+      const res = await axios.get(`/users?userId=${post.userId}`, {headers: { 'auth-token': token }})
       setUser(res.data);
     };
     //console.log(post.comments.length)
@@ -149,7 +152,11 @@ function Post({onScrolling,  post, classes, isDetail }) {
   }
 
   const handleReadChange = () => {
-      axios.put("/users/" + currentUser._id + "/read", { postId: post._id });
+    const token = localStorage.getItem('token');
+      axios.put("/users/" + currentUser._id + "/read", 
+      { postId: post._id, 
+        headers: { 'auth-token': token }
+      });
   };
 
 
@@ -167,11 +174,12 @@ function Post({onScrolling,  post, classes, isDetail }) {
   // submit a comment
   const onEnterSubmitHandler = async () => {
 
+    const token = localStorage.getItem('token');
     //setInputValue(prevValue => prevValue + "\n");
     console.log(removeHtmlTags(inputValue).trim().length);
     if(removeHtmlTags(inputValue).trim().length != 0){
     try {
-      const lc = await axios.post("/posts/" + post._id + "/comment", { userId: currentUser._id, username: currentUser.username, txt: inputValue, postId: post._id });
+      const lc = await axios.post("/posts/" + post._id + "/comment", { userId: currentUser._id, username: currentUser.username, txt: inputValue, postId: post._id, headers: { 'auth-token': token } });
       console.log("Posted a comment");
       console.log(lc.data)
       setComments([...comments, lc.data]);
@@ -186,12 +194,13 @@ function Post({onScrolling,  post, classes, isDetail }) {
   // submit a comment
   const submitHandler = async (e) => {
     e.preventDefault();
+    const token = localStorage.getItem('token');
     console.log(removeHtmlTags(inputValue).trim().length);
     if(removeHtmlTags(inputValue).trim().length != 0){
     const newComment = { userId: user._id, description: inputValue,};
     console.log(newComment);
     try {
-      const lc = await axios.post("/posts/" + post._id + "/comment", { userId: currentUser._id, username: currentUser.username, txt: inputValue, postId: post._id });
+      const lc = await axios.post("/posts/" + post._id + "/comment", { userId: currentUser._id, username: currentUser.username, txt: inputValue, postId: post._id, headers: { 'auth-token': token } });
       console.log("Posted a comment");
       console.log(lc.data)
       setComments([...comments, lc.data]);
@@ -218,8 +227,9 @@ function Post({onScrolling,  post, classes, isDetail }) {
 
 
   const repostHandler = async () => {
+    const token = localStorage.getItem('token');
     try {
-      axios.post("/posts/" + post._id + "/repost", { userId: currentUser._id });
+      axios.post("/posts/" + post._id + "/repost", { userId: currentUser._id , headers: { 'auth-token': token }});
     } catch (err) {
       console.log(err)
      }
@@ -243,8 +253,9 @@ function Post({onScrolling,  post, classes, isDetail }) {
 
   const likeHandler = async () => {
     //if(!isDisliked){
+      const token = localStorage.getItem('token');
       try {
-        const p = await axios.put("/posts/" + post._id + "/like", { userId: currentUser._id });
+        const p = await axios.put("/posts/" + post._id + "/like", { userId: currentUser._id, headers: { 'auth-token': token } });
         console.log("likeHandler");
         console.log(p);
 
@@ -284,8 +295,9 @@ function Post({onScrolling,  post, classes, isDetail }) {
 
   const dislikeHandler = async () => {
     //if(!isLiked){
+      const token = localStorage.getItem('token');
     try {
-      const p = await axios.put("/posts/" + post._id + "/dislike", { userId: currentUser._id });
+      const p = await axios.put("/posts/" + post._id + "/dislike", { userId: currentUser._id, headers: { 'auth-token': token } });
       console.log("dislike Handler");
         console.log(p);
       //if(p.data.likes.length > 0){
@@ -365,12 +377,16 @@ function Post({onScrolling,  post, classes, isDetail }) {
             </span>
             </Link>
             <span className={classes.postDate}>{format(post.createdAt)}</span>
-            <span className={classes.postDate} style={{margin: '0px 0px 0px 20px',}}>{" Ranking " + rank + " Reposted by: "+ repost}</span>
+            <span className={classes.postDate} style={{margin: '0px 0px 0px 20px',}}>{" Reposted by: "+ repost}</span>
           </div>
           { (!isDetail)?
           <div className={classes.postTopRight}>
-          <Link style={{textDecoration: 'none', color: COLORS.textColor}} onClick={repostHandler}> <ArrowForwardIcon /></Link></div>: <div></div>
+          <Link style={{textDecoration: 'none', color: COLORS.textColor}} onClick={repostHandler}>
+            
+          { (isMobileDevice && isTabletDevice) ? <Stack direction="row" spacing={2}>
+            <Button variant="contained" endIcon={<SendIcon />}> Repost </Button></Stack> :<ArrowForwardIcon /> }  </Link></div>: <div></div>
   }
+
         </div>
         <div className={classes.postCenter}>
         <Linkify componentDecorator={(decoratedHref, decoratedText, key) => (<a target="blank" rel="noopener noreferrer" href={decoratedHref} key={key} > {decoratedText} </a>)}>

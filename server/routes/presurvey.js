@@ -29,7 +29,8 @@ router.post('/psurvey/:uniqId', async (req, res) => {
             "q6": req.body.q6,
             "q7": req.body.q7,
             "q8": req.body.q8,
-            "q9": req.body.q9
+            "q9": req.body.q9,
+            "q10": req.body.q10
         });
         console.log("newSurvey")
         //console.log(newSurvey)

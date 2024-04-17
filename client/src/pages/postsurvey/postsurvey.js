@@ -102,8 +102,9 @@ function Postsurvey({ classes }) {
     
 
 useEffect(() => {
+  const token = localStorage.getItem('token');
   const fetchUser = async () => {
-    const res = await axios.get(`/users?username=${username}`)
+    const res = await axios.get(`/users?username=${username}`, {headers: { 'auth-token': token }})
     console.log("fetch user");
     console.log(res.data)
     setUsr(res.data);
@@ -122,14 +123,14 @@ useEffect(() => {
 }, []);
 
 const fetchTimeSpent = async () => {
-  
-  const res = await axios.get("/users/" + currentUser._id + "/getTimeSpent")
+  const token = localStorage.getItem('token');
+  const res = await axios.get("/users/" + currentUser._id + "/getTimeSpent", {headers: { 'auth-token': token }})
   console.log(res.data);
-  setDay_One_Percent(calculatePercentage(res.data["today"], 2));
-  setDay_Two_Percent(calculatePercentage(res.data["oneDayBefore"], 2));
-  setDay_Three_Percent(calculatePercentage(res.data["twoDayBefore"], 2));
-  setDay_Four_Percent(calculatePercentage(res.data["threeDayBefore"], 2));
-  setDay_Five_Percent(calculatePercentage(res.data["fourDayBefore"], 2));
+  setDay_One_Percent(calculatePercentage(res.data["today"], 20));
+  setDay_Two_Percent(calculatePercentage(res.data["oneDayBefore"], 20));
+  setDay_Three_Percent(calculatePercentage(res.data["twoDayBefore"], 20));
+  setDay_Four_Percent(calculatePercentage(res.data["threeDayBefore"], 20));
+  setDay_Five_Percent(calculatePercentage(res.data["fourDayBefore"], 20));
   
 };
 
@@ -384,11 +385,14 @@ const handleUserNameChange = async (e) => {
 
 
   const handleClick = async (e) => {
-
-    e.preventDefault()
-    const username = document.getElementById('username').value;
-    const someelse = document.getElementById('someelse').value;
+  e.preventDefault()
+    var someelse = ""
     
+    try{
+       someelse = document.getElementById('someelse').value;
+    } catch (err) {
+      console.log(err);
+    }
     //if(username.toLowerCase() != currentUser.username.toLowerCase()){
      // toast.error("Question 1. Sie haben einen falschen Benutzernamen eingegeben!");
       //return
@@ -539,7 +543,7 @@ const handleUserNameChange = async (e) => {
         </div>
         
         <div style={{ alignItems: "center", marginLeft: isMobileDevice && isTabletDevice && '300px', marginRight:isMobileDevice && isTabletDevice &&"300px"}}>
-        <h3 className={classes.progressHead}>{(day_One_Percent > 50 && day_Two_Percent > -1 && day_Three_Percent > -1)?status_msg2: status_msg}</h3>
+        <h3 className={classes.progressHead}>{(day_One_Percent > 50 && day_Two_Percent > 50 && day_Three_Percent > 50)?status_msg2: status_msg}</h3>
           <form className={classes.form}  noValidate autoComplete="off">
         {/*<CSSTransition in={day_One_Percent > 50 && day_Two_Percent > -1 && day_Three_Percent > -1 && day_Four_Percent > -1 && day_Five_Percent > -1} timeout={50} classNames="fade" unmountOnExit >
       <div id='toShow'>
@@ -551,7 +555,7 @@ const handleUserNameChange = async (e) => {
       </div>
               </CSSTransition>*/}
 
-        <CSSTransition in={day_One_Percent > 50 && day_Two_Percent > -1 && day_Three_Percent > -1} timeout={50} classNames="fade" unmountOnExit >
+        <CSSTransition in={day_One_Percent > 50 && day_Two_Percent > 50 && day_Three_Percent > 50} timeout={50} classNames="fade" unmountOnExit >
         <div id='sixBlock'>
       <p className={classes.secon_disclaimor}>{post_info_2}</p>
         <p className={classes.secon_disclaimor}>{post_q2}</p>
@@ -564,7 +568,7 @@ const handleUserNameChange = async (e) => {
         </form>
         </div>
         </CSSTransition>
-        <CSSTransition in={day_One_Percent > 50 && day_Two_Percent > -1 && day_Three_Percent > -1} timeout={50}  classNames="fade" unmountOnExit >
+        <CSSTransition in={day_One_Percent > 50 && day_Two_Percent > 50 && day_Three_Percent > 50} timeout={50}  classNames="fade" unmountOnExit >
         <div id='sixBlock'>
         <p className={classes.secon_disclaimor}>{post_q3}</p>
         <form  className={classes.question}>

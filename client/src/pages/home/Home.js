@@ -35,8 +35,9 @@ function Home() {
 
     //console.log(TimeMe.getTimeOnCurrentPageInSeconds());
 
+    const token = localStorage.getItem('token');
     const handleActivityRecorder = () => {
-        axios.put("/users/" + currentUser._id + "/activity", { page: "Home", seconds: TimeMe.getTimeOnCurrentPageInSeconds() });
+        axios.put("/users/" + currentUser._id + "/activity", { page: "Home", seconds: TimeMe.getTimeOnCurrentPageInSeconds(), headers: { 'auth-token': token } });
     };
 
     useEffect(() => {
@@ -67,28 +68,18 @@ function Home() {
 
         };
 
-
-        
-
         const fetchTimeSpent = async () => {
-  
-            
-            const res = await axios.get("/users/" + currentUser._id + "/getTimeSpent")
+          const token = localStorage.getItem('token');
+            const res = await axios.get("/users/" + currentUser._id + "/getTimeSpent", {headers: { 'auth-token': token }})
             console.log(res.data);
-            const a = calculatePercentage(res.data["today"], 2)
-            const b = calculatePercentage(res.data["oneDayBefore"], 2)
-            const c = calculatePercentage(res.data["twoDayBefore"], 2)
-            const d = calculatePercentage(res.data["threeDayBefore"], 2)
-            const e = calculatePercentage(res.data["fourDayBefore"], 2)
-
-            setDay_One_Percent(a);
-            setDay_Two_Percent(b);
-            setDay_Three_Percent(c);
-            setDay_Four_Percent(d);
-            setDay_Five_Percent(e);
+           setDay_One_Percent(calculatePercentage(res.data["today"], 20));
+           setDay_Two_Percent(calculatePercentage(res.data["oneDayBefore"], 20));
+           setDay_Three_Percent(calculatePercentage(res.data["twoDayBefore"], 20));
+           setDay_Four_Percent(calculatePercentage(res.data["threeDayBefore"], 20));
+           setDay_Five_Percent(calculatePercentage(res.data["fourDayBefore"], 20));
 
             
-               if(a > 50 && b > -1 && c > -1){
+               if(day_One_Percent> 50 && day_Two_Percent > 50 && day_Three_Percent > 50){
               
                     toast.success("Herzlichen Glückwunsch!!! Sie sind jetzt berechtigt, an der Nachbefragung teilzunehmen.",{onClick: handleNotificationClick});
                     

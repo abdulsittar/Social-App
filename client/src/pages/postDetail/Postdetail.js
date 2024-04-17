@@ -29,12 +29,14 @@ function Postdetail({ classes }) {
   const { user: currentUser, dispatch } = useContext(AuthContext);
   const username = useParams().username;
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+
+  const token = localStorage.getItem('token');
   const handleReadChange = () => {
-    //axios.put("/users/" + currentUser._id + "/read", { postId: state.myObj._id });
+    axios.put("/users/" + currentUser._id + "/read", { postId: state.myObj._id, headers: { 'auth-token': token } });
 };
 
 const handleActivityRecorder = () => {
-  axios.put("/users/" + currentUser._id + "/activity", { page: "DetailPage", seconds: TimeMe.getTimeOnCurrentPageInSeconds() });
+  axios.put("/users/" + currentUser._id + "/activity", { page: "DetailPage", seconds: TimeMe.getTimeOnCurrentPageInSeconds(), headers: { 'auth-token': token } });
 };
 
   useEffect(() => {
@@ -49,6 +51,7 @@ const handleActivityRecorder = () => {
         TimeMe.callWhenUserLeaves(() => {
         setShouldSendEvent(true);
         handleActivityRecorder();
+        handleReadChange();
         });
       
         TimeMe.callWhenUserReturns(() => {
