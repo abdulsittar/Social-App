@@ -429,7 +429,6 @@ try {
 router.get("/allUsers/:userId", verifyToken, async (req, res) => {
     try {
         const users = await User.find({ _id: { $ne: req.params._id } }).populate({path : "followers", model: "User"}).exec();
-        //console.log(users)
         res.status(200).json(users);
     } catch (err) {
         res.status(500).json(err);

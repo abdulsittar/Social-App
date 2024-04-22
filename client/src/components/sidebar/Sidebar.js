@@ -36,7 +36,7 @@ function Sidebar({ user, classes }) {
 
                 <ul className={classes.sidebarFriendList}>
                     {friends.map((u) => (
-                        <Online key={u.id} user={u} />
+                        u.isAdmin == true? null :<Online key={u.id} user={u} />
                     ))}
                 </ul>
             </div>
