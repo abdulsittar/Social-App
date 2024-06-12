@@ -1,4 +1,4 @@
-Website : [(https://socialapp.ijs.si/)](https://socialapp.ijs.si/)
+Website : [https://socialapp.ijs.si/](http://cleopatra.ijs.si/sensoranalysis/)
 
 # TWON Social Application
 A MERN stack based social media application (MongoDB Express React Redux NodeJs).
