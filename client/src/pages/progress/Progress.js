@@ -128,11 +128,11 @@ const fetchTimeSpent = async () => {
   const token = localStorage.getItem('token');
   const res = await axios.get("/users/" + currentUser._id + "/getTimeSpent", {headers: { 'auth-token': token }})
   console.log(res.data);
-  setDay_One_Percent(calculatePercentage(res.data["today"], 16));
-  setDay_Two_Percent(calculatePercentage(res.data["oneDayBefore"], 16));
-  setDay_Three_Percent(calculatePercentage(res.data["twoDayBefore"], 16));
-  setDay_Four_Percent(calculatePercentage(res.data["threeDayBefore"], 16));
-  setDay_Five_Percent(calculatePercentage(res.data["fourDayBefore"], 16));
+  setDay_One_Percent(calculatePercentage(res.data["today"], 10));
+  setDay_Two_Percent(calculatePercentage(res.data["oneDayBefore"], 10));
+  setDay_Three_Percent(calculatePercentage(res.data["twoDayBefore"], 10));
+  setDay_Four_Percent(calculatePercentage(res.data["threeDayBefore"], 10));
+  setDay_Five_Percent(calculatePercentage(res.data["fourDayBefore"], 10));
   
 };
 

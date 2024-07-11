@@ -57,8 +57,9 @@ function Post({onScrolling,  post, classes, isDetail }) {
   const isMobileDevice = useMediaQuery({ query: "(min-device-width: 480px)"});
   const isTabletDevice = useMediaQuery({ query: "(min-device-width: 768px)"});
   const extractUrls = require("extract-urls");
-  let url = extractUrls(post?.desc? post?.desc: "testing teseting");
-  const [urls, setUrls] = useState(url);
+  let url = "https://edition.cnn.com/2024/07/10/europe/russian-missile-strike-kyiv-hospital-un-intl-hnk/index.html"
+  const [urls, setUrls] = useState(post.thumb);
+  const [thumbnail, setThumbnail] = useState('');
   var cover = true;
 
  
@@ -67,7 +68,24 @@ function Post({onScrolling,  post, classes, isDetail }) {
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   const [isHovered, setIsHovered] = useState(false);
   const [isDisHovered, setIsDisHovered] = useState(false);
+  
+  
+  useEffect(() => {
+    const handleFetchThumbnail = async () => {
+      try {
+          const response = await axios.post('/posts/fetch-thumbnail', { urls : post.thumb });
+          setThumbnail(response.data.thumbnail);
+      } catch (error) {
+          console.error('Error fetching thumbnail:', error);
+      }
+  };
 
+    handleFetchThumbnail();
+  }, [post.thumb]);
+  
+  
+  
+  
       const handleMouseEnter = e => {
         setIsHovered(true);
       };
@@ -397,6 +415,11 @@ function Post({onScrolling,  post, classes, isDetail }) {
                 </div>
             :
             post?.desc}
+            {thumbnail && (
+              <div>
+                  <img src={thumbnail} alt="Thumbnail" style={{ width: '200px' }} />
+              </div>
+          )}
            </div>
         </Linkify>
           

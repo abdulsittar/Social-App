@@ -12,6 +12,8 @@
     const conn = mongoose.createConnection(process.env.DB_URL);
     const { ObjectId } = require('mongodb');
     const verifyToken = require('../middleware/verifyToken');
+    const axios = require('axios');
+    const cheerio = require('cheerio');
     /**
      * @swagger
      * components:
@@ -203,13 +205,26 @@
      *         description: Some server error!
      */
 
+
+    const extractUrls = (text) => {
+        const urlRegex = /https?:\/\/[^\s/$.?#].[^\s]*/g;
+        return text.match(urlRegex) || [];
+    };
+
     // create a post
-    router.post('/:id/create',  verifyToken, async(req, res) => {
+    router.post('/:id/create',  async(req, res) => { //verifyToken, 
         console.log(req.params);
         console.log(req.body);
-        const newPost = new Post({userId: req.body.userId, desc: req.body.desc});
+        var linktoAdd = ""
+        var urls = extractUrls(req.body.desc);
+        
+        if (urls.length > 0) {
+            linktoAdd = urls[0]
+        }
+        const newPost = new Post({userId: req.body.userId, desc: req.body.desc, thumb: linktoAdd});
         console.log(newPost);
-        try{
+        
+        try {
             const savedPost = await newPost.save(); 
             res.status(200).json(savedPost);
         }catch(err) {
@@ -283,6 +298,26 @@
     }
     });
 
+    router.post('/fetch-thumbnail', async (req, res) => {
+        const { url } = req.body;
+
+        try {
+            const { data } = await axios.get(req.body.urls);
+            const $ = cheerio.load(data);
+    
+            // Example: Extract Open Graph Image
+            const thumbnail = $('meta[property="og:image"]').attr('content');
+    
+            if (thumbnail) {
+                res.json({ thumbnail });
+            } else {
+                res.status(404).json({ error: 'Thumbnail not found' });
+            }
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ error: 'Error fetching thumbnail' });
+        }
+    });
 
 
     // delete a post
@@ -677,14 +712,14 @@ router.put('/:id/like', verifyToken, async(req, res) => {
     let page = req.query.page //starts from 0
     let posts= await getPostsPaginated(page)
     if (posts && posts.length > 0) {
-    res.status(200).json(posts)
+        res.status(200).json(posts)
     } else {
-    res.status(200).json(err);
+        res.status(200).json(err);
     //console.log(res);
     }
 
     } catch(err) {
-    res.status(500).json(err);
+        res.status(500).json(err);
     }
     })
 

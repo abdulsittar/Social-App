@@ -33,7 +33,6 @@ const increment  = async (pv, iv) => {
     console.log("increatem");
     console.log(pv);
     console.log(iv);
-    
     setIndex(pv+iv);
     console.log(index);
 };
@@ -87,10 +86,15 @@ if (preProfile === " ") {
 
 const filterLoadedPosts = async () => {
     console.log("filterLoadedPosts");
-    const filteredData = posts.filter((post) => {
+    if (searchTerm === '') {
+        setPosts(posts);
+    } else {
+        const filteredData = posts.filter((post) => {
         return post.desc.toLowerCase().includes(searchTerm.toLowerCase())
-    });
-    setPosts(filteredData);
+        });
+        setPosts(filteredData);
+    }
+    
 }
 
 const fetchPosts = async (selectedValue) => {
@@ -176,6 +180,7 @@ const fetchMoreData = async () => {
         return
     }
     //console.log("fetchpost")
+    
     console.log("fetch more  posts");
     console.log(selectedValue);
     var whPosts = "/posts/timelinePag/";
@@ -214,12 +219,14 @@ useEffect(() => {
     console.log("use effects!");
     
     if (selectedValue !=10){
-
+    ///// Remove this breakpoint during the casestudy
+        //filterLoadedPosts()
         if(searchTerm? searchTerm.length !== 0 : false){
             console.log("searchTerm");
             console.log(searchTerm.length);
             filterLoadedPosts()
-        }else{
+        } else {
+            //filterLoadedPosts()
             fetchPosts(selectedValue);
     }
     }

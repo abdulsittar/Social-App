@@ -6,6 +6,9 @@ userId: {
     type: String,
     required: true
 },
+thumb:{
+    type: String
+},
 desc: {
     type: String,
     required: true,

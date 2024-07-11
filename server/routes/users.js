@@ -566,10 +566,18 @@ router.get('/:id/getTimeSpent', verifyToken, async(req, res) => {
 
         } 
     } 
-            
-        const response = {"today": sum_today/60, "oneDayBefore": One_before_today/60, "twoDayBefore":Two_before_today/60 , "threeDayBefore": Three_before_today/60, "fourDayBefore": Four_before_today/60}
+        
+    const randomNumber = Math.floor(Math.random() * 10);
+    console.log("Number", randomNumber)
+    if(randomNumber <5){
+        const response = {"not": "no","today": sum_today/60, "oneDayBefore": One_before_today/60, "twoDayBefore":Two_before_today/60 , "threeDayBefore": Three_before_today/60, "fourDayBefore": Four_before_today/60}
         res.status(200).json(response);
 
+    } else {
+        const response = {"not": "yes","today": sum_today/60, "oneDayBefore": One_before_today/60, "twoDayBefore":Two_before_today/60 , "threeDayBefore": Three_before_today/60, "fourDayBefore": Four_before_today/60}
+        res.status(200).json(response);
+
+    }
     } catch(err) {
         console.log(err);
         res.status(500).json(err);

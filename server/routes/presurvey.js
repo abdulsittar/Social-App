@@ -119,15 +119,17 @@ router.post('/isSubmitted/:val', async (req, res) => {
 
             }else{
                 const users = await SelectedUsers.aggregate([
+                    {'$match': {'available': true}},
                     { $sample: { size: 3 } }
+                    
                   ])
-                //console.log(users);
+                console.log(users);
                 const usr = {"data": true, "users": users}
                 res.status(200).json(usr);
 
             }
             return
-        }else{
+        } else {
             const usr = {"data": false}
             res.status(200).json(usr);
             return

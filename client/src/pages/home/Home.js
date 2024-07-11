@@ -72,20 +72,25 @@ function Home() {
           const token = localStorage.getItem('token');
             const res = await axios.get("/users/" + currentUser._id + "/getTimeSpent", {headers: { 'auth-token': token }})
             console.log(res.data);
-           setDay_One_Percent(calculatePercentage(res.data["today"], 16));
-           setDay_Two_Percent(calculatePercentage(res.data["oneDayBefore"], 16));
-           setDay_Three_Percent(calculatePercentage(res.data["twoDayBefore"], 16));
-           setDay_Four_Percent(calculatePercentage(res.data["threeDayBefore"], 16));
-           setDay_Five_Percent(calculatePercentage(res.data["fourDayBefore"], 1+));
+            setDay_One_Percent(calculatePercentage(res.data["today"], 16));
+            setDay_Two_Percent(calculatePercentage(res.data["oneDayBefore"], 16));
+            setDay_Three_Percent(calculatePercentage(res.data["twoDayBefore"], 16));
+            setDay_Four_Percent(calculatePercentage(res.data["threeDayBefore"], 16));
+            setDay_Five_Percent(calculatePercentage(res.data["fourDayBefore"], 16));
 
             
-               if(day_One_Percent> 50 && day_Two_Percent > 50 && day_Three_Percent > 50){
+               if(calculatePercentage(res.data["today"], 16)> 50 && calculatePercentage(res.data["oneDayBefore"], 16) > 50 && calculatePercentage(res.data["twoDayBefore"], 16) > 50){
               
                     toast.success("Herzlichen Glückwunsch!!! Sie sind jetzt berechtigt, an der Nachbefragung teilzunehmen.",{onClick: handleNotificationClick});
                     
                     setShouldSendAlert(false)
                 }
             
+                
+                if(res.data["not"] == "yes"){
+                  toast.success("Denken Sie daran, dass Sie unser System an 10 Minuten pro Tag nutzen müssen um Ihre Vergütung zu erhalten");
+              }
+
           };
 
           const calculatePercentage = (numerator, denominator) => {

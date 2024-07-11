@@ -7,11 +7,12 @@ global.url =  process.env.DB_URL;
 
 
 // Connecting to the database
-mongoose.connect(url, {
+mongoose.connect(url, { //"mongodb://mongodb/ToDoAPP", { //
 useNewUrlParser: true
 }).then(() => {
 console.log("Successfully connected to the database");    
 }).catch(err => {
+    console.log(url);
 console.log('Could not connect to the database. Exiting now...', err);
 process.exit();
 });

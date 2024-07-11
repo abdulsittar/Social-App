@@ -229,9 +229,17 @@ try {
         return
     }
 
-    console.log(req.body.password);
+    console.log("body");
+    console.log(req.body.password.trim());
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(req.body.password.trim(), salt);
+    console.log(hashedPassword);
+
+    console.log("user");
     console.log(user.password);
     const validPassword = await bcrypt.compare(req.body.password, user.password);
+    console.log(validPassword);
     if (!validPassword){
             res.status(404).json("wrong password");
         return
