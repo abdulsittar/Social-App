@@ -5,14 +5,19 @@ console.log(process.env.DB_URL)
 mongoose.Promise = global.Promise;
 global.url =  process.env.DB_URL;
 
-
-// Connecting to the database
-mongoose.connect(url, { //"mongodb://mongodb/ToDoAPP", { //
-useNewUrlParser: true
-}).then(() => {
-console.log("Successfully connected to the database");    
-}).catch(err => {
-    console.log(url);
-console.log('Could not connect to the database. Exiting now...', err);
-process.exit();
-});
+if (!url) {
+    console.error('Error: MONGO_URI environment variable is not set.');
+    process.exit(1);
+  }
+  
+  console.log("herererere");
+  mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => {
+      console.log('Connected to the database successfully!');
+    })
+    .catch(err => {
+        console.error('Connection error:', err.message);
+        console.error('Stack trace:', err.stack);
+      console.error('o the database. Exiting now...', err);
+      process.exit(1);
+    });

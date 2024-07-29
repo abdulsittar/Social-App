@@ -3,10 +3,10 @@ services:
 
   client:
     build: ./client
-    image: cli-image-v1
-    container_name: cli-v1
+    image: cli-image-v2
+    container_name: cli-v2
     networks:
-      - mern-network-v1
+      - mern-network-v2
     #depends_on:
     #  - server
     working_dir: /app
@@ -20,8 +20,8 @@ services:
   server:
     build: ./server
     restart: always
-    image: ser-image-v1
-    container_name: cser-v1
+    image: ser-image-v2
+    container_name: cser-v2
     working_dir: /app
     #volumes:
     #  - ./server:/app
@@ -29,7 +29,7 @@ services:
     ports:
       - "1077:1077"
     networks:
-      - mern-network-v1
+      - mern-network-v2
     depends_on:
       - client
       - mongo
@@ -41,12 +41,12 @@ services:
     ports:
       - "27017:27017"
     networks:
-      - mern-network-v1
+      - mern-network-v2
     #volumes:
     #  - /home/adbuls/TWON-Production/Social-App/mongo-data:/data/db
 
 networks:
-  mern-network-v1:
+  mern-network-v2:
     driver: bridge
 
 #volumes:

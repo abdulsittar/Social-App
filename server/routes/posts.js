@@ -302,6 +302,7 @@
         const { url } = req.body;
 
         try {
+            console.log(req.body.urls);
             const { data } = await axios.get(req.body.urls);
             const $ = cheerio.load(data);
     
@@ -705,7 +706,7 @@ router.put('/:id/like', verifyToken, async(req, res) => {
     })
 
     // get pagination posts
-    router.get('/timelinePag/:userId', verifyToken, async(req, res) =>{
+    router.get('/timelinePag/:userId', async(req, res) =>{
     console.log("hereherehereh");
     console.log(req.query.page);
     try {
@@ -729,7 +730,7 @@ router.put('/:id/like', verifyToken, async(req, res) => {
     let resultsPerPage = 20
 
     return await Post.find({})
-    .populate({path : 'comments', model:'Comment', populate:[{path : "userId", model: "User"}, {path: "likes", model: "CommentLike"}, {path: "dislikes", model: "CommentDislike"}]})
+    .populate({path : 'comments', model:'Comment', populate:[{path : "userId", model: "User"}, {path: "likes", model: "CommentLike"}, {path: "dislikes", model: "CommentDislike"}, { path: 'reposts', model: 'Repost', populate: { path: 'userId', model: 'User' }}]})
     .sort({ rank: -1 })
     //.lean()
     .skip(page * resultsPerPage)

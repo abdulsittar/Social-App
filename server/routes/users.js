@@ -33,7 +33,7 @@ gfs.collection('uploads');
 
 
 // update user
-router.put("/:id", verifyToken, async (req, res) => {
+router.put("/:id", async (req, res) => {
 if(req.body.userId === req.params.id || req.body.isAdmin) {
     if(req.body.password) {
         try {
@@ -79,7 +79,7 @@ if(req.body.userId === req.params.id || req.body.isAdmin) {
  */
 
 // delete user
-router.delete("/:id", verifyToken, async (req, res) => {
+router.delete("/:id", async (req, res) => {
 if(req.body.userId === req.params.id || req.body.isAdmin) {
     try {
         const user = await User.findByIdAndDelete(req.params.id);
@@ -125,7 +125,7 @@ if(req.body.userId === req.params.id || req.body.isAdmin) {
  *         description: Some server error
  */
 // get a user
-router.get('/', verifyToken, async (req, res) => {
+router.get('/', async (req, res) => {
 const userId = req.query.userId;
 const username = req.query.username;
 
@@ -201,7 +201,7 @@ router.post('/getUser/:uniqId', async (req, res) => {
  */
 
 // follow a user
-router.put('/:id/follow', verifyToken, async (req, res) => {
+router.put('/:id/follow', async (req, res) => {
 if(req.body.userId !== req.params.id) {
     try {
         const user = await User.findById(req.params.id);
@@ -262,7 +262,7 @@ if(req.body.userId !== req.params.id) {
  */
 
 // unfollow a user
-router.put('/:id/unfollow', verifyToken, async (req, res) => {
+router.put('/:id/unfollow',  async (req, res) => {
 if(req.body.userId !== req.params.id) {
     try {
         const user = await User.findById(req.params.id);
@@ -306,7 +306,7 @@ if(req.body.userId !== req.params.id) {
  */
 
 // all users
-router.get('/usersList2', verifyToken, function(req, res) {
+router.get('/usersList2',  function(req, res) {
 User.find({}, function(err, users) {
 var userMap = {};
 
@@ -319,7 +319,7 @@ res.send(userMap);
 });
 
 // all users
-router.get('/usersList/:userId', verifyToken, async (req, res) => {
+router.get('/usersList/:userId',  async (req, res) => {
 try {
 let friendList = [];
 User.find({}, function(err, users) {
@@ -368,7 +368,7 @@ catch (err) {
  */
 
 //get friends
-router.get("/followings/:userId", verifyToken, async (req, res) => {
+router.get("/followings/:userId",  async (req, res) => {
 try {
     const user = await User.findById(req.params.userId).populate({path : "followings", model: "User"}).exec();
     //const friends = await Promise.all(
@@ -417,7 +417,7 @@ try {
  */
 
 //get friends
-router.get("/followers/:userId", verifyToken, async (req, res) => {
+router.get("/followers/:userId",  async (req, res) => {
 try {
     const user = await User.findById(req.params.userId).populate({path : "followers", model: "User"}).exec();
     res.status(200).json(user.followers)
@@ -426,7 +426,7 @@ try {
 }
 });
 
-router.get("/allUsers/:userId", verifyToken, async (req, res) => {
+router.get("/allUsers/:userId", async (req, res) => {
     try {
         const users = await User.find({ _id: { $ne: req.params._id } }).populate({path : "followers", model: "User"}).exec();
         res.status(200).json(users);
@@ -437,7 +437,7 @@ router.get("/allUsers/:userId", verifyToken, async (req, res) => {
 
 // Viewed a post
 // like a post
-router.put('/:id/viewed', verifyToken, async(req, res) =>{
+router.put('/:id/viewed',  async(req, res) =>{
 try {
     // Like a post
     const user = await User.findById(req.params.id);
@@ -457,7 +457,7 @@ try {
 })
 
 // TimeMe
-router.put('/:id/activity',verifyToken, async(req, res) =>{
+router.put('/:id/activity', async(req, res) =>{
 
     try {
         const timeMe = new TimeMe({userId:req.params.id, page:req.body.page, seconds: req.body.seconds});
@@ -476,7 +476,7 @@ router.put('/:id/activity',verifyToken, async(req, res) =>{
     });
 
 // TimeMe
-router.get('/:id/getTimeSpent', verifyToken, async(req, res) => {
+router.get('/:id/getTimeSpent', async(req, res) => {
 
     try {
         console.log("here");
@@ -587,7 +587,7 @@ router.get('/:id/getTimeSpent', verifyToken, async(req, res) => {
 
 // Read a post
 // like a post
-router.put('/:id/read', verifyToken, async(req, res) =>{
+router.put('/:id/read',  async(req, res) =>{
 
 try {
     const user           = await User.findById(req.params.id);    

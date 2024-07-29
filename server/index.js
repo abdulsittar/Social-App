@@ -271,7 +271,7 @@ if (process.env.NODE_ENV === 'production') {
     
     //res.sendFile(path.resolve(__dirname, 'build', 'index.html'))
     
-    console.log(path.resolve(__dirname, '../', 'client', 'build', 'index.html'));
+    //console.log(path.resolve(__dirname, '../', 'client', 'build', 'index.html'));
     //res.sendFile(path.join(__dirname, '..', 'client', 'build', 'index.html'));
     //res.send('This is a page from the server.');
   }

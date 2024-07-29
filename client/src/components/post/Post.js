@@ -29,6 +29,7 @@ import { COLORS } from "../values/colors";
 import linkifyit from 'linkify-it';
 import { Write_something, comments } from '../../constants';
 import './post.css';
+//import User from "../../../../server/models/User";
 
 function Post({onScrolling,  post, classes, isDetail }) {
   const [comments, setComments] = useState([]);
@@ -42,6 +43,10 @@ function Post({onScrolling,  post, classes, isDetail }) {
   const [isDislikedByOne, setIsDislikedByOne] = useState(false);
 
   const [repost, setRepost] = useState(post.reposts? post.reposts.length: 0);
+  const [repostUser, setRepostUser] = useState({});
+  const [repostId, setRepostId] = useState(post.reposts[post.reposts? post.reposts.length: 0]);
+  
+  
   const [rank, setRank] = useState(parseFloat(post.rank.toFixed(2)));//useState(post.reposts? post.reposts.length: 0);
 
   const [isReposted, setIsReposted] = useState(false);
@@ -62,7 +67,6 @@ function Post({onScrolling,  post, classes, isDetail }) {
   const [thumbnail, setThumbnail] = useState('');
   var cover = true;
 
- 
 
   const { user: currentUser } = useContext(AuthContext);
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
@@ -72,6 +76,7 @@ function Post({onScrolling,  post, classes, isDetail }) {
   
   useEffect(() => {
     const handleFetchThumbnail = async () => {
+    console.log(post.thumb);
       try {
           const response = await axios.post('/posts/fetch-thumbnail', { urls : post.thumb });
           setThumbnail(response.data.thumbnail);
@@ -147,9 +152,20 @@ function Post({onScrolling,  post, classes, isDetail }) {
       const res = await axios.get(`/users?userId=${post.userId}`, {headers: { 'auth-token': token }})
       setUser(res.data);
     };
+    
+    const fetchLastRepost = async () => {
+      console.log("repostId")
+    console.log(post.reposts[post.reposts.length-1])
+      const res = await axios.get(`/users?userId=${post.reposts[post.reposts.length-1]}`, {headers: { 'auth-token': token }})
+      setRepostUser(res.data);
+    };
+    
     //console.log(post.comments.length)
     fetchUser();
-  }, [])
+    if(post.reposts.length > 0){
+      fetchLastRepost();
+    }
+  }, []);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -382,23 +398,50 @@ function Post({onScrolling,  post, classes, isDetail }) {
 
   return (
     <InView as="div" onChange={(inView, entry) => handleViewedChange(inView, post)}>
-    <div className={classes.post} style={{margin: isDetail && "5px 0"}} >
-      <div className={classes.postWrapper}>
-        <div className={classes.postTop}>
+    <div className={classes.post} style={{margin: isDetail && "5px 0",  background: repost>0 ? "#F5F5F5" : "#ffffff"}}  >
+      <div className={classes.postWrapper} style={{ background: repost>0 ? "#F5F5F5" : "#ffffff" }}>
+      
+        <div className={classes.postTop} style={{ background: repost>0 ? "#ffffff" : "#ffffff" }}>
+        {(repost > 0)? 
           <div className={classes.postTopLeft}>
-            <Link  style={{textDecoration: 'none', color: COLORS.textColor}} to={isDetail? `/profile/${user.username}`: `/profile/${user.username}` }>
+            <Link  style={{textDecoration: 'none', color: COLORS.textColor}} to={isDetail? `/profile/${repostUser.username}`: `/profile/${repostUser.username}` }>
+              <img src={repostUser.profilePicture ? PF + repostUser.profilePicture : PF + 'person/noAvatar.png'} alt="" className={classes.postProfileImg} />
+            </Link>
+            <Link style={{textDecoration: 'none', color: COLORS.textColor}} to={isDetail? `/profile/${repostUser.username}`: `/profile/${repostUser.username}`}>
+            <span className={classes.postUsername}>{repostUser.username}</span>
+            </Link>
+            <span className={classes.postDate}>{format(repostUser.createdAt)}</span>
+            <span className={classes.postDate} style={{margin: '0px 0px 0px 20px',}}>{" Reposted by: "+ repost}</span>
+            
+             
+          
+          </div>: <div></div>}
+          { (repost > 0)? 
+          <div className={classes.postTopRight}>
+          <Link style={{textDecoration: 'none', color: COLORS.textColor}} onClick={repostHandler}>
+            
+          { (isMobileDevice && isTabletDevice) ? <Stack direction="row" spacing={2}>
+            <Button variant="contained" endIcon={<SendIcon />}> Repost </Button></Stack> :<ArrowForwardIcon /> }  </Link></div>: <div></div>}
+
+        </div>
+        
+        <div className={classes.postTop} style={{ background: repost>0 ? "#F5F5F5" : "#ffffff" }}>
+        
+          <div className={classes.postTopLeft} style={{ background: repost>0 ? "#F5F5F5" : "#ffffff" }}>
+            <Link  style={{textDecoration: 'none', color: COLORS.textColor, background: repost>0 ? "#F5F5F5" : "#ffffff"}} to={isDetail? `/profile/${user.username}`: `/profile/${user.username}` }>
               <img src={user.profilePicture ? PF + user.profilePicture : PF + 'person/noAvatar.png'} alt="" className={classes.postProfileImg} />
             </Link>
-            <Link style={{textDecoration: 'none', color: COLORS.textColor}} to={isDetail? `/profile/${user.username}`: `/profile/${user.username}`}>
+            <Link style={{textDecoration: 'none', color: COLORS.textColor, background: repost>0 ? "#F5F5F5" : "#ffffff"}} to={isDetail? `/profile/${user.username}`: `/profile/${user.username}`}>
             <span className={classes.postUsername}>
               {user.username}
             </span>
             </Link>
-            <span className={classes.postDate}>{format(post.createdAt)}</span>
-            <span className={classes.postDate} style={{margin: '0px 0px 0px 20px',}}>{" Reposted by: "+ repost}</span>
+            <span className={classes.postDate} style={{ background: repost>0 ? "#F5F5F5" : "#ffffff" }}>{format(post.createdAt)}</span>
+            {/*<span className={classes.postDate} style={{margin: '0px 0px 0px 20px',}}>{" Reposted by: "+ repost}</span>*/}
           </div>
-          { (!isDetail)?
-          <div className={classes.postTopRight}>
+          
+          { (repost < 1)?
+          <div className={classes.postTopRight} style={{ background: repost>0 ? "#F5F5F5" : "#ffffff" }}>
           <Link style={{textDecoration: 'none', color: COLORS.textColor}} onClick={repostHandler}>
             
           { (isMobileDevice && isTabletDevice) ? <Stack direction="row" spacing={2}>
@@ -406,17 +449,18 @@ function Post({onScrolling,  post, classes, isDetail }) {
   }
 
         </div>
-        <div className={classes.postCenter}>
+        
+        <div className={classes.postCenter} style={{ background: repost>0 ? "#F5F5F5" : "#ffffff" }}>
         <Linkify componentDecorator={(decoratedHref, decoratedText, key) => (<a target="blank" rel="noopener noreferrer" href={decoratedHref} key={key} > {decoratedText} </a>)}>
-          <div className={classes.postText} >
+          <div className={classes.postText}  style={{ background: repost>0 ? "#F5F5F5" : "#ffffff" }}>
             {!isDetail && post?.desc.length > 250? 
-              <div className={classes.postText} >{post?.desc.substring(0, 100) }
+              <div className={classes.postText}  style={{ background: repost>0 ? "#F5F5F5" : "#ffffff" }}>{post?.desc.substring(0, 100) }
                   <Link to={{pathname:`/postdetail/${user.username}`, state:{myObj: post}}}>"...Read more"</Link>
                 </div>
             :
             post?.desc}
             {thumbnail && (
-              <div>
+              <div  style={{ background: repost>0 ? "#F5F5F5" : "#ffffff" }}>
                   <img src={thumbnail} alt="Thumbnail" style={{ width: '200px' }} />
               </div>
           )}
@@ -425,8 +469,8 @@ function Post({onScrolling,  post, classes, isDetail }) {
           
           
         </div>
-        <div className={classes.postBottom}>
-          <div className={classes.postBottomLeft}>
+        <div className={classes.postBottom} style={{ background: repost>0 ? "#F5F5F5" : "#ffffff" }}>
+          <div className={classes.postBottomLeft} style={{ background: repost>0 ? "#F5F5F5" : "#ffffff" }}>
             <img src={`${PF}clike.png`} alt="" className={classes.likeIcon} onClick={likeHandler} />
             <span className={classes.postLikeCounter}>{like}</span>
                   
@@ -434,24 +478,24 @@ function Post({onScrolling,  post, classes, isDetail }) {
             <span className={classes.postDislikeCounter}>{dislike}</span>
              
           </div>
-          <div className={classes.postBottomRight}>
+          <div className={classes.postBottomRight} style={{ background: repost>0 ? "#F5F5F5" : "#ffffff" }}>
           <Link style={{textDecoration: 'none', color: COLORS.textColor}} to={{pathname:`/postdetail/${user.username}`, state:{myObj: post}}}> <div className={classes.postCommentText} >{comments.length} {"Kommentare"}</div></Link>
           </div>
         </div>
-        <div ref={ref} className={classes.commentsWrapper}  style={{ display: isVisible ? "block" : "none" }}>
+        <div ref={ref} className={classes.commentsWrapper}  style={{ display: isVisible ? "block" : "none", background: repost>0 ? "#F5F5F5" : "#ffffff" }}>
         <hr className={classes.shareHr} />
         
-          <div className={classes.txtnButtonRight}>
+          <div className={classes.txtnButtonRight} style={{ background: repost>0 ? "#F5F5F5" : "#ffffff" }}>
             <CardHeader
-              avatar={<Avatar className={classes.smallAvatar} src={user.profilePicture? PF + user.profilePicture: PF + "person/noAvatar.png"} />}
-              title={<InputEmoji className={classes.shareInput} style={{ fontSize: "15", height: "40px" }} shouldReturn={true} value={inputValue}  onChange={handleChange}  onEnter={onEnterSubmitHandler} placeholder={Write_something} />}
-              className={classes.cardHeader}/>
+              avatar={<Avatar className={classes.smallAvatar} src={user.profilePicture? PF + user.profilePicture: PF + "person/noAvatar.png"} style={{ background: repost>0 ? "#ffffff" : "#ffffff" }} />}
+              title={<InputEmoji className={classes.shareInput} style={{ fontSize: "15", height: "40px", background: repost>0 ? "#ffffff" : "#ffffff" }} shouldReturn={true} value={inputValue}  onChange={handleChange}  onEnter={onEnterSubmitHandler} placeholder={Write_something} />}
+              className={classes.cardHeader} style={{ background: repost>0 ? "#F5F5F5" : "#ffffff" }}/>
 
             <form class = "form">
               <SendIcon className={classes.sendButton2} style={{ display:"flex", margin:"0px 20px"}} type="submit" onClick={submitHandler}/>
             </form>
             </div>
-            <div className={classes.commentTop}>
+            <div className={classes.commentTop} style={{ background: repost>0 ? "#F5F5F5" : "#ffffff" }}>
             {comments.slice(0).reverse().map((item, i) => {
               console.log(i);
               console.log(item._id);
