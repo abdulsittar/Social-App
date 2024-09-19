@@ -116,7 +116,7 @@ useEffect(() => {
   fetchTimeSpent();
   setIsProfileFetched(false);
 
-  if(day_One_Percent > 50){
+  if(day_One_Percent > -1){
     console.log("day_One_Percent");
     setIsVisible(true);
   }
@@ -163,10 +163,6 @@ const handleUserNameChange = async (e) => {
       setIs_Q2_visible(false);
     }
 }
-
-
-
-
 
   const handle_Q2_Changed = async (e) => { stValue_q2(e.target.value); 
     if(e.target.value != ""){
@@ -406,6 +402,7 @@ const handleUserNameChange = async (e) => {
           localStorage.removeItem("user");
           localStorage.removeItem("token");
 	        history.push(`/register/${res.data.key}`);
+	        
         } catch (err) {
           console.log(err);
           setPasswordErr({A_user_with});
@@ -457,8 +454,8 @@ const handleUserNameChange = async (e) => {
         </div>
         
         <div style={{ alignItems: "center", marginLeft: isMobileDevice && isTabletDevice && '300px', marginRight:isMobileDevice && isTabletDevice &&"300px"}}>
-        <h3 className={classes.progressHead}>{(day_One_Percent > 50 && day_Two_Percent > 50 && day_Three_Percent > 50)?status_msg2: status_msg}
-        <a onClick={(day_One_Percent > 50 && day_Two_Percent > 50 && day_Three_Percent > 50)? handleClick : undefined} style={{ color: (day_One_Percent > 50 && day_Two_Percent > 50 && day_Three_Percent > 50)? 'blue' : 'gray', cursor: (day_One_Percent > 50 && day_Two_Percent > 50 && day_Three_Percent > 50)? 'pointer' : 'not-allowed' }}>
+        <h3 className={classes.progressHead}>{(day_One_Percent > -1 && day_Two_Percent > -1 && day_Three_Percent > -1)?status_msg2: status_msg}
+        <a onClick={(day_One_Percent > -1 && day_Two_Percent > -1 && day_Three_Percent > -1)? handleClick : undefined} style={{ color: (day_One_Percent > -1 && day_Two_Percent > -1 && day_Three_Percent > -1)? 'blue' : 'gray', cursor: (day_One_Percent > -1 && day_Two_Percent > -1 && day_Three_Percent > -1)? 'pointer' : 'not-allowed' }}>
           <Link to={`/postsurvey/${currentUser.username}`}>Link to the post survey</Link></a>
         </h3></div>
 

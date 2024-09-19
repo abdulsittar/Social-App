@@ -2,7 +2,7 @@ const IDStorage = require('../models/IDStorage');
 const router = require('express').Router();
 const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
-const conn = mongoose.createConnection(process.env.DB_URL);
+const conn = mongoose.createConnection('mongodb+srv://abdulsittar72:2106010991As@cluster0.gsnbbwq.mongodb.net/test?retryWrites=true&w=majority');
 const { ObjectId } = require('mongodb');
 
 router.post('/getKey/:uniqueId', async (req, res) => {

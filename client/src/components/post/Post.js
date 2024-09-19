@@ -41,6 +41,8 @@ function Post({onScrolling,  post, classes, isDetail }) {
   const [isDisliked, setIsDisliked] = useState(false);
   const [isLikedByOne, setIsLikedByOne] = useState(false);
   const [isDislikedByOne, setIsDislikedByOne] = useState(false);
+  
+  const [currentPost, setCurrentPost] = useState(post);
 
   const [repost, setRepost] = useState(post.reposts? post.reposts.length: 0);
   const [repostUser, setRepostUser] = useState({});
@@ -68,7 +70,7 @@ function Post({onScrolling,  post, classes, isDetail }) {
   var cover = true;
 
 
-  const { user: currentUser } = useContext(AuthContext);
+  const { user: currentUser, dispatch } = useContext(AuthContext);
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   const [isHovered, setIsHovered] = useState(false);
   const [isDisHovered, setIsDisHovered] = useState(false);
@@ -81,7 +83,7 @@ function Post({onScrolling,  post, classes, isDetail }) {
           const response = await axios.post('/posts/fetch-thumbnail', { urls : post.thumb });
           setThumbnail(response.data.thumbnail);
       } catch (error) {
-          console.error('Error fetching thumbnail:', error);
+          //console.error('Error fetching thumbnail:', error);
       }
   };
 
@@ -193,8 +195,6 @@ function Post({onScrolling,  post, classes, isDetail }) {
       });
   };
 
-
-
   function handleOnEnter(text) {
     console.log("enter", text);
   }
@@ -211,13 +211,22 @@ function Post({onScrolling,  post, classes, isDetail }) {
     const token = localStorage.getItem('token');
     //setInputValue(prevValue => prevValue + "\n");
     console.log(removeHtmlTags(inputValue).trim().length);
+    console.log("currentUser")
+    console.log(currentUser)
     if(removeHtmlTags(inputValue).trim().length != 0){
     try {
       const lc = await axios.post("/posts/" + post._id + "/comment", { userId: currentUser._id, username: currentUser.username, txt: inputValue, postId: post._id, headers: { 'auth-token': token } });
       console.log("Posted a comment");
       console.log(lc.data)
-      setComments([...comments, lc.data]);
+      //setComments([...comments, lc.data]);
+      //post.comments([...comments, lc.data]);
+      setComments((prevItems) => [...prevItems, lc.data]);
       setInputValue('');
+      const po = await axios.get("/posts/" + post._id, { headers: { 'auth-token': token } });
+      console.log("post");
+      console.log(po.data);
+      console.log(post);
+      setCurrentPost(po.data);
       // refresh the page after posting something
       //window.location.reload();
     } catch (err) { 
@@ -230,6 +239,8 @@ function Post({onScrolling,  post, classes, isDetail }) {
     e.preventDefault();
     const token = localStorage.getItem('token');
     console.log(removeHtmlTags(inputValue).trim().length);
+    console.log("currentUser")
+    console.log(currentUser)
     if(removeHtmlTags(inputValue).trim().length != 0){
     const newComment = { userId: user._id, description: inputValue,};
     console.log(newComment);
@@ -237,8 +248,15 @@ function Post({onScrolling,  post, classes, isDetail }) {
       const lc = await axios.post("/posts/" + post._id + "/comment", { userId: currentUser._id, username: currentUser.username, txt: inputValue, postId: post._id, headers: { 'auth-token': token } });
       console.log("Posted a comment");
       console.log(lc.data)
-      setComments([...comments, lc.data]);
+      //setComments([...comments, lc.data]);
+      //post.comments([...comments, lc.data]);
+      setComments((prevItems) => [...prevItems, lc.data]);
       setInputValue('');
+      const po = await axios.get("/posts/" + post._id, { headers: { 'auth-token': token } });
+      console.log("post");
+      console.log(po.data);
+      console.log(post);
+      setCurrentPost(po.data);
       // refresh the page after posting something
       //window.location.reload();
     } catch (err) { 
@@ -455,7 +473,7 @@ function Post({onScrolling,  post, classes, isDetail }) {
           <div className={classes.postText}  style={{ background: repost>0 ? "#F5F5F5" : "#ffffff" }}>
             {!isDetail && post?.desc.length > 250? 
               <div className={classes.postText}  style={{ background: repost>0 ? "#F5F5F5" : "#ffffff" }}>{post?.desc.substring(0, 100) }
-                  <Link to={{pathname:`/postdetail/${user.username}`, state:{myObj: post}}}>"...Read more"</Link>
+                  <Link to={{pathname:`/postdetail/${user.username}`, state:{myObj: currentPost}}}>"...Read more"</Link>
                 </div>
             :
             post?.desc}
@@ -479,7 +497,7 @@ function Post({onScrolling,  post, classes, isDetail }) {
              
           </div>
           <div className={classes.postBottomRight} style={{ background: repost>0 ? "#F5F5F5" : "#ffffff" }}>
-          <Link style={{textDecoration: 'none', color: COLORS.textColor}} to={{pathname:`/postdetail/${user.username}`, state:{myObj: post}}}> <div className={classes.postCommentText} >{comments.length} {"Kommentare"}</div></Link>
+          <Link style={{textDecoration: 'none', color: COLORS.textColor}} to={{pathname:`/postdetail/${user.username}`, state:{myObj: currentPost}}}> <div className={classes.postCommentText} >{comments.length} {"Kommentare"}</div></Link>
           </div>
         </div>
         <div ref={ref} className={classes.commentsWrapper}  style={{ display: isVisible ? "block" : "none", background: repost>0 ? "#F5F5F5" : "#ffffff" }}>

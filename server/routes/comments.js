@@ -4,7 +4,7 @@ const CommentLike = require('../models/CommentLike');
 const router = require('express').Router();
 const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
-const conn = mongoose.createConnection(process.env.DB_URL);
+const conn = mongoose.createConnection(process.env.MONGO_URI);
 const { ObjectId } = require('mongodb');
 const verifyToken = require('../middleware/verifyToken');
 

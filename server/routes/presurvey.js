@@ -6,7 +6,7 @@ const router = require('express').Router();
 const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
 const PostSurvey = require('../models/PostSurvey');
-const conn = mongoose.createConnection(process.env.DB_URL);
+const conn = mongoose.createConnection('mongodb+srv://abdulsittar72:2106010991As@cluster0.gsnbbwq.mongodb.net/test?retryWrites=true&w=majority');
 var ObjectId = require('mongodb').ObjectID;
 
 // Submit pre survey
@@ -119,7 +119,7 @@ router.post('/isSubmitted/:val', async (req, res) => {
 
             }else{
                 const users = await SelectedUsers.aggregate([
-                    {'$match': {'available': true}},
+                    { $match: { available: true } },
                     { $sample: { size: 3 } }
                     
                   ])

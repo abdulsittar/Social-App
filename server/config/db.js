@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 require('dotenv').config()
 const { MongoClient, ServerApiVersion } = require('mongodb');
-console.log(process.env.DB_URL)
+console.log(process.env.MONGO_URI)
 mongoose.Promise = global.Promise;
-global.url =  process.env.DB_URL;
+global.url =  process.env.MONGO_URI;
 
 if (!url) {
     console.error('Error: MONGO_URI environment variable is not set.');

@@ -242,6 +242,7 @@ function Register({classes}) {
       stValue_confirmation(e.target.value);
       const pass = document.getElementById('password').value;
       setPassword(pass)
+      
       if(e.target.value == "option1"){
         setIs_password_visible(false);
         setIsWelcomeVisible(true);
@@ -270,10 +271,10 @@ function Register({classes}) {
       setIs_Q4_visible(false);
       setIs_Q5_visible(false);
       setIs_Q6_visible(false);
-      setIs_Q7_visible(false);
-      setIs_Q8_visible(false);
-      setIs_Q9_visible(false);
-      setIs_Q10_visible(false);
+      //setIs_Q7_visible(false);
+      //setIs_Q8_visible(false);
+      //setIs_Q9_visible(false);
+      //setIs_Q10_visible(false);
     } 
 };
 
@@ -349,10 +350,10 @@ function Register({classes}) {
   const handle_Q6_Changed = async (e) => { 
     stValue_q6(e.target.value); 
     if(e.target.value != ""){
-      setIs_Q7_visible(true);
-      setIs_Q8_visible(true);
-      setIs_Q9_visible(true);
-      setIs_Q10_visible(true);
+      //setIs_Q7_visible(true);
+      //setIs_Q8_visible(true);
+      //setIs_Q9_visible(true);
+      //setIs_Q10_visible(true);
       setIs_dank_visible(true);
       scrollBy({ top: 700, left: 0, behavior: "smooth" })
 
@@ -410,6 +411,7 @@ function Register({classes}) {
     setIsNextDisplays(false);
     if(e.target.value == "option1"){
       setSelectedUserName(usrName1);
+      setPassword(password)
       //handleClickOpen();
 
     }else if(e.target.value == "option2"){
@@ -453,7 +455,8 @@ function Register({classes}) {
       e.preventDefault()
       toast.error("Question 6. Please select one given choice!");
       return
-    }else if (value_q7 == ""){
+    }
+    /*else if (value_q7 == ""){
       e.preventDefault()
       toast.error("Question 7. Please select one given choice!");
       return
@@ -469,7 +472,7 @@ function Register({classes}) {
       e.preventDefault()
       toast.error("Question 10. Please select one given choice!");
       return
-    }
+    }*/
     
     const survey = {
       q1: age,
@@ -495,10 +498,10 @@ function Register({classes}) {
           setIs_Q4_visible(false);
           setIs_Q5_visible(false);
           setIs_Q6_visible(false);
-          setIs_Q7_visible(false);
-          setIs_Q8_visible(false);
-          setIs_Q9_visible(false);
-          setIs_Q10_visible(false);
+          //setIs_Q7_visible(false);
+          //setIs_Q8_visible(false);
+          //setIs_Q9_visible(false);
+          //setIs_Q10_visible(false);
           setIs_dank_visible(false);
 
           const urlParts = window.location.pathname.split('/');
@@ -569,14 +572,16 @@ function Register({classes}) {
     //  setTimeout(() => { setPasswordErr(''); }, 5000) 
     
     //} else {
+      const pass = document.getElementById('password').value;
+      setPassword(pass)
       const usr = {
         username: username,
-        password: password,
+        password: pass,
         profilePicture: proPic
       };
-
+      console.log(pass)
       console.log(usr)
-      const postText = document.getElementById('post').value;
+      //const postText = document.getElementById('post').value;
 
       try {
         const userRes = await axios.post(`/auth/register/${uniqId}`, usr)
@@ -585,22 +590,19 @@ function Register({classes}) {
         const user = userRes.data.user;
         console.log(user);
         console.log(user._id);
-        console.log(postText);
+        //console.log(postText);
         if(user){
           localStorage.setItem('token', userRes.data.token);
           console.log("registered!!!");
           const token = localStorage.getItem('token');
-          try {
-            const res2 = await axios.post(`/posts/${uniqId}/create/`, { userId: user._id, desc: postText, headers: { 'auth-token': token }});
-            console.log(res2);
-            //window.open('https://survey.maximiles.com/static-complete?p=123928_220ce61d', '_blank');
-            // refresh the page after posting something
-            //window.focus();
+          //try {
+            //const res2 = await axios.post(`/posts/${uniqId}/create/`, { userId: user._id, desc: postText, headers: { 'auth-token': token }});
+            //console.log(res2);
             dispatch({ type: "LOGIN_SUCCESS", payload: user });
             history.push("/");
-          } catch (err) {
-            console.log(err)
-          }
+          //} catch (err) {
+          //  console.log(err)
+          //}
         }
       } catch (err) {
         setPasswordErr("Error");
@@ -878,14 +880,14 @@ function Register({classes}) {
         <span style={{"margin-left": "0.5rem", "margin-top": "0.5rem"}}>
             <img width="50" height="50"className={classes.profileCoverImg}  src={proPic != "" ? PF+proPic : PF+"person/noCover.png"} alt="" /> {" "+username}
             </span>
-        <TextField className={classes.textField3} id="password" label="Password" value={password4} autoComplete="current-password"/>
+        <TextField className={classes.textField3} id="password" label="Password" value={password4}/>
 				
         <p className={classes.secon_disclaimor5}>{note}</p>
         <p className={classes.secon_disclaimor4}>{[...enony, "https://socialapp.ijs.si/register/" +uniqId]}</p>
         <p className={classes.secon_disclaimor4}>{screen}</p>
         <p className={classes.secon_disclaimor4}>{plzCon}</p>
         <form  className={classes.question}>
-        <div className={classes.label}><label><input type="radio" value="option1" checked={value_confirmation === 'option1'}  onChange={handle_Confirm_Changed} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{"Bestätigen"}</span></label></div>
+        <div className={classes.label}><label><input type="radio" value="option1" checked={value_confirmation === 'option1'}  onChange={submitPost} style={{"accent-color":'red'}}/><span style={{"margin-left": "0.5rem"}}>{"Bestätigen"}</span></label></div>
         
         </form>
         </div>
@@ -904,7 +906,9 @@ function Register({classes}) {
         </div>
         </CSSTransition>
 
-        {/*<CSSTransition in={is_Post_visible} timeout={300} classNames="fade" unmountOnExit >
+        {
+        //handle_Confirm_Changed
+        /*<CSSTransition in={is_Post_visible} timeout={300} classNames="fade" unmountOnExit >
         <div id='Q5'>
         <form  className={classes.question}>
         <button type="submit" className={classes.button} onClick={handleClick}> Post </button>

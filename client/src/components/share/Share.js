@@ -1,6 +1,6 @@
 import React from 'react';
 import { PermMedia, Label, Room, EmojiEmotions, Cancel, Height } from '@material-ui/icons';
-import { useContext, useRef, useState } from "react";
+import { useContext, useRef, useState, useEffect } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
 import { withStyles } from '@material-ui/core/styles';
@@ -12,6 +12,7 @@ import { Search } from '@material-ui/icons';
 import { What_in_your_mind, Feelings } from '../../constants';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
+import {io} from 'socket.io-client';
 
 function Share({classes}) {
     const { user } = useContext(AuthContext);
@@ -21,6 +22,77 @@ function Share({classes}) {
     const [file, setFile] = useState(null);
     const isMobileDevice = useMediaQuery({ query: "(min-device-width: 480px)", });
     const isTabletDevice = useMediaQuery({ query: "(min-device-width: 768px)", });
+    const [socket, setSocket] = useState(null)
+
+
+    useEffect(() => {
+        console.log("setSocket");
+        setSocket(io('wss://cleopatra.ijs.si/chat', {
+            transports: ['polling'],
+            withCredentials: true
+          }));
+          
+        //setSocket(io('http://localhost:8080', {
+        //    withCredentials: true, // Include credentials if necessary
+        //    transports: [ 'polling'],
+        //}
+        //)
+        //);
+        
+        const newSocket = io('wss://cleopatra.ijs.si/chat', {
+            withCredentials: true, // Include credentials if necessary
+            transports: ['polling'], // Fallback to different transports if necessary
+        });
+        
+        newSocket.on('connect', () => {
+            console.log('Connected to Socket.IO server');
+        });
+
+        newSocket.on('connect_error', (error) => {
+            console.error('Connection error:', error);
+            // You can also access more detailed information from the error object:
+            if (error.message) {
+                console.error('Error message:', error.message);
+            }
+            if (error.stack) {
+                console.error('Error stack:', error.stack);
+            }
+            if (error.req) {
+                console.error('Error message:', error.req);
+            }
+            if (error.code) {
+                console.error('Error message:', error.code);
+            }
+            if (error.context) {
+                console.error('Error message:', error.context);
+            }
+            
+        });
+
+        newSocket.on('connect_timeout', () => {
+            console.error('Connection timeout');
+        });
+
+        newSocket.on('error', (error) => {
+            console.error('General error:', error);
+            // Log more detailed error information
+            if (error.message) {
+                console.error('Error message:', error.message);
+            }
+            if (error.stack) {
+                console.error('Error stack:', error.stack);
+            }
+        });
+        
+    }, [])
+
+    useEffect(() => {
+        socket?.emit('addUser', user?.id)
+        console.log("active users ")
+        socket?.on('getUsers', users => {
+            console.log("active users ", users)
+        })
+    }, [socket])
 
     // submit a post
     const submitHandler = async (e) => {
@@ -44,12 +116,13 @@ function Share({classes}) {
           } catch (err) {}
         }
         try {
-          await axios.post("/posts/" + user._id + "/create", newPost, {headers: { 'auth-token': token }});
+        const pst = await axios.post("/posts/" + user._id + "/create", newPost);
+        socket.emit('sendMessage', pst);
           //await axios.post("/posts/create", newPost);
           // refresh the page after posting something
-          window.location.reload();
+          //window.location.reload();
 
-        } catch (err) {}
+        } catch (err) {console.log(err);}
     };
 
     function handleChange(text) {

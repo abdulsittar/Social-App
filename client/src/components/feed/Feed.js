@@ -12,6 +12,7 @@ import Loader from "../loader/loader";
 import { useMediaQuery } from 'react-responsive';
 import {useRef} from 'react';
 import {regSw, subscribe} from '../../helper.js';
+import {io} from 'socket.io-client';
 
 
 
@@ -26,8 +27,43 @@ const [viewedPosts, setViewedPosts] = useState([]);
 const { user: currentUser } = useContext(AuthContext);
 const isMobileDevice = useMediaQuery({ query: "(min-device-width: 480px)", });
 const isTabletDevice = useMediaQuery({ query: "(min-device-width: 768px)", });
+const [socket, setSocket] = useState(null)
 
 const [windowSize, setWindowSize] = useState(getWindowSize());
+
+useEffect(() => {
+    console.log("setSocket");
+    setSocket(io('wss://cleopatra.ijs.si/chat', {
+        transports: [ 'polling'],
+        withCredentials: true
+      }));
+    //setSocket(io('http://localhost:1077', {
+    //    withCredentials: true // Include credentials if necessary
+    //}));
+}, [])
+
+useEffect(() => {
+    console.log('Posts updated: ', posts);
+}, [posts]);
+
+useEffect(() => {
+
+    socket?.emit('addUser', user?.id)
+        console.log("active users ")
+        socket?.on('getUsers', users => { 
+            console.log("active users ", users)
+        })
+
+    socket?.on('getMessage', res => {
+        console.log('active data: >>', res.data );
+        const arr = [res.data]
+        setPosts((prevItems) => [...arr, ...prevItems]);
+        console.log('posts data: >>', posts );
+        //fetchPosts(selectedValue); 
+    })
+
+    
+}, [socket])
 
 const increment  = async (pv, iv) => {
     console.log("increatem");

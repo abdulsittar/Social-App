@@ -9,7 +9,7 @@
     const Subscription = require('../models/Subscription');
     const webPush = require ('web-push');
     const mongoose = require('mongoose');
-    const conn = mongoose.createConnection(process.env.DB_URL);
+    const conn = mongoose.createConnection('mongodb+srv://abdulsittar72:2106010991As@cluster0.gsnbbwq.mongodb.net/test?retryWrites=true&w=majority');
     const { ObjectId } = require('mongodb');
     const verifyToken = require('../middleware/verifyToken');
     const axios = require('axios');
@@ -644,10 +644,14 @@ router.put('/:id/like', verifyToken, async(req, res) => {
      */
 
     // get a post
-    router.get('/:id', verifyToken, async(req, res) =>{
+    router.get('/:id', async(req, res) =>{ //verifyToken, 
+        console.log(req.params.id)
     try {
-    const post = await Post.findById(req.params.id).populate('Comment').exec();
+    const post = await Post.findById(req.params.id).populate({path : 'comments', model:'Comment', populate:[{path : "userId", model: "User"}, {path: "likes", model: "CommentLike"}, {path: "dislikes", model: "CommentDislike"}, { path: 'reposts', model: 'Repost', populate: { path: 'userId', model: 'User' }}]}).exec();
+    console.log("post")
+    console.log(post)
     res.status(200).json(post);
+    
     } catch(err) {
     res.status(500).json(err);
     }
@@ -731,7 +735,7 @@ router.put('/:id/like', verifyToken, async(req, res) => {
 
     return await Post.find({})
     .populate({path : 'comments', model:'Comment', populate:[{path : "userId", model: "User"}, {path: "likes", model: "CommentLike"}, {path: "dislikes", model: "CommentDislike"}, { path: 'reposts', model: 'Repost', populate: { path: 'userId', model: 'User' }}]})
-    .sort({ rank: -1 })
+    .sort({ updatedAt: -1 })
     //.lean()
     .skip(page * resultsPerPage)
     .limit(resultsPerPage)
@@ -1016,7 +1020,10 @@ router.put('/:id/like', verifyToken, async(req, res) => {
 
     // add a comment
     router.post('/:id/comment', async(req, res) => {
-    const comment = new Comment({body:req.body.txt, userId:req.body.userId, postId:req.body.postId, username: req.body.username});
+        console.log(req.body.userId)
+        const user = await User.findOne({_id:req.body.userId});
+        console.log(user)
+    const comment = new Comment({body:req.body.txt, userId:user._id, postId:req.body.postId, username: req.body.username});
     try{
     await comment.save();
     const post = await Post.findById(req.body.postId);

@@ -10,6 +10,28 @@ const mongoose = require('mongoose');
 mongoose.set('useFindAndModify', false);
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const dotenv = require('dotenv');
+const https = require('http');
+const socketIo = require('socket.io');
+//const {Server} = require('socket.io');
+
+const cors = require('cors');
+global.app = express();
+const server = https.createServer(app);
+
+const socketio = socketIo(server,
+  {
+    pingInterval: 25000,
+    pingTimeout: 60000,
+    cors:{
+      origin:  ['https://socialapp.ijs.si', 'http://socialapp.ijs.si'],
+      methods: ['GET', 'POST'],
+      allowedHeaders: ["Authorization"],
+      credentials: true,
+    },
+    'transports': ['websockets', 'polling'],
+  }
+);
+
 const helmet = require('helmet');
 const morgan = require('morgan');
 const multer = require("multer");
@@ -24,7 +46,10 @@ const path = require('path');
 const fs = require('fs');
 const Grid = require('gridfs-stream');
 const crypto = require('crypto');
-const port = process.env.PORT || proPort;
+
+const port = process.env.PORT;
+
+const SOCKET_PORT = 1074;
 dotenv.config();
 
 const uuid = require('uuid');
@@ -43,11 +68,77 @@ const userIdentifiers = Array.from({ length: 10 }, () => uuid.v4());
 // SocialApp
 // Admin
 //const app = express();
-global.app = express();
+
+
+
+const corsOptions = {
+  origin: ['https://socialapp.ijs.si', 'http://socialapp.ijs.si'],
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type'],
+  credentials: true
+};
+app.use(cors(corsOptions));
+
+
+let users = [];
+
+const chatNamespace = socketio.of('/chat');
+
+chatNamespace.on('connection', (socket) => {
+
+  console.log('A user connected:', socket.id);
+  socket.on('addUser', userId => {
+    //const isUserExist = users.find(user => user.userId === userId);
+      //if(!isUserExist){
+      const user = {userId, socketId: socket.id};
+      users.push(user)
+      console.log(users.length)
+      //chatNamespace.emit("getUsers", users)
+    //}
+  });
+  
+  // You can listen for custom events here
+  socket.on('disconnect', () => {
+    users = users.filter(user => user.socketId !== socket.id);
+    chatNamespace.emit("getUsers", users);
+      console.log('User disconnected:', socket.id);
+  });
+  
+   // Example: Listen for custom events
+   socket.on('sendMessage', (data) => {
+    users = users.filter(user => user.socketId !== socket.id);
+    console.log('Received example Event with data:');
+    if (users) {
+      console.log('Received example Event with data:');
+      chatNamespace.emit("getMessage", data);
+    }
+    
+});
+
+socket.on('error', (error) => {
+  console.error('Socket error:', error);
+});
+  
+});
+
+
+//const socketio = socketIo(server);
+/*const socketio = require('socket.io')(server, {
+  handlePreflightRequest: (req, res) => {
+      const headers = {
+          "Access-Control-Allow-Headers": "Content-Type, Authorization",
+          "Access-Control-Allow-Origin": req.headers.origin, //or the specific origin you want to give access to,
+          "Access-Control-Allow-Credentials": true
+      };
+      res.writeHead(200, headers);
+      res.end();
+  }
+});*/
+
 global.moment = require('moment');
 const expressValidator = require('express-validator');
 const fileUpload = require('express-fileupload');
-const cors = require('cors');
+
 var apiRouter = require('./routes/api.js');
 global.connectPool = require('./config/db.js');
 
@@ -234,7 +325,7 @@ app._router.stack.forEach(function (r) {
 
 // Admin
 app.use(expressValidator());
-app.use(cors());
+//app.use(cors2());
 app.use(fileUpload());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
@@ -308,12 +399,24 @@ app.get('/text/', (req, res) => {
 });
 app.use('/admin/', apiRouter);
 
+//const server = http.createServer(app);
 
-app.listen(port, () => console.log(`Server started on port ${port} and ${nodeSiteUrl}`));
+//const socketio = new Server(server, { cors: corsOptions});
+
+
+
 
 process.on('uncaughtException', function (err) {
   console.log('Caught exception: ' + err);
 });
 
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.url}`, req.body);
+  console.log(`${req.protocol}://${req.get('host')}${req.originalUrl}`);
+  next();
+});
 
+
+app.listen(port, () => console.log(`Server started on port ${port} and ${nodeSiteUrl}`));
+server.listen(8080, () => console.log(`Server started on port ${port} and ${nodeSiteUrl}`));
 

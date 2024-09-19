@@ -130,7 +130,8 @@ try{
     //console.log(req.body.password)
     //console.log(salt)
     console.log(req.query.userId);
-    const hashedPassword = await bcrypt.hash(req.body.password, salt);
+    const inputPassword = req.body.password.trim()
+    const hashedPassword = await bcrypt.hash(inputPassword, salt);
     
     const idstor = await IDStorage.find({"yourID": req.params.uniqId});
         
@@ -229,17 +230,11 @@ try {
         return
     }
 
-    console.log("body");
-    console.log(req.body.password.trim());
-
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(req.body.password.trim(), salt);
-    console.log(hashedPassword);
-
-    console.log("user");
+     console.log(req.body.password);
     console.log(user.password);
-    const validPassword = await bcrypt.compare(req.body.password, user.password);
-    console.log(validPassword);
+    const inputPassword = req.body.password.trim()
+    
+    const validPassword = await bcrypt.compare(inputPassword, user.password);
     if (!validPassword){
             res.status(404).json("wrong password");
         return

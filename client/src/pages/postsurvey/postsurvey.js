@@ -115,7 +115,7 @@ useEffect(() => {
   fetchTimeSpent();
   setIsProfileFetched(false);
 
-  if(day_One_Percent > 50){
+  if(day_One_Percent > -1){
     console.log("day_One_Percent");
     setIsVisible(true);
   }
@@ -301,13 +301,13 @@ const handleUserNameChange = async (e) => {
       setIs_Q10_visible(true);
       setIs_Q11_visible(true);
       setIs_Q12_visible(true);
-      setIs_Q13_visible(true);
+      //setIs_Q13_visible(true);
 
     } else {
       setIs_Q10_visible(false);
       setIs_Q11_visible(false);
       setIs_Q12_visible(false);
-      setIs_Q13_visible(false);
+      //setIs_Q13_visible(false);
 
     }  };
 
@@ -328,19 +328,21 @@ const handleUserNameChange = async (e) => {
       setIs_Q12_visible(false);
     }*/  };
   const handle_Q12_Changed = async (e) => { stValue_q12(e.target.value); 
-    /*if(e.target.value != ""){
-      setIs_Q13_visible(true);
+    if(e.target.value != ""){
+      //setIs_Q13_visible(true);
+      setIs_Q18_visible(true);
       scrollBy({ top: 500, left: 0, behavior: "smooth" })
 
     } else {
-      setIs_Q13_visible(false);
-    }*/  };
+      //setIs_Q13_visible(false);
+      setIs_Q18_visible(false);
+    }  };
   const handle_Q13_Changed = async (e) => { stValue_q13(e.target.value); 
     if(e.target.value != ""){
-      setIs_Q14_visible(true);
-      setIs_Q15_visible(true);
-      setIs_Q16_visible(true);
-      setIs_Q17_visible(true);
+      //setIs_Q14_visible(true);
+      //setIs_Q15_visible(true);
+      //setIs_Q16_visible(true);
+      //setIs_Q17_visible(true);
       scrollBy({ top: 500, left: 0, behavior: "smooth" })
 
     } else {
@@ -430,7 +432,8 @@ const handleUserNameChange = async (e) => {
     }else if (value_q12 == ""){
       toast.error("Question 11. Bitte wählen Sie eine vorgegebene Auswahl aus!");
       return
-    }else if (value_q13 == ""){
+    }
+    /*else if (value_q13 == ""){
       toast.error("Question 12. Bitte wählen Sie eine vorgegebene Auswahl aus!");
       return
     }else if (value_q14 == ""){
@@ -445,7 +448,7 @@ const handleUserNameChange = async (e) => {
     }else if (value_q17 == ""){
       toast.error("Question 16. Bitte wählen Sie eine vorgegebene Auswahl aus!");
       return
-    }
+    }*/
 
     const survey = {
       q2: value_q2,
@@ -545,9 +548,9 @@ const handleUserNameChange = async (e) => {
         </div>
         
         <div style={{ alignItems: "center", marginLeft: isMobileDevice && isTabletDevice && '300px', marginRight:isMobileDevice && isTabletDevice &&"300px"}}>
-        <h3 className={classes.progressHead}>{(day_One_Percent > 50 && day_Two_Percent > 50 && day_Three_Percent > 50)?status_msg2: status_msg}</h3>
+        <h3 className={classes.progressHead}>{(day_One_Percent > -1 && day_Two_Percent > -1 && day_Three_Percent > -1)?status_msg2: status_msg}</h3>
           <form className={classes.form}  noValidate autoComplete="off">
-        {/*<CSSTransition in={day_One_Percent > 50 && day_Two_Percent > -1 && day_Three_Percent > -1 && day_Four_Percent > -1 && day_Five_Percent > -1} timeout={50} classNames="fade" unmountOnExit >
+        {/*<CSSTransition in={day_One_Percent > -1 && day_Two_Percent > -1 && day_Three_Percent > -1 && day_Four_Percent > -1 && day_Five_Percent > -1} timeout={50} classNames="fade" unmountOnExit >
       <div id='toShow'>
       <p className={classes.secon_disclaimor}>{post_info_0}</p>
       <p className={classes.secon_disclaimor}>{post_info_1}</p>
@@ -557,7 +560,7 @@ const handleUserNameChange = async (e) => {
       </div>
               </CSSTransition>*/}
 
-        <CSSTransition in={day_One_Percent > 50 && day_Two_Percent > 50 && day_Three_Percent > 50} timeout={50} classNames="fade" unmountOnExit >
+        <CSSTransition in={day_One_Percent > -1 && day_Two_Percent > -1 && day_Three_Percent > -1} timeout={50} classNames="fade" unmountOnExit >
         <div id='sixBlock'>
       <p className={classes.secon_disclaimor}>{post_info_2}</p>
         <p className={classes.secon_disclaimor}>{post_q2}</p>
@@ -570,7 +573,7 @@ const handleUserNameChange = async (e) => {
         </form>
         </div>
         </CSSTransition>
-        <CSSTransition in={day_One_Percent > 50 && day_Two_Percent > 50 && day_Three_Percent > 50} timeout={50}  classNames="fade" unmountOnExit >
+        <CSSTransition in={day_One_Percent > -1 && day_Two_Percent > -1 && day_Three_Percent > -1} timeout={50}  classNames="fade" unmountOnExit >
         <div id='sixBlock'>
         <p className={classes.secon_disclaimor}>{post_q3}</p>
         <form  className={classes.question}>

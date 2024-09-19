@@ -21,7 +21,7 @@ const verifyToken = require('../middleware/verifyToken');
 const uuid = require('uuid');
 const userIdentifiers = uuid.v4();
 
-const conn = mongoose.createConnection(process.env.DB_URL);
+const conn = mongoose.createConnection('mongodb+srv://abdulsittar72:2106010991As@cluster0.gsnbbwq.mongodb.net/test?retryWrites=true&w=majority');
 const { ObjectId } = require('mongodb');
 
 let gfs;
