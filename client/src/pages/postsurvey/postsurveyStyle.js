@@ -32,7 +32,7 @@ export const styles = {
       position: 'relative'
     },
     progressHead:{
-      fontSize: '14px',
+      fontSize: '3rem',
       marginTop: '10px',
       marginBottom: '3vh',
       color: '#444'
@@ -180,6 +180,7 @@ export const styles = {
       justifyContent: 'left',
       textAlign: 'left',
       letterSpacing: '.7px',
+      display: 'inline-block',
     },
     disclaimor2:{
       fontSize: '14px',

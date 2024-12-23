@@ -74,14 +74,14 @@ export default function SimplePopover({anchorEl, handleClose}) {
         }}
 		
       >
-		<div className={classes.flex}>
+		{/*<div className={classes.flex}>
 			<Avatar/>
-			<Link to={`/profile/${user.username}`} style={{textDecoration:'none', color: '#111'}}>
+			<Link to={`/profile/${user.username}`} style={{textDecoration:'none', color: '#111', cursor:"default"}}>
 				<Typography className={classes.typography}>{user.username} </Typography>
 				<Typography className={classes.typography + ' ' + classes.desc}>{Profile_details}</Typography>
 			</Link>
 		</div>
-		{/* (!isMobileDevice || !isTabletDevice)?  
+		 (!isMobileDevice || !isTabletDevice)?  
 		<div>
 		<div className={classes.flex}>
 			<Avatar/>
@@ -96,18 +96,21 @@ export default function SimplePopover({anchorEl, handleClose}) {
 			</Link>
 		</div>
 		</div>: <div></div>
-	*/}
-		<div className={classes.flex}>
-			<Avatar/>
-			<Link to={`/progress/${user.username}`} style={{textDecoration:'none', color: '#111'}}>
-				<Typography className={classes.typography}>{"Progress"} </Typography>
-				<Typography className={classes.typography + ' ' + classes.desc}>{Time_Spent}</Typography>
-			</Link>
-		</div>
+		
 		<div className={classes.flex}>
 			<ExitToAppIcon className={classes.icon} />
 			<Typography className={classes.typography} onClick={logOut}>{Log_Out}</Typography>
 		</div>
+		
+	*/}
+		<div className={classes.flex}>
+			<Avatar/>
+			<Link to={`/progress/${user.username}`} style={{textDecoration:'none', color: '#111'}}>
+				<Typography className={classes.typography}>{"Befragung"} </Typography>
+				<Typography className={classes.typography + ' ' + classes.desc}>{Time_Spent}</Typography>
+			</Link>
+		</div>
+		
       </Popover>
     </div>
   );

@@ -18,7 +18,7 @@ const cors = require('cors');
 global.app = express();
 const server = https.createServer(app);
 
-const socketio = socketIo(server,
+/*const socketio = socketIo(server,
   {
     pingInterval: 25000,
     pingTimeout: 60000,
@@ -30,7 +30,7 @@ const socketio = socketIo(server,
     },
     'transports': ['websockets', 'polling'],
   }
-);
+);*/
 
 const helmet = require('helmet');
 const morgan = require('morgan');
@@ -49,7 +49,7 @@ const crypto = require('crypto');
 
 const port = process.env.PORT;
 
-const SOCKET_PORT = 1074;
+const SOCKET_PORT = 1077;
 dotenv.config();
 
 const uuid = require('uuid');
@@ -82,7 +82,7 @@ app.use(cors(corsOptions));
 
 let users = [];
 
-const chatNamespace = socketio.of('/chat');
+/*const chatNamespace = socketio.of('/chat');
 
 chatNamespace.on('connection', (socket) => {
 
@@ -342,10 +342,10 @@ if (process.env.NODE_ENV === 'production') {
 
   app.get('/*', function (req, res, next) {
 
-    if (/\.(jpg|jpeg|png|gif|bmp|webp)$/i.test(req.url)) {
+    //if (/\.(jpg|jpeg|png|gif|bmp|webp)$/i.test(req.url)) {
       // If it's an image request, skip to the next middleware
-      return next();
-    }
+      //return next();
+    //}
 
     if (req.url.includes("admin")) {
       // If it's an image request, skip to the next middleware
@@ -411,12 +411,13 @@ process.on('uncaughtException', function (err) {
 });
 
 app.use((req, res, next) => {
+  res.setHeader('Content-Type', 'text/html; charset=utf-8');
   console.log(`${req.method} ${req.url}`, req.body);
   console.log(`${req.protocol}://${req.get('host')}${req.originalUrl}`);
   next();
 });
 
-
-app.listen(port, () => console.log(`Server started on port ${port} and ${nodeSiteUrl}`));
+console.log(process.env.MONGO_URI)
+app.listen(port, () => console.log(`Server started on port ${port} and ${nodeSiteUrl} and ${nodeSiteUrl}`));
 server.listen(8080, () => console.log(`Server started on port ${port} and ${nodeSiteUrl}`));
 

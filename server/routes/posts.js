@@ -1,8 +1,11 @@
     {const router = require('express').Router();
     const Post = require('../models/Post');
     const User = require('../models/User');
+    const SpecialPost = require('../models/specialpost');
     const PostDislike = require('../models/PostDislike');
     const PostLike = require('../models/PostLike');
+    const path = require('path'); 
+    const fs = require('fs');
     const Repost = require('../models/Repost');
     
     const Comment = require('../models/Comment');
@@ -14,6 +17,11 @@
     const verifyToken = require('../middleware/verifyToken');
     const axios = require('axios');
     const cheerio = require('cheerio');
+    const sanitizeHtml = require('sanitize-html');
+    const DOMPurify = require('dompurify');
+const { JSDOM } = require('jsdom');
+const window = new JSDOM('').window;
+const DOMPurifyInstance = DOMPurify(window);
     /**
      * @swagger
      * components:
@@ -163,9 +171,6 @@
      */
 
     /**
-
-
-
     /**
      * @swagger
      * tags:
@@ -205,14 +210,65 @@
      *         description: Some server error!
      */
 
+    const extractImageFromUrl = async (url) => {
+        try {
+            // Make an HTTP GET request to the URL
+            const response = await axios.get(url);
+            
+            // Load HTML response into cheerio
+            const $ = cheerio.load(response.data);
+            
+            // Look for the first <img> tag and get its 'src' attribute
+            const firstImageUrl = $('img').first().attr('src');
+            
+            // Check if an image URL was found and if it's a full URL
+            if (firstImageUrl) {
+                // If the image URL is relative, resolve it against the original URL
+                const imageUrl = new URL(firstImageUrl, url).href;
+                return imageUrl;
+            }
+            
+            // No image found on the page
+            return null;
+        } catch (error) {
+            console.error(`Error fetching or parsing URL (${url}):`, error.message);
+            return null;
+        }
+    };
+
 
     const extractUrls = (text) => {
         const urlRegex = /https?:\/\/[^\s/$.?#].[^\s]*/g;
-        return text.match(urlRegex) || [];
-    };
+    const urls = text.match(urlRegex) || [];
+    // Filter URLs for common image extensions
+    return urls.filter((url) => /\.(jpeg|jpg|gif|png|webp)$/.test(url.toLowerCase()));
+    // Iterate over each URL and find an image link if it exists
+    //for (const url of urls) {
+     //   const imageUrl = await extractImageFromUrl(url);
+      //  if (imageUrl) {
+       //     return imageUrl;  // Return the first image URL found
+        //}
+    }
+    
+    // Return null if no images were found on any URL
+    //return null;
+    //};
+
+    function sanitizeInput(input) {
+
+        return DOMPurifyInstance.sanitize(input, { ALLOWED_TAGS: [] });
+        
+        
+        var val = sanitizeHtml(input, {
+            allowedTags: [], // No HTML allowed
+            allowedAttributes: {} // No attributes allowed
+        });
+        return val.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    }
+    
 
     // create a post
-    router.post('/:id/create',  async(req, res) => { //verifyToken, 
+    router.post('/:id/create', verifyToken,   async(req, res) => { //verifyToken, 
         console.log(req.params);
         console.log(req.body);
         var linktoAdd = ""
@@ -220,9 +276,12 @@
         
         if (urls.length > 0) {
             linktoAdd = urls[0]
+            
         }
-        const newPost = new Post({userId: req.body.userId, desc: req.body.desc, thumb: linktoAdd});
-        console.log(newPost);
+        console.log(linktoAdd);
+
+        const newPost = new Post({userId: mongoose.Types.ObjectId(req.body.userId), pool: req.body.pool, desc: sanitizeInput(req.body.desc), thumb: linktoAdd});
+        //console.log(newPost);
         
         try {
             const savedPost = await newPost.save(); 
@@ -231,6 +290,426 @@
             res.status(500).json(err);
         }
         })
+        
+        const createAndSavePost = async (data) => {
+            try {
+                const newPost = new Post(data);
+                const savedPost = await newPost.save();
+                console.log("Post saved successfully:", savedPost);
+                return savedPost;
+            } catch (error) {
+                console.error("Error creating or saving post:", error);
+                throw error;
+            }
+        };
+        
+        
+        const createAndSaveComment = async (data) => {
+            try {
+                const newPost = new Comment(data);
+                const savedPost = await newPost.save();
+                console.log("Comment saved successfully:", savedPost);
+                return savedPost;
+            } catch (error) {
+                console.error("Error creating or saving comment:", error);
+                throw error;
+            }
+        };
+
+        const shuffleArray = (array) => {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]]; // Swap elements
+            }
+            return array;
+        };
+        
+        router.post('/:id/createInitialData', verifyToken, async (req, res) => {
+ 
+            const trainPosts2 = [
+                "https://x.com/NetflixDE/status/1824355418270818620",
+                "https://x.com/SkySportDE/status/1848090817790960023",
+                "https://x.com/Tagesspiegel/status/1848243992384643146",
+                "https://x.com/derspiegel/status/1848088325636473070",
+            ];
+            
+            const trainPosts = [
+                `<p>Zeit, das Dating Game in Deutschland auf ein neues Level zu heben. </p> <br /> <p>Love is Blind Germany: ab Anfang 2025, nur auf Netflix.</p> <br />`,
+                `<p>Das ist die Tabelle in der Bundesliga nach dem 7. Spieltag! 📈⚽ #SkyBundesliga</p>`,
+                `<p>#Berlin muss Milliarden kürzen, um den Haushalt in den Griff zu bekommen. Doch Schwarz-Rot verschleppt nötige Entscheidungen – und lähmt damit die Stadt. Ein Kommentar.</p>`,
+                `<p>Seit Wochen behauptet Donald Trump, seine Konkurrentin Kamala Harris habe sich einen Sommerjob bei McDonald's ausgedacht – Belege hat er keine. Nun posiert er selbst an der Fritteuse.</p>`
+            ];
+            
+            
+            const comments_Netflix = [
+                "Das klingt nach einer interessanten Idee",
+                "Ich bin gespannt, wie die deutsche Version ankommt",
+                "Eine neue Reality-Show ist immer ein Gesprächsthema wert",
+                "Ich frage mich, wer dabei sein wird",
+                "Die Ankündigung klingt vielversprechend",
+            ];
+            const comments_Sky_Sports_DE = [
+                "Interessant, wie sich die Tabelle entwickelt",
+                "Ich warte auf den nächsten Spieltag",
+                "Wie sehen deine Vorhersagen für die kommenden Spiele aus?",
+                "Die Bundesliga ist immer wieder für Überraschungen gut",
+                "Gute Zusammenfassung, danke!",
+            ];
+            const comments_Tagesspeigel = [
+                "Interessant, wie sich die Situation in Berlin entwickelt",
+                "Ich warte auf konkrete Lösungsvorschläge der Regierung",
+                "Eine Analyse der Haushaltspläne wäre hilfreich",
+                "Die Frage ist, welche Auswirkungen dies auf die Bürger haben wird",
+                "Es bleibt abzuwarten, wie sich die politische Lage in Berlin weiterentwickelt.",
+            ];
+            const comments_Der_Speigel = [
+                "Das ist ein interessantes Bild",
+                "Ich würde gerne wissen, was er denn da macht",
+                "Es sieht so aus, als ob er sich nicht sehr sicher fühlt",
+                "Das sagt wohl mehr über ihn aus als über Kamala Harris",
+                "Ich frage mich, wie das Publikum darauf reagiert."
+            ];
+            const comments_RKI1 = [
+                "Ich werde das Video anschauen, um mehr über die Sicherheit von Impfstoffen zu erfahren",
+                "Ich habe bereits davon gehört, dass mRNA nicht in die menschliche DNA integriert wird",
+                "Das ist interessant, ich werde den Thread lesen",
+                "Guter Beitrag, danke für die Info",
+                "Ich wüsste gerne, wie oft solche Mythen entstehen und warum",
+            ];
+            
+            
+            const comments_RKI2 = [
+            `<p>Kennen Sie schon die JitsuVAX-Webseite?</p>
+            <br />
+            <br />
+            <p>Dort werden die wichtigsten psychologischen Gründe erklärt, warum Menschen an Fehlinformationen glauben. Sie gibt Hilfestellung für Gespräche zu über 60 Impfthemen und ist jetzt auf Deutsch verfügbar! ➡️</p>`,
+            
+            `<p>mRNA transportiert einen Teil des Bauplans des SARS-Coronavirus-2 ausschließlich in das Zellplasma, kann aber nicht in den Zellkern menschlicher Zellen eindringen.</p> 
+            <br />
+            <p>Fakt ist also: Die mRNA der Impfstoffe kann nicht in das Erbgut unserer Zellen eingebaut werden.</p>
+            <br />
+            <p>#ImpfenSchuetzt</p>`,
+            
+            `<p>Wichtig zu wissen ist, dass mRNA (messenger RNA) natürlicherweise in jeder Zelle des menschlichen Körpers vorhanden ist – im sogenannten Zellplasma. Die menschliche DNA hingegen liegt immer im Inneren des Zellkerns. Dorthin gelangt die mRNA aus Impfstoffen jedoch nicht.</p>`,
+            
+            `<p>mRNA-Impfungen sind eine relativ neue Technologie und wurden vielen Millionen Menschen innerhalb kurzer Zeit verabreicht. Eine gewisse Skepsis und Verunsicherung, welche Effekte das haben könnte, ist daher nachvollziehbar.</p>`,
+            
+            `<p>Obwohl mRNA-Impfstoffe relativ neu sind, gehören sie bereits zu den am besten untersuchten Medikamenten der Welt.</p>
+             <br />
+             <p>Es besteht kein erkennbares Risiko, dass die verimpfte mRNA in das Genom (DNA) von Körperzellen oder Keimbahnzellen (Eizellen oder Samenzellen) eingebaut wird.</p>`     
+        ];
+            
+            
+            const trainPostsImg = [
+                "620620.png",       //Netflix
+                "023023.png",       //Sky Sport
+                "146146.jpg",       //Tagesspeigel
+                "070070.png"        //Der Speigel
+            ];
+            
+            const userIds = [
+                process.env.Netflix, //Netflix
+                process.env.SkySport,   //Sky Sport
+                process.env.Tagesspeigel,   //Tagesspeigel
+                process.env.DerSpeigel,    //Der Speigel
+            ];
+        
+            const dummyPosts = [
+                `<p>Impfmythen - kurz erklärt</p> <br /> <p>Neues Faktensandwich zum Thema Sicherheit</p> <br /> <p>Fakt ist: Die mRNA aus Impfstoffen wird nicht in die menschliche DNA eingebaut.</p><br /> <p>Details im Thread und unter: <a href="http://rki.de/impfmythen" target="_blank">➡️http://rki.de/impfmythen</a></p>`,
+                `<p>Impfmythen - kurz erklärt</p> <br /> <p>Neues Faktensandwich zum Thema Sicherheit</p> <br /> <p>Fakt ist: Die mRNA aus Impfstoffen wird nicht in die menschliche DNA eingebaut.</p> <br /><p>Details im Thread und unter: <a href="http://rki.de/impfmythen" target="_blank">➡️http://rki.de/impfmythen</a></p>`,
+                `Immer mehr Menschen infizieren sich mit Mpox (auch Affenpocken). Neue Studien bestätigen, dass die Impfung zu 82 % wirksam gegen die Krankheit ist. Dennoch gibt es in der Forschung noch offene Fragen, z. B. wie lange der Schutz genau anhält und wie sich die Wirksamkeit bei neuen Varianten verändert. Eine Impfung wird empfohlen, um den bestmöglichen Schutz zu gewährleisten.`,
+                `Immer mehr Menschen infizieren sich mit Mpox (auch Affenpocken). Neue Studien bestätigen, dass die Impfung zu 82 % wirksam gegen die Krankheit ist. Eine Impfung wird empfohlen, um den bestmöglichen Schutz zu gewährleisten.`
+            ];
+        
+            try {
+                // Determine the version-specific post
+                let selectedPost = dummyPosts[0];
+                let linkToAdd = "default.png"; // Default thumbnail
+                
+                if (req.body.version === "1") {
+                    selectedPost = dummyPosts[0];
+                    linkToAdd = "post11.png";
+                    
+                } else if (req.body.version === "2") {
+                    selectedPost = dummyPosts[1];
+                    linkToAdd = "post12.png";
+                    
+                } else if (req.body.version === "3") {
+                    selectedPost = dummyPosts[2];
+                    linkToAdd = "post13.png";
+                    
+                } else if (req.body.version === "4") {
+                    selectedPost = dummyPosts[3];
+                    linkToAdd = "post14.png";
+                    
+                }
+        
+                const newPostData = {
+                    userId: mongoose.Types.ObjectId(process.env.RKI),
+                    reactorUser: mongoose.Types.ObjectId.isValid(req.body.userId)? mongoose.Types.ObjectId(req.body.userId):null,
+                    pool: req.body.pool,
+                    desc: selectedPost,
+                    thumb: linkToAdd,
+                };
+        
+                // Save the version-specific post
+                //const savedPost = await createAndSavePost(newPostData);
+                /*const shuffledBots = shuffleArray(botAccounts);
+                
+                if (req.body.version === "1" || req.body.version === "2") {
+                    
+                
+                console.log("Posting comments!!!")
+                const shuffledComments = shuffleArray(comments_RKI1);
+                        
+                        
+                        var count = 0;
+                        for (const item of shuffledComments) { 
+                            const randomBot = await User.findById(shuffledBots[count]);
+                            count = count + 1
+                            const comment = new Comment({
+                                body:item, 
+                                userId:mongoose.Types.ObjectId(randomBot._id), 
+                                postId:savedPost._id, 
+                                username: randomBot.username
+                            });
+                            
+                            try { 
+                            
+                                const savedComment = await comment.save();
+                                await savedPost.updateOne({$push: { comments: savedComment } });
+                                console.log("Comment saved successfully:", savedComment);
+                                 
+                            } catch (error) {
+                                console.error("Error creating or saving comment:", error);
+                                throw error;
+                            }
+                            
+                            
+                        }
+                    
+                } else*/ 
+                
+                
+        
+                // Add the version-specific post to the list
+                trainPosts.push(newPostData.desc);
+                userIds.push(process.env.RKI); // UserId for the new post
+                trainPostsImg.push(newPostData.thumb);
+                // Shuffle posts and userIds together
+                const combined = trainPosts.map((post, index) => ({
+                    post,
+                    userId: userIds[index],
+                    thumb:trainPostsImg[index]
+                }));
+                
+                const shuffled = shuffleArray(combined);
+                console.log(shuffled);
+                
+                // Save the shuffled posts
+                for (const item of shuffled) {
+                
+                    let phtoAdd = "default.png"; // Default thumbnail
+                    var isUserSelected = false;
+                    
+                    if (item.userId === userIds[0]) { 
+                        phtoAdd = "620620.png";
+                        isUserSelected = true; 
+                    
+                    } else if (item.userId === userIds[1]) {
+                        phtoAdd = "023023.png";
+                        isUserSelected = true; 
+                    
+                    } else if (item.userId === userIds[2]) { 
+                        phtoAdd = "146146.jpg";
+                        isUserSelected = true;
+                    
+                    } else if (item.userId === userIds[3]) { 
+                        phtoAdd = "070070.png";
+                        isUserSelected = true;
+                    
+                }
+                
+                //if(isUserSelected == true){
+                                
+                    //const urls = extractUrls(item.post);                     
+                    const newPost = {
+                        userId: mongoose.Types.ObjectId(item.userId),
+                        reactorUser: mongoose.Types.ObjectId.isValid(req.body.userId)? mongoose.Types.ObjectId(req.body.userId): null,
+                        pool: req.body.pool,
+                        desc: item.post,
+                        thumb: item.thumb,
+                    };
+                    
+                    const savedPost = await createAndSavePost(newPost);
+                    
+                    if (req.body.version === "3" && savedPost.userId == process.env.RKI) { 
+                
+                        console.log("Posting comments!!!")
+                        console.log(req.body.version)
+                        const shuffledComments = comments_RKI2;
+                                
+                                
+                                var count = 0;
+                                for (const it of shuffledComments) { 
+                                    const randomBot = await User.findById(process.env.RKI);
+                                    count = count + 1
+                                    const comment = new Comment({
+                                        body:it, 
+                                        userId:mongoose.Types.ObjectId(randomBot._id), 
+                                        postId:savedPost._id, 
+                                        username: randomBot.username
+                                    });
+                                    
+                                    try { 
+                                    
+                                        const savedComment = await comment.save();
+                                        await savedPost.updateOne({$push: { comments: savedComment } });
+                                        console.log("Comment saved successfully:", savedComment);
+                                         
+                                    } catch (error) {
+                                        console.error("Error creating or saving comment:", error);
+                                        throw error;
+                                    }
+                                }
+                        } 
+                    
+                    
+                    /*console.log("Posting comments!!!")
+                    console.log(item.userId)
+                    console.log(savedPost._id)
+                    
+                    const shuffledBots = shuffleArray(botAccounts);
+                    
+                    
+                    if (item.userId === "674a025cc36d80eed396b0eb") {  
+                    
+                        console.log("Posting comments!!!")
+                        const shuffledComments = shuffleArray(comments_Netflix);
+                        const currentUser = await User.findById(item.userId);
+                        
+                        console.log(item)
+                        var count = 0;
+                        for (const item of shuffledComments) { 
+                            const randomBot = await User.findById(shuffledBots[count]);
+                            count = count + 1
+                            const comment = new Comment({
+                                body:item, 
+                                userId:mongoose.Types.ObjectId(randomBot._id), 
+                                postId:savedPost._id, 
+                                username: randomBot.username
+                            });
+                            
+                            try { 
+                            
+                                const savedComment = await comment.save();
+                                await savedPost.updateOne({$push: { comments: savedComment } });
+                                console.log("Comment saved successfully:", savedComment);
+                                 
+                            } catch (error) {
+                                console.error("Error creating or saving comment:", error);
+                                throw error;
+                            }
+                            
+                            
+                        }
+                    
+                } else if (item.userId === "674a025dc36d80eed396b0ed") {  
+                    console.log("Posting comments!!!")
+                    console.log(item)
+                    const shuffledComments = shuffleArray(comments_Sky_Sports_DE);
+                        const currentUser = await User.findById(item.userId);
+                        
+                        var count = 0;
+                        for (const item of shuffledComments) {
+                        const randomBot = await User.findById(shuffledBots[count]);
+                            count = count + 1
+                            const comment = new Comment({
+                                body:item, 
+                                userId:mongoose.Types.ObjectId(randomBot._id), 
+                                postId:savedPost._id, 
+                                username: randomBot.username
+                            });
+                            try { 
+                            
+                                const savedComment = await comment.save();
+                                await savedPost.updateOne({$push: { comments: savedComment } });
+                                console.log("Comment saved successfully:", savedComment);
+                                 
+                            } catch (error) {
+                                console.error("Error creating or saving comment:", error);
+                                throw error;
+                            }
+                        }
+                    
+                    
+                } else if (item.userId === "674a025dc36d80eed396b0ef") {  
+                    console.log("Posting comments!!!")
+                    console.log(item)
+                    const shuffledComments = shuffleArray(comments_Tagesspeigel);
+                        const currentUser = await User.findById(item.userId);
+                        
+                        var count = 0;
+                        for (const item of shuffledComments) {
+                            const randomBot = await User.findById(shuffledBots[count]);
+                            count = count + 1
+                            const comment = new Comment({
+                                body:item, 
+                                userId:mongoose.Types.ObjectId(randomBot._id), 
+                                postId:savedPost._id, 
+                                username: randomBot.username
+                            });
+                            try { 
+                            
+                                const savedComment = await comment.save();
+                                await savedPost.updateOne({$push: { comments: savedComment } });
+                                console.log("Comment saved successfully:", savedComment);
+                               
+                            } catch (error) {
+                                console.error("Error creating or saving comment:", error);
+                                throw error;
+                            }
+                        }
+                    
+                } else if (item.userId === "674a025ec36d80eed396b0f1") {  
+                    console.log("Posting comments!!!")
+                    console.log(item)
+                    const shuffledComments = shuffleArray(comments_Der_Speigel);
+                        const currentUser = await User.findById(item.userId);
+                        
+                        var count = 0;
+                        for (const item of shuffledComments) {
+                            const randomBot = await User.findById(shuffledBots[count]);
+                            count = count + 1
+                            const comment = new Comment({
+                                body:item, 
+                                userId:mongoose.Types.ObjectId(randomBot._id), 
+                                postId:savedPost._id, 
+                                username: randomBot.username
+                            });
+                            try { 
+                            
+                                const savedComment = await comment.save();
+                                await savedPost.updateOne({$push: { comments: savedComment } });
+                                console.log("Comment saved successfully:", savedComment);
+                                 
+                            } catch (error) {
+                                console.error("Error creating or saving comment:", error);
+                                throw error;
+                            }
+                        }
+                } */
+                //}
+                }
+        
+                res.status(200).json({ success: true, message: "Posts created successfully!" });
+            } catch (error) {
+                console.error(error);
+                res.status(500).json({ success: false, error });
+            }
+        });
+
+
 
     //repost a post
     router.post('/:id/repost', verifyToken, async(req, res) =>{
@@ -238,7 +717,7 @@
 
         const postRepost = new Repost({userId:req.body.userId, postId:req.params.id});
         await postRepost.save();
-        console.log(postRepost);
+        //console.log(postRepost);
          console.log("postRepost is added");
          //const post = await Post.findById(req.params.id);
          await Post.findOneAndUpdate({"_id": req.params.id},{$push: { reposts: req.body.userId }});
@@ -267,7 +746,7 @@
     })
 
     // notification
-    router.post('/subscribe', async(req, res) =>{
+    router.post('/subscribe', verifyToken,  async(req, res) =>{
     console.log(req);
     const newSubscription = await Subscription.create ({...req.body});
     const options = {
@@ -298,22 +777,46 @@
     }
     });
 
-    router.post('/fetch-thumbnail', async (req, res) => {
+    router.post('/fetch-thumbnail', verifyToken, async (req, res) => {
         const { url } = req.body;
-
         try {
             console.log(req.body.urls);
-            const { data } = await axios.get(req.body.urls);
+    
+            // First, check if the local file exists
+            const localImagePath = path.join(process.cwd(), 'public', 'images', req.body.urls); // Assuming the filename is provided in req.body.urls
+            const localThumbnailUrl = `${req.protocol}://${req.get('host')}/images/${req.body.urls}`;
+            console.log("here");
+            console.log(localImagePath);
+            console.log(localThumbnailUrl);
+    
+            if (fs.existsSync(localImagePath)) {
+                // If the file exists locally, return the local URL
+                
+                const imageBuffer = fs.readFileSync(localImagePath);
+                const base64Image = imageBuffer.toString('base64');
+            
+            // Send the base64 string as the thumbnail in the response
+            return res.json({ 
+                thumbnail: `data:image/png;base64,${base64Image}` // Assuming it's a PNG, adjust accordingly
+            });
+            }else{
+    
+            // If the file doesn't exist locally, proceed with scraping using Cheerio
+            const { data } = await axios.get(req.body.urls);  // Scraping the URL
             const $ = cheerio.load(data);
     
-            // Example: Extract Open Graph Image
+            // Extract Open Graph image
             const thumbnail = $('meta[property="og:image"]').attr('content');
     
             if (thumbnail) {
-                res.json({ thumbnail });
+                // If a thumbnail is found, return the online URL
+                return res.json({ thumbnail });
             } else {
-                res.status(404).json({ error: 'Thumbnail not found' });
+                // If no thumbnail is found, return an error
+                return res.status(404).json({ error: 'Thumbnail not found online or locally' });
             }
+        }
+    
         } catch (error) {
             console.error(error);
             res.status(500).json({ error: 'Error fetching thumbnail' });
@@ -382,6 +885,7 @@
           console.log('One second has passed!');
         }, 1000); // 1000 milliseconds = 1 second
       }
+
 
 // like a post
 router.put('/:id/like', verifyToken, async(req, res) => {
@@ -643,8 +1147,21 @@ router.put('/:id/like', verifyToken, async(req, res) => {
      *         description: Some server error!
      */
 
+
+// readSpecialPost a post
+router.post('/UserReadSpecialPost', verifyToken, async(req, res) => {
+    try {
+    await User.findOneAndUpdate({"_id": req.body.userId},{$push: { readSpecialPosts: req.body.postId}});
+    res.status(200).json('The post has been added to special reading!');
+  }catch(err) {
+    res.status(500).json(err);
+}
+
+ });
+
+
     // get a post
-    router.get('/:id', async(req, res) =>{ //verifyToken, 
+    router.get('/:id',verifyToken,  async(req, res) =>{ //verifyToken, 
         console.log(req.params.id)
     try {
     const post = await Post.findById(req.params.id).populate({path : 'comments', model:'Comment', populate:[{path : "userId", model: "User"}, {path: "likes", model: "CommentLike"}, {path: "dislikes", model: "CommentDislike"}, { path: 'reposts', model: 'Repost', populate: { path: 'userId', model: 'User' }}]}).exec();
@@ -710,17 +1227,20 @@ router.put('/:id/like', verifyToken, async(req, res) => {
     })
 
     // get pagination posts
-    router.get('/timelinePag/:userId', async(req, res) =>{
+    router.get('/timelinePag/:userId', verifyToken,  async(req, res) =>{
     console.log("hereherehereh");
     console.log(req.query.page);
+    console.log(req.headers['userid']);
     try {
     let page = req.query.page //starts from 0
-    let posts= await getPostsPaginated(page)
+    let userId = req.headers['userid']
+    let posts= await getPostsPaginated(page, userId)
+    
     if (posts && posts.length > 0) {
         res.status(200).json(posts)
     } else {
         res.status(200).json(err);
-    //console.log(res);
+        //console.log(res);
     }
 
     } catch(err) {
@@ -730,12 +1250,15 @@ router.put('/:id/like', verifyToken, async(req, res) => {
 
 
     //service
-    const getPostsPaginated = async (page) => {
+    const getPostsPaginated = async (page, userId) => {
     let resultsPerPage = 20
-
-    return await Post.find({})
+    
+    const currentUser = await User.findById(userId)
+    console.log(currentUser)
+    
+    return await Post.find({  $or: [ { "reactorUser": userId },{ "userId": userId }]})
     .populate({path : 'comments', model:'Comment', populate:[{path : "userId", model: "User"}, {path: "likes", model: "CommentLike"}, {path: "dislikes", model: "CommentDislike"}, { path: 'reposts', model: 'Repost', populate: { path: 'userId', model: 'User' }}]})
-    .sort({ updatedAt: -1 })
+    .sort({ createdAt: -1 })
     //.lean()
     .skip(page * resultsPerPage)
     .limit(resultsPerPage)
@@ -853,6 +1376,27 @@ router.put('/:id/like', verifyToken, async(req, res) => {
     res.status(500).json(err);
     }
     });
+
+
+   // posts of only followings
+   router.get('/:id/getUserPost/', verifyToken, async (req, res) => {
+    try {
+        console.log("getUserPost");
+        console.log(req.params.id);
+        const currentUser = await User.findById(req.params.id);
+        console.log(currentUser);
+        const userPosts = await Post.find({ reactorUser: currentUser._id, thumb: { $regex: /post/i }}).populate('Comment').exec();
+        console.log(userPosts);
+        res.status(200).json(userPosts);
+    
+    } catch(err) { 
+        console.log(err);
+        res.status(500).json(err);
+    }
+    });
+
+    
+
 
     /**
      * @swagger
@@ -1019,11 +1563,11 @@ router.put('/:id/like', verifyToken, async(req, res) => {
     // get all comments
 
     // add a comment
-    router.post('/:id/comment', async(req, res) => {
+    router.post('/:id/comment', verifyToken, async(req, res) => {
         console.log(req.body.userId)
         const user = await User.findOne({_id:req.body.userId});
         console.log(user)
-    const comment = new Comment({body:req.body.txt, userId:user._id, postId:req.body.postId, username: req.body.username});
+    const comment = new Comment({body:sanitizeInput(req.body.txt), userId:user._id, postId:req.body.postId, username: req.body.username});
     try{
     await comment.save();
     const post = await Post.findById(req.body.postId);
@@ -1061,6 +1605,44 @@ router.put('/:id/like', verifyToken, async(req, res) => {
     console.log(res.status(500).json(err));
     }*/
     });
+
+    router.get('/:userId/getSpecialPosts', verifyToken, async(req, res) =>{
+        try {
+            // Step 1: Find the current user and check their pool
+            const currentUser = await User.findById(req.params.userId).populate('readSpecialPosts', '_id pool');   
+            console.log("getSpecialPosts");
+            
+            let specialPostsInPool;
+            specialPostsInPool = await SpecialPost.find({ version: currentUser.pool });
+            console.log("specialPostsInPool");
+            console.log(specialPostsInPool);
+            
+            const specialPostIdsInPool = specialPostsInPool.map(post => post._id.toString());
+            console.log(specialPostIdsInPool);
+            const readPostIds = currentUser.readSpecialPosts.map(post => post._id.toString());
+            console.log(readPostIds);
+
+            const unreadPostId = specialPostIdsInPool.find(postId => !readPostIds.includes(postId));
+            console.log(unreadPostId);
+        
+            let unreadPost;
+            if (unreadPostId) {
+              // Fetch details of the next unread post in the same pool
+              unreadPost = await SpecialPost.findById(unreadPostId);
+            }
+        
+            // Step 4: Return the unread post or first post as fallback
+            if (unreadPost) {
+              return res.status(200).json(unreadPost);
+            } else {
+              return res.status(200).json([]);
+            }
+          } catch (err) {
+            console.error(err);
+            return res.status(500).json({ error: 'Server error' });
+          }
+        });
+
 
     // delete a comment
     // delete a post

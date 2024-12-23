@@ -16,6 +16,7 @@ import { useMediaQuery } from 'react-responsive';
 import Linkify from 'react-linkify';
 import parse from 'html-react-parser';
 import { COLORS } from "../values/colors";
+import { Cursor } from "mongoose";
 
 function CommentSA ({post, comment, isDetail, classes }) {
   const desc = useRef();
@@ -95,6 +96,8 @@ function CommentSA ({post, comment, isDetail, classes }) {
 
 
     } catch (err) {console.log(err);}
+    //to={isDetail? `/postdetail/profile/${item.username}`: `/profile/${item.username}`}
+    //to={isDetail? (comment.userId["username"]? (`/postdetail/profile/${comment.userId["username"]}`): (`/postdetail/profile/${currentUser.username}`)) : (comment.userId["username"]? (`/profile/${comment.userId["username"]}`): (`/profile/${currentUser.username}`))}
   };
 
 
@@ -102,7 +105,7 @@ function CommentSA ({post, comment, isDetail, classes }) {
     return (
       <p className={classes.commentText}>
         <div className={classes.comment}>
-        <Link  style={{textDecoration: 'none', color: COLORS.textColor, fontWeight: 'bold'}} to={isDetail? `/postdetail/profile/${item.username}`: `/profile/${item.username}`}>{"@"+item.username}</Link>
+        <Link  style={{textDecoration: 'none', color: COLORS.textColor, fontWeight: 'bold', cursor:'default'}} >{"@"+item.username}</Link>
         <br />
         <div dangerouslySetInnerHTML={{ __html: item.body }} />
         {/*{ parse(item.body) }{'   '}*/}
@@ -133,11 +136,11 @@ function CommentSA ({post, comment, isDetail, classes }) {
     )
   }
 
-    return (<div >
+    return (<div style={{padding: '0px 0px 0px 50px'}}>
         { 
         <Linkify>
         <CardHeader
-        avatar={<Link style={{textDecoration: 'none', color: COLORS.textColor}} to={isDetail? (comment.userId["username"]? (`/postdetail/profile/${comment.userId["username"]}`): (`/postdetail/profile/${currentUser.username}`)) : (comment.userId["username"]? (`/profile/${comment.userId["username"]}`): (`/profile/${currentUser.username}`))}><Avatar className={classes.smallAvatar} src={comment.userId["profilePicture"]? PF + comment.userId["profilePicture"]: PF + currentUser.profilePicture} /></Link>}
+        avatar={<Link style={{textDecoration: 'none', color: COLORS.textColor}} ><Avatar className={classes.smallAvatar} src={comment.userId["profilePicture"]? PF + comment.userId["profilePicture"]: PF + currentUser.profilePicture} /></Link>}
         title={commentBody(comment)}
         className={classes.cardHeader2}/>
         </Linkify>

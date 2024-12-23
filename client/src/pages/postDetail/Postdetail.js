@@ -21,6 +21,7 @@ function Postdetail({ classes }) {
   const history = useHistory();
   const {state} = useLocation();
   console.log(state);
+  const [postObj, setPostObj] = useState(state?.myObj || {});
   const [selectedValue, setSelectedValue] = useState('0');
   const isMobileDevice = useMediaQuery({ query: "(min-device-width: 480px)"});
   const isTabletDevice = useMediaQuery({ query: "(min-device-width: 768px)"});
@@ -35,11 +36,28 @@ function Postdetail({ classes }) {
     axios.put("/users/" + currentUser._id + "/read", { postId: state.myObj._id, headers: { 'auth-token': token } });
 };
 
+const updateStatus_State = async () => {
+  try {
+    // Fetch the post by its ID
+    const res = await axios.get(`/posts/${postObj._id}`, {
+      headers: { "auth-token": token },
+    });
+
+    console.log("Fetched post data:", res.data);
+    setPostObj(res.data); // Update state with the fetched post
+  } catch (error) {
+    console.error("Error fetching post:", error);
+  }
+};
+
+
 const handleActivityRecorder = () => {
   axios.put("/users/" + currentUser._id + "/activity", { page: "DetailPage", seconds: TimeMe.getTimeOnCurrentPageInSeconds(), headers: { 'auth-token': token } });
 };
 
   useEffect(() => {
+    updateStatus_State();
+  
     }, [username]);
 
     useEffect(() => {
@@ -50,8 +68,8 @@ const handleActivityRecorder = () => {
     
         TimeMe.callWhenUserLeaves(() => {
         setShouldSendEvent(true);
-        handleActivityRecorder();
-        handleReadChange();
+        //handleActivityRecorder();
+        //handleReadChange();
         });
       
         TimeMe.callWhenUserReturns(() => {
@@ -82,7 +100,7 @@ const handleActivityRecorder = () => {
         <div className={classes.feed}>
             <div className={classes.feedWrapper}>
             <Link style={{textDecoration: 'none', color: COLORS.textColor}}><ArrowBackIcon onClick={() => history.goBack()}/></Link>
-              <Post key={state.myObj._id} post={state.myObj} isDetail={true}/>
+              <Post key={postObj._id} post={postObj} isDetail={true}/>
             </div>
         </div>
     </>

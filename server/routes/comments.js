@@ -7,6 +7,11 @@ const mongoose = require('mongoose');
 const conn = mongoose.createConnection(process.env.MONGO_URI);
 const { ObjectId } = require('mongodb');
 const verifyToken = require('../middleware/verifyToken');
+const sanitizeHtml = require('sanitize-html');
+const DOMPurify = require('dompurify');
+const { JSDOM } = require('jsdom');
+const window = new JSDOM('').window;
+const DOMPurifyInstance = DOMPurify(window);
 
 /**
  * @swagger
@@ -47,6 +52,18 @@ const verifyToken = require('../middleware/verifyToken');
  *         description: Some server error!
  */
 
+
+function sanitizeInput(input) {
+
+    return DOMPurifyInstance.sanitize(input, { ALLOWED_TAGS: [] });
+    
+    
+    var val = sanitizeHtml(input, {
+        allowedTags: [], // No HTML allowed
+        allowedAttributes: {} // No attributes allowed
+    });
+    return val.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
 
 
 
@@ -406,7 +423,10 @@ try {
 
 // add a comment
 router.post('/:id/comment', verifyToken, async(req, res) => {
-const comment = new Comment({body:req.body.txt, userId:req.body.userId, postId:req.body.postId, username: req.body.username});
+
+const comm_value = sanitizeInput(req.body.txt);
+console.log(comm_value)
+const comment = new Comment({body:comm_value, userId:req.body.userId, postId:req.body.postId, username: req.body.username});
 try{
     await comment.save();
     const post = await Comment.findById(req.body.postId);

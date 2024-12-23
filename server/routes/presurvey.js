@@ -8,9 +8,19 @@ const mongoose = require('mongoose');
 const PostSurvey = require('../models/PostSurvey');
 const conn = mongoose.createConnection('mongodb+srv://abdulsittar72:2106010991As@cluster0.gsnbbwq.mongodb.net/test?retryWrites=true&w=majority');
 var ObjectId = require('mongodb').ObjectID;
+const sanitizeHtml = require('sanitize-html');
+
+const verifyToken = require('../middleware/verifyToken');
+
+function sanitizeInput(input) {
+    return sanitizeHtml(input, {
+        allowedTags: [], // No HTML allowed
+        allowedAttributes: {} // No attributes allowed
+    });
+}
 
 // Submit pre survey
-router.post('/psurvey/:uniqId', async (req, res) => {
+router.post('/psurvey/:uniqId',  async (req, res) => {
     try{
         console.log("herelkjkl");
         console.log(req.params.uniqId);
@@ -19,6 +29,7 @@ router.post('/psurvey/:uniqId', async (req, res) => {
         const fid = idstor[0]
         //console.log(fid)
         if(fid._id){
+        
         const newSurvey = new PreSurvey({
             "uniqueId": fid["_id"],
             "q1": req.body.q1,
@@ -30,8 +41,11 @@ router.post('/psurvey/:uniqId', async (req, res) => {
             "q7": req.body.q7,
             "q8": req.body.q8,
             "q9": req.body.q9,
-            "q10": req.body.q10
+            "q10": req.body.q10,
+            "prolific_Code": req.body.prolific_Code,
+            "feedback": sanitizeInput(req.body.feedback)
         });
+        
         console.log("newSurvey")
         //console.log(newSurvey)
         // save user and send response
@@ -51,7 +65,7 @@ router.post('/psurvey/:uniqId', async (req, res) => {
     });
     
 // Submit pre survey
-router.post('/postsurvey/:uniqId', async (req, res) => {
+router.post('/postsurvey/:uniqId',verifyToken,  async (req, res) => {
     try{
         console.log("herelkjkl");
         //console.log(req.params.uniqId);
@@ -101,43 +115,124 @@ router.post('/postsurvey/:uniqId', async (req, res) => {
 // LOGIN
 router.post('/isSubmitted/:val', async (req, res) => {
     try {
-        console.log(req.params.val);
-        const idstor = await IDStorage.find({"yourID": req.params.val});
-        const fid = idstor[0]
-        const idExists = await PreSurvey.find({"uniqueId": fid["_id"]});
-        console.log(idExists)
-        console.log(idExists[0])
-        if (idExists.length > 0) {
-            
+        console.log("Received value:", req.params.val);
 
-            const userExist = await User.find({"uniqueId": fid["_id"]});
-            console.log(userExist)
-            console.log(userExist[0])
-            if (userExist.length > 0) {
-                const usr = {"data": true, "login": true, "user": userExist[0]}
-                res.status(200).json(usr);
-
-            }else{
-                const users = await SelectedUsers.aggregate([
-                    { $match: { available: true } },
-                    { $sample: { size: 3 } }
-                    
-                  ])
-                console.log(users);
-                const usr = {"data": true, "users": users}
-                res.status(200).json(usr);
-
-            }
-            return
-        } else {
-            const usr = {"data": false}
-            res.status(200).json(usr);
-            return
+        // Find the ID in IDStorage
+        const idstor = await IDStorage.find({ "yourID": req.params.val });
+        if (!idstor || idstor.length === 0) {
+            console.log("ID not found in IDStorage");
+            res.status(404).json({ error: "ID not found" });
+            return;
         }
-    } catch(err) {
-        console.log(err)
-        res.status(500).json(err);
+
+        const fid = idstor[0];
+        console.log("FID object:", fid);
+
+        // Check if there's a PreSurvey entry for the given ID
+        const idExists = await PreSurvey.find({ "uniqueId": fid["_id"] });
+        console.log("PreSurvey result:", idExists);
+
+        if (idExists.length > 0) {
+            console.log("ID exists in PreSurvey");
+
+            // Check if a User exists with the same ID
+            const userExist = await User.find({ "uniqueId": fid["_id"] });
+            console.log("User result:", userExist);
+
+            if (userExist[0]) {
+                console.log("User found");
+                var usr ={}
+                const existingSurvey = await PostSurvey.findOne({ userId: req.params.userId });
+                console.log(existingSurvey);
+                if (existingSurvey) {
+                    usr = { "data": true, "login": true, "user": userExist[0], "code": existingSurvey[0].prolific_code};
+                    
+                    
+                }else{
+                    usr = { "data": true, "login": true, "user": userExist[0], "code": existingSurvey[0].prolific_code };
+                    
+                    
+                }
+                res.status(200).json(usr);
+                
+                
+            } else {
+            
+                const idstor = await IDStorage.find({ "yourID": req.params.val }).lean();
+                console.log("FID:", idstor[0]);
+                console.log("FID version:", idstor[0].version);
+
+                /*const users = await SelectedUsers.aggregate([
+                    { $match: { available: true } },
+                    {
+                        $facet: {
+                            version1: [
+                                { $match: { version: idstor[0].version } },
+                                { $sample: { size: 4 } }
+                            ]
+                        }
+                    },
+                    {
+                        $project: {
+                            users: { $concatArrays: ["$version1"] }
+                        }
+                    }
+                ]);*/
+                
+                const users = await SelectedUsers.aggregate([
+                    {                                             
+                        $match: {
+                            available: true,           // Ensure users are available
+                            version: String(idstor[0].version) // Ensure the version matches the given version
+                        }
+                    },
+                    {
+                        $group: {
+                            _id: {username_second: "$username_second", username: "$username"},     // Group by username
+                            user: { $first: "$$ROOT" } // Select the first document for each username
+                        }
+                    },
+                    {
+                        $sample: { size: 20 } // Sample more than the required size to allow further deduplication
+                    },
+                    {
+                        $group: {
+                            _id: "$user.username", // Group by `username` to ensure usernames are unique
+                            user: { $first: "$user" } // Keep the first user for each unique username
+                        }
+                    },
+                    {
+                        $limit: 6 // Limit the result to 4 unique users
+                    }
+                ]);
+                const result = users.map(user => ({
+                    username: user.username,
+                    profilePicture: user.profilePicture,
+                    available: user.available,
+                    username_second: user.username_second,
+                    version: user.version
+                }));
+                
+                console.log("Selected Users:", users[0][0]);
+                
+                const users2 = [users[0],users[1],users[2],users[3] ]
+                
+                console.log("Selected Users:", users2);
+
+                const usr = {
+                    "data": true,
+                    "users": users2.length > 0 ? users2 : []
+                };
+                res.status(200).json(usr);
+            }
+        } else {
+            console.log("ID does not exist in PreSurvey");
+            res.status(200).json({ "data": false });
+        }
+    } catch (err) {
+        console.log("Error:", err);
+        res.status(500).json({ error: "Internal server error", details: err });
     }
-    })
+});
 
     module.exports = router;

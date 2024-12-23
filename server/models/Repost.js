@@ -1,3 +1,4 @@
+const { Decimal128, Double } = require('mongodb');
 const mongoose = require('mongoose');
 
 const RepostSchema = new mongoose.Schema({

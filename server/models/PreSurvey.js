@@ -15,6 +15,7 @@ const PreSurvey = new mongoose.Schema({
     q8: { type: String, required: false,},
     q9: { type: String, required: false,},
     q10: { type: String, required: false,},
+    feedback: { type: String, required: false,},
 },{
   timestamps: true 
 });

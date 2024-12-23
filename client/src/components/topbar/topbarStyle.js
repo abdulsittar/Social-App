@@ -23,7 +23,7 @@ export const styles = {
     'marginLeft': '5px',
     'fontWeight': 'bold',
     'color': COLORS.textColor,
-    'cursor': 'pointer'
+    'cursor': 'default'
   },
   'topbarCenter': {
     'flex': '7'
@@ -77,19 +77,19 @@ export const styles = {
   'topbarLink': {
     'marginRight': '15px',
     'fontSize': '14px',
-    'cursor': 'pointer'
+    'cursor': 'default'
   },
   'topbarLink2': {
     'marginRight': '10px',
     'fontSize': '12px',
-    'cursor': 'pointer'
+    'cursor': 'default'
   },
   'topbarIcons': {
     'display': 'flex'
   },
   'topbarIconItem': {
     'marginRight': '15px',
-    'cursor': 'pointer',
+    'cursor': 'default',
     'position': 'relative'
   },
   'topbarIconBadge': {
@@ -115,7 +115,7 @@ export const styles = {
     'height': '32px',
     'borderRadius': '50%',
     'objectFit': 'cover',
-    'cursor': 'pointer',
+    'cursor': 'default',
     marginRight: '10px'
   },
   username: {
@@ -126,7 +126,7 @@ export const styles = {
   downArrow: {
       fontSize: '28px',
       color: COLORS.textColor,
-      cursor: 'pointer'
+      cursor: 'default'
   },
   '@media screen and (max-width: 768px)': {
     '__expression__': 'screen and (max-width: 768px)',

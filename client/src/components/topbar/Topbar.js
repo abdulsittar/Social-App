@@ -87,11 +87,11 @@ function Topbar({ classes, setSelectedValue, isProfile, setSearchTerm }) {
 
             {!isMobileDevice && !isTabletDevice && 
             <div style={{'display': 'flex', alignItems: 'flex-end', 'margin': '5px 5px'}}>
-                     <Link to={`/profile/${user.username}`} style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
-                         <img  src={user.profilePicture? PF + user.profilePicture: PF + "person/noAvatar.png"} alt="" className={classes.topbarImg} />
+                     <Link style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', cursor:'default'}}>
+                         <img  src={user.profilePicture? PF + user.profilePicture: PF + "person/noAvatar.png"} alt="" className={classes.topbarImg} style={{cursor:'default'}}/>
                          <p className={classes.username}>{user.username}</p>
                      </Link>
-                     <KeyboardArrowDownIcon className={classes.downArrow} onClick={openProfileDetails} />
+                     <KeyboardArrowDownIcon className={classes.downArrow} onClick={openProfileDetails} /> 
                      <SimplePopover anchorEl={anchorEl} handleClose={handleClose} />
             </div>}
 
@@ -99,10 +99,10 @@ function Topbar({ classes, setSelectedValue, isProfile, setSearchTerm }) {
 
             {!isProfile?
             <div className={classes.topbarCenter} style={{ 'backgroundColor': COLORS.backgroudColor, 'margin-top': (isMobileDevice || isTabletDevice) && '0px', 'display':  !isMobileDevice && !isTabletDevice && 'flex'}}  >
-                <div className={classes.searchbar}>
+                {/*<div className={classes.searchbar}>
                     <Search className={classes.searchIcon} />
                     <input placeholder={Searche} className={classes.searchInput} onChange={(event) => { setSearchTermFunction(event.target.value);}}/>
-                </div>
+                </div>*/}
             </div>: <div></div>
             }
 
@@ -116,16 +116,16 @@ function Topbar({ classes, setSelectedValue, isProfile, setSearchTerm }) {
                         <FormControlLabel value="2" control={<Radio />} label={<span style={{ "fontSize": !isMobileDevice && !isTabletDevice && "12px"}}>{"Followings"}</span>} />
                     </RadioGroup>
             </FormControl>}
-            </div> : <div></div>
+            </div> : <div></div>to={`/profile/${user.username}`} to={`/profile/${user.username}`} 
             */}
             {(isMobileDevice || isTabletDevice) && 
             <div className={classes.topbarRight} >
                 <div className={classes.userInfo} style={{ alignItems: 'flex-end' }}>
-                    <Link to={`/profile/${user.username}`} style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
-                        <img src={ user.profilePicture ? PF + user.profilePicture : PF + "person/noAvatar.png" } alt="" className={classes.topbarImg} />
+                    <Link style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', cursor:'default' }}>
+                        <img src={ user.profilePicture ? PF + user.profilePicture : PF + "person/noAvatar.png" } alt="" className={classes.topbarImg} style={{cursor:'default'}}/>
                         <p className={classes.username}>{user.username}</p>
                     </Link>
-                    <KeyboardArrowDownIcon className={classes.downArrow} onClick={openProfileDetails} />
+                     <KeyboardArrowDownIcon className={classes.downArrow} onClick={openProfileDetails} /> 
                     <SimplePopover anchorEl={anchorEl} handleClose={handleClose} />
                 </div>
             </div>}

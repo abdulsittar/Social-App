@@ -6,6 +6,10 @@ userId: {
     type: String,
     required: true
 },
+reactorUser: {
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'User'
+    },
 thumb:{
     type: String
 },
@@ -23,7 +27,7 @@ reposts: [{
   }],
 pool: {
     type: String,
-    default: "0"
+    default: ""
 },
 rank: {
     type: Number,
@@ -33,7 +37,6 @@ likes: [{
     type: mongoose.Schema.Types.ObjectId, 
     ref: 'PostLike'
   }],
-
 dislikes: [{
   type: mongoose.Schema.Types.ObjectId, 
   ref: 'PostDislike'
@@ -41,7 +44,7 @@ dislikes: [{
 comments:[{
     type: mongoose.Schema.Types.ObjectId, 
     ref: 'Comment'
-    }],
+}],
 postedBy: {
         type: mongoose.Schema.Types.ObjectId, 
         ref: 'User'

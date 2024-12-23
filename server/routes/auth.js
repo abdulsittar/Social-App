@@ -123,7 +123,7 @@ const { ObjectId } = require('mongodb');
 
 // REGISTER USER
 router.post('/register/:uniqId',  async (req, res) => {
-try{
+//try{
     console.log("here");
     // encrypt password
     const salt = await bcrypt.genSalt(10);
@@ -137,13 +137,16 @@ try{
         
     const fid = idstor[0]
     console.log(fid)
-    console.log(req.body.password);
+    console.log("here is value")
+    console.log(req.body);
     
     // create new user
     const newUser = new User({
         username: req.body.username,
         profilePicture: req.body.profilePicture,
+        "username_second":req.body.username_second,
         password: hashedPassword,
+        pool: req.body.pool,
         uniqueId: fid["_id"]
     });
 
@@ -160,26 +163,33 @@ try{
     diction["available"] = false    
     const updatedData = { $set: diction}
 
-    const selectedUser = await SelectedUser.find({"username":req.body.username});
-    console.log(updatedData)
-    console.log(selectedUser)
-
-    try {
-        await selectedUser[0].updateOne({ $set: {"available":"false"}});
-        
-
-    } catch (error) {
-        console.error('Error updating object field:', error);
-
-    }
+    //try {
+        // Find the user by username
+        const selectedUser = await SelectedUser.findOne({ "username_second": req.body.username_second });
+        console.log(updatedData);
+        console.log(selectedUser);
+    
+        if (selectedUser) {
+            // Update the document directly on the model with a filter
+            await SelectedUser.updateOne(
+                { "username_second": req.body.username },  // Filter
+                updatedData                          // Update operation
+            );
+            console.log("Successfully updated the available field.");
+        } else {
+            console.log("User not found.");
+        }
+    //} catch (error) {
+    //    console.error("Error updating object field:", error);
+    //}
     console.log(usr)
     res.status(200).json(usr);
 
 
-} catch (err) {
-    console.log(err)
-    res.status(500).json(err);
-}
+//} catch (err) {
+//    console.log(err)
+//    res.status(500).json(err);
+//}
 });
 
 /**

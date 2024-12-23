@@ -7,6 +7,7 @@ export const styles = {
     "boxShadow": "0px 0px 16px -8px rgba(0, 0, 0, 0.68)",
     "margin": "0px 0",
     background: COLORS.commentsBackgroundColor
+    
 },
     cardHeader: {
       "paddingTop": "5px",
@@ -48,7 +49,8 @@ export const styles = {
       "borderRadius": "50%",
       "objectFit": "cover",
       "marginRight": "0px",
-      "alignItems": "flex-start"
+      "alignItems": "flex-start",
+      "cursor":"default"
     },
     "commentText": {
       "backgroundColor": COLORS.postBackgroundColor,

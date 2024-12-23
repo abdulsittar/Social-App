@@ -1,4 +1,9 @@
 const User = require('../models/User');
+const PostLike = require('../models/PostLike');
+const PostDislike = require('../models/PostDislike');
+const Post = require('../models/Post');
+const CommentLike = require('../models/CommentLike');
+const Comment = require('../models/Comment');
 const router = require('express').Router();
 const mongoose = require('mongoose');
 const IDStorage = require('../models/IDStorage');
@@ -33,7 +38,7 @@ gfs.collection('uploads');
 
 
 // update user
-router.put("/:id", async (req, res) => {
+router.put("/:id",verifyToken,  async (req, res) => {
 if(req.body.userId === req.params.id || req.body.isAdmin) {
     if(req.body.password) {
         try {
@@ -79,7 +84,7 @@ if(req.body.userId === req.params.id || req.body.isAdmin) {
  */
 
 // delete user
-router.delete("/:id", async (req, res) => {
+router.delete("/:id",verifyToken,  async (req, res) => {
 if(req.body.userId === req.params.id || req.body.isAdmin) {
     try {
         const user = await User.findByIdAndDelete(req.params.id);
@@ -125,7 +130,7 @@ if(req.body.userId === req.params.id || req.body.isAdmin) {
  *         description: Some server error
  */
 // get a user
-router.get('/', async (req, res) => {
+router.get('/', verifyToken, async (req, res) => {
 const userId = req.query.userId;
 const username = req.query.username;
 
@@ -141,7 +146,7 @@ try {
 })
 
 // get a user
-router.post('/getUser/:uniqId', async (req, res) => {
+router.post('/getUser/:uniqId', verifyToken,  async (req, res) => {
     try {
     const idstor = await IDStorage.find({"yourID": req.params.uniqId});
         const fid = idstor[0]
@@ -201,7 +206,7 @@ router.post('/getUser/:uniqId', async (req, res) => {
  */
 
 // follow a user
-router.put('/:id/follow', async (req, res) => {
+router.put('/:id/follow', verifyToken,  async (req, res) => {
 if(req.body.userId !== req.params.id) {
     try {
         const user = await User.findById(req.params.id);
@@ -262,7 +267,7 @@ if(req.body.userId !== req.params.id) {
  */
 
 // unfollow a user
-router.put('/:id/unfollow',  async (req, res) => {
+router.put('/:id/unfollow', verifyToken,  async (req, res) => {
 if(req.body.userId !== req.params.id) {
     try {
         const user = await User.findById(req.params.id);
@@ -306,7 +311,7 @@ if(req.body.userId !== req.params.id) {
  */
 
 // all users
-router.get('/usersList2',  function(req, res) {
+router.get('/usersList2', verifyToken,   function(req, res) {
 User.find({}, function(err, users) {
 var userMap = {};
 
@@ -319,7 +324,7 @@ res.send(userMap);
 });
 
 // all users
-router.get('/usersList/:userId',  async (req, res) => {
+router.get('/usersList/:userId', verifyToken,  async (req, res) => {
 try {
 let friendList = [];
 User.find({}, function(err, users) {
@@ -368,7 +373,7 @@ catch (err) {
  */
 
 //get friends
-router.get("/followings/:userId",  async (req, res) => {
+router.get("/followings/:userId", verifyToken,   async (req, res) => {
 try {
     const user = await User.findById(req.params.userId).populate({path : "followings", model: "User"}).exec();
     //const friends = await Promise.all(
@@ -417,7 +422,7 @@ try {
  */
 
 //get friends
-router.get("/followers/:userId",  async (req, res) => {
+router.get("/followers/:userId", verifyToken,   async (req, res) => {
 try {
     const user = await User.findById(req.params.userId).populate({path : "followers", model: "User"}).exec();
     res.status(200).json(user.followers)
@@ -426,7 +431,7 @@ try {
 }
 });
 
-router.get("/allUsers/:userId", async (req, res) => {
+router.get("/allUsers/:userId", verifyToken,  async (req, res) => {
     try {
         const users = await User.find({ _id: { $ne: req.params._id } }).populate({path : "followers", model: "User"}).exec();
         res.status(200).json(users);
@@ -437,7 +442,7 @@ router.get("/allUsers/:userId", async (req, res) => {
 
 // Viewed a post
 // like a post
-router.put('/:id/viewed',  async(req, res) =>{
+router.put('/:id/viewed', verifyToken,   async(req, res) =>{
 try {
     // Like a post
     const user = await User.findById(req.params.id);
@@ -457,7 +462,7 @@ try {
 })
 
 // TimeMe
-router.put('/:id/activity', async(req, res) =>{
+router.put('/:id/activity', verifyToken, async(req, res) =>{
 
     try {
         const timeMe = new TimeMe({userId:req.params.id, page:req.body.page, seconds: req.body.seconds});
@@ -476,7 +481,7 @@ router.put('/:id/activity', async(req, res) =>{
     });
 
 // TimeMe
-router.get('/:id/getTimeSpent', async(req, res) => {
+router.get('/:id/getTimeSpent', verifyToken,  async(req, res) => {
 
     try {
         console.log("here");
@@ -583,11 +588,69 @@ router.get('/:id/getTimeSpent', async(req, res) => {
         res.status(500).json(err);
     }
     });
+    
+    
+// My Actions
+router.get('/:id/getUserActions', verifyToken,  async(req, res) => {
+
+    try {
+    
+         
+    
+        const userId = req.params.id;
+        //const commentCount = await Comment.countDocuments({ userId: userId });
+        const commentCount = await Comment.aggregate([
+            { $match: { userId: mongoose.Types.ObjectId(userId) } }, // Filter comments by the given user ID
+            { $group: { _id: "$postId", commentCount: { $sum: 1 } } }, // Group by postId and count comments for each post
+          ]);
+          
+          
+        console.log(commentCount);
+        const totalComments = commentCount.reduce((sum, post) => sum + post.commentCount, 0);
+        const postLikeCount = await PostLike.countDocuments({ userId: userId });
+        const postDislikeCount = await PostDislike.countDocuments({ userId: userId });
+        
+        
+        if( postLikeCount > 1 || postDislikeCount > 1){
+            console.log("Total Comments");
+            console.log(totalComments);
+            console.log(commentCount.length);
+            console.log(Number(commentCount.length));
+            
+            if(Number(commentCount.length) > 2){
+                const response = {"showAlert": "third", "commentcount":String(commentCount.length), "postLikeCount":String(postLikeCount)}
+                res.status(200).json(response);
+        
+            } else {
+                const response = {"showAlert": "second", "commentcount":String(commentCount.length), "postLikeCount":String(postLikeCount)}
+                res.status(200).json(response);
+        
+            }
+        } else {
+            const response = {"showAlert": "first", "commentcount":String(commentCount), "postLikeCount":String(postLikeCount)}
+            res.status(200).json(response);
+    
+        }
+        
+    /*if(commentCount > 0 && postLikeCount > 0){
+        const response = {"showAlert": "yes", "commentcount":String(commentCount.length), "postLikeCount":String(postLikeCount)}
+        res.status(200).json(response);
+
+    } else {
+        const response = {"showAlert": "no", "commentcount":String(commentCount), "postLikeCount":String(postLikeCount)}
+        res.status(200).json(response);
+
+    }*/
+    } catch(err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+    });
 
 
 // Read a post
 // like a post
-router.put('/:id/read',  async(req, res) =>{
+router.put('/:id/read', verifyToken,   async(req, res) =>{
 
 try {
     const user           = await User.findById(req.params.id);    

@@ -257,13 +257,13 @@ useEffect(() => {
                   src={usr.coverPicture ? PF+usr.coverPicture : PF+"person/noCover.png"}
                   alt=""
                 />
-                {username == currentUser.username && (
+                {/*username == currentUser.username && (
                 <div className={classes.photosInfo}>
                   <button id="fileSeleID" onClick={handleUploadFromGallery}>{Select_from_Gallery}</button>
                   
                   <button onClick={handleUpload}>{Save_profile}</button>
                 </div>
-                )}
+                )*/}
                 <img id='profileImg'
                   className={classes.profileUserImg}
                   src={usr.profilePicture ? PF + usr.profilePicture : PF+"person/noAvatar.png"}

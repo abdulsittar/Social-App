@@ -33,11 +33,16 @@ export const styles = {
     paddingBottom: '5px',
   },
   feedWrapper: {
-    paddingLeft: '10px',
-    paddingRight: '10px',
-    paddingBottom: '10px',
+    //paddingLeft: '10px',
+    //paddingRight: '10px',
+    //paddingBottom: '10px',
     background: COLORS.backgroudColor,
     color: COLORS.textColor,
+    padding: '10px 250px 0px 250px',
+        '@media (max-width: 768px)': {
+              // No padding on mobile screens
+              padding: '10px',
+        },
 },
     "profileRight": {
       "flex": "9",

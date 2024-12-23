@@ -102,6 +102,8 @@ function Share({classes}) {
         const newPost = {
           userId: user._id,
           desc: text,
+          pool:user.pool,
+          headers: { 'auth-token': token },
         };
         if (file) {
             
@@ -118,6 +120,8 @@ function Share({classes}) {
         try {
         const pst = await axios.post("/posts/" + user._id + "/create", newPost);
         socket.emit('sendMessage', pst);
+        setText("");
+        
           //await axios.post("/posts/create", newPost);
           // refresh the page after posting something
           //window.location.reload();
@@ -150,6 +154,7 @@ function Share({classes}) {
                     <InputEmoji
                         placeholder={What_in_your_mind + user.username + "?"}
                         className={classes.shareInput}
+                        value={text}
                         onChange={handleChange}
                         ref={desc}
                     />
@@ -188,8 +193,8 @@ function Share({classes}) {
                         </div>
                     </div>
                     <Stack direction="row" spacing={2}>
-            <Button variant="contained" endIcon={<SendIcon className={classes.sendButton2}  style={{ align: "right" }} type="submit" onClick={submitHandler}/>}> Send </Button></Stack>
-                    
+            <Button variant="contained" endIcon={<SendIcon/>} type="submit" onClick={submitHandler}> Send </Button>
+            </Stack>
                 </form>
             </div>
         </div>

@@ -5,8 +5,7 @@ username: {
     type: String,
     required: true,
     min: 3,
-    max: 20,
-    unique: true
+    max: 20
 },
 available: {
     type: Boolean,
@@ -15,6 +14,10 @@ available: {
 profilePicture: {
     type: String,
     default: '',
+},
+version: {
+    type: String,
+    default: "1"
 },
 password: {
     type: String,

@@ -68,7 +68,7 @@ function Login({ classes }) {
   const getUser = async (uniqId) => {
 	const token = localStorage.getItem('token');
 	try {
-		const res = await axios.post(`/users/getUser/${uniqId}`);
+		const res = await axios.post(`/users/getUser/${uniqId}`,{ headers: { 'auth-token': token }}); 
 		console.log(res.data.login);
 		console.log(res.data.user);
 	

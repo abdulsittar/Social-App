@@ -39,13 +39,15 @@ export const styles = {
         "width": "32px",
         "height": "32px",
         "borderRadius": "50%",
-        "objectFit": "cover"
+        "objectFit": "cover",
+        "cursor": "default"
     },
     "postUsername": {
         "fontSize": "15px",
         "margin": "0 10px",
         'fontWeight': 'bold',
-        letterSpacing: '.6px'
+        letterSpacing: '.6px',
+        cursor:'default'
     },
     "postDate": {
         "fontSize": "12px"

@@ -5,8 +5,13 @@ username: {
     type: String,
     required: true,
     min: 3,
-    max: 20,
-    unique: true
+    max: 20
+},
+username_second: {
+    type: String, 
+    required: true,
+    min: 3,
+    max: 20
 },
 email: {
     type: String,
@@ -38,6 +43,10 @@ viewedPosts:[{
     type: mongoose.Schema.Types.ObjectId, 
     ref: 'Viewpost'
     }],
+readSpecialPosts:[{
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'specialpost'
+}],    
 readPosts: [{
     type: mongoose.Schema.Types.ObjectId, 
     ref: 'Readpost'
@@ -57,7 +66,7 @@ isAdmin: {
 },
 pool: {
     type: String,
-    default: "A"
+    default: ""
 },
 feedValue: {
     type: String,

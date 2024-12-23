@@ -113,10 +113,10 @@ useEffect(() => {
     setPrevUN(username);
 };
   fetchUser();
-  fetchTimeSpent();
+  fetchTimeSpent2();
   setIsProfileFetched(false);
 
-  if(day_One_Percent > -1){
+  if(day_One_Percent > 10){
     console.log("day_One_Percent");
     setIsVisible(true);
   }
@@ -128,13 +128,42 @@ const fetchTimeSpent = async () => {
   const token = localStorage.getItem('token');
   const res = await axios.get("/users/" + currentUser._id + "/getTimeSpent", {headers: { 'auth-token': token }})
   console.log(res.data);
-  setDay_One_Percent(calculatePercentage(res.data["today"], 10));
-  setDay_Two_Percent(calculatePercentage(res.data["oneDayBefore"], 10));
-  setDay_Three_Percent(calculatePercentage(res.data["twoDayBefore"], 10));
-  setDay_Four_Percent(calculatePercentage(res.data["threeDayBefore"], 10));
-  setDay_Five_Percent(calculatePercentage(res.data["fourDayBefore"], 10));
+  setDay_One_Percent(calculatePercentage(res.data["today"], 0));
+  setDay_Two_Percent(calculatePercentage(res.data["oneDayBefore"], 0));
+  setDay_Three_Percent(calculatePercentage(res.data["twoDayBefore"], 0));
+  setDay_Four_Percent(calculatePercentage(res.data["threeDayBefore"], 0));
+  setDay_Five_Percent(calculatePercentage(res.data["fourDayBefore"], 0));
   
 };
+
+
+const fetchTimeSpent2 = async () => {
+  const token = localStorage.getItem('token');
+    const res = await axios.get("/users/" + currentUser._id + "/getUserActions", {headers: { 'auth-token': token }})
+    console.log(res.data);
+    
+    
+    
+    if(res.data["showAlert"] == "third"){
+      history.push(`/postsurvey/${currentUser.username}`);
+          //setDay_One_Percent(100);
+          //setDay_Two_Percent(100);
+          //setDay_Three_Percent(100);
+          //setDay_Four_Percent(100);
+          //setDay_Five_Percent(100);
+        }
+    
+        
+        //if(res.data["showAlert"] == "no"){
+         // setDay_One_Percent(0);
+         // setDay_Two_Percent(0);
+         // setDay_Three_Percent(0);
+         // setDay_Four_Percent(0);
+         // setDay_Five_Percent(0);
+      //}
+
+  };
+
 
 const calculatePercentage = (numerator, denominator) => {
   // Ensure denominator is not 0 to avoid division by zero error
@@ -454,29 +483,32 @@ const handleUserNameChange = async (e) => {
         </div>
         
         <div style={{ alignItems: "center", marginLeft: isMobileDevice && isTabletDevice && '300px', marginRight:isMobileDevice && isTabletDevice &&"300px"}}>
-        <h3 className={classes.progressHead}>{(day_One_Percent > -1 && day_Two_Percent > -1 && day_Three_Percent > -1)?status_msg2: status_msg}
-        <a onClick={(day_One_Percent > -1 && day_Two_Percent > -1 && day_Three_Percent > -1)? handleClick : undefined} style={{ color: (day_One_Percent > -1 && day_Two_Percent > -1 && day_Three_Percent > -1)? 'blue' : 'gray', cursor: (day_One_Percent > -1 && day_Two_Percent > -1 && day_Three_Percent > -1)? 'pointer' : 'not-allowed' }}>
-          <Link to={`/postsurvey/${currentUser.username}`}>Link to the post survey</Link></a>
+        <h3 className={classes.progressHead}>{(day_One_Percent > 50 && day_Two_Percent > 50 && day_Three_Percent > 50)?status_msg2: status_msg}
+        {(day_One_Percent > 50 && day_Two_Percent > 50 && day_Three_Percent > 50)?
+        <a onClick={(day_One_Percent > 50 && day_Two_Percent > 50 && day_Three_Percent > 50)? handleClick : undefined} style={{ color: (day_One_Percent > 50 && day_Two_Percent > 50 && day_Three_Percent > 50)? 'blue' : 'gray', cursor: (day_One_Percent > 50 && day_Two_Percent > 50 && day_Three_Percent > 50)? 'pointer' : 'not-allowed' }}>
+          <Link to={`/postsurvey/${currentUser.username}`}>Link to the post survey</Link></a>: <div></div>}
+        
+        
         </h3></div>
 
           <div style= {{width: 'auto', marginLeft: isMobileDevice && isTabletDevice && '300px', marginRight: isMobileDevice && isTabletDevice && "300px"}}>
 
-
+{/*
 <h3 className={classes.progressHead}>{Progress_Day_1} = {day_One_Percent}%</h3>
-<Line percent={day_One_Percent} strokeWidth={4} strokeColor={day_One_Percent < 10? "red": day_One_Percent < 30? "yellow": "green"} className={classes.progressVal}/>
+<Line percent={day_One_Percent} strokeWidth={4} strokeColor={day_One_Percent < 50? "red": day_One_Percent < 30? "yellow": "green"} className={classes.progressVal}/>
 
 <h3 className={classes.progressHead}>{Progress_Day_2} = {day_Two_Percent}%</h3>
-<Line percent={day_Two_Percent} strokeWidth={4} strokeColor={day_Two_Percent < 10? "red": day_Two_Percent < 30? "yellow": "green"} className={classes.progressVal}/>
+<Line percent={day_Two_Percent} strokeWidth={4} strokeColor={day_Two_Percent < 50? "red": day_Two_Percent < 30? "yellow": "green"} className={classes.progressVal}/>
 
 <h3 className={classes.progressHead}>{Progress_Day_3} = {day_Three_Percent}%</h3>
-<Line percent={day_Three_Percent} strokeWidth={4} strokeColor={day_Three_Percent < 10? "red": day_Three_Percent < 30? "yellow": "green"} className={classes.progressVal}/>
+<Line percent={day_Three_Percent} strokeWidth={4} strokeColor={day_Three_Percent < 50? "red": day_Three_Percent < 30? "yellow": "green"} className={classes.progressVal}/>
 
 <h3 className={classes.progressHead}>{Progress_Day_4} = {day_Four_Percent}%</h3>
-<Line percent={day_Four_Percent} strokeWidth={4} strokeColor={day_Four_Percent < 10? "red": day_Four_Percent < 30? "yellow": "green"} className={classes.progressVal}/>
+<Line percent={day_Four_Percent} strokeWidth={4} strokeColor={day_Four_Percent < 50? "red": day_Four_Percent < 30? "yellow": "green"} className={classes.progressVal}/>
 
 <h3 className={classes.progressHead}>{Progress_Day_5} = {day_Five_Percent}%</h3>
-<Line percent={day_Five_Percent} strokeWidth={4} strokeColor={day_Five_Percent < 10? "red": day_Five_Percent < 30? "yellow": "green"} className={classes.progressVal}/>
-
+<Line percent={day_Five_Percent} strokeWidth={4} strokeColor={day_Five_Percent < 50? "red": day_Five_Percent < 30? "yellow": "green"} className={classes.progressVal}/>
+*/}
   {/*<Circle percent={percent} strokeWidth={4} strokeColor="green" />*/}
 </div>
         
