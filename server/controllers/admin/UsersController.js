@@ -150,8 +150,7 @@ allUsers = await Users.find({});
 
 
 var action = 'add'; 
-var errorData = {};    
-//console.log("I am here");
+var errorData = {};     
 if (req.method == "POST") { 
     var input = JSON.parse(JSON.stringify(req.body));  
     req.checkBody('username', 'Username is required').notEmpty();

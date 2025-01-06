@@ -27,7 +27,7 @@ const uuid = require('uuid');
 const userIdentifiers = uuid.v4();
 
 const conn = mongoose.createConnection('mongodb+srv://abdulsittar72:2106010991As@cluster0.gsnbbwq.mongodb.net/test?retryWrites=true&w=majority');
-const { ObjectId } = require('mongodb');
+const { ObjectId } = require('mongoose').Types;
 
 let gfs;
 
@@ -509,7 +509,7 @@ router.get('/:id/getTimeSpent', verifyToken,  async(req, res) => {
         Ffth_before.setHours(0, 0, 0, 0);
 
         const userId = req.params.id;
-        const today_Times = await TimeMe.find({"userId":new ObjectId(userId), "createdAt": { "$lt": today, "$gte":One_before}});
+        const today_Times = await TimeMe.find({"userId": mongoose.Types.ObjectId(userId), "createdAt": { "$lt": today, "$gte":One_before}});
 
         console.log(userId);
         console.log(today);
@@ -595,18 +595,32 @@ router.get('/:id/getUserActions', verifyToken,  async(req, res) => {
 
     try {
     
-         
-    
+        
         const userId = req.params.id;
         //const commentCount = await Comment.countDocuments({ userId: userId });
-        const commentCount = await Comment.aggregate([
-            { $match: { userId: mongoose.Types.ObjectId(userId) } }, // Filter comments by the given user ID
-            { $group: { _id: "$postId", commentCount: { $sum: 1 } } }, // Group by postId and count comments for each post
-          ]);
+        //const commentCount = await Comment.aggregate([
+        //    { $match: { userId:  userId } }, // Filter comments by the given user ID
+        //    { $group: { _id: "$postId", commentCount: { $sum: 1 } } }, // Group by postId and count comments for each post
+        //  ]);
+        
+        const comments = await Comment.find({ userId:  userId});
+
+    // Step 2: Group comments by postId using a Map
+    const commentCounts = comments.reduce((acc, comment) => {
+      const postId = comment.postId.toString(); // Convert ObjectId to string for consistency
+      acc[postId] = (acc[postId] || 0) + 1; // Increment the count for this postId
+      return acc;
+    }, {});
+
+    // Step 3: Convert the Map to an array of objects
+    const result = Object.keys(commentCounts).map((postId) => ({
+      postId,
+      commentCount: commentCounts[postId],
+    }));
           
-          
-        console.log(commentCount);
-        const totalComments = commentCount.reduce((sum, post) => sum + post.commentCount, 0);
+        console.log(userId);
+        console.log(result);
+        const totalComments = result.reduce((sum, post) => sum + post.commentCount, 0);
         const postLikeCount = await PostLike.countDocuments({ userId: userId });
         const postDislikeCount = await PostDislike.countDocuments({ userId: userId });
         
@@ -614,20 +628,20 @@ router.get('/:id/getUserActions', verifyToken,  async(req, res) => {
         if( postLikeCount > 1 || postDislikeCount > 1){
             console.log("Total Comments");
             console.log(totalComments);
-            console.log(commentCount.length);
-            console.log(Number(commentCount.length));
+            console.log(result.length);
+            console.log(Number(result.length));
             
-            if(Number(commentCount.length) > 2){
-                const response = {"showAlert": "third", "commentcount":String(commentCount.length), "postLikeCount":String(postLikeCount)}
+            if(Number(result.length) > 2){
+                const response = {"showAlert": "third", "commentcount":String(result.length), "postLikeCount":String(postLikeCount)}
                 res.status(200).json(response);
         
             } else {
-                const response = {"showAlert": "second", "commentcount":String(commentCount.length), "postLikeCount":String(postLikeCount)}
+                const response = {"showAlert": "second", "commentcount":String(result.length), "postLikeCount":String(postLikeCount)}
                 res.status(200).json(response);
         
             }
         } else {
-            const response = {"showAlert": "first", "commentcount":String(commentCount), "postLikeCount":String(postLikeCount)}
+            const response = {"showAlert": "first", "commentcount":String(result), "postLikeCount":String(postLikeCount)}
             res.status(200).json(response);
     
         }

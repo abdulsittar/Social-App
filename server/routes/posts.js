@@ -6,14 +6,16 @@
     const PostLike = require('../models/PostLike');
     const path = require('path'); 
     const fs = require('fs');
+    const PostSurvey = require('../models/PostSurvey');
     const Repost = require('../models/Repost');
+    //var ObjectId = require('mongodb').ObjectID;
     
     const Comment = require('../models/Comment');
     const Subscription = require('../models/Subscription');
     const webPush = require ('web-push');
     const mongoose = require('mongoose');
+    const { ObjectId } = require('mongoose').Types;
     const conn = mongoose.createConnection('mongodb+srv://abdulsittar72:2106010991As@cluster0.gsnbbwq.mongodb.net/test?retryWrites=true&w=majority');
-    const { ObjectId } = require('mongodb');
     const verifyToken = require('../middleware/verifyToken');
     const axios = require('axios');
     const cheerio = require('cheerio');
@@ -445,8 +447,8 @@ const DOMPurifyInstance = DOMPurify(window);
                 }
         
                 const newPostData = {
-                    userId: mongoose.Types.ObjectId(process.env.RKI),
-                    reactorUser: mongoose.Types.ObjectId.isValid(req.body.userId)? mongoose.Types.ObjectId(req.body.userId):null,
+                    userId:  process.env.RKI,
+                    reactorUser:  req.body.userId?  req.body.userId:null,
                     pool: req.body.pool,
                     desc: selectedPost,
                     thumb: linkToAdd,
@@ -534,8 +536,8 @@ const DOMPurifyInstance = DOMPurify(window);
                                 
                     //const urls = extractUrls(item.post);                     
                     const newPost = {
-                        userId: mongoose.Types.ObjectId(item.userId),
-                        reactorUser: mongoose.Types.ObjectId.isValid(req.body.userId)? mongoose.Types.ObjectId(req.body.userId): null,
+                        userId: new mongoose.Types.ObjectId(item.userId),
+                        reactorUser: mongoose.Types.ObjectId.isValid(req.body.userId)? new mongoose.Types.ObjectId(req.body.userId): null,
                         pool: req.body.pool,
                         desc: item.post,
                         thumb: item.thumb,
@@ -552,12 +554,16 @@ const DOMPurifyInstance = DOMPurify(window);
                                 
                                 var count = 0;
                                 for (const it of shuffledComments) { 
-                                    const randomBot = await User.findById(process.env.RKI);
+                                    console.log(process.env.RKI)
+                                    const isValidId = mongoose.Types.ObjectId.isValid(process.env.RKI);
+                                        console.log("Is RKI a valid ObjectId?", isValidId);
+                                        const randomBot = await User.findById(String(process.env.RKI));
+                                        console.log(randomBot);
                                     count = count + 1
                                     const comment = new Comment({
                                         body:it, 
-                                        userId:mongoose.Types.ObjectId(randomBot._id), 
-                                        postId:savedPost._id, 
+                                        userId: randomBot.id, 
+                                        postId:savedPost.id, 
                                         username: randomBot.username
                                     });
                                     
@@ -909,15 +915,8 @@ router.put('/:id/like', verifyToken, async(req, res) => {
      try {
         console.log("LIKE - 1");
          const idl = new ObjectId(post.likes[0]._id)
-         Post.findOneAndUpdate({_id: req.params.id}, {$pull: {'likes': {$in: idl}}}, (err, block) => {
-             console.log(err)
-             console.log(block)
-         });
-         const dltobj = await PostLike.findByIdAndDelete({_id:idl}, (err, block) => {
-             console.log(err)
-             console.log(block)
-         });
-
+         await Post.findOneAndUpdate({_id: req.params.id}, {$pull: {'likes': {$in: [idl]}}});
+         const dltobj = await PostLike.findByIdAndDelete({_id:idl});
          const post2 = await Post.findById(req.params.id).populate([{path : "likes", model: "PostLike"}, {path : "dislikes", model: "PostDislike"}]).sort({ createdAt: 'descending' }).exec();
          //console.log(post2);
          var diction = {"likes": -1, "dislikes": parseInt(0)}
@@ -933,16 +932,8 @@ router.put('/:id/like', verifyToken, async(req, res) => {
      try{
         console.log("LIKE - 2");
          const idl = new ObjectId(post.dislikes[0]._id)
-         Post.findOneAndUpdate({_id: req.params.id}, {$pull: {'dislikes': {$in: idl}}}, (err, block) => {
-             console.log(err)
-             console.log(block)
-         });
- 
-         const dltobj = await PostLike.findByIdAndDelete(idl, (err, block) => {
-            console.log(err)
-            console.log(block)
-        });
-
+         await Post.findOneAndUpdate({_id: req.params.id}, {$pull: {'dislikes': {$in: [idl]}}});
+         const dltobj = await PostLike.findByIdAndDelete(idl );
          const post2 = await Post.findById(req.params.id).populate([{path : "likes", model: "PostLike"}, {path : "dislikes", model: "PostDislike"}]).sort({ createdAt: 'descending' }).exec();
          //console.log(post2);
          var diction = {"likes": parseInt(0), "dislikes":-1 }
@@ -963,7 +954,7 @@ router.put('/:id/like', verifyToken, async(req, res) => {
          console.log("postLike is added");
          //const post = await Post.findById(req.params.id);
          await Post.findOneAndUpdate({"_id": req.params.id},{$push: { likes: postLike }});
-         const post2       = await Post.findById(req.params.id, { upsert:true, new: true }).populate([{path : "likes", model: "PostLike"}, {path : "dislikes", model: "PostDislike"}]).sort({ createdAt: 'descending' }).exec();
+         const post2  = await Post.findById(req.params.id, { upsert:true, new: true }).populate([{path : "likes", model: "PostLike"}, {path : "dislikes", model: "PostDislike"}]).sort({ createdAt: 'descending' }).exec();
          //console.log(post2);
          var diction = {"likes": 1, "dislikes":parseInt(0) }
          res.status(200).json(diction);
@@ -1003,15 +994,8 @@ router.put('/:id/like', verifyToken, async(req, res) => {
             
             console.log("DISLIKE - 1");
             const idl = new ObjectId(idd);
-            Post.findOneAndUpdate({_id: req.params.id}, {$pull: {'likes': {$in: idl}}}, (err, block) => {
-                 console.log(err)
-                 console.log(block)
-             });
-             const dltobj = await PostLike.findByIdAndDelete({_id:idl}, (err, block) => {
-                 console.log(err)
-                 console.log(block)
-
-             });
+            await Post.findOneAndUpdate({_id: req.params.id}, {$pull: {'likes': {$in: [idl]}}});
+            const dltobj = await PostLike.findByIdAndDelete({_id:idl} );
 
              const post = await Post.findById(req.params.id).populate([{path : "likes", model: "PostLike"}, {path : "dislikes", model: "PostDislike"}]).sort({ createdAt: 'descending' }).exec();
              console.log(post);
@@ -1028,15 +1012,8 @@ router.put('/:id/like', verifyToken, async(req, res) => {
          try{
             console.log("DISLIKE - 2");
              const idl = new ObjectId(post.dislikes[0]._id)
-             Post.findOneAndUpdate({_id: req.params.id}, {$pull: {'dislikes': {$in: idl}}}, (err, block) => {
-                 console.log(err)
-                 console.log(block)
-             });
-     
-             const dltobj = await PostLike.findByIdAndDelete(idl, (err, block) => {
-                 console.log(err)
-                 console.log(block)
-             });
+             await Post.findOneAndUpdate({_id: req.params.id}, {$pull: {'dislikes': {$in: [idl]}}});
+             const dltobj = await PostLike.findByIdAndDelete(idl);
              const post2 = await Post.findById(req.params.id).populate([{path : "likes", model: "PostLike"}, {path : "dislikes", model: "PostDislike"}]).sort({ createdAt: 'descending' }).exec();
              console.log(post2);
              var diction = {"likes": parseInt(0), "dislikes":-1 }
@@ -1227,20 +1204,19 @@ router.post('/UserReadSpecialPost', verifyToken, async(req, res) => {
     })
 
     // get pagination posts
-    router.get('/timelinePag/:userId', verifyToken,  async(req, res) =>{
-    console.log("hereherehereh");
+    router.get('/timelinePag/:userId', verifyToken,  async(req, res) =>{ 
     console.log(req.query.page);
     console.log(req.headers['userid']);
     try {
     let page = req.query.page //starts from 0
     let userId = req.headers['userid']
-    let posts= await getPostsPaginated(page, userId)
-    
+    let posts= await getPostsPaginated(page, userId) 
+    console.log(posts.length)
     if (posts && posts.length > 0) {
         res.status(200).json(posts)
     } else {
         res.status(200).json(err);
-        //console.log(res);
+        console.log(res);
     }
 
     } catch(err) {
@@ -1255,14 +1231,20 @@ router.post('/UserReadSpecialPost', verifyToken, async(req, res) => {
     
     const currentUser = await User.findById(userId)
     console.log(currentUser)
+    console.log(currentUser.id)
+    const txt = Post.find({ "userId":   currentUser.id})
+    console.log("txt[0]")
+    console.log(txt[0])
     
-    return await Post.find({  $or: [ { "reactorUser": userId },{ "userId": userId }]})
-    .populate({path : 'comments', model:'Comment', populate:[{path : "userId", model: "User"}, {path: "likes", model: "CommentLike"}, {path: "dislikes", model: "CommentDislike"}, { path: 'reposts', model: 'Repost', populate: { path: 'userId', model: 'User' }}]})
+    const posts = await Post.find({$or: [ { "reactorUser":   userId },{ "userId":   currentUser.id }]})
+    .populate({path : 'comments', model:'Comment', populate:[{path : "userId", model: "User"}, {path: "likes", model: "CommentLike"}, {path: "dislikes", model: "CommentDislike"}]})
     .sort({ createdAt: -1 })
     //.lean()
     .skip(page * resultsPerPage)
     .limit(resultsPerPage)
     .exec()
+    console.log(posts.length);
+    return posts;
     }
 
     // all users
@@ -1270,7 +1252,7 @@ router.post('/UserReadSpecialPost', verifyToken, async(req, res) => {
     try {
     let postList = [];
     Post.find({}, function(err, posts) {
-    //console.log(posts.length)
+    console.log(posts.length)
     //res.send(userMap);
     res.status(200).json(posts)
     }).populate('comments').exec();
@@ -1381,11 +1363,18 @@ router.post('/UserReadSpecialPost', verifyToken, async(req, res) => {
    // posts of only followings
    router.get('/:id/getUserPost/', verifyToken, async (req, res) => {
     try {
+    
         console.log("getUserPost");
         console.log(req.params.id);
         const currentUser = await User.findById(req.params.id);
         console.log(currentUser);
-        const userPosts = await Post.find({ reactorUser: currentUser._id, thumb: { $regex: /post/i }}).populate('Comment').exec();
+        
+        const existingSurvey = await PostSurvey.findOne({ userId: currentUser.id });
+        if (existingSurvey) {
+            return res.status(200).json({  message:  existingSurvey.prolific_code, message2: "User has already submitted a post-survey." });
+        }
+        
+        const userPosts = await Post.find({ reactorUser: currentUser._id, thumb: { $regex: /post/i }}).populate('comments').exec();
         console.log(userPosts);
         res.status(200).json(userPosts);
     

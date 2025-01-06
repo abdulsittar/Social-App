@@ -12,6 +12,7 @@ import { useMediaQuery } from 'react-responsive';
 import axios from "axios";
 import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import LoadingBar from "react-top-loading-bar";
 import { useHistory } from "react-router";
 import {COLORS} from '../../components/values/colors.js';
 //import User from '../../../../server/models/User';
@@ -30,6 +31,7 @@ function Postdetail({ classes }) {
   const { user: currentUser, dispatch } = useContext(AuthContext);
   const username = useParams().username;
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+  const [progress, setProgress] = useState(0);
 
   const token = localStorage.getItem('token');
   const handleReadChange = () => {
@@ -39,14 +41,17 @@ function Postdetail({ classes }) {
 const updateStatus_State = async () => {
   try {
     // Fetch the post by its ID
+    setProgress(30);
     const res = await axios.get(`/posts/${postObj._id}`, {
       headers: { "auth-token": token },
     });
 
     console.log("Fetched post data:", res.data);
     setPostObj(res.data); // Update state with the fetched post
+    setProgress(100);
   } catch (error) {
     console.error("Error fetching post:", error);
+    setProgress(100);
   }
 };
 

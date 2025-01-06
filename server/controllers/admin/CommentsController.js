@@ -129,7 +129,6 @@ var errorData = {};
 var data = {};  
 var action = 'add'; 
 var errorData = {};    
-console.log("I am here");
 if (req.method == "POST") { 
     var input = JSON.parse(JSON.stringify(req.body)); 
     console.log(input); 

@@ -7,7 +7,7 @@ const User = require('./models/User.js');
 //const swaggerJsdoc = require("swagger-jsdoc");
 //const swaggerUi = require("swagger-ui-express");
 const mongoose = require('mongoose');
-mongoose.set('useFindAndModify', false);
+//mongoose.set('useFindAndModify', false);
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const dotenv = require('dotenv');
 const https = require('http');
@@ -17,7 +17,7 @@ const socketIo = require('socket.io');
 const cors = require('cors');
 global.app = express();
 const server = https.createServer(app);
-
+server.setTimeout(120000);
 /*const socketio = socketIo(server,
   {
     pingInterval: 25000,
@@ -305,6 +305,7 @@ function getLastPart(url) {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+
 // SocialApp
 app.use("/images", express.static("images"));
 app.use(express.static('dist'));
@@ -388,7 +389,7 @@ if (process.env.NODE_ENV === 'production') {
 
 
 
-app.use(flash())
+app.use(flash());
 app.use(cookieParser());
 app.use(expressSession({ secret: 'D%$*&^lk32', resave: false, saveUninitialized: true }));
 app.use(function (req, res, next) { res.header('Content-Type', 'application/json'); next(); });
@@ -400,11 +401,7 @@ app.get('/text/', (req, res) => {
 app.use('/admin/', apiRouter);
 
 //const server = http.createServer(app);
-
 //const socketio = new Server(server, { cors: corsOptions});
-
-
-
 
 process.on('uncaughtException', function (err) {
   console.log('Caught exception: ' + err);
@@ -417,7 +414,7 @@ app.use((req, res, next) => {
   next();
 });
 
-console.log(process.env.MONGO_URI)
+console.log(process.env.MONGO_URI);
 app.listen(port, () => console.log(`Server started on port ${port} and ${nodeSiteUrl} and ${nodeSiteUrl}`));
 server.listen(8080, () => console.log(`Server started on port ${port} and ${nodeSiteUrl}`));
 

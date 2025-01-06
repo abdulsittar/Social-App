@@ -144,17 +144,22 @@ router.post('/isSubmitted/:val', async (req, res) => {
                 var usr ={}
                 const existingSurvey = await PostSurvey.findOne({ userId: req.params.userId });
                 console.log(existingSurvey);
-                if (existingSurvey) {
+                
+                if(existingSurvey){
+                if (existingSurvey[0].prolific_code) {
                     usr = { "data": true, "login": true, "user": userExist[0], "code": existingSurvey[0].prolific_code};
                     
                     
                 }else{
-                    usr = { "data": true, "login": true, "user": userExist[0], "code": existingSurvey[0].prolific_code };
+                    usr = { "data": true, "login": true, "user": userExist[0] };
                     
                     
                 }
                 res.status(200).json(usr);
-                
+            }else{
+                usr = { "data": true, "login": true, "user": userExist[0] };
+                res.status(200).json(usr);
+            }
                 
             } else {
             

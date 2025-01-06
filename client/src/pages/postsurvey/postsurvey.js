@@ -11,6 +11,7 @@ import { Add, Remove } from "@material-ui/icons";
 import { withStyles } from '@material-ui/core/styles';
 import {styles} from './postsurveyStyle.js';
 import styled, { keyframes } from 'styled-components';
+import LoadingBar from "react-top-loading-bar";
 
 import { useMediaQuery } from 'react-responsive';
 import TextField from '@material-ui/core/TextField'
@@ -48,6 +49,7 @@ function Postsurvey({ classes }) {
     const [preImage, setPreImage] = useState(null);
     const { user: currentUser, dispatch } = useContext(AuthContext);
     const [bio, setBio] = useState("");
+    const [progress, setProgress] = useState(0);
     const [userId, setUserId] = useState("");
     const history = useHistory();
     const [usr, setUsr] = useState({});
@@ -302,6 +304,42 @@ const fetchTimeSpent2 = async () => {
      // }
       
     const post_different_version = await axios.get("/posts/" + currentUser._id + "/getUserPost", {headers: { 'auth-token': token }})
+    
+    if(post_different_version.data.message2){
+    set_Is_code_visible(true) 
+        setIsSurveySubmitted(true)
+        stStatus_msg2(post_different_version.data.message);
+              
+        setIs_Q1_visible(false);
+        setIs_review_is_onward(false);
+ 	      setIs_Q2_visible(false);
+        setIs_Q3_visible(false);
+        setIs_Q4_visible(false);
+        setIs_Q5_visible(false);
+        setIs_Q6_visible(false);
+        setIs_Q7_visible(false);
+        setIs_Q8_visible(false);
+        setIs_Q9_visible(false);
+        setIs_Q10_visible(false);
+        setIs_Q10_visible_1(false);
+        setIs_Q10_visible_2(false);
+        setIs_Q10_visible_3(false);
+        setIs_Q11_visible(false);
+        setIs_Q12_visible(false); 
+        setIs_Q12_visible_1(false); 
+        setIs_Q13_1visible(false);
+        setIs_Q13_2visible(false);
+        setIs_Q13_3visible(false);
+	      setIs_Q14_visible(false);
+        setIs_Q15_visible(false); 
+        setIs_Q16_visible(false); 
+        setIs_Q17_visible(false);
+        setIs_Q18_visible(false);
+        setIs_Q19_visible(false);
+        setIs_Q20_visible(false);
+        setIs_Q21_visible(false);
+        setIs_TestingFeedBack_visible(false);
+    }else{
     const post = post_different_version.data[post_different_version.data.length - 1];
     console.log(post);
     if(post.thumb == "post11.png" || "post12.png"){
@@ -327,7 +365,7 @@ const fetchTimeSpent2 = async () => {
       handleFetchThumbnail();
     
     
-    
+  } 
   };
 
 
@@ -1214,6 +1252,7 @@ const handleUserNameChange = async (e) => {
   }
 
     try {
+      setProgress(30);
       console.log(survey)
       console.log(currentUser)
       const token = localStorage.getItem('token');
@@ -1261,14 +1300,15 @@ const handleUserNameChange = async (e) => {
         setIs_Q21_visible(false);
         setIs_TestingFeedBack_visible(false);
         
-        localStorage.removeItem("user");
-        localStorage.removeItem("token");
-        
+        //localStorage.removeItem("user");
+        //localStorage.removeItem("token");
+        setProgress(100);
         //history.push(`/register/${res.data.key}`);
       } catch (err) {
         console.log(err);
         setPasswordErr({A_user_with});
         setIsSurveySubmitted(false)
+        setProgress(100);
 
       }
 

@@ -9,6 +9,7 @@ import { withStyles } from '@material-ui/core/styles';
 import {styles} from './feedStyle';
 import InfiniteScroll from "react-infinite-scroll-component";
 import Loader from "../loader/loader";
+import LoadingBar from "react-top-loading-bar";
 import { useMediaQuery } from 'react-responsive';
 import {useRef} from 'react';
 import {regSw, subscribe} from '../../helper.js';
@@ -33,6 +34,7 @@ const [hasMore, setHasMore] = useState(true);
 const [index, setIndex] = useState(0);
 const [isFiltered, setIsFiltered] = useState(false);
 const [preFilter, setPreFilter] = useState(-1);
+const [progress, setProgress] = useState(0);
 const [preProfile, setPreProfile] = useState(" ");
 const [viewedPosts, setViewedPosts] = useState([]);
 const { user: currentUser } = useContext(AuthContext);
@@ -227,6 +229,7 @@ const filterLoadedPosts = async () => {
 }
 
 const fetchPosts = async (selectedValue) => {
+    setProgress(30);
     console.log("fetchpost")
     const chek = username ?  true : false;
 if(chek == true) {
@@ -275,8 +278,10 @@ if (preProfile === " ") {
         res.data.length%20 > 0 ? setHasMore(false) : setHasMore(true);
         //setIndex((index) => index + 1);
         increment(index, 1);
+        setProgress(100);
     } else {
         setHasMore(false);
+        setProgress(100);
         //setPosts([]);
         //setIndex((index) => 0);
         //increment(index, -index);
@@ -300,13 +305,16 @@ function updateViewdPosts( post) {
     }
 
 const fetchMoreData = async () => {
+    setProgress(30);
     if(searchTerm? searchTerm.length !== 0 : false){
         console.log("searchTerm");
         console.log(searchTerm.length);
+        setProgress(100);
         return
     }
 
     if(index == 0){
+        setProgress(100);
         return
     }
     //console.log("fetchpost")
@@ -335,8 +343,10 @@ const fetchMoreData = async () => {
         ]); 
          res.data.length%20 > 0 ? setHasMore(false) : setHasMore(true);
         increment(index, 1);
+        setProgress(100);
     }else {
         setHasMore(false);
+        setProgress(100);
         //setPosts([]);
         //setIndex((index) => 0);
         //increment(index, -index);
@@ -446,6 +456,7 @@ if (preProfile === " ") {
 
 return (
     <div className={classes.feed}>
+    <LoadingBar   color="#f11946"   progress={progress}   onLoaderFinished={() => setProgress(0)} />
         <InfiniteScroll dataLength={posts.length} next={fetchMoreData} hasMore={hasMore} loader={<Loader />}>
         <div className={classes.feedWrapper} style={{"width": (!isMobileDevice && !isTabletDevice) && (windowSize.innerWidth-10)+"px"}}>
             {( !username || username === user.username) }

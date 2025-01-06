@@ -12,7 +12,7 @@ if (!url) {
   }
   
   console.log("herererere");
-  mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, poolSize: 50, })
+  mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true,  })
     .then(() => {
       console.log('Connected to the database successfully!');
     })

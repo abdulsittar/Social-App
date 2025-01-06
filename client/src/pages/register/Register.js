@@ -15,6 +15,7 @@ import TimeMe from "timeme.js";
 import { useParams } from 'react-router-dom';
 import { CSSTransition } from 'react-transition-group';
 import styled, { keyframes } from 'styled-components';
+import LoadingBar from "react-top-loading-bar";
 
 import { Buffer } from 'buffer';
 import { toast } from 'react-toastify';
@@ -132,7 +133,7 @@ function Register({classes}) {
   const history = useHistory();
   const scrollBy = useScrollBy();
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
-
+  const [progress, setProgress] = useState(0);
   const [open, setOpen] = React.useState(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
@@ -317,6 +318,7 @@ function Register({classes}) {
   const getRandomNumber = () => Math.floor(Math.random() * 4) + 1;
   const isUserAlreadySubmittedSurvey = async (val) => {
     try {
+      setProgress(30);
       const token = localStorage.getItem('token');
       const res = await axios.post(`/presurvey/isSubmitted/${val}`,{ headers: { 'auth-token': token }}); 
       console.log(res.data.data);
@@ -329,6 +331,7 @@ function Register({classes}) {
         const urlParts = window.location.pathname.split('/');
         const valu = urlParts[urlParts.length-1]
         history.push(`/login/${valu}`);
+        setProgress(100);
 
       } else if(res.data.data == true){
       
@@ -413,15 +416,18 @@ function Register({classes}) {
         setIsVisibleSignUp(true);
         setIs_Post_visible(false);
         setIsVisibleBasicInfo(false);
+        setProgress(100);
 
       }else{
 
         setIsVisibleBasic(true);
+        setProgress(100);
         
       }
     } catch (err) {
       console.log(err);
       setPasswordErr({A_user_with});
+      setProgress(100);
 
     }
     // if not submitted the survey
@@ -964,8 +970,10 @@ const handle_feedback_Changed = async (e) => {
     };
   
         try {
+          setProgress(30);
           console.log(survey)
           const res = await axios.post(`/presurvey/psurvey/${uniqId}`, survey);
+          
           setButtonDisabled(true); 
           setIs_Q1_visible(false);
           setIs_review_is_onward(false);
@@ -984,10 +992,12 @@ const handle_feedback_Changed = async (e) => {
           const urlParts = window.location.pathname.split('/');
           const valu = urlParts[urlParts.length-1]
           isUserAlreadySubmittedSurvey(valu);
+          setProgress(100);
 
         } catch (err) {
           console.log(err);
           setPasswordErr({A_user_with});
+          setProgress(100);
   
         }
   };
@@ -1018,6 +1028,7 @@ const handle_feedback_Changed = async (e) => {
 
       const token = localStorage.getItem('token');
       try {
+        setProgress(30);
         const userRes = await axios.post(`/auth/register/${uniqId}`, usr)
         console.log(userRes.data);
         const user = userRes.data;
@@ -1027,12 +1038,14 @@ const handle_feedback_Changed = async (e) => {
         if(user){
           console.log("registered!!!");
           try {
+            setProgress(30);
             const res2 = await axios.post(`/posts/${uniqId}/create/`, { userId: user._id, desc: postText, pool:user.pool, headers: { 'auth-token': token }});
             console.log(res2);
             //window.open('https://survey.maximiles.com/static-complete?p=123928_220ce61d', '_blank');
             // refresh the page after posting something
             //window.focus();
             try {
+              setProgress(30);
               //await axios.post("/posts/" + user._id + "/createInitialData");
               await axios.post(`/posts/${uniqId}/createInitialData/`, { version: user.pool, userId: user._id, headers: { 'auth-token': token }});
                //await axios.post("/posts/create", newPost);
@@ -1041,15 +1054,19 @@ const handle_feedback_Changed = async (e) => {
                dispatch({ type: "LOGIN_SUCCESS", payload: user });
               history.push("/");
      
-             } catch (err) {console.log(err);}
+             } catch (err) {
+              setProgress(100);
+             console.log(err);}
              
             
           } catch (err) {
+            setProgress(100);
             console.log(err)
           }
         }
       } catch (err) {
         setPasswordErr("Error");
+        setProgress(100);
         console.log(err)
 
       }
@@ -1084,6 +1101,7 @@ const handle_feedback_Changed = async (e) => {
       //const postText = document.getElementById('post').value;
 
       try {
+        setProgress(30);
         const userRes = await axios.post(`/auth/register/${uniqId}`, usr)
         console.log(userRes.data.user);
         console.log(userRes.data.token);
@@ -1100,6 +1118,7 @@ const handle_feedback_Changed = async (e) => {
             //console.log(res2);
             
             try {
+              setProgress(30);
                await axios.post(`/posts/${uniqId}/createInitialData/`, { version: user.pool, userId: user._id, headers: { 'auth-token': token }});
                 //await axios.post("/posts/create", newPost);
                 // refresh the page after posting something
@@ -1108,7 +1127,9 @@ const handle_feedback_Changed = async (e) => {
                 dispatch({ type: "LOGIN_SUCCESS", payload: user });
                 history.push("/");
       
-              } catch (err) {console.log(err);}
+              } catch (err) {
+                setProgress(100);
+                console.log(err);}
             
             
           //} catch (err) {
@@ -1116,6 +1137,7 @@ const handle_feedback_Changed = async (e) => {
           //}
         }
       } catch (err) {
+        setProgress(100);
         setPasswordErr("Error");
         console.log(err)
 
@@ -1128,6 +1150,7 @@ const handle_feedback_Changed = async (e) => {
 
     return (
       <>
+      <LoadingBar color="#f11946" progress={progress} onLoaderFinished={() => setProgress(0)}/>
       <ToastContainer></ToastContainer>
       <div className={classes.register}>
 

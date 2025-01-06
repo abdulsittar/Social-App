@@ -9,6 +9,7 @@ var mongoose  = require('mongoose');
 const jwt = require('jsonwebtoken');
 const verifyToken = require('../middleware/verifyToken');
 require("dotenv").config();
+const timeout = require('connect-timeout');
 
 const { ObjectId } = require('mongodb');
 /**
@@ -151,7 +152,6 @@ router.post('/register/:uniqId',  async (req, res) => {
     });
 
     // save user and send response
-
 
     const user = await newUser.save();
     console.log(`${process.env.JWT_SECRET}`)
