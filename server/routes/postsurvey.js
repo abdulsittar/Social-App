@@ -7,6 +7,7 @@ const { ObjectId } = require('mongodb');
 const IDStorage = require('../models/IDStorage');
 const verifyToken = require('../middleware/verifyToken');
 const sanitizeHtml = require('sanitize-html');
+const logger = require('../logs/logger');
 
 function sanitizeInput(input) {
     return sanitizeHtml(input, {
@@ -22,6 +23,7 @@ function generateSevenDigitRandomNumber() {
 
 // Submit pre survey
 router.post('/pstsurvey/:userId', verifyToken, async (req, res) => {
+    logger.info('Data received', { data: req.body });
     try{
         console.log("herelkjkl");
         console.log(req.params);
@@ -70,6 +72,7 @@ router.post('/pstsurvey/:userId', verifyToken, async (req, res) => {
         return
     
     } catch (err) {
+        logger.error('Error saving data', { error: err.message });
         console.log(err)
         res.status(500).json(err);
     }

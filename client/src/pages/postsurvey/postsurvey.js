@@ -341,11 +341,13 @@ const fetchTimeSpent2 = async () => {
         setIs_TestingFeedBack_visible(false);
     }else{
     const post = post_different_version.data[post_different_version.data.length - 1];
+    console.log("Post Survey");
+    console.log(currentUser.pool);
     console.log(post);
-    if(post.thumb == "post11.png" || "post12.png"){
+    if(currentUser.pool === "1" || currentUser.pool ==="2"){
       setPostSpecificText("6. Wie wahrscheinlich wäre es, dass Sie sich mit einem mRNA Impfstoff impfen lassen würden?");
       
-    }else if(post.thumb == "post13.png" || "post14.png"){
+    }else if(currentUser.pool == "3" || currentUser.pool ==="4"){
       setPostSpecificText("6. Wie wahrscheinlich wäre es, dass Sie sich gegen Mpox (Affenpocken) impfen lassen würden?");
       
     }
@@ -363,7 +365,6 @@ const fetchTimeSpent2 = async () => {
     };
   
       handleFetchThumbnail();
-    
     
   } 
   };
@@ -948,7 +949,7 @@ const handleUserNameChange = async (e) => {
           setIs_Q15_visible(true);
           //setIs_Q16_visible(true);
           setIs_Q21_visible(true);
-    setIs_TestingFeedBack_visible(true);
+    setIs_TestingFeedBack_visible(false);
           
           //setIs_Q17_visible(true);
           //scrollBy({ top: 200, left: 0, behavior: "smooth" })
@@ -991,7 +992,7 @@ const handleUserNameChange = async (e) => {
     setIs_Q19_visible(true);
     setIs_Q20_visible(true);
     setIs_Q21_visible(true);
-    setIs_TestingFeedBack_visible(true);
+    setIs_TestingFeedBack_visible(false);
         
         
         
@@ -1003,7 +1004,7 @@ const handleUserNameChange = async (e) => {
     setIs_Q19_visible(true);
     setIs_Q20_visible(true);
     setIs_Q21_visible(true);
-    setIs_TestingFeedBack_visible(true);
+    setIs_TestingFeedBack_visible(false);
 
       }
     } else{
@@ -1122,7 +1123,7 @@ const handleUserNameChange = async (e) => {
     setIs_Q18_visible(true);
     setIs_Q19_visible(true);
     setIs_Q20_visible(true);
-    setIs_TestingFeedBack_visible(true);
+    setIs_TestingFeedBack_visible(false);
                 
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" })
             };
@@ -1300,8 +1301,8 @@ const handleUserNameChange = async (e) => {
         setIs_Q21_visible(false);
         setIs_TestingFeedBack_visible(false);
         
-        //localStorage.removeItem("user");
-        //localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        localStorage.removeItem("token");
         setProgress(100);
         //history.push(`/register/${res.data.key}`);
       } catch (err) {
@@ -1378,7 +1379,7 @@ const handleUserNameChange = async (e) => {
       </div>
               </CSSTransition>*/}
 
-        <CSSTransition in={setIs_TestingFeedBack_visible} timeout={1000} classNames="slide" unmountOnExit > 
+        <CSSTransition in={is_TestingFeedBack_visible} timeout={1000} classNames="slide" unmountOnExit > 
         <div id='feedback2'>
         <p className={classes.secon_disclaimor}>{"Please report any issues that you found"}</p>
         <textarea  className={classes.label2} id="feedback" rows={4}  onChange={handle_feedback_Changed}  value={feedback} placeholder={"Provide your feedback about the pre-survey here. A text area for feedback will also be available in the post-survey. Additionally, feel free to use these text fields to mention any other concerns or issues. You can also leave comments to highlight any problems encountered on the platform."}/>

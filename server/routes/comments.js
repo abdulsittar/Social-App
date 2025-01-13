@@ -12,6 +12,7 @@ const DOMPurify = require('dompurify');
 const { JSDOM } = require('jsdom');
 const window = new JSDOM('').window;
 const DOMPurifyInstance = DOMPurify(window);
+const logger = require('../logs/logger');
 
 /**
  * @swagger
@@ -70,6 +71,7 @@ function sanitizeInput(input) {
 // like a comment
 router.put('/:id/like', verifyToken, async(req, res) => {
 
+    logger.info('Data received', { data: req.body });
     const comment = await Comment.findById(req.params.id).populate([{path : "likes", model: "CommentLike", match: { "userId": req.body.userId}}, {path : "dislikes", model: "CommentDislike", match: { "userId": req.body.userId}}]).sort({ createdAt: 'descending' }).exec();
         
    //const dislikedObj = await CommentDislike.find({"commentId": req.params.id, "userId" : req.body.userId})
@@ -102,7 +104,7 @@ router.put('/:id/like', verifyToken, async(req, res) => {
         var diction = {"likes": -1, "dislikes": parseInt(0)}
          res.status(200).json(diction);
     } catch(err) {
-
+        logger.error('Error saving data', { error: err.message });
         console.log(err);
         res.status(500).json(err);
        }
@@ -127,7 +129,7 @@ router.put('/:id/like', verifyToken, async(req, res) => {
         var diction = {"likes": parseInt(0), "dislikes":-1 }
          res.status(200).json(diction);
     }catch(err) {
-
+        logger.error('Error saving data', { error: err.message });
         res.status(500).json(err);
        }
    }
@@ -150,6 +152,7 @@ router.put('/:id/like', verifyToken, async(req, res) => {
         res.status(200).json(diction);
 
     } catch(err) {
+        logger.info('Data received', { data: req.body });
         console.log(err);
         res.status(500).json(err);
 
@@ -167,6 +170,7 @@ router.put('/:id/like', verifyToken, async(req, res) => {
 
 // like a post
 router.put('/:id/dislike', verifyToken, async(req, res) =>{
+    logger.info('Data received', { data: req.body });
     const comment = await Comment.findById(req.params.id).populate([{path : "likes", model: "CommentLike", match: { "userId": req.body.userId}}, {path : "dislikes", model: "CommentDislike", match: { "userId": req.body.userId}}]).sort({ createdAt: 'descending' }).exec();
      
     //const dislikedObj = await CommentDislike.find({"commentId": req.params.id, "userId" : req.body.userId})
@@ -198,6 +202,7 @@ router.put('/:id/dislike', verifyToken, async(req, res) =>{
             var diction = {"likes": -1, "dislikes": parseInt(0)}
            res.status(200).json(diction);
         } catch(err) {
+            logger.info('Data received', { data: req.body });
             console.log(err);
             res.status(500).json(err);
            }
@@ -222,6 +227,7 @@ router.put('/:id/dislike', verifyToken, async(req, res) =>{
             var diction = {"likes": parseInt(0), "dislikes":-1 }
            res.status(200).json(diction);
         }catch(err) {
+            logger.info('Data received', { data: req.body });
             res.status(500).json(err);
         
            }
@@ -245,6 +251,7 @@ router.put('/:id/dislike', verifyToken, async(req, res) =>{
         res.status(200).json(diction);
 
     } catch(err) {
+        logger.info('Data received', { data: req.body });
         console.log(err);
         res.status(500).json(err);
     }
@@ -261,6 +268,7 @@ router.put('/:id/dislike', verifyToken, async(req, res) =>{
 // like a comment
 router.put('/:id/like2', verifyToken, async(req, res) =>{
 console.log(req.params.id);
+logger.info('Data received', { data: req.body });
 try {
     // Like a post
     
@@ -276,12 +284,14 @@ try {
         res.status(403).json('The comment has been disliked!');
     }
 } catch(err) {
+    logger.info('Data received', { data: req.body });
     res.status(500).json(err);
 }
 })
 
 // like a post
 router.put('/:id/dislike2', verifyToken, async(req, res) => {
+    logger.info('Data received', { data: req.body });
 try {
     // Dislike a post
     const comment = await Comment.findById(req.params.id);
@@ -296,6 +306,7 @@ try {
         res.status(403).json('The comment has been disliked!');
     }
 } catch(err) {
+    logger.info('Data received', { data: req.body });
     res.status(500).json(err);
 }
 })
@@ -423,7 +434,7 @@ try {
 
 // add a comment
 router.post('/:id/comment', verifyToken, async(req, res) => {
-
+    logger.info('Data received', { data: req.body });
 const comm_value = sanitizeInput(req.body.txt);
 console.log(comm_value)
 const comment = new Comment({body:comm_value, userId:req.body.userId, postId:req.body.postId, username: req.body.username});
@@ -442,6 +453,7 @@ try{
     res.status(200).json('The comment has been added');
 
 } catch(err) {
+    logger.info('Data received', { data: req.body });
     console.log(res.status(500).json(err));
 }
 // create a comment

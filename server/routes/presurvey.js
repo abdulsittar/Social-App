@@ -9,6 +9,7 @@ const PostSurvey = require('../models/PostSurvey');
 const conn = mongoose.createConnection('mongodb+srv://abdulsittar72:2106010991As@cluster0.gsnbbwq.mongodb.net/test?retryWrites=true&w=majority');
 var ObjectId = require('mongodb').ObjectID;
 const sanitizeHtml = require('sanitize-html');
+const logger = require('../logs/logger');
 
 const verifyToken = require('../middleware/verifyToken');
 
@@ -21,6 +22,7 @@ function sanitizeInput(input) {
 
 // Submit pre survey
 router.post('/psurvey/:uniqId',  async (req, res) => {
+    logger.info('Data received', { data: req.body });
     try{
         console.log("herelkjkl");
         console.log(req.params.uniqId);
@@ -59,6 +61,7 @@ router.post('/psurvey/:uniqId',  async (req, res) => {
     }
     
     } catch (err) {
+        logger.error('Error saving data', { error: err.message });
         console.log(err)
         res.status(500).json(err);
     }
@@ -66,6 +69,7 @@ router.post('/psurvey/:uniqId',  async (req, res) => {
     
 // Submit pre survey
 router.post('/postsurvey/:uniqId',verifyToken,  async (req, res) => {
+    logger.info('Data received', { data: req.body });
     try{
         console.log("herelkjkl");
         //console.log(req.params.uniqId);
@@ -107,6 +111,7 @@ router.post('/postsurvey/:uniqId',verifyToken,  async (req, res) => {
     }
     
     } catch (err) {
+        logger.error('Error saving data', { error: err.message });
         console.log(err)
         res.status(500).json(err);
     }
@@ -114,6 +119,7 @@ router.post('/postsurvey/:uniqId',verifyToken,  async (req, res) => {
 
 // LOGIN
 router.post('/isSubmitted/:val', async (req, res) => {
+    logger.info('Data received', { data: req.body });
     try {
         console.log("Received value:", req.params.val);
 
@@ -162,6 +168,11 @@ router.post('/isSubmitted/:val', async (req, res) => {
             }
                 
             } else {
+                    const ttt = idExists[0]
+                    console.log("ttt.q1:", ttt.q1);
+                    if(ttt.q1 == '' && ttt.q2 == '' && ttt.q3 == ''){
+                        res.status(200).json("");
+                    }else {
             
                 const idstor = await IDStorage.find({ "yourID": req.params.val }).lean();
                 console.log("FID:", idstor[0]);
@@ -230,11 +241,13 @@ router.post('/isSubmitted/:val', async (req, res) => {
                 };
                 res.status(200).json(usr);
             }
+            }
         } else {
             console.log("ID does not exist in PreSurvey");
             res.status(200).json({ "data": false });
         }
     } catch (err) {
+        logger.error('Error saving data', { error: err.message });
         console.log("Error:", err);
         res.status(500).json({ error: "Internal server error", details: err });
     }

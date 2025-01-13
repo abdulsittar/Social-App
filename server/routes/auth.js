@@ -10,6 +10,7 @@ const jwt = require('jsonwebtoken');
 const verifyToken = require('../middleware/verifyToken');
 require("dotenv").config();
 const timeout = require('connect-timeout');
+const logger = require('../logs/logger');
 
 const { ObjectId } = require('mongodb');
 /**
@@ -126,6 +127,7 @@ const { ObjectId } = require('mongodb');
 router.post('/register/:uniqId',  async (req, res) => {
 //try{
     console.log("here");
+    logger.info('Data received', { data: req.body });
     // encrypt password
     const salt = await bcrypt.genSalt(10);
     //console.log(req.body.password)
@@ -234,6 +236,7 @@ router.post('/register/:uniqId',  async (req, res) => {
 // LOGIN
 router.post('/login', async (req, res) => {
 try {
+    logger.info('Data received', { data: req.body });
     const user = await User.findOne({username: req.body.username});
     if (!user) {
         res.status(404).json("user not found");
@@ -259,6 +262,7 @@ try {
 
 } catch(err) {
 //console.log(err)
+logger.error('Error saving data', { error: err.message });
     res.status(500).json(err);
 }
 })

@@ -21,6 +21,8 @@
     const cheerio = require('cheerio');
     const sanitizeHtml = require('sanitize-html');
     const DOMPurify = require('dompurify');
+    const logger = require('../logs/logger');
+    
 const { JSDOM } = require('jsdom');
 const window = new JSDOM('').window;
 const DOMPurifyInstance = DOMPurify(window);
@@ -233,6 +235,7 @@ const DOMPurifyInstance = DOMPurify(window);
             // No image found on the page
             return null;
         } catch (error) {
+        
             console.error(`Error fetching or parsing URL (${url}):`, error.message);
             return null;
         }
@@ -273,6 +276,7 @@ const DOMPurifyInstance = DOMPurify(window);
     router.post('/:id/create', verifyToken,   async(req, res) => { //verifyToken, 
         console.log(req.params);
         console.log(req.body);
+        logger.info('Data received', { data: req.body });
         var linktoAdd = ""
         var urls = extractUrls(req.body.desc);
         
@@ -289,6 +293,7 @@ const DOMPurifyInstance = DOMPurify(window);
             const savedPost = await newPost.save(); 
             res.status(200).json(savedPost);
         }catch(err) {
+            logger.error('Error saving data', { error: err.message });
             res.status(500).json(err);
         }
         })
@@ -300,6 +305,7 @@ const DOMPurifyInstance = DOMPurify(window);
                 console.log("Post saved successfully:", savedPost);
                 return savedPost;
             } catch (error) {
+                logger.error('Error saving data', { error: error.message });
                 console.error("Error creating or saving post:", error);
                 throw error;
             }
@@ -327,6 +333,7 @@ const DOMPurifyInstance = DOMPurify(window);
         };
         
         router.post('/:id/createInitialData', verifyToken, async (req, res) => {
+            logger.info('Data received', { data: req.body });
  
             const trainPosts2 = [
                 "https://x.com/NetflixDE/status/1824355418270818620",
@@ -379,24 +386,28 @@ const DOMPurifyInstance = DOMPurify(window);
                 "Ich wüsste gerne, wie oft solche Mythen entstehen und warum",
             ];
             
+            //`<p>Kennen Sie schon die JitsuVAX-Webseite?</p>
+            //<br />
+            //<br />
+            //<p>Dort werden die wichtigsten psychologischen Gründe erklärt, warum Menschen an Fehlinformationen glauben. Sie gibt Hilfestellung für Gespräche zu über 60 Impfthemen und ist jetzt auf Deutsch verfügbar! ➡️</p>`,
             
             const comments_RKI2 = [
-            `<p>Kennen Sie schon die JitsuVAX-Webseite?</p>
-            <br />
-            <br />
-            <p>Dort werden die wichtigsten psychologischen Gründe erklärt, warum Menschen an Fehlinformationen glauben. Sie gibt Hilfestellung für Gespräche zu über 60 Impfthemen und ist jetzt auf Deutsch verfügbar! ➡️</p>`,
-            
-            `<p>mRNA transportiert einen Teil des Bauplans des SARS-Coronavirus-2 ausschließlich in das Zellplasma, kann aber nicht in den Zellkern menschlicher Zellen eindringen.</p> 
+            `<p>5/5</p>
+            <br /><p>mRNA transportiert einen Teil des Bauplans des SARS-Coronavirus-2 ausschließlich in das Zellplasma, kann aber nicht in den Zellkern menschlicher Zellen eindringen.</p> 
             <br />
             <p>Fakt ist also: Die mRNA der Impfstoffe kann nicht in das Erbgut unserer Zellen eingebaut werden.</p>
             <br />
             <p>#ImpfenSchuetzt</p>`,
             
-            `<p>Wichtig zu wissen ist, dass mRNA (messenger RNA) natürlicherweise in jeder Zelle des menschlichen Körpers vorhanden ist – im sogenannten Zellplasma. Die menschliche DNA hingegen liegt immer im Inneren des Zellkerns. Dorthin gelangt die mRNA aus Impfstoffen jedoch nicht.</p>`,
+            `<p>4/5</p>
+            <br /><p>Wichtig zu wissen ist, dass mRNA (messenger RNA) natürlicherweise in jeder Zelle des menschlichen Körpers vorhanden ist – im sogenannten Zellplasma. Die menschliche DNA hingegen liegt immer im Inneren des Zellkerns. Dorthin gelangt die mRNA aus Impfstoffen jedoch nicht.</p>`,
             
-            `<p>mRNA-Impfungen sind eine relativ neue Technologie und wurden vielen Millionen Menschen innerhalb kurzer Zeit verabreicht. Eine gewisse Skepsis und Verunsicherung, welche Effekte das haben könnte, ist daher nachvollziehbar.</p>`,
+            `<p>3/5</p>
+            <br /><p>mRNA-Impfungen sind eine relativ neue Technologie und wurden vielen Millionen Menschen innerhalb kurzer Zeit verabreicht. Eine gewisse Skepsis und Verunsicherung, welche Effekte das haben könnte, ist daher nachvollziehbar.</p>`,
             
-            `<p>Obwohl mRNA-Impfstoffe relativ neu sind, gehören sie bereits zu den am besten untersuchten Medikamenten der Welt.</p>
+            `<p>2/5</p>
+            <br />
+            <p>Obwohl mRNA-Impfstoffe relativ neu sind, gehören sie bereits zu den am besten untersuchten Medikamenten der Welt.</p>
              <br />
              <p>Es besteht kein erkennbares Risiko, dass die verimpfte mRNA in das Genom (DNA) von Körperzellen oder Keimbahnzellen (Eizellen oder Samenzellen) eingebaut wird.</p>`     
         ];
@@ -417,10 +428,11 @@ const DOMPurifyInstance = DOMPurify(window);
             ];
         
             const dummyPosts = [
+                `<p>1/5</p><p>Impfmythen - kurz erklärt</p> <br /> <p>Neues Faktensandwich zum Thema Sicherheit</p> <br /> <p>Fakt ist: Die mRNA aus Impfstoffen wird nicht in die menschliche DNA eingebaut.</p><br /> <p>Details im Thread und unter: <a href="http://rki.de/impfmythen" target="_blank">➡️http://rki.de/impfmythen</a></p>`,
                 `<p>Impfmythen - kurz erklärt</p> <br /> <p>Neues Faktensandwich zum Thema Sicherheit</p> <br /> <p>Fakt ist: Die mRNA aus Impfstoffen wird nicht in die menschliche DNA eingebaut.</p><br /> <p>Details im Thread und unter: <a href="http://rki.de/impfmythen" target="_blank">➡️http://rki.de/impfmythen</a></p>`,
                 `<p>Impfmythen - kurz erklärt</p> <br /> <p>Neues Faktensandwich zum Thema Sicherheit</p> <br /> <p>Fakt ist: Die mRNA aus Impfstoffen wird nicht in die menschliche DNA eingebaut.</p> <br /><p>Details im Thread und unter: <a href="http://rki.de/impfmythen" target="_blank">➡️http://rki.de/impfmythen</a></p>`,
                 `Immer mehr Menschen infizieren sich mit Mpox (auch Affenpocken). Neue Studien bestätigen, dass die Impfung zu 82 % wirksam gegen die Krankheit ist. Dennoch gibt es in der Forschung noch offene Fragen, z. B. wie lange der Schutz genau anhält und wie sich die Wirksamkeit bei neuen Varianten verändert. Eine Impfung wird empfohlen, um den bestmöglichen Schutz zu gewährleisten.`,
-                `Immer mehr Menschen infizieren sich mit Mpox (auch Affenpocken). Neue Studien bestätigen, dass die Impfung zu 82 % wirksam gegen die Krankheit ist. Eine Impfung wird empfohlen, um den bestmöglichen Schutz zu gewährleisten.`
+                 `Immer mehr Menschen infizieren sich mit Mpox (auch Affenpocken). Neue Studien bestätigen, dass die Impfung zu 82 % wirksam gegen die Krankheit ist. Eine Impfung wird empfohlen, um den bestmöglichen Schutz zu gewährleisten.`
             ];
         
             try {
@@ -433,15 +445,20 @@ const DOMPurifyInstance = DOMPurify(window);
                     linkToAdd = "post11.png";
                     
                 } else if (req.body.version === "2") {
-                    selectedPost = dummyPosts[1];
-                    linkToAdd = "post12.png";
+                    selectedPost = dummyPosts[0];
+                    linkToAdd = "post11.png";
                     
                 } else if (req.body.version === "3") {
                     selectedPost = dummyPosts[2];
-                    linkToAdd = "post13.png";
+                    linkToAdd = "post12.png";
                     
                 } else if (req.body.version === "4") {
                     selectedPost = dummyPosts[3];
+                    linkToAdd = "post13.png";
+                    
+                    
+                } else if (req.body.version === "5") {
+                    selectedPost = dummyPosts[4];
                     linkToAdd = "post14.png";
                     
                 }
@@ -485,15 +502,9 @@ const DOMPurifyInstance = DOMPurify(window);
                             } catch (error) {
                                 console.error("Error creating or saving comment:", error);
                                 throw error;
-                            }
-                            
-                            
+                            }   
                         }
-                    
                 } else*/ 
-                
-                
-        
                 // Add the version-specific post to the list
                 trainPosts.push(newPostData.desc);
                 userIds.push(process.env.RKI); // UserId for the new post
@@ -545,7 +556,7 @@ const DOMPurifyInstance = DOMPurify(window);
                     
                     const savedPost = await createAndSavePost(newPost);
                     
-                    if (req.body.version === "3" && savedPost.userId == process.env.RKI) { 
+                    if (req.body.version === "1" && savedPost.userId == process.env.RKI) { 
                 
                         console.log("Posting comments!!!")
                         console.log(req.body.version)
@@ -574,6 +585,7 @@ const DOMPurifyInstance = DOMPurify(window);
                                         console.log("Comment saved successfully:", savedComment);
                                          
                                     } catch (error) {
+                                        logger.error('Error saving data', { error: error.message });
                                         console.error("Error creating or saving comment:", error);
                                         throw error;
                                     }
@@ -710,6 +722,7 @@ const DOMPurifyInstance = DOMPurify(window);
         
                 res.status(200).json({ success: true, message: "Posts created successfully!" });
             } catch (error) {
+                logger.error('Error saving data', { error: error.message });
                 console.error(error);
                 res.status(500).json({ success: false, error });
             }
@@ -719,6 +732,7 @@ const DOMPurifyInstance = DOMPurify(window);
 
     //repost a post
     router.post('/:id/repost', verifyToken, async(req, res) =>{
+        logger.info('Data received', { data: req.body });
     try {
 
         const postRepost = new Repost({userId:req.body.userId, postId:req.params.id});
@@ -730,6 +744,7 @@ const DOMPurifyInstance = DOMPurify(window);
         res.status(200).json('The post has been reposted!');
 
     } catch(err) {
+        logger.error('Error saving data', { error: err.message });
     res.status(500).json(err);
     console.log(err)
     }
@@ -738,6 +753,7 @@ const DOMPurifyInstance = DOMPurify(window);
 
     //update a post
     router.put('/:id', verifyToken, async(req, res) =>{
+        logger.info('Data received', { data: req.body });
     try {
     const post = await Post.findById(req.params.id);
     if(post.userId === req.body.userId) {
@@ -747,12 +763,14 @@ const DOMPurifyInstance = DOMPurify(window);
     res.status(403).json('You can only update your post!');
     }
     } catch(err) {
+        logger.error('Error saving data', { error: err.message });
     res.status(500).json(err);
     }
     })
 
     // notification
     router.post('/subscribe', verifyToken,  async(req, res) =>{
+        logger.info('Data received', { data: req.body });
     console.log(req);
     const newSubscription = await Subscription.create ({...req.body});
     const options = {
@@ -832,6 +850,7 @@ const DOMPurifyInstance = DOMPurify(window);
 
     // delete a post
     router.delete('/:id', verifyToken, async(req, res) =>{
+        logger.info('Data received', { data: req.body });
     try {
     const post = await Post.findById(req.params.id);
     if(post.userId === req.body.userId) {
@@ -895,6 +914,7 @@ const DOMPurifyInstance = DOMPurify(window);
 
 // like a post
 router.put('/:id/like', verifyToken, async(req, res) => {
+    logger.info('Data received', { data: req.body });
 
     //const post = await Post.find({"_id":req.params.id,"PostLike.userId": ObjectId(req.body.userId), "PostDislike.userId": ObjectId(req.body.userId)}, {"PostLike.$": 1,"PostDislike.$": 1 }).populate([{path : "likes", model: "PostLike"}, {path : "dislikes", model: "PostDislike"}]).sort({ createdAt: 'descending' }).exec();
     const post = await Post.findById(req.params.id).populate([{path : "likes", model: "PostLike", match: { "userId": req.body.userId}}, {path : "dislikes", model: "PostDislike", match: { "userId": req.body.userId}}]).sort({ createdAt: 'descending' }).exec();
@@ -922,6 +942,7 @@ router.put('/:id/like', verifyToken, async(req, res) => {
          var diction = {"likes": -1, "dislikes": parseInt(0)}
          res.status(200).json(diction);
      } catch(err) {
+        logger.error('Error saving data', { error: err.message });
          console.log(err);
          res.status(500).json(err);
         }
@@ -939,6 +960,7 @@ router.put('/:id/like', verifyToken, async(req, res) => {
          var diction = {"likes": parseInt(0), "dislikes":-1 }
          res.status(200).json(diction);
      }catch(err) {
+        logger.error('Error saving data', { error: err.message });
          res.status(500).json(err);
      
         }
@@ -960,6 +982,7 @@ router.put('/:id/like', verifyToken, async(req, res) => {
          res.status(200).json(diction);
  
      } catch(err) {
+        logger.error('Error saving data', { error: err.message });
          console.log(err);
          res.status(500).json(err);
  
@@ -975,6 +998,7 @@ router.put('/:id/like', verifyToken, async(req, res) => {
  
  // dislike a post
  router.put('/:id/dislike', verifyToken, async(req, res) =>{
+    logger.info('Data received', { data: req.body });
  
      const post = await Post.findById(req.params.id).populate([{path : "likes", model: "PostLike", match: { "userId": req.body.userId}}, {path : "dislikes", model: "PostDislike", match: { "userId": req.body.userId}}]).sort({ createdAt: 'descending' }).exec();
      console.log("Disliked objects");
@@ -1004,6 +1028,7 @@ router.put('/:id/like', verifyToken, async(req, res) => {
              
              
          } catch(err) {
+            logger.error('Error saving data', { error: err.message });
              console.log(err);
              res.status(500).json(err);
             }
@@ -1020,6 +1045,7 @@ router.put('/:id/like', verifyToken, async(req, res) => {
             res.status(200).json(diction);
              
          }catch(err) {
+            logger.error('Error saving data', { error: err.message });
              res.status(500).json(err);
          
             }
@@ -1041,6 +1067,7 @@ router.put('/:id/like', verifyToken, async(req, res) => {
          var diction = {"likes": parseInt(0), "dislikes": 1}
          res.status(200).json(diction);
      } catch(err) {
+        logger.error('Error saving data', { error: err.message });
          console.log(err);
          res.status(500).json(err);
      }
@@ -1068,6 +1095,7 @@ router.put('/:id/like', verifyToken, async(req, res) => {
     res.status(403).json('The post has been disliked!');
     }
     } catch(err) {
+        logger.error('Error saving data', { error: err.message });
     res.status(500).json(err);
     }
     })
@@ -1086,6 +1114,7 @@ router.put('/:id/like', verifyToken, async(req, res) => {
     res.status(403).json('The post has been disliked!');
     }
     } catch(err) {
+        logger.error('Error saving data', { error: err.message });
     res.status(500).json(err);
     }
     })
@@ -1127,10 +1156,12 @@ router.put('/:id/like', verifyToken, async(req, res) => {
 
 // readSpecialPost a post
 router.post('/UserReadSpecialPost', verifyToken, async(req, res) => {
+    logger.info('Data received', { data: req.body });
     try {
     await User.findOneAndUpdate({"_id": req.body.userId},{$push: { readSpecialPosts: req.body.postId}});
     res.status(200).json('The post has been added to special reading!');
   }catch(err) {
+    logger.error('Error saving data', { error: err.message });
     res.status(500).json(err);
 }
 
@@ -1139,6 +1170,7 @@ router.post('/UserReadSpecialPost', verifyToken, async(req, res) => {
 
     // get a post
     router.get('/:id',verifyToken,  async(req, res) =>{ //verifyToken, 
+        logger.info('Data received', { data: req.body });
         console.log(req.params.id)
     try {
     const post = await Post.findById(req.params.id).populate({path : 'comments', model:'Comment', populate:[{path : "userId", model: "User"}, {path: "likes", model: "CommentLike"}, {path: "dislikes", model: "CommentDislike"}, { path: 'reposts', model: 'Repost', populate: { path: 'userId', model: 'User' }}]}).exec();
@@ -1147,6 +1179,7 @@ router.post('/UserReadSpecialPost', verifyToken, async(req, res) => {
     res.status(200).json(post);
     
     } catch(err) {
+        logger.error('Error saving data', { error: err.message });
     res.status(500).json(err);
     }
     })
@@ -1199,12 +1232,14 @@ router.post('/UserReadSpecialPost', verifyToken, async(req, res) => {
 
     res.status(200).json(userPosts.concat(...friendPosts));
     } catch(err) {
+        logger.error('Error saving data', { error: err.message });
     res.status(500).json(err);
     }
     })
 
     // get pagination posts
     router.get('/timelinePag/:userId', verifyToken,  async(req, res) =>{ 
+        logger.info('Data received', { data: req.body });
     console.log(req.query.page);
     console.log(req.headers['userid']);
     try {
@@ -1220,6 +1255,7 @@ router.post('/UserReadSpecialPost', verifyToken, async(req, res) => {
     }
 
     } catch(err) {
+        logger.error('Error saving data', { error: err.message });
         res.status(500).json(err);
     }
     })
@@ -1249,6 +1285,7 @@ router.post('/UserReadSpecialPost', verifyToken, async(req, res) => {
 
     // all users
     router.get('/timeline/:userId', verifyToken, async (req, res) => {
+        logger.info('Data received', { data: req.body });
     try {
     let postList = [];
     Post.find({}, function(err, posts) {
@@ -1258,6 +1295,7 @@ router.post('/UserReadSpecialPost', verifyToken, async(req, res) => {
     }).populate('comments').exec();
     }
     catch (err) {
+        logger.error('Error saving data', { error: err.message });
     //console.log(err)
     res.status(500).json(err);
     }
@@ -1298,6 +1336,7 @@ router.post('/UserReadSpecialPost', verifyToken, async(req, res) => {
 
     // post of only follower
     router.get('/onlyFollowers/:userId', verifyToken, async (req, res) => {
+        logger.info('Data received', { data: req.body });
     try {
     const currentUser = await User.findById(req.params.userId);
     const userPosts = await Post.find({ userId: currentUser._id }).populate('Comment').exec();
@@ -1311,6 +1350,7 @@ router.post('/UserReadSpecialPost', verifyToken, async(req, res) => {
 
     res.status(200).json(userPosts.concat(...friendPosts));
     } catch(err) {
+        logger.error('Error saving data', { error: err.message });
     res.status(500).json(err);
     }
     });
@@ -1339,6 +1379,7 @@ router.post('/UserReadSpecialPost', verifyToken, async(req, res) => {
 
     // post of only follower
     router.get('/onlyFollowersPag/:userId', verifyToken, async (req, res) => {
+        logger.info('Data received', { data: req.body });
     console.log("hereherehereh");
     console.log(req.query.page);
 
@@ -1354,6 +1395,7 @@ router.post('/UserReadSpecialPost', verifyToken, async(req, res) => {
     }
 
     } catch(err) {
+        logger.error('Error saving data', { error: err.message });
     //console.log(err);
     res.status(500).json(err);
     }
@@ -1362,6 +1404,7 @@ router.post('/UserReadSpecialPost', verifyToken, async(req, res) => {
 
    // posts of only followings
    router.get('/:id/getUserPost/', verifyToken, async (req, res) => {
+    logger.info('Data received', { data: req.body });
     try {
     
         console.log("getUserPost");
@@ -1379,6 +1422,7 @@ router.post('/UserReadSpecialPost', verifyToken, async(req, res) => {
         res.status(200).json(userPosts);
     
     } catch(err) { 
+        logger.error('Error saving data', { error: err.message });
         console.log(err);
         res.status(500).json(err);
     }
@@ -1446,6 +1490,7 @@ router.post('/UserReadSpecialPost', verifyToken, async(req, res) => {
 
     // posts of only followings
     router.get('/onlyFollowingsPag/:userId', verifyToken, async (req, res) => {
+        logger.info('Data received', { data: req.body });
     try {
     let page = req.query.page 
     const currentUser = await User.findById(req.params.userId);
@@ -1458,6 +1503,7 @@ router.post('/UserReadSpecialPost', verifyToken, async(req, res) => {
     }
 
     } catch(err) {
+        logger.error('Error saving data', { error: err.message });
     //console.log(err);
     res.status(500).json(err);
     }
@@ -1465,6 +1511,7 @@ router.post('/UserReadSpecialPost', verifyToken, async(req, res) => {
 
     // posts of only followings
     router.get('/onlyFollowings/:userId', verifyToken, async (req, res) => {
+        logger.info('Data received', { data: req.body });
 
     try {
     let page = req.query.page //starts from 0
@@ -1477,6 +1524,7 @@ router.post('/UserReadSpecialPost', verifyToken, async(req, res) => {
     }
 
     } catch(err) {
+        logger.error('Error saving data', { error: err.message });
     res.status(500).json(err);
     }
 
@@ -1493,6 +1541,7 @@ router.post('/UserReadSpecialPost', verifyToken, async(req, res) => {
     //console.log(friendPosts.length)      
     res.status(200).json(userPosts.concat(...friendPosts));
     } catch(err) {
+        logger.error('Error saving data', { error: err.message });
     res.status(500).json(err);
     }
     });
@@ -1532,6 +1581,7 @@ router.post('/UserReadSpecialPost', verifyToken, async(req, res) => {
 
     // get all posts of a user
     router.get('/profile/:username', verifyToken, async(req, res) =>{
+        logger.info('Data received', { data: req.body });
     try {
     let resultsPerPage = 20
     const user = await User.findOne({username: req.params.username});
@@ -1544,6 +1594,7 @@ router.post('/UserReadSpecialPost', verifyToken, async(req, res) => {
     .exec()
     res.status(200).json(posts);
     } catch(err) {
+        logger.error('Error saving data', { error: err.message });
     res.status(500).json(err);
     console.log(err);
     }
@@ -1553,6 +1604,7 @@ router.post('/UserReadSpecialPost', verifyToken, async(req, res) => {
 
     // add a comment
     router.post('/:id/comment', verifyToken, async(req, res) => {
+        logger.info('Data received', { data: req.body });
         console.log(req.body.userId)
         const user = await User.findOne({_id:req.body.userId});
         console.log(user)
@@ -1574,6 +1626,7 @@ router.post('/UserReadSpecialPost', verifyToken, async(req, res) => {
     res.status(200).json(comm);
 
     } catch(err) {
+        logger.error('Error saving data', { error: err.message });
     console.log(res.status(500).json(err));
     }
     // create a comment
@@ -1596,6 +1649,7 @@ router.post('/UserReadSpecialPost', verifyToken, async(req, res) => {
     });
 
     router.get('/:userId/getSpecialPosts', verifyToken, async(req, res) =>{
+        logger.info('Data received', { data: req.body });
         try {
             // Step 1: Find the current user and check their pool
             const currentUser = await User.findById(req.params.userId).populate('readSpecialPosts', '_id pool');   
@@ -1627,6 +1681,7 @@ router.post('/UserReadSpecialPost', verifyToken, async(req, res) => {
               return res.status(200).json([]);
             }
           } catch (err) {
+            logger.error('Error saving data', { error: err.message });
             console.error(err);
             return res.status(500).json({ error: 'Server error' });
           }

@@ -321,6 +321,13 @@ function Register({classes}) {
       setProgress(30);
       const token = localStorage.getItem('token');
       const res = await axios.post(`/presurvey/isSubmitted/${val}`,{ headers: { 'auth-token': token }}); 
+      
+      if(res.data == ""){ 
+        setIsVisibleBasic(false);
+        setIsVisibleSignUp(false);
+        setProgress(100);
+      }
+      else{
       console.log(res.data.data);
       setIsSurveyChecked(false);
       console.log(isSurveyChecked);
@@ -423,6 +430,7 @@ function Register({classes}) {
         setIsVisibleBasic(true);
         setProgress(100);
         
+      }
       }
     } catch (err) {
       console.log(err);
@@ -581,14 +589,13 @@ const SlideDiv = styled.div`
       setIs_Q8_visible(false);
       setIs_Q9_visible(false);
       setIs_Q10_visible(false);
-      setIs_TestingFeedBack_visible(true); 
+      setIs_TestingFeedBack_visible(false); 
+      setIs_dank_visible(false);
       //scrollBy({ top: 1000, left: 0, behavior: "smooth" })
 
     } else if(e.target.value == "option2"){
-      setIsVisibleBasicInfo(false); 
-      
-      
-      
+  
+      setIsVisibleBasicInfo(false);   
       setIs_Q1_visible(false);
       setIs_review_is_onward(false);
       setIs_Q2_visible(false);
@@ -604,6 +611,8 @@ const SlideDiv = styled.div`
       setIs_Q9_visible(false);
       setIs_Q10_visible(false);
       setIs_TestingFeedBack_visible(false);
+      setIs_dank_visible(true);
+      alert("You are not eligible to proceed!");
     } 
   }
 };
@@ -880,6 +889,7 @@ const handle_feedback_Changed = async (e) => {
 
   const reviewButtonChanged = async (e) => { 
     e.preventDefault()
+    if(value_q0 != "option2"){
     setIsUserReviewing(true);
     
       setIs_Q1_visible(true);
@@ -895,13 +905,16 @@ const handle_feedback_Changed = async (e) => {
       setIs_Q6_visible(true);
       setIs_Q7_visible(true);
       setIs_Q8_visible(true); 
-      setIs_TestingFeedBack_visible(true);
+      setIs_TestingFeedBack_visible(false);
       
       window.scrollTo({ top: 0, left: 0, behavior: "smooth" })
+    }
   };
 
   const companyButtonChanged = async (e) => { 
     e.preventDefault()
+    
+    if(value_q0 != "option2"){
     if(prolific_Code == ""){
       e.preventDefault()
       toast.error("Bitte geben Sie den Prolific-Code ein!");
@@ -943,6 +956,7 @@ const handle_feedback_Changed = async (e) => {
       toast.error("Frage 8. Bitte wählen Sie eine der vorgegebenen Möglichkeiten aus!");
       return
     }
+  }
     /*else if (value_q9 == ""){
      % e.preventDefault()
      % toast.error("Question 9. Please select one given choice!");
@@ -971,7 +985,7 @@ const handle_feedback_Changed = async (e) => {
   
         try {
           setProgress(30);
-          console.log(survey)
+          console.log(survey);
           const res = await axios.post(`/presurvey/psurvey/${uniqId}`, survey);
           
           setButtonDisabled(true); 
@@ -988,12 +1002,15 @@ const handle_feedback_Changed = async (e) => {
           setIs_Q10_visible(false);
           setIs_TestingFeedBack_visible(false);
           setIs_dank_visible(false);
-
-          const urlParts = window.location.pathname.split('/');
-          const valu = urlParts[urlParts.length-1]
-          isUserAlreadySubmittedSurvey(valu);
+          if(value_q0 != "option2"){
+            const urlParts = window.location.pathname.split('/');
+            const valu = urlParts[urlParts.length-1]
+            isUserAlreadySubmittedSurvey(valu);
+            
+          }else{
+            setIsVisibleBasic(false);
+          }
           setProgress(100);
-
         } catch (err) {
           console.log(err);
           setPasswordErr({A_user_with});
@@ -1284,7 +1301,7 @@ const handle_feedback_Changed = async (e) => {
         <p className={classes.secon_disclaimor}>{q0_info}</p>
         <p className={classes.secon_disclaimor}>{q0}</p> 
         
-        <p className={classes.label}> Ich bin <input type="text" className="age-input" id="age" maxLength="3" onChange={handle_age_Changed} value={age} placeholder="Alter in Jahren"/>  Jahre alt. Um an dieser Studie teilzunehmen, sollten Sie mindestens 18 Jahre alt sein</p>
+        <p className={classes.label}> Ich bin <input type="text" className="age-input" id="age" maxLength="2" onChange={handle_age_Changed} value={age} placeholder="Alter in Jahren"/>  Jahre alt. Um an dieser Studie teilzunehmen, sollten Sie mindestens 18 Jahre alt sein</p>
         
         </div>
          
