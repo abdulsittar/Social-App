@@ -295,7 +295,7 @@ function Home() {
                         if(!hasVisited_1) {  
                           localStorage.setItem("hasVisitedFirstAlert", "true");
                         }
-                      toastId = toast.success("Bitte markieren Sie mindestens zwei dieser Beiträge mit „Gefällt mir“ oder „Gefällt mir nicht“, so wie Sie es üblicherweise tun würden.", { closeOnClick: true, closeButton: true, autoClose: false,toastId: 'success-toast'});//, onClose: () => handleAlertClose(20000) });
+                      toastId = toast.success("Willkommen! Bitte lesen Sie die Beiträge und markieren Sie mindestens zwei dieser Beiträge mit „Gefällt mir“ oder „Gefällt mir nicht“, so wie Sie es üblicherweise tun würden.", { closeOnClick: true, closeButton: true, autoClose: false,toastId: 'success-toast'});//, onClose: () => handleAlertClose(20000) });
                       
                       //("Welcome to the TWON platform, please browse and interact with the content shown here as you normally would on a social media platform. First, we would like you to read each of the posts and then like at least two of these posts. Additionally, we would like you to join the conversation by commenting with your reactions on at least three of the posts.", { autoClose: 30000,toastId: 'success-toast'});
                       //toast.success("Welcome to the TWON platform, please browse and interact with the content shown here as you normally would on a social media platform. First, we would like you to read each of the posts and then like at least two of these posts. Additionally, we would like you to join the conversation by commenting with your reactions on at least three of the posts.");
