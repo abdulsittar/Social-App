@@ -342,11 +342,19 @@ const DOMPurifyInstance = DOMPurify(window);
                 "https://x.com/derspiegel/status/1848088325636473070",
             ];
             
-            const trainPosts = [
+            const trainPosts3 = [
                 `<p>Zeit, das Dating Game in Deutschland auf ein neues Level zu heben. </p> <br /> <p>Love is Blind Germany: ab Anfang 2025, nur auf Netflix.</p> <br />`,
                 `<p>Das ist die Tabelle in der Bundesliga nach dem 7. Spieltag! 📈⚽ #SkyBundesliga</p>`,
                 `<p>#Berlin muss Milliarden kürzen, um den Haushalt in den Griff zu bekommen. Doch Schwarz-Rot verschleppt nötige Entscheidungen – und lähmt damit die Stadt. Ein Kommentar.</p>`,
                 `<p>Seit Wochen behauptet Donald Trump, seine Konkurrentin Kamala Harris habe sich einen Sommerjob bei McDonald's ausgedacht – Belege hat er keine. Nun posiert er selbst an der Fritteuse.</p>`
+            ];
+            
+            const trainPosts = [
+                `<p>Pods auf, Augen zu, Gefühle AN �� Love Is Blind kommt endlich nach Deutschland! Ab 3. Januar, nur auf Netflix.</p> <br />`,
+                `<p>Die Hinrunde in der Bundesliga ist gespielt - wir zeigen euch die Torjäger! <br />⚽🔥</p>`,
+                `<p>Konservativ gegen autoritär: Je stärker die AfD wird, umso entschiedener versucht der CDU-Chef, sie mit einem Kurs der Mitte zu bezwingen. Wird ihm das gelingen? #red<br /></p>`,
+                `<p>2000 Menschen waren angekündigt, mehr als 10.000 kamen. In Hamburg haben Tausende Menschen gegen einen Auftritt von AfD-Chefin Alice Weidel im Rathaus demonstriert. Auch Bürgermeister Tschentscher äußerte sich.<br /></p>`
+                
             ];
             
             
@@ -415,9 +423,9 @@ const DOMPurifyInstance = DOMPurify(window);
             
             const trainPostsImg = [
                 "620620.png",       //Netflix
-                "023023.png",       //Sky Sport
-                "146146.jpg",       //Tagesspeigel
-                "070070.png"        //Der Speigel
+                "023023_2.png",       //Sky Sport
+                "146146_2.png",       //Tagesspeigel
+                "070070_2.png"        //Der Speigel
             ];
             
             const userIds = [
