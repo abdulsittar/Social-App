@@ -350,7 +350,7 @@ const DOMPurifyInstance = DOMPurify(window);
             ];
             
             const trainPosts = [
-                `<p>Pods auf, Augen zu, Gefühle AN �� Love Is Blind kommt endlich nach Deutschland! Ab 3. Januar, nur auf Netflix.</p> <br />`,
+                `<p>Pods auf, Augen zu, Gefühle AN ❤️👀 Love Is Blind kommt endlich nach Deutschland! Ab 3. Januar, nur auf Netflix.</p> <br />`,
                 `<p>Die Hinrunde in der Bundesliga ist gespielt - wir zeigen euch die Torjäger! <br />⚽🔥</p>`,
                 `<p>Konservativ gegen autoritär: Je stärker die AfD wird, umso entschiedener versucht der CDU-Chef, sie mit einem Kurs der Mitte zu bezwingen. Wird ihm das gelingen? #red<br /></p>`,
                 `<p>2000 Menschen waren angekündigt, mehr als 10.000 kamen. In Hamburg haben Tausende Menschen gegen einen Auftritt von AfD-Chefin Alice Weidel im Rathaus demonstriert. Auch Bürgermeister Tschentscher äußerte sich.<br /></p>`

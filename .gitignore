@@ -11,3 +11,13 @@
 logs
 node_modules
 node_modules
+/client/Dockerfile
+/client/package-lock.json
+/client/package.json
+/client/yarn.lock
+/server/logs/
+/server/Dockerfile
+/server/package-lock.json
+/server/package.json
+/server/yarn.lock
+docker-compose.yml
