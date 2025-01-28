@@ -18,3 +18,4 @@
 /server/yarn.lock
 docker-compose.yml
 /server/index.js
+node_modules
