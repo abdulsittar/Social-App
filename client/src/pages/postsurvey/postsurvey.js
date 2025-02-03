@@ -467,7 +467,7 @@ const handleUserNameChange = async (e) => {
     setIs_Q6_visible(true);
     setIs_Q7_visible(true);
     
-    setIs_Q1_visible(false);
+    setIs_Q1_visible(true);
     setIs_review_is_onward(false);
     setIs_NoSurvey_visible(false)
     
@@ -495,7 +495,7 @@ const handleUserNameChange = async (e) => {
     if(e.target.value != ""){
       
     //scrollBy({ top: 200, left: 0, behavior: "smooth" })
-    setIs_Q1_visible(false)
+    setIs_Q1_visible(true)
     setIs_review_is_onward(false);
     if(e.target.value != "" && value_q6 != "" && value_q5 != "" && value_q4 != "" && value_q3 != "" && value_q7 != "" ){ 
       setIs_Q8_visible(true);

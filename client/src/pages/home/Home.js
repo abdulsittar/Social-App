@@ -138,7 +138,7 @@ function Home() {
             //console.log(hasVisited_1)
             fetchTimeSpent2(location.pathname);
             
-            const intervalId = setInterval(() => fetchTimeSpent2(location.pathname), 10000);
+            const intervalId = setInterval(() => fetchTimeSpent2(location.pathname), 5000);
             return () => clearInterval(intervalId);
             
             //setInterval(() => fetchTimeSpent2(location.pathname), 20000);
