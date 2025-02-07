@@ -352,7 +352,6 @@ const fetchTimeSpent2 = async () => {
       
     }
     
-    
     const handleFetchThumbnail = async () => {
       console.log(post.thumb);
         try {
@@ -1255,9 +1254,10 @@ const handleUserNameChange = async (e) => {
     try {
       setProgress(30);
       console.log(survey)
+      let uniqueId = currentUser.uniqueId;
       console.log(currentUser)
       const token = localStorage.getItem('token');
-      const res = await axios.post(`/postsurvey/pstsurvey/${currentUser._id}`, {survey, headers: { 'auth-token': token }});
+      const res = await axios.post(`/postsurvey/pstsurvey/${currentUser._id}`, {uniqueId, survey, headers: { 'auth-token': token }});
 
       try {
         console.log(survey)
@@ -1266,7 +1266,9 @@ const handleUserNameChange = async (e) => {
         
         //const urlParts = window.location.pathname.split('/');
         //const valu = urlParts[urlParts.length-1]
-        //window.open('https://survey.maximiles.com/static-complete?p=123929_0b2e7809', '_blank');
+        const surveyUrl = `https://app.prolific.com/submissions/complete?${res.data.message}`;
+
+        window.open(surveyUrl, '_blank');
         set_Is_code_visible(true) 
         setIsSurveySubmitted(true)
         stStatus_msg2(res.data.message);

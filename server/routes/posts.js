@@ -3,6 +3,7 @@
     const User = require('../models/User');
     const SpecialPost = require('../models/specialpost');
     const PostDislike = require('../models/PostDislike');
+    const IDStorage = require('../models/IDStorage');
     const PostLike = require('../models/PostLike');
     const path = require('path'); 
     const fs = require('fs');
@@ -271,6 +272,31 @@ const DOMPurifyInstance = DOMPurify(window);
         return val.replace(/</g, "&lt;").replace(/>/g, "&gt;");
     }
     
+    router.post('/random_id', async (req, res) => {
+        try {
+      
+          // Get a random document's 'yourID' from the collection
+          const randomDoc = await IDStorage.aggregate([
+            { $match: { available: true } }, // Only include documents with available: true
+            { $sample: { size: 1 } } // Get a random document
+        ]);
+
+          logger.info("randomDoc");
+          logger.info(randomDoc);
+          
+          if (randomDoc.length > 0) {
+            res.status(200).json({ yourID: randomDoc[0].yourID });
+          } else {
+            res.status(404).json({ message: "No data found" });
+          }
+    
+        } catch (err) {
+            console.log("Error details:", err.message); // Log just the error message
+            logger.error("Stack trace:", err.stack); // Log the stack trace explicitly
+            res.status(500).json({ error: "Failed to fetch data" });
+        }
+      });
+
 
     // create a post
     router.post('/:id/create', verifyToken,   async(req, res) => { //verifyToken, 
@@ -346,14 +372,18 @@ const DOMPurifyInstance = DOMPurify(window);
                 `<p>Zeit, das Dating Game in Deutschland auf ein neues Level zu heben. </p> <br /> <p>Love is Blind Germany: ab Anfang 2025, nur auf Netflix.</p> <br />`,
                 `<p>Das ist die Tabelle in der Bundesliga nach dem 7. Spieltag! 📈⚽ #SkyBundesliga</p>`,
                 `<p>#Berlin muss Milliarden kürzen, um den Haushalt in den Griff zu bekommen. Doch Schwarz-Rot verschleppt nötige Entscheidungen – und lähmt damit die Stadt. Ein Kommentar.</p>`,
-                `<p>Seit Wochen behauptet Donald Trump, seine Konkurrentin Kamala Harris habe sich einen Sommerjob bei McDonald's ausgedacht – Belege hat er keine. Nun posiert er selbst an der Fritteuse.</p>`
+                `<p>Seit Wochen behauptet Donald Trump, seine Konkurrentin Kamala Harris habe sich einen Sommerjob bei McDonald's ausgedacht – Belege hat er keine. Nun posiert er selbst an der Fritteuse.</p>`,
+                
             ];
             
             const trainPosts = [
                 `<p>Pods auf, Augen zu, Gefühle AN ❤️👀 Love Is Blind kommt endlich nach Deutschland! Ab 3. Januar, nur auf Netflix.</p> <br />`,
                 `<p>Die Hinrunde in der Bundesliga ist gespielt - wir zeigen euch die Torjäger! <br />⚽🔥</p>`,
                 `<p>Konservativ gegen autoritär: Je stärker die AfD wird, umso entschiedener versucht der CDU-Chef, sie mit einem Kurs der Mitte zu bezwingen. Wird ihm das gelingen? #red<br /></p>`,
-                `<p>2000 Menschen waren angekündigt, mehr als 10.000 kamen. In Hamburg haben Tausende Menschen gegen einen Auftritt von AfD-Chefin Alice Weidel im Rathaus demonstriert. Auch Bürgermeister Tschentscher äußerte sich.<br /></p>`
+                `<p>Das gemeinsame Votum mit der AfD brachte CDU-Chef Friedrich Merz heftige Kritik ein. Doch in den Umfragen verfestigt sich der Eindruck: Eine Quittung der Wähler muss die Union nicht fürchten.<br /></p>`,
+                `<p>Mit Deepseek zieht eine KI aus China mit der US-Konkurrenz gleich – ähnlich gut, aber weitaus günstiger. Die Aktien vieler wichtiger Tech-Konzerne brechen ein. Bis zu einer Billion Euro Börsenwert ist vernichtet.<br /></p>`,
+                `<p>Elon Musk streckt seinen rechten Arm bei einer politischen Kundgebung von Trump aus. Könnte es etwas anderes bedeuten? Die Neonazis glauben das nicht.<br /></p>`,
+                `<p>Im vergangenen Jahr haben die USA weltweit rund 50 Milliarden Dollar für Entwicklungshilfe ausgegeben. Nun will die Regierung von Donald Trump weniger als 300 der 10.000 Mitarbeiter der zuständigen Behörde behalten.<br /></p>`
                 
             ];
             
@@ -425,7 +455,10 @@ const DOMPurifyInstance = DOMPurify(window);
                 "620620.png",       //Netflix
                 "023023_2.png",       //Sky Sport
                 "146146_2.png",       //Tagesspeigel
-                "070070_2.png"        //Der Speigel
+                "070070_2.png",        //Der Speigel
+                "faznet_p.png",     //faznet
+                "zeit_p.png",       //zeit
+                "handle_p.png",     //handel
             ];
             
             const userIds = [
@@ -433,6 +466,9 @@ const DOMPurifyInstance = DOMPurify(window);
                 process.env.SkySport,   //Sky Sport
                 process.env.Tagesspeigel,   //Tagesspeigel
                 process.env.DerSpeigel,    //Der Speigel
+                process.env.faznet,     //faznet
+                process.env.zeit,      //zeit
+                process.env.handle,     //handel
             ];
         
             const dummyPosts = [
@@ -549,7 +585,19 @@ const DOMPurifyInstance = DOMPurify(window);
                         phtoAdd = "070070.png";
                         isUserSelected = true;
                     
-                }
+                    } else if (item.userId === userIds[4]) { 
+                        phtoAdd = "faznet_p.png";
+                        isUserSelected = true;
+                    
+                    } else if (item.userId === userIds[5]) { 
+                        phtoAdd = "zeit_p.png";
+                        isUserSelected = true;
+                    
+                    } else if (item.userId === userIds[6]) { 
+                        phtoAdd = "handle_p.png";
+                        isUserSelected = true;
+                    
+                    }
                 
                 //if(isUserSelected == true){
                                 
@@ -812,7 +860,7 @@ const DOMPurifyInstance = DOMPurify(window);
     router.post('/fetch-thumbnail', verifyToken, async (req, res) => {
         const { url } = req.body;
         try {
-            console.log(req.body.urls);
+            //console.log(req.body.urls);
     
             // First, check if the local file exists
             const localImagePath = path.join(process.cwd(), 'public', 'images', req.body.urls); // Assuming the filename is provided in req.body.urls
@@ -850,7 +898,7 @@ const DOMPurifyInstance = DOMPurify(window);
         }
     
         } catch (error) {
-            console.error(error);
+            //console.error(error);
             res.status(500).json({ error: 'Error fetching thumbnail' });
         }
     });

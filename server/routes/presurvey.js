@@ -52,6 +52,11 @@ router.post('/psurvey/:uniqId',  async (req, res) => {
         //console.log(newSurvey)
         // save user and send response
         const survey = await newSurvey.save();
+        await IDStorage.updateOne(
+            { _id: fid._id },
+            { $set: { available: false } }
+        );
+        
         //console.log(survey)
         res.status(200).json(survey);
 
