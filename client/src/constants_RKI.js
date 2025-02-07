@@ -12,7 +12,7 @@ export const voluntary_10 = [<strong>- mindestens einen Post zu verfassen, </str
 export const other_11 = [<strong>- drei Kommentare zu posten und </strong>];
 export const dataprotHEADING_12 = [<strong>- ein Like zu vergeben. </strong>];
 
-export const dataprot_13 = "Zu Beginn und am Ende der Studie füllen Sie einen kurzen Fragebogen zu Ihrer Nutzungserfahrung und einigen allgemeinen demografischen Informationen aus. Insgesamt dauert diese Studie circa 30 Minuten und einer Stunde, wenn Sie die tägliche Nutzung und die Zeit für die Fragebögen zusammenrechnen. Insgesamt dauert diese Studie zwischen 10 und 15 Minuten. Nachdem Sie die Teilnahmebedingungen auf unserer Plattform erfüllt haben, erhalten Sie die mit Prolific vereinbarte Vergütung.";
+export const dataprot_13 = "Zu Beginn und am Ende der Studie füllen Sie einen kurzen Fragebogen zu Ihrer Nutzungserfahrung und einigen allgemeinen demografischen Informationen aus. Insgesamt dauert diese Studie zwischen 10 und 15 Minuten. Nachdem Sie die Teilnahmebedingungen auf unserer Plattform erfüllt haben, erhalten Sie die mit Prolific vereinbarte Vergütung.";
 export const datasharingHEADING_14 = [<strong>Freiwillige Teilnahme</strong>];
 
 export const datasharing_15 = "Ihre Teilnahme an dieser Studie ist freiwillig: Sie sind nicht zur Teilnahme verpflichtet. Sie können Ihre Teilnahme während der Studie jederzeit beendet. Sie müssen dafür keinen Grund angeben.";

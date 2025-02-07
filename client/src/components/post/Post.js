@@ -555,7 +555,7 @@ const triangleOverlayStyle = {
             </form>
             </div>
             <div className={classes.commentTop} style={{ background: repost>0 ? "#F5F5F5" : "#ffffff" }}>
-            {comments.slice(0).reverse().map((item, i) => {
+            {comments.map((item, i) => {
               console.log(i);
               console.log(item._id);
                       //return <CommentSA key={item._id} post={post} comment={item} isDetail={false}/>
