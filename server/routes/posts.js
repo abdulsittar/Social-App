@@ -358,6 +358,7 @@ const DOMPurifyInstance = DOMPurify(window);
             return array;
         };
         
+              
         router.post('/:id/createInitialData', verifyToken, async (req, res) => {
             logger.info('Data received', { data: req.body });
  
@@ -376,7 +377,7 @@ const DOMPurifyInstance = DOMPurify(window);
                 
             ];
             
-            const trainPosts = [
+            const trainPosts4 = [
                 `<p>Pods auf, Augen zu, Gefühle AN ❤️👀 Love Is Blind kommt endlich nach Deutschland! Ab 3. Januar, nur auf Netflix.</p> <br />`,
                 `<p>Die Hinrunde in der Bundesliga ist gespielt - wir zeigen euch die Torjäger! <br />⚽🔥</p>`,
                 `<p>Konservativ gegen autoritär: Je stärker die AfD wird, umso entschiedener versucht der CDU-Chef, sie mit einem Kurs der Mitte zu bezwingen. Wird ihm das gelingen? #red<br /></p>`,
@@ -384,6 +385,17 @@ const DOMPurifyInstance = DOMPurify(window);
                 `<p>Mit Deepseek zieht eine KI aus China mit der US-Konkurrenz gleich – ähnlich gut, aber weitaus günstiger. Die Aktien vieler wichtiger Tech-Konzerne brechen ein. Bis zu einer Billion Euro Börsenwert ist vernichtet.<br /></p>`,
                 `<p>Elon Musk streckt seinen rechten Arm bei einer politischen Kundgebung von Trump aus. Könnte es etwas anderes bedeuten? Die Neonazis glauben das nicht.<br /></p>`,
                 `<p>Im vergangenen Jahr haben die USA weltweit rund 50 Milliarden Dollar für Entwicklungshilfe ausgegeben. Nun will die Regierung von Donald Trump weniger als 300 der 10.000 Mitarbeiter der zuständigen Behörde behalten.<br /></p>`
+                
+            ];
+            
+            const trainPosts = [
+                `<p>Es wird heiß 🔥 Too Hot to Handle: Germany Staffel 2, jetzt ansehen.</p> <br />`,
+                `<p>Freiburg und Mainz klettern auf die Plätze 4 und 5, RB Leipzig rutscht auf Platz 6 ab. 📈 Das ist die Tabelle nach dem 23. Spieltag. ⚽️<br /></p>`,
+                `<p>CSU boss Söder warns of government formation with the SPD: The political situation is "historically difficult"-and Germany cannot stand up to a standstill.<br /></p>`,
+                `<p>Die AfD ist künftig fast doppelt so stark im Bundestag vertreten, das Führungsduo der Abgeordneten bleibt. Auch die parteiintern umstrittenen Ultrarechten Maximilian Krah und Matthias Helferich werden Teil der Fraktion.<br /></p>`,
+                `<p>Seit Asien vor Amerikas Handelskrieg zittert, gibt dort ein Land nach dem anderen Musks Satellitennetzwerk Starlink grünes Licht. Was steckt hinter diesem „Friedensangebot“?<br /></p>`,
+                `<p>Hat Friedrich Merz' Entscheidung, in der Asyldebatte die Zustimmung der AfD in Kauf zu nehmen, der Union jetzt eigentlich genutzt? Geschadet hat es ihr jedenfalls wenig, schreibt @MMachowecz.<br /></p>`,
+                `<p>Das Treffen Macrons mit Trump und das Uno-Abstimmungsverhalten der Europäer zeigen: Europa spielt in den Verhandlungen zwischen den USA und Russland nur noch eine Statistenrolle.<br /></p>`
                 
             ];
             
@@ -452,13 +464,13 @@ const DOMPurifyInstance = DOMPurify(window);
             
             
             const trainPostsImg = [
-                "620620.png",       //Netflix
-                "023023_2.png",       //Sky Sport
-                "146146_2.png",       //Tagesspeigel
-                "070070_2.png",        //Der Speigel
-                "faznet_p.png",     //faznet
-                "zeit_p.png",       //zeit
-                "handle_p.png",     //handel
+                "620620_2.png",       //Netflix
+                "023023_3.png",       //Sky Sport
+                "146146_3.png",       //Tagesspeigel
+                "070070_4.png",        //Der Speigel
+                "faznet_2.png",     //faznet
+                "zeit_p_2.png",       //zeit
+                "handle_p_2.png",     //handel
             ];
             
             const userIds = [
@@ -783,6 +795,8 @@ const DOMPurifyInstance = DOMPurify(window);
                 res.status(500).json({ success: false, error });
             }
         });
+
+
 
 
 

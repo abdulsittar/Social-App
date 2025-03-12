@@ -36,9 +36,9 @@ const LandingPage = () => {
 
   return (
     <div className={classes.container}>
-      <div className={classes.welcomeText}>Welcome to the TWON Study</div>
+      <div className={classes.welcomeText}>Herzlich willkommen beim Forschungsprojekt TWON</div>
       <Button variant="contained" className={classes.button} onClick={handleStartStudy}>
-        Click to Begin the Study
+      Hier klicken um teilzunehmen
       </Button>
     </div>
   );
