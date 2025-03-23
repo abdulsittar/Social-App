@@ -1265,7 +1265,7 @@ const handleUserNameChange = async (e) => {
         
         //const urlParts = window.location.pathname.split('/');
         //const valu = urlParts[urlParts.length-1]
-        const surveyUrl = `https://app.prolific.com/submissions/complete?${res.data.message}`;
+        const surveyUrl = `https://app.prolific.com/researcher/submissions/complete?cc=${res.data.message}`;
 
         window.open(surveyUrl, '_blank');
         set_Is_code_visible(true) 

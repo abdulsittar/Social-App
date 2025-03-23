@@ -388,7 +388,7 @@ const DOMPurifyInstance = DOMPurify(window);
                 
             ];
             
-            const trainPosts = [
+            const trainPosts5 = [
                 `<p>Es wird heiß 🔥 Too Hot to Handle: Germany Staffel 2, jetzt ansehen.</p> <br />`,
                 `<p>Freiburg und Mainz klettern auf die Plätze 4 und 5, RB Leipzig rutscht auf Platz 6 ab. 📈 Das ist die Tabelle nach dem 23. Spieltag. ⚽️<br /></p>`,
                 `<p>CSU boss Söder warns of government formation with the SPD: The political situation is "historically difficult"-and Germany cannot stand up to a standstill.<br /></p>`,
@@ -397,6 +397,26 @@ const DOMPurifyInstance = DOMPurify(window);
                 `<p>Hat Friedrich Merz' Entscheidung, in der Asyldebatte die Zustimmung der AfD in Kauf zu nehmen, der Union jetzt eigentlich genutzt? Geschadet hat es ihr jedenfalls wenig, schreibt @MMachowecz.<br /></p>`,
                 `<p>Das Treffen Macrons mit Trump und das Uno-Abstimmungsverhalten der Europäer zeigen: Europa spielt in den Verhandlungen zwischen den USA und Russland nur noch eine Statistenrolle.<br /></p>`
                 
+            ];
+            
+            //Netflix
+            //Sky Sport
+            //Tagesspeigel
+            //Der Speigel
+            //faznet
+            //zeit
+            //handel
+            
+            
+            
+            const trainPosts = [
+                `<p>Es wird heiß 🔥 Too Hot to Handle: Germany Staffel 2, jetzt ansehen.</p> <br />`,
+                `<p>Nur eine Niederlage in den letzten 15 Spielen! 💪 Fährt das Team von Julian Nagelsmann auch gegen Italien einen Sieg ein? 🇮🇹 🇩🇪<br /></p>`,
+                `<p>Die Festnahme von Istanbuls Bürgermeister İmamoğlu sorgt für Spannungen. Studierende fordern den Rücktritt von Präsident Erdogan, während die Oppositionspartei CHP landesweit Abstimmungen organisiert.<br /></p>`,
+                `<p>Die künftige Regierung kann neue Schulden in Milliardenhöhe aufnehmen. Nach der Entscheidung im Bundestag hat nun auch die Länderkammer zugestimmt. Mehrere Ministerpräsidenten äußerten jedoch Bedenken.<br /></p>`,
+                `<p>Am Donnerstag nahm der Kanzler an seinem mutmaßlich letzten Europäischen Rat teil. Nach drei Jahren einer lauwarmen Beziehung zu Europa wird ihn kaum jemand vermissen – ganz anders war das bei Merkels Abschied.<br /></p>`,
+                `<p>"Assassin's Creed Shadows" soll den angeschlagenen Gameskonzern Ubisoft retten. Das historische Japan als Spielkulisse sieht zwar toll aus. Der Rest ist aber belanglos.<br /></p>`,
+                `<p>Der US-Präsident geht mit Wutreden und Gesetzen gegen Programme zur Management-Vielfalt vor. Unternehmen ducken sich oder streichen Ziele. Auch deutsche Konzerne fürchten um Geschäfte.<br /></p>`
             ];
             
             
@@ -465,12 +485,12 @@ const DOMPurifyInstance = DOMPurify(window);
             
             const trainPostsImg = [
                 "620620_2.png",       //Netflix
-                "023023_3.png",       //Sky Sport
-                "146146_3.png",       //Tagesspeigel
-                "070070_4.png",        //Der Speigel
-                "faznet_2.png",     //faznet
-                "zeit_p_2.png",       //zeit
-                "handle_p_2.png",     //handel
+                "023023_4.png",       //Sky Sport
+                "146146_4.png",       //Tagesspeigel
+                "070070_5.png",        //Der Speigel
+                "faznet_3.png",     //faznet
+                "zeit_p_3.png",       //zeit
+                "handle_p_3.png",     //handel
             ];
             
             const userIds = [
