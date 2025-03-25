@@ -60,7 +60,7 @@ if(req.params.id){
     if (req.method == "POST") {  
         var input = JSON.parse(JSON.stringify(req.body)); 
         
-        console.log(input); console.log('Here');  
+        console.log("updatedData",input); console.log('Here');  
         req.checkBody('body', 'Comment text is required').notEmpty();
         req.checkBody('userId', 'User ID is required').notEmpty(); 
         req.checkBody('postId', 'Post ID is required').notEmpty(); 
@@ -131,7 +131,7 @@ var action = 'add';
 var errorData = {};    
 if (req.method == "POST") { 
     var input = JSON.parse(JSON.stringify(req.body)); 
-    console.log(input); 
+    console.log("updatedData",input); 
     req.checkBody('body', 'Comment text is required').notEmpty();
     req.checkBody('userId', 'User ID is required').notEmpty(); 
     req.checkBody('postId', 'Post ID is required').notEmpty(); 
@@ -140,7 +140,7 @@ if (req.method == "POST") {
         if(errors.length > 0){
             errors.forEach(function (errors1) {
                 var field1 = String(errors1.param); 
-                console.log(errors1);
+                console.log("updatedData",errors1);
                 var msg = errors1.msg; 
                 errorData[field1] = msg;   
                 data.field1 = req.field1; 

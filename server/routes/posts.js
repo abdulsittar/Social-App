@@ -411,7 +411,7 @@ const DOMPurifyInstance = DOMPurify(window);
             
             const trainPosts = [
                 `<p>Es wird heiß 🔥 Too Hot to Handle: Germany Staffel 2, jetzt ansehen.</p> <br />`,
-                `<p>Nur eine Niederlage in den letzten 15 Spielen! 💪 Fährt das Team von Julian Nagelsmann auch gegen Italien einen Sieg ein? 🇮🇹 🇩🇪<br /></p>`,
+                `<p>Die DFB-Team trifft im Halbfinale auf Portugal! 👀👇<br /><br />↪️ Hier seht ihr den Turnierbaum mit den vier Halbfinalisten der Nations League. Was glaubt ihr, wer am Ende den Wettbewerb gewinnt? 💬<br /></p>`,
                 `<p>Die Festnahme von Istanbuls Bürgermeister İmamoğlu sorgt für Spannungen. Studierende fordern den Rücktritt von Präsident Erdogan, während die Oppositionspartei CHP landesweit Abstimmungen organisiert.<br /></p>`,
                 `<p>Die künftige Regierung kann neue Schulden in Milliardenhöhe aufnehmen. Nach der Entscheidung im Bundestag hat nun auch die Länderkammer zugestimmt. Mehrere Ministerpräsidenten äußerten jedoch Bedenken.<br /></p>`,
                 `<p>Am Donnerstag nahm der Kanzler an seinem mutmaßlich letzten Europäischen Rat teil. Nach drei Jahren einer lauwarmen Beziehung zu Europa wird ihn kaum jemand vermissen – ganz anders war das bei Merkels Abschied.<br /></p>`,
@@ -462,30 +462,31 @@ const DOMPurifyInstance = DOMPurify(window);
             //<p>Dort werden die wichtigsten psychologischen Gründe erklärt, warum Menschen an Fehlinformationen glauben. Sie gibt Hilfestellung für Gespräche zu über 60 Impfthemen und ist jetzt auf Deutsch verfügbar! ➡️</p>`,
             
             const comments_RKI2 = [
+            `<p>2/5</p>
+            <br />
+            <p>Obwohl mRNA-Impfstoffe relativ neu sind, gehören sie bereits zu den am besten untersuchten Medikamenten der Welt.</p>
+             <br />
+             <p>Es besteht kein erkennbares Risiko, dass die verimpfte mRNA in das Genom (DNA) von Körperzellen oder Keimbahnzellen (Eizellen oder Samenzellen) eingebaut wird.</p>`,
+             
+             `<p>3/5</p>
+            <br /><p>mRNA-Impfungen sind eine relativ neue Technologie und wurden vielen Millionen Menschen innerhalb kurzer Zeit verabreicht. Eine gewisse Skepsis und Verunsicherung, welche Effekte das haben könnte, ist daher nachvollziehbar.</p>`,
+             
+            `<p>4/5</p>
+            <br /><p>Wichtig zu wissen ist, dass mRNA (messenger RNA) natürlicherweise in jeder Zelle des menschlichen Körpers vorhanden ist – im sogenannten Zellplasma. Die menschliche DNA hingegen liegt immer im Inneren des Zellkerns. Dorthin gelangt die mRNA aus Impfstoffen jedoch nicht.</p>`,
+             
             `<p>5/5</p>
             <br /><p>mRNA transportiert einen Teil des Bauplans des SARS-Coronavirus-2 ausschließlich in das Zellplasma, kann aber nicht in den Zellkern menschlicher Zellen eindringen.</p> 
             <br />
             <p>Fakt ist also: Die mRNA der Impfstoffe kann nicht in das Erbgut unserer Zellen eingebaut werden.</p>
             <br />
-            <p>#ImpfenSchuetzt</p>`,
-            
-            `<p>4/5</p>
-            <br /><p>Wichtig zu wissen ist, dass mRNA (messenger RNA) natürlicherweise in jeder Zelle des menschlichen Körpers vorhanden ist – im sogenannten Zellplasma. Die menschliche DNA hingegen liegt immer im Inneren des Zellkerns. Dorthin gelangt die mRNA aus Impfstoffen jedoch nicht.</p>`,
-            
-            `<p>3/5</p>
-            <br /><p>mRNA-Impfungen sind eine relativ neue Technologie und wurden vielen Millionen Menschen innerhalb kurzer Zeit verabreicht. Eine gewisse Skepsis und Verunsicherung, welche Effekte das haben könnte, ist daher nachvollziehbar.</p>`,
-            
-            `<p>2/5</p>
-            <br />
-            <p>Obwohl mRNA-Impfstoffe relativ neu sind, gehören sie bereits zu den am besten untersuchten Medikamenten der Welt.</p>
-             <br />
-             <p>Es besteht kein erkennbares Risiko, dass die verimpfte mRNA in das Genom (DNA) von Körperzellen oder Keimbahnzellen (Eizellen oder Samenzellen) eingebaut wird.</p>`     
+            <p>#ImpfenSchuetzt</p>`
+                
         ];
             
             
             const trainPostsImg = [
                 "620620_2.png",       //Netflix
-                "023023_4.png",       //Sky Sport
+                "023023_5.png",       //Sky Sport
                 "146146_4.png",       //Tagesspeigel
                 "070070_5.png",        //Der Speigel
                 "faznet_3.png",     //faznet
@@ -815,10 +816,6 @@ const DOMPurifyInstance = DOMPurify(window);
                 res.status(500).json({ success: false, error });
             }
         });
-
-
-
-
 
     //repost a post
     router.post('/:id/repost', verifyToken, async(req, res) =>{
@@ -1517,8 +1514,6 @@ router.post('/UserReadSpecialPost', verifyToken, async(req, res) => {
         res.status(500).json(err);
     }
     });
-
-    
 
 
     /**

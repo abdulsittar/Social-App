@@ -66,7 +66,7 @@ if (req.method == "POST") {
         //var salt = bcrypt.genSaltSync(saltRounds);
         //var password = bcrypt.hashSync(input.password, salt);
         // console.log(password);  
-        console.log(email); 
+        console.log("updatedData",email); 
         console.log("Users"); 
         //console.log(user);
         if (user.isAdmin == true){

@@ -225,10 +225,10 @@ userRoute.put("/:id/updateProfile", upload.single('profilePicture'), async (req,
   diction["profilePicture"] = getLastPart(req.file.path)
 
   const updatedData = { $set: diction }
-  console.log(updatedData);
+  console.log("updatedData", updatedData);
   try {
     const res2 = await User.updateOne({ "_id": id }, updatedData);
-    console.log(res2);
+    console.log("updatedData", res2);
     return res.status(200).json(res2);
 
   } catch (err) {
@@ -253,10 +253,10 @@ userRoute.post("/:id/updateProfile2", async (req, res) => {
   if (req.body.relationship) { diction["relationship"] = req.body.relationship }
 
   const updatedData = { $set: diction }
-  console.log(updatedData);
+  console.log("updatedData",updatedData);
   try {
     const res2 = await User.findByIdAndUpdate({ "_id": id }, updatedData);
-    console.log(res2);
+    console.log("updatedData",res2);
     return res.status(200).json(res2);
 
   } catch (err) {
@@ -355,7 +355,7 @@ if (process.env.NODE_ENV === 'production') {
 
     if (req.url.includes("api-docs")) {
       // If it's an image request, skip to the next middleware
-      console.log(req.url);
+      console.log("updatedData",req.url);
       return next();
     }
 
@@ -386,9 +386,6 @@ if (process.env.NODE_ENV === 'production') {
 // Swagger
 //app.use( "/api-docs", swaggerUi.serve, swaggerUi.setup(specs, { explorer: true, customCssUrl: "https://cdn.jsdelivr.net/npm/swagger-ui-themes@3.0.0/themes/3.x/theme-newspaper.css",}));
 
-
-
-
 app.use(flash());
 app.use(cookieParser());
 app.use(expressSession({ secret: 'D%$*&^lk32', resave: false, saveUninitialized: true }));
@@ -409,12 +406,12 @@ process.on('uncaughtException', function (err) {
 
 app.use((req, res, next) => {
   res.setHeader('Content-Type', 'text/html; charset=utf-8');
-  console.log(`${req.method} ${req.url}`, req.body);
-  console.log(`${req.protocol}://${req.get('host')}${req.originalUrl}`);
+  console.log("updatedData",`${req.method} ${req.url}`, req.body);
+ console.log("updatedData",`${req.protocol}://${req.get('host')}${req.originalUrl}`);
   next();
 });
 
-console.log(process.env.MONGO_URI);
+console.log("updatedData",process.env.MONGO_URI);
 app.listen(port, () => console.log(`Server started on port ${port} and ${nodeSiteUrl} and ${nodeSiteUrl}`));
 server.listen(8080, () => console.log(`Server started on port ${port} and ${nodeSiteUrl}`));
 

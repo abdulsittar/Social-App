@@ -621,7 +621,7 @@ const SlideDiv = styled.div`
 
 const handle_prolific_code = async (e) => { 
   if(e.target.value != ""){
-    if (/^\d*$/.test(e.target.value)) {
+    if (/^[a-zA-Z0-9]*$/.test(e.target.value)) {
       let value = e.target.value; 
       set_Prolific_Code(e.target.value)
       if(isUserReviewing == false){
@@ -1292,7 +1292,7 @@ const handle_feedback_Changed = async (e) => {
         <CSSTransition in={is_review_is_onward} timeout={1000} classNames="slide" unmountOnExit>
         <div id='Qrolific'>
         <p className={classes.secon_disclaimor}>{review_is_onward}</p>
-        <p className={classes.label}> <input type="text" className="age-input" id="prolificcode" maxLength="7" onChange={handle_prolific_code} value={prolific_Code} placeholder="Geben Sie den Prolific-Code ein"/> </p>
+        <p className={classes.label}> <input type="text" className="age-input" id="prolificcode" maxLength="25" minLength="8" onChange={handle_prolific_code} value={prolific_Code} placeholder="Geben Sie den Prolific-Code ein"/> </p>
         </div></CSSTransition>
 
 

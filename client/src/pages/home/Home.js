@@ -42,6 +42,8 @@ function Home() {
     const isTabletDevice = useMediaQuery({ query: "(min-device-width: 768px)", });
 
     let toastId = null;
+    
+const timeoutId = useRef(null);
     let lastAlertType = null;
     let toastId2 = null;
     let toastId3 = null;
@@ -57,9 +59,34 @@ function Home() {
     const handleActivityRecorder = () => {
         axios.put("/users/" + currentUser._id + "/activity", { page: "Home", seconds: TimeMe.getTimeOnCurrentPageInSeconds(), headers: { 'auth-token': token } });
     };
+    
+    const handleActivity = () => {
+      fetchTimeSpent2(location.pathname)
+      clearTimeout(timeoutId.current);
+      timeoutId.current = setTimeout(() => fetchTimeSpent2(location.pathname), 5000);
+    };
 
     useEffect(() => {
-       
+      console.log("Current Path:", location.pathname);
+      
+      window.addEventListener("mousemove", handleActivity);
+      window.addEventListener("keypress", handleActivity);
+
+  return () => {
+    // Cleanup function when component unmounts or location.pathname changes
+    window.removeEventListener("mousemove", handleActivity);
+    window.removeEventListener("keypress", handleActivity);
+    
+    // Ensure timeout is cleared to stop `fetchTimeSpent2` from running
+    if (timeoutId.current) {
+    
+      clearTimeout(timeoutId.current);
+      console.log("Previous Path (Before Cleanup):", location.pathname);
+    }
+  };
+  
+}, [location.pathname]);
+      
         //TimeMe.initialize({
          //   currentPageName: "HomePage", // current page
           //  idleTimeoutInSeconds: 10 // seconds
@@ -136,16 +163,29 @@ function Home() {
             //}
             //console.log("hasVisited_1")
             //console.log(hasVisited_1)
-            fetchTimeSpent2(location.pathname);
             
-            const intervalId = setInterval(() => fetchTimeSpent2(location.pathname), 5000);
-            return () => clearInterval(intervalId);
+            //fetchTimeSpent2(location.pathname);
+            //const intervalId = setInterval(() => fetchTimeSpent2(location.pathname), 5000);
+            //return () => clearInterval(intervalId);
+            
+            //window.addEventListener("mousemove", handleActivity);
+            //window.addEventListener("keypress", handleActivity);
+
+            // Cleanup function
+            //return () => {
+             // window.removeEventListener("mousemove", handleActivity);
+              //window.removeEventListener("keypress", handleActivity);
+              //clearTimeout(timeoutId.current);
+              //console.log("Previous Path (Before Cleanup):", location.pathname);
+        //};
+            
+            
             
             //setInterval(() => fetchTimeSpent2(location.pathname), 20000);
             //fetchTimeSpent2(location.pathname);
           //}
       
-        }, [location.pathname]);
+        
 
         const handleNotificationClick = () => {
           

@@ -621,7 +621,10 @@ router.get('/:id/getTimeSpent', verifyToken,  async(req, res) => {
     
 // My Actions
 router.get('/:id/getUserActions', verifyToken,  async(req, res) => {
+    logger.info('getUserActions', { data: req.body });
     logger.info('Data received', { data: req.body });
+    console.log('getUserActions');
+    console.log('Data received', { data: req.body });
 
     try {
     

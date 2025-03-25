@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 require('dotenv').config()
 const { MongoClient, ServerApiVersion } = require('mongodb');
-console.log(process.env.MONGO_URI) 
+console.log("updatedData",process.env.MONGO_URI) 
 mongoose.Promise = global.Promise;
 global.url =  process.env.MONGO_URI;
-console.log(global.url )
+console.log("updatedData",global.url)
 
 if (!url) {
     console.error('Error: MONGO_URI environment variable is not set.');
@@ -17,7 +17,7 @@ if (!url) {
       console.log('Connected to the database successfully!');
     })
     .catch(err => {
-      console.log(process.env.MONGO_URI);
+      console.log("updatedData",process.env.MONGO_URI);
         console.error('Connection error:', err.message);
         console.error('Stack trace:', err.stack);
       console.error('o the database. Exiting now...', err);

@@ -1265,12 +1265,14 @@ const handleUserNameChange = async (e) => {
         
         //const urlParts = window.location.pathname.split('/');
         //const valu = urlParts[urlParts.length-1]
-        const surveyUrl = `https://app.prolific.com/researcher/submissions/complete?cc=${res.data.message}`;
+        //const surveyUrl = `https://app.prolific.com/researcher/submissions/complete?cc=${res.data.message}`;
+        const surveyUrl = `https://app.prolific.com/researcher/submissions/complete?cc=C101GTBB`;
 
         window.open(surveyUrl, '_blank');
         set_Is_code_visible(true) 
         setIsSurveySubmitted(true)
-        stStatus_msg2(res.data.message);
+        //stStatus_msg2(res.data.message);
+        stStatus_msg2("C101GTBB");
               
         setIs_Q1_visible(false);
         setIs_review_is_onward(false);

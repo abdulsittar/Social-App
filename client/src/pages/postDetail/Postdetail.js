@@ -21,6 +21,7 @@ import TimeMe from "timeme.js";
 function Postdetail({ classes }) {
   const history = useHistory();
   const {state} = useLocation();
+  const location = useLocation();
   console.log(state);
   const [postObj, setPostObj] = useState(state?.myObj || {});
   const [selectedValue, setSelectedValue] = useState('0');
@@ -62,10 +63,12 @@ const handleActivityRecorder = () => {
 
   useEffect(() => {
     updateStatus_State();
+    console.log("Current Path:", location.pathname);
   
     }, [username]);
 
     useEffect(() => {
+      console.log("Current Path:", state.pathname);
       TimeMe.initialize({
         currentPageName: "DetailPage", // current page
         idleTimeoutInSeconds: 10 // seconds

@@ -129,7 +129,7 @@ var errorData = {};
 //console.log("I am here");
 if (req.method == "POST") { 
     var input = JSON.parse(JSON.stringify(req.body));  
-    console.log(input)
+    console.log("updatedData",input)
     req.checkBody('userId', 'User ID is required').notEmpty();
     req.checkBody('desc', 'Post text is required').notEmpty();  
     var errors = req.validationErrors();    

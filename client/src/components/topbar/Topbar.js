@@ -2,27 +2,34 @@ import React from 'react';
 import { Search, Person, Chat, Notifications } from '@material-ui/icons';
 import {COLORS} from '../values/colors.js';
 import { FormControl, FormLabel, RadioGroup, FormControlLabel, Radio } from '@material-ui/core';
-import { Link } from 'react-router-dom';
+import { Link, useHistory, useLocation   } from 'react-router-dom';
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { withStyles } from '@material-ui/core/styles';
 import { styles } from './topbarStyle';
 import { useMediaQuery } from 'react-responsive';
 import HomeIcon from '@mui/icons-material/Home';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+
 import {Searche } from '../../constants';
 
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import SimplePopover from '../popover/SimplePopover';
 
 function Topbar({ classes, setSelectedValue, isProfile, setSearchTerm }) {
-    const [fv, setFv] = useState(0);
+    const [fv, setFv] = useState(0); 
     const { user }    = useContext(AuthContext);
     const PF          = process.env.REACT_APP_PUBLIC_FOLDER;
     const [anchorEl, setAnchorEl] = useState(null);
     const { user: currentUser, dispatch } = useContext(AuthContext);
     
+    const location = useLocation();
+    const history = useHistory();
+    const isPostDetailPage = location.pathname.startsWith('/postdetail'); 
 
 
+    
+      
     useEffect(() => {
         //console.log("is Profile value");
         //console.log(isProfile);
@@ -50,6 +57,14 @@ function Topbar({ classes, setSelectedValue, isProfile, setSearchTerm }) {
     function setSearchTermFunction(value) {
         setSearchTerm(value);
       }
+      
+      const handleBackClick = () => {
+        if (isPostDetailPage) {
+          history.goBack();  // Go back to the previous page if on post detail page
+        } else {
+          history.push('/');  // Navigate to the home page if not on post detail page
+        }
+      };
 
     const onRadioChanged = e => {
         //console.log("radio avlues")
@@ -76,14 +91,17 @@ function Topbar({ classes, setSelectedValue, isProfile, setSearchTerm }) {
         <div className={classes.topbarContainer} style={{ 'backgroundColor': COLORS.backgroudColor, 'display': (isMobileDevice || isTabletDevice) && 'flex' , 'height': isProfile && '40px' }}>
             
             <div className={classes.topbarLeft} style={{'width' : window.innerWidth, justifyContent: 'space-between'}}>
+            
+            <div style={{ alignItems: 'flex-start' }}>
+          <div onClick={handleBackClick} className={classes.titleAndIcon} style={{ cursor: 'pointer' }}>
+            {isPostDetailPage ?
+              (<ArrowBackIcon className={classes.homeIcon} sx={{ color: COLORS.homeIconColor }} style={{ marginTop: !isMobileDevice && !isTabletDevice && '10px' }} />) :
+              (<HomeIcon className={classes.homeIcon} sx={{ color: COLORS.homeIconColor }} style={{ marginTop: !isMobileDevice && !isTabletDevice && '10px' }} />)}
 
-            <div style={{ alignItems: 'flex-start'}}>
-                <Link  style={{textDecoration: 'none'}} to='/'  className={classes.titleAndIcon}>
-                    <HomeIcon className={classes.homeIcon} sx={{ color: COLORS.homeIconColor}} style={{'margin-top': !isMobileDevice && !isTabletDevice && '10px' }}/>
-                    {!isMobileDevice && !isTabletDevice && <span className={classes.logo} style={{'margin-top': !isMobileDevice && !isTabletDevice && '10px' }}>TWON</span>}
-                    {isMobileDevice && isTabletDevice && <span className={classes.logo}>TWON</span>}
-                </Link>
-            </div>
+            {!isMobileDevice && !isTabletDevice && !isPostDetailPage && <span className={classes.logo} style={{ marginTop: !isMobileDevice && !isTabletDevice && '10px' }}>TWON</span>}
+            {(isMobileDevice || isTabletDevice) && <span className={classes.logo}>TWON</span>}
+          </div>
+        </div>
 
             {!isMobileDevice && !isTabletDevice && 
             <div style={{'display': 'flex', alignItems: 'flex-end', 'margin': '5px 5px'}}>
